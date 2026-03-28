@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Navbar.css';
 import Logo from './Logo';
 
@@ -9,24 +10,24 @@ const Navbar = ({ toggleTheme, currentTheme }) => {
         <Logo />
         <ul className="nav-menu">
           <li className="nav-item">
-            <a href="/" className="nav-links">
+            <Link to="/" className="nav-links">
               Documents
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a href="/about" className="nav-links">
+            <Link to="/about" className="nav-links">
               About
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a href="/services" className="nav-links">
+            <Link to="/services" className="nav-links">
               Services
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a href="/upload" className="nav-links">
+            <Link to="/upload" className="nav-links">
               Upload
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
             <button onClick={toggleTheme} className="theme-toggle">
