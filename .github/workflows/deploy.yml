@@ -41,6 +41,7 @@ jobs:
         run: |
           mkdir -p deploy_folder/allinone
           cp -r dist/* deploy_folder/allinone/
+          touch deploy_folder/.nojekyll
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

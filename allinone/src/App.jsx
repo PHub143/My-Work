@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
@@ -29,7 +29,7 @@ function App() {
   };
 
   return (
-    <Router basename="/My-Work/allinone">
+    <Router>
       <Navbar toggleTheme={toggleTheme} currentTheme={theme} />
       <Routes>
         <Route path='/' element={<Documents />} />
