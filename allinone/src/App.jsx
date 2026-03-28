@@ -29,7 +29,7 @@ function App() {
   };
 
   return (
-    <Router>
+    <Router basename="/My-Work/allinone">
       <Navbar toggleTheme={toggleTheme} currentTheme={theme} />
       <Routes>
         <Route path='/' element={<Documents />} />
