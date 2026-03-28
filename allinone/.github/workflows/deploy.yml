@@ -20,7 +20,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}allinone/
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -37,11 +37,15 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+      - name: Prepare folder structure
+        run: |
+          mkdir -p deploy_folder/allinone
+          cp -r dist/* deploy_folder/allinone/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Point to the dist folder inside your allinone app
-          path: './allinone/dist'
+          #  Point to the newly created deployment folder
+          path: './allinone/deploy_folder'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
