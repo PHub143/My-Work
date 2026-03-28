@@ -44,7 +44,8 @@ jobs:
         run: npm run build
       - name: Prepare artifact
         run: |
-          mv dist ../artifact
+          mkdir -p ../artifact/allinone
+          cp -r dist/* ../artifact/allinone/
           touch ../artifact/.nojekyll
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
