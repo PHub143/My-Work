@@ -1,0 +1,40 @@
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  text-decoration: none;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: bold;
+  display: flex;
+}
+
+.logo span {
+  transition: color 0.3s ease;
+}
+
+.logo span:nth-child(1) {
+  color: #ff6b6b;
+}
+
+.logo span:nth-child(2) {
+  color: #feca57;
+}
+
+.logo span:nth-child(3) {
+  color: #48dbfb;
+}
+
+.logo:hover span:nth-child(1) {
+  color: #feca57;
+}
+
+.logo:hover span:nth-child(2) {
+  color: #48dbfb;
+}
+
+.logo:hover span:nth-child(3) {
+  color: #ff6b6b;
+}
