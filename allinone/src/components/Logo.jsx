@@ -1,14 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Logo.css';
 
 const Logo = () => {
   return (
     <div className="logo-container">
-      <a href="/" className="logo">
+      <Link to="/" className="logo">
         <span>A</span>
         <span>I</span>
         <span>O</span>
-      </a>
+      </Link>
     </div>
   );
 };
