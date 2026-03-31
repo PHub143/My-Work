@@ -2,8 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 import Logo from './Logo';
+import { useTheme } from '../ThemeContext';
 
-const Navbar = ({ toggleTheme, currentTheme }) => {
+const Navbar = () => {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -31,7 +34,7 @@ const Navbar = ({ toggleTheme, currentTheme }) => {
           </li>
           <li className="nav-item">
             <button onClick={toggleTheme} className="theme-toggle">
-              {currentTheme === 'light' ? '🌙' : '☀️'}
+              {theme === 'light' ? '🌙' : '☀️'}
             </button>
           </li>
         </ul>
