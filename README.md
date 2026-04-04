@@ -48,9 +48,21 @@ The backend securely loads configuration through Environment Variables (`.env`) 
    npm install
    ```
 3. Start the development server:
+
+   You have two options for running the frontend locally depending on which API you want to test against.
+
+   **Option A: Test against Local Backend (Default)**
+   Run this if you have the `api` server running locally on port 3001:
    ```bash
    npm run dev
    ```
+
+   **Option B: Test against Production Backend**
+   Run this to connect your local frontend directly to the deployed Render backend (`https://my-work-9b66.onrender.com`):
+   ```bash
+   npm run dev:prod
+   ```
+
    This will launch the Vite development server (usually on http://localhost:5173).
 
 ## 3. Production Deployment & GitHub Configuration

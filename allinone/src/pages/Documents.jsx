@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { API_URL } from '../config';
+import Spinner from '../components/Spinner';
 
 const Documents = () => {
   const [files, setFiles] = useState([]);
   const [error, setError] = useState(null);
-  const [version, setVersion] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const response = await fetch('http://localhost:3001/files');
+        const response = await fetch(`${API_URL}/files`);
         if (!response.ok) {
           throw new Error('Failed to fetch files.');
         }
@@ -17,46 +18,40 @@ const Documents = () => {
         setFiles(data);
       } catch (err) {
         setError(err.message);
-      }
-    };
-
-    const fetchVersion = async () => {
-      try {
-        const response = await fetch('http://localhost:3001/version');
-        const data = await response.json();
-        setVersion(data.version);
-      } catch {
-        // do nothing
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchFiles();
-    fetchVersion();
   }, []);
 
   return (
     <div>
       <h1>Documents</h1>
-      {version && <p>Server version: {version}</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <table>
-        <thead>
-          <tr>
-            <th>File Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {files.map((file, index) => (
-            <tr key={index}>
-              <td>
-                <a href={file.webViewLink} target="_blank" rel="noopener noreferrer">
-                  {file.name}
-                </a>
-              </td>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>File Name</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {files.map((file, index) => (
+              <tr key={index}>
+                <td>
+                  <a href={file.webViewLink} target="_blank" rel="noopener noreferrer">
+                    {file.name}
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };

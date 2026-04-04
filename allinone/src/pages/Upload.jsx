@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import './Upload.css';
 import { API_URL } from '../config';
+import Spinner from '../components/Spinner';
 
 const Upload = () => {
   const [file, setFile] = useState(null);

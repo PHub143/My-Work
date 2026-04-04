@@ -49,7 +49,8 @@ This is a fullstack JavaScript project with the following structure:
 1. **Environment Variables:** Always use `.env` files for configuration. Do not hardcode API keys or secrets.
 2. **Code Style:** Adhere to the existing ESLint configuration in `allinone/`.
 3. **Responsiveness:** All frontend components and layouts MUST be responsive and functional on mobile, tablet, and desktop devices.
-4. **Security:**
+4. **UX/UI:** Always have a spinner when an API is running.
+5. **Security:**
    - Protect credentials in the `api/` directory.
    - Validate file uploads (type, size) before processing.
 4. **Tool Usage:**
