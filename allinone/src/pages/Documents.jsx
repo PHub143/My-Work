@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config';
 
 const Documents = () => {
   const [files, setFiles] = useState([]);
@@ -24,7 +25,7 @@ const Documents = () => {
         const response = await fetch('http://localhost:3001/version');
         const data = await response.json();
         setVersion(data.version);
-      } catch (err) {
+      } catch {
         // do nothing
       }
     };
