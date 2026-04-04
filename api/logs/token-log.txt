@@ -1,0 +1,7 @@
+URL: https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&prompt=consent&response_type=code&client_id=327562834333-032t9be61dsi8mrfsdclrdma01cpr5ts.apps.googleusercontent.com&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000
+Listening for callback on port 3000...
+Received request: /?iss=https://accounts.google.com&code=4/0Aci98E97sLsHM6rWO5_ClJg2aTG90z1OZ2iHaV-gcjlKT3AWL8BA5IDfjsp9hc9DrUGFow&scope=https://www.googleapis.com/auth/drive
+Got code: 4/0Aci98E97sLsHM6rWO5_ClJg2aTG90z1OZ2iHaV-gcjlKT3AWL8BA5IDfjsp9hc9DrUGFow
+Got tokens!
+Got refresh token!
+SUCCESS: wrote to config.json

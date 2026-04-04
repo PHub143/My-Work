@@ -1,0 +1,125 @@
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 20px;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.upload-card {
+  background-color: var(--bg);
+  padding: 2.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.upload-card h1 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: var(--text-h);
+}
+
+.file-input-wrapper {
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.file-input-wrapper input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 14px 28px;
+  cursor: pointer;
+  background-color: var(--accent);
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: filter 0.2s, transform 0.1s;
+}
+
+.custom-file-upload:hover {
+  filter: brightness(1.1);
+}
+
+.custom-file-upload:active {
+  transform: translateY(1px);
+}
+
+.file-name {
+  margin-top: 15px;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.file-name strong {
+  color: var(--text-h);
+}
+
+.upload-button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #10b981; /* Success green */
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s, transform 0.1s, opacity 0.2s;
+}
+
+.upload-button:disabled {
+  background-color: var(--border);
+  color: var(--text);
+  cursor: not-allowed;
+}
+
+.upload-button:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+.upload-button:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.status-message {
+  margin-top: 2rem;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.status-message.success {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  border: 1px solid #10b981;
+}
+
+.status-message.error {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  border: 1px solid #ef4444;
+}
+
+@media (max-width: 640px) {
+  .upload-card {
+    padding: 1.5rem;
+    border: none;
+    box-shadow: none;
+  }
+  
+  .upload-card h1 {
+    font-size: 1.5rem;
+  }
+}

@@ -14,8 +14,8 @@ const Documents = () => {
         }
         const data = await response.json();
         setFiles(data);
-      } catch (error) {
-        setError(error.message);
+      } catch (err) {
+        setError(err.message);
       }
     };
 
@@ -24,7 +24,7 @@ const Documents = () => {
         const response = await fetch('http://localhost:3001/version');
         const data = await response.json();
         setVersion(data.version);
-      } catch (error) {
+      } catch (err) {
         // do nothing
       }
     };
@@ -37,7 +37,7 @@ const Documents = () => {
     <div>
       <h1>Documents</h1>
       {version && <p>Server version: {version}</p>}
-      {error && <p>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <table>
         <thead>
           <tr>
@@ -48,7 +48,7 @@ const Documents = () => {
           {files.map((file, index) => (
             <tr key={index}>
               <td>
-                <a href={file.url} target="_blank" rel="noopener noreferrer">
+                <a href={file.webViewLink} target="_blank" rel="noopener noreferrer">
                   {file.name}
                 </a>
               </td>
