@@ -15,18 +15,31 @@ const port = 3001;
 
 
 
+require('dotenv').config();
+
 // --- Google Drive API setup ---
 
-const googleConfig = require('./config/google.json');
+let googleConfig = {};
+try {
+  googleConfig = require('./config/google.json');
+} catch (e) {
+  // ignore if google.json is missing, fallback to env variables
+}
+
+const clientId = process.env.GOOGLE_CLIENT_ID || (googleConfig.oauth && googleConfig.oauth.installed && googleConfig.oauth.installed.client_id);
+const clientSecret = process.env.GOOGLE_CLIENT_SECRET || (googleConfig.oauth && googleConfig.oauth.installed && googleConfig.oauth.installed.client_secret);
+const redirectUri = process.env.GOOGLE_REDIRECT_URI || (googleConfig.oauth && googleConfig.oauth.redirectUri);
+const refreshToken = process.env.GOOGLE_REFRESH_TOKEN || (googleConfig.oauth && googleConfig.oauth.refreshToken);
+const driveFolderId = process.env.GOOGLE_DRIVE_FOLDER_ID || googleConfig.driveFolderId;
 
 const oauth2Client = new google.auth.OAuth2(
-  googleConfig.oauth.installed.client_id,
-  googleConfig.oauth.installed.client_secret,
-  googleConfig.oauth.redirectUri
+  clientId,
+  clientSecret,
+  redirectUri
 );
 
-if (googleConfig.oauth.refreshToken) {
-  oauth2Client.setCredentials({ refresh_token: googleConfig.oauth.refreshToken });
+if (refreshToken) {
+  oauth2Client.setCredentials({ refresh_token: refreshToken });
 }
 
 const drive = google.drive({ version: 'v3', auth: oauth2Client });
@@ -83,7 +96,7 @@ app.post('/upload', (req, res) => {
     try {
       const fileMetadata = {
         name: filename,
-        parents: [googleConfig.driveFolderId]
+        parents: [driveFolderId]
       };
 
       const media = {
@@ -136,7 +149,7 @@ app.get('/files', async (req, res) => {
       pageSize: 20,
 
       fields: 'nextPageToken, files(id, name, webViewLink, mimeType, size)',
-      q: `'${googleConfig.driveFolderId}' in parents and trashed = false`,
+      q: `'${driveFolderId}' in parents and trashed = false`,
 
       includeItemsFromAllDrives: true,
 

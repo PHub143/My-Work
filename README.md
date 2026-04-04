@@ -14,7 +14,7 @@ This project is a fullstack application consisting of a React frontend and an Ex
 
 ## 1. Backend Setup (`api/`)
 
-The backend requires a configuration file with your Google Drive API credentials.
+The backend securely loads configuration through Environment Variables (`.env`) or a local `google.json` file.
 
 1. Navigate to the backend directory:
    ```bash
@@ -25,8 +25,12 @@ The backend requires a configuration file with your Google Drive API credentials
    npm install
    ```
 3. Configure Google Drive API:
-   - Ensure you have your `google.json` configuration file located at `api/config/google.json`.
-   - The file should contain your OAuth 2.0 credentials (`client_id`, `client_secret`, `redirectUri`, `refreshToken`) and the `driveFolderId` where files will be uploaded.
+   - Copy the example `.env` file to set up your environment variables:
+     ```bash
+     cp .env.example .env
+     ```
+   - Open `.env` and fill in your OAuth 2.0 credentials (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI`, `GOOGLE_REFRESH_TOKEN`) and `GOOGLE_DRIVE_FOLDER_ID`.
+   - *Alternatively, for local testing, you can place a `google.json` file at `api/config/google.json`.*
 4. Start the server:
    ```bash
    node server.js
@@ -49,7 +53,19 @@ The backend requires a configuration file with your Google Drive API credentials
    ```
    This will launch the Vite development server (usually on http://localhost:5173).
 
+## 3. Production Deployment & GitHub Configuration
+
+### Frontend (GitHub Pages)
+The repository contains a `.github/workflows/deploy.yml` action that automatically builds and deploys your `allinone` React frontend to **GitHub Pages** on every push to the main branch. 
+- GitHub Pages only hosts static files, meaning it **cannot** host your `api` backend.
+- If your frontend needs to communicate with your deployed backend, you can pass the backend's URL using a GitHub Secret and map it in your workflow to a Vite environment variable (e.g. `VITE_API_URL`).
+
+### Backend (Node.js Server)
+Because GitHub Pages only supports static hosting, the Node.js `api` server must be deployed to a separate hosting provider such as Render, Railway, Heroku, or a VPS.
+- **Configuring Secrets:** When you deploy the backend to your chosen hosting provider, DO NOT commit your `.env` or `google.json` files to GitHub. 
+- Go to the Environment Variables (or Config Vars) section of your hosting provider's dashboard and paste the contents of your local `.env` file (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, etc.). The code is designed to pick these up automatically via `process.env`.
+
 ## Additional Information
 
 - **Linting (Frontend):** You can verify the frontend code quality by running `npm run lint` in the `allinone/` directory.
-- **Security:** Do not commit your `google.json` or any `.env` files containing sensitive credentials to version control.
+- **Security:** Do not commit your `google.json` or any `.env` files containing sensitive credentials to version control. The `.gitignore` has been updated to prevent this.
