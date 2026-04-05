@@ -14,11 +14,17 @@ This is a fullstack JavaScript project with the following structure:
 
 ## Development Workflow
 
-### Frontend (`allinone/`)
+## Frontend (`allinone/`)
 - **Framework:** React 19+
 - **Styling:** CSS modules or plain CSS are preferred. Always ensure the frontend is responsive across different screen sizes.
+- **Design System (Apple UI/UX):** Strictly follow Apple's Human Interface Guidelines (HIG).
+  - **Typography:** Use the **San Francisco (SF Pro)** font stack.
+  - **Aesthetics:** Utilize "glassmorphism" (`backdrop-filter: blur`), subtle translucent borders, soft drop shadows, and high-contrast text.
+  - **Layout:** Minimalist, generous whitespace, and large rounded corners (e.g., `border-radius: 12px` to `18px`).
+  - **Interaction:** Ensure fluid, smooth transitions for hover states, buttons, and modals.
 - **Linting:** Use `npm run lint` within the `allinone/` directory to verify code quality.
 - **Commands:** Use `npm run dev` for local development and `npm run build` for production builds.
+
 
 ### Backend (`api/`)
 - **Framework:** Express
@@ -59,3 +65,10 @@ This is a fullstack JavaScript project with the following structure:
 5. **Context Efficiency:**
    - When working on the frontend, focus on the `allinone/` directory.
    - When working on the backend, focus on the `api/` directory.
+
+## Custom Agents
+
+The following custom agents are available in this project:
+- **`pm-agent`**: Specialized in requirements gathering, task breakdown, and roadmapping. Located in `.gemini/agents/pm-agent.md`.
+- **`code-reviewer`**: Expert for code quality and bug analysis. Located in `.gemini/agents/code-reviewer.md`.
+
