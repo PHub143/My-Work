@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import './Upload.css';
-import { API_URL } from '../config';
+import { API_URL, ALLOWED_FILE_TYPES } from '../config';
 import Spinner from '../components/Spinner';
 
 const Upload = () => {
@@ -70,7 +70,7 @@ const Upload = () => {
             onChange={handleFileChange} 
             disabled={isUploading}
             ref={fileInputRef}
-            accept=".jpg,.jpeg,.png,.gif,.pdf,.txt"
+            accept={ALLOWED_FILE_TYPES.join(',')}
           />
           {file && (
             <div className="file-name">
@@ -84,11 +84,17 @@ const Upload = () => {
           onClick={handleUpload} 
           disabled={!file || isUploading}
         >
-          {isUploading ? 'Uploading...' : 'Upload Now'}
+          {isUploading ? (
+            <>
+              <Spinner inline /> Uploading...
+            </>
+          ) : (
+            'Upload Now'
+          )}
         </button>
 
         {status.message && (
-          <div className={`status-message ${status.type}`}>
+          <div className={`status-message ${status.type}`} role="status" aria-live="polite">
             {status.message}
           </div>
         )}

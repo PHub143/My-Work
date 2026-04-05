@@ -32,16 +32,17 @@ const Documents = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {isLoading ? (
         <Spinner />
-      ) : (
+      ) : files.length > 0 ? (
         <table>
+          <caption>List of uploaded documents</caption>
           <thead>
             <tr>
               <th>File Name</th>
             </tr>
           </thead>
           <tbody>
-            {files.map((file, index) => (
-              <tr key={index}>
+            {files.map((file) => (
+              <tr key={file.id}>
                 <td>
                   <a href={file.webViewLink} target="_blank" rel="noopener noreferrer">
                     {file.name}
@@ -51,6 +52,8 @@ const Documents = () => {
             ))}
           </tbody>
         </table>
+      ) : (
+        <p>No documents found.</p>
       )}
     </div>
   );
