@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './Documents.css';
 import { API_URL } from '../config';
 import Spinner from '../components/Spinner';
 
@@ -12,7 +13,7 @@ const Documents = () => {
       try {
         const response = await fetch(`${API_URL}/files`);
         if (!response.ok) {
-          throw new Error('Failed to fetch files.');
+          throw new Error('Failed to fetch files from Google Drive.');
         }
         const data = await response.json();
         setFiles(data);
@@ -27,33 +28,43 @@ const Documents = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Documents</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className="documents-container">
+      <div className="documents-header">
+        <h1>Documents</h1>
+        <p>Your uploaded files on Google Drive</p>
+      </div>
+
+      {error && (
+        <div className="error-message">
+          {error}
+        </div>
+      )}
+
       {isLoading ? (
-        <Spinner />
+        <div className="loading-container">
+          <Spinner />
+        </div>
       ) : files.length > 0 ? (
-        <table>
-          <caption>List of uploaded documents</caption>
-          <thead>
-            <tr>
-              <th>File Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            {files.map((file) => (
-              <tr key={file.id}>
-                <td>
-                  <a href={file.webViewLink} target="_blank" rel="noopener noreferrer">
-                    {file.name}
-                  </a>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="documents-list">
+          {files.map((file) => (
+            <a 
+              key={file.id} 
+              href={file.webViewLink} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="document-card"
+            >
+              <div className="document-info">
+                <span className="document-name">{file.name}</span>
+                <span className="document-link">View document →</span>
+              </div>
+            </a>
+          ))}
+        </div>
       ) : (
-        <p>No documents found.</p>
+        <div className="no-documents">
+          <p>No documents found in your Drive.</p>
+        </div>
       )}
     </div>
   );

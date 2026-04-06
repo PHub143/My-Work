@@ -1,19 +1,19 @@
 .spinner {
-  border: 3px solid rgba(0, 0, 0, 0.1);
-  width: 16px;
-  height: 16px;
+  border: 2px solid var(--color-tertiary-label);
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  border-left-color: #09f;
-  animation: spin 1s linear infinite;
+  border-top-color: var(--color-system-blue);
+  animation: spin 0.8s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
   display: inline-block;
   vertical-align: middle;
-  margin-right: 8px;
+  margin-right: var(--spacing-s);
 }
 
 .spinner-large {
-  width: 32px;
-  height: 32px;
-  border-width: 4px;
+  width: 36px;
+  height: 36px;
+  border-width: 3px;
   margin: auto;
 }
 
@@ -26,5 +26,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px;
+  padding: var(--spacing-xxl);
 }

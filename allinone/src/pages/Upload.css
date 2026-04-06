@@ -3,33 +3,34 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 60vh;
-  padding: 20px;
-  background-color: var(--bg);
-  color: var(--text);
+  min-height: 80vh;
+  padding: var(--spacing-l);
+  background-color: var(--color-system-background);
 }
 
 .upload-card {
-  background-color: var(--bg);
-  padding: 2.5rem;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  background-color: var(--color-secondary-system-background);
+  padding: var(--spacing-xxl);
+  border-radius: var(--border-radius-card);
+  box-shadow: var(--shadow-apple);
   width: 100%;
-  max-width: 500px;
+  max-width: 480px;
   text-align: center;
+  border: 1px solid var(--color-separator);
 }
 
 .upload-card h1 {
-  margin-top: 0;
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  color: var(--text-h);
+  margin-bottom: var(--spacing-xl);
+  font-size: var(--font-size-title-1);
+  color: var(--color-label);
 }
 
 .file-input-wrapper {
-  margin-bottom: 2rem;
-  position: relative;
+  margin-bottom: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-m);
 }
 
 .file-input-wrapper input[type="file"] {
@@ -38,88 +39,79 @@
 
 .custom-file-upload {
   display: inline-block;
-  padding: 14px 28px;
+  padding: 12px 24px;
   cursor: pointer;
-  background-color: var(--accent);
-  color: white;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: filter 0.2s, transform 0.1s;
+  background-color: var(--color-tertiary-system-background);
+  color: var(--color-system-blue);
+  border-radius: var(--border-radius-button);
+  font-weight: var(--font-weight-semibold);
+  transition: all 0.2s ease;
+  font-size: var(--font-size-headline);
 }
 
 .custom-file-upload:hover {
-  filter: brightness(1.1);
-}
-
-.custom-file-upload:active {
-  transform: translateY(1px);
+  background-color: var(--color-quaternary-label);
 }
 
 .file-name {
-  margin-top: 15px;
-  font-size: 0.95rem;
-  color: var(--text);
+  font-size: var(--font-size-subheadline);
+  color: var(--color-secondary-label);
 }
 
 .file-name strong {
-  color: var(--text-h);
+  color: var(--color-label);
 }
 
 .upload-button {
   width: 100%;
-  padding: 14px;
+  padding: 16px;
   border: none;
-  border-radius: 8px;
-  background-color: #10b981; /* Success green */
-  color: white;
-  font-size: 1.1rem;
-  font-weight: 600;
+  border-radius: var(--border-radius-button);
+  background-color: var(--color-system-blue);
+  color: #FFFFFF;
+  font-size: var(--font-size-headline);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  transition: filter 0.2s, transform 0.1s, opacity 0.2s;
+  transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .upload-button:disabled {
-  background-color: var(--border);
-  color: var(--text);
+  background-color: var(--color-system-gray);
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .upload-button:hover:not(:disabled) {
-  filter: brightness(1.05);
+  opacity: 0.9;
 }
 
 .upload-button:active:not(:disabled) {
-  transform: scale(0.99);
+  transform: scale(0.98);
 }
 
 .status-message {
-  margin-top: 2rem;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 500;
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-m);
+  border-radius: var(--border-radius-inner);
+  font-size: var(--font-size-subheadline);
+  font-weight: var(--font-weight-semibold);
 }
 
 .status-message.success {
-  background-color: rgba(16, 185, 129, 0.1);
-  color: #059669;
-  border: 1px solid #10b981;
+  background-color: rgba(52, 199, 89, 0.15);
+  color: var(--color-system-green);
 }
 
 .status-message.error {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: #dc2626;
-  border: 1px solid #ef4444;
+  background-color: rgba(255, 59, 48, 0.15);
+  color: var(--color-system-red);
 }
 
 @media (max-width: 640px) {
   .upload-card {
-    padding: 1.5rem;
+    padding: var(--spacing-xl);
     border: none;
     box-shadow: none;
-  }
-  
-  .upload-card h1 {
-    font-size: 1.5rem;
+    background-color: transparent;
   }
 }

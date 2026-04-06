@@ -1,142 +1,164 @@
 :root {
-  --text: #4b5563;
-  --text-h: #111827;
-  --bg: #fff;
-  --border: #e5e7eb;
-  --code-bg: #f8fafc;
-  --accent: #4f46e5;
-  --accent-bg: rgba(79, 70, 229, 0.1);
-  --accent-border: rgba(79, 70, 229, 0.4);
-  --social-bg: rgba(243, 244, 246, 0.8);
-  --shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  /* Typography */
+  --font-family-apple: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+  --font-size-large-title: 34px;
+  --font-size-title-1: 28px;
+  --font-size-title-2: 22px;
+  --font-size-title-3: 20px;
+  --font-size-headline: 17px;
+  --font-size-body: 17px;
+  --font-size-callout: 16px;
+  --font-size-subheadline: 15px;
+  --font-size-footnote: 13px;
+  --font-size-caption-1: 12px;
+  --font-size-caption-2: 11px;
 
-  --sans: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
+  /* Spacing */
+  --spacing-unit: 8px;
+  --spacing-xs: 4px;
+  --spacing-s: 8px;
+  --spacing-m: 16px;
+  --spacing-l: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+
+  /* Layout */
+  --border-radius-card: 20px;
+  --border-radius-button: 12px;
+  --border-radius-inner: 10px;
+  
+  /* Semantic Colors - Light Mode (Default) */
+  --color-label: #000000;
+  --color-secondary-label: rgba(60, 60, 67, 0.6);
+  --color-tertiary-label: rgba(60, 60, 67, 0.3);
+  --color-quaternary-label: rgba(60, 60, 67, 0.18);
+  
+  --color-system-background: #F2F2F7;
+  --color-secondary-system-background: #FFFFFF;
+  --color-tertiary-system-background: #F2F2F7;
+  
+  --color-system-blue: #007AFF;
+  --color-system-green: #34C759;
+  --color-system-red: #FF3B30;
+  --color-system-gray: #8E8E93;
+
+  --color-separator: rgba(60, 60, 67, 0.29);
+  --color-opaque-separator: #C6C6C8;
+
+  /* Glassmorphism */
+  --backdrop-blur: blur(20px);
+  --background-glass: rgba(255, 255, 255, 0.7);
+  --shadow-apple: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  /* Global Settings */
+  font: var(--font-size-body)/1.45 var(--font-family-apple);
   color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  color: var(--color-label);
+  background-color: var(--color-system-background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
 }
 
+/* Dark Mode Settings */
 @media (prefers-color-scheme: dark) {
-  /* Apply system dark theme if no explicit data-theme is set */
-  :root:not([data-theme]) {
-    --text: #cbd5e1;
-    --text-h: #f8fafc;
-    --bg: #0f172a;
-    --border: #334155;
-    --code-bg: #1e293b;
-    --accent: #818cf8;
-    --accent-bg: rgba(129, 140, 248, 0.15);
-    --accent-border: rgba(129, 140, 248, 0.4);
-    --social-bg: rgba(30, 41, 59, 0.8);
-    --shadow:
-      0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
-  }
+  :root:not([data-theme='light']) {
+    --color-label: #FFFFFF;
+    --color-secondary-label: rgba(235, 235, 245, 0.6);
+    --color-tertiary-label: rgba(235, 235, 245, 0.3);
+    --color-quaternary-label: rgba(235, 235, 245, 0.18);
+    
+    --color-system-background: #000000;
+    --color-secondary-system-background: #1C1C1E;
+    --color-tertiary-system-background: #2C2C2E;
+    
+    --color-system-blue: #0A84FF;
+    --color-system-green: #30D158;
+    --color-system-red: #FF453A;
+    --color-system-gray: #8E8E93;
 
-  :root:not([data-theme]) #social .button-icon {
-    filter: invert(1) brightness(2);
+    --color-separator: rgba(84, 84, 88, 0.6);
+    --color-opaque-separator: #38383A;
+
+    --background-glass: rgba(28, 28, 30, 0.7);
   }
 }
 
-/* Explicit dark theme via data-theme attribute */
 [data-theme='dark'] {
-  --text: #cbd5e1;
-  --text-h: #f8fafc;
-  --bg: #0f172a;
-  --border: #334155;
-  --code-bg: #1e293b;
-  --accent: #818cf8;
-  --accent-bg: rgba(129, 140, 248, 0.15);
-  --accent-border: rgba(129, 140, 248, 0.4);
-  --social-bg: rgba(30, 41, 59, 0.8);
-  --shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
-}
+  --color-label: #FFFFFF;
+  --color-secondary-label: rgba(235, 235, 245, 0.6);
+  --color-tertiary-label: rgba(235, 235, 245, 0.3);
+  --color-quaternary-label: rgba(235, 235, 245, 0.18);
+  
+  --color-system-background: #000000;
+  --color-secondary-system-background: #1C1C1E;
+  --color-tertiary-system-background: #2C2C2E;
+  
+  --color-system-blue: #0A84FF;
+  --color-system-green: #30D158;
+  --color-system-red: #FF453A;
+  --color-system-gray: #8E8E93;
 
-[data-theme='dark'] #social .button-icon {
-  filter: invert(1) brightness(2);
-}
+  --color-separator: rgba(84, 84, 88, 0.6);
+  --color-opaque-separator: #38383A;
 
-/* Explicit light theme via data-theme attribute (optional, but good for completeness) */
-/* These are already the defaults in :root, but explicitly defining them here ensures override */
-[data-theme='light'] { /* No changes needed here as :root already defines light theme */ }
+  --background-glass: rgba(28, 28, 30, 0.7);
+}
 
 body {
   margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-system-background);
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  color: var(--color-label);
+  font-weight: var(--font-weight-bold);
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-}
+h1 { font-size: var(--font-size-large-title); letter-spacing: -0.5px; }
+h2 { font-size: var(--font-size-title-1); letter-spacing: -0.4px; }
+h3 { font-size: var(--font-size-title-2); letter-spacing: -0.3px; }
 
-@media (max-width: 1024px) {
-  h1 {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-}
-
-@media (max-width: 1024px) {
-  h2 {
-    font-size: 20px;
-  }
-}
 p {
-  margin: 0;
+  margin: 0 0 var(--spacing-m);
+  color: var(--color-secondary-label);
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+a {
+  color: var(--color-system-blue);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+a:hover {
+  opacity: 0.8;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: var(--border-radius-button);
+  padding: 12px 20px;
+  font-weight: var(--font-weight-semibold);
+  transition: all 0.2s ease;
+}
+
+button:active {
+  transform: scale(0.98);
 }

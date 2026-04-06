@@ -1,0 +1,27 @@
+.page-container {
+  padding: var(--spacing-xxl) var(--spacing-l);
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.page-content {
+  background-color: var(--color-secondary-system-background);
+  padding: var(--spacing-xxl);
+  border-radius: var(--border-radius-card);
+  box-shadow: var(--shadow-apple);
+  border: 1px solid var(--color-separator);
+  margin-top: var(--spacing-xl);
+  text-align: left;
+}
+
+.page-content p {
+  font-size: var(--font-size-body);
+  line-height: 1.5;
+  color: var(--color-secondary-label);
+}
+
+.page-content h2 {
+  margin-top: var(--spacing-xl);
+  margin-bottom: var(--spacing-m);
+}

@@ -5,36 +5,37 @@
 
 .logo {
   text-decoration: none;
-  color: #fff;
-  font-size: 2rem;
-  font-weight: bold;
+  color: var(--color-label);
+  font-size: var(--font-size-title-1);
+  font-weight: var(--font-weight-bold);
   display: flex;
+  letter-spacing: -0.4px;
 }
 
 .logo span {
-  transition: color 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .logo span:nth-child(1) {
-  color: #ff6b6b;
+  color: var(--color-system-red);
 }
 
 .logo span:nth-child(2) {
-  color: #feca57;
+  color: var(--color-system-green);
 }
 
 .logo span:nth-child(3) {
-  color: #48dbfb;
+  color: var(--color-system-blue);
 }
 
 .logo:hover span:nth-child(1) {
-  color: #feca57;
+  color: var(--color-system-blue);
 }
 
 .logo:hover span:nth-child(2) {
-  color: #48dbfb;
+  color: var(--color-system-red);
 }
 
 .logo:hover span:nth-child(3) {
-  color: #ff6b6b;
+  color: var(--color-system-green);
 }
