@@ -6,7 +6,10 @@ This file contains foundational mandates for the Gemini CLI agent when working i
 
 This is a fullstack JavaScript project with the following structure:
 - `allinone/`: Frontend application built with React, Vite, and React Router.
-- `api/`: Backend server built with Express, integrating with Google Drive APIs.
+- `api/`: Backend server built with Express, following a Service-Oriented MVC pattern.
+  - `routes/`: Express router modules defining API endpoints.
+  - `controllers/`: Request and response handlers for API logic.
+  - `services/`: Business logic and external API integrations (e.g., Google Drive).
   - `config/`: Configuration files and API credentials.
   - `scripts/`: Utility and setup scripts (e.g., token generation).
   - `logs/`: Application and process logs.
@@ -39,10 +42,12 @@ This is a fullstack JavaScript project with the following structure:
 - **Frontend Component:** `allinone/src/pages/Upload.jsx`
   - Uses `FormData` to send files to the `/upload` endpoint.
   - Features: Client-side file type filtering (`accept` attribute), upload progress state, and direct response handling (using `webViewLink`).
-- **Backend Endpoint:** `POST /upload`
-  - Implementation: `api/server.js` using `busboy`.
-  - Storage: Files are streamed directly to the folder specified by `driveFolderId` in `api/config/google.json`.
-  - Response Data: Returns JSON with `id`, `name`, and `webViewLink`.
+- **Backend Architecture:** Service-Oriented MVC
+  - **Router:** `api/routes/fileRoutes.js` (defines `POST /upload`).
+  - **Controller:** `api/controllers/fileController.js` (handles request/response logic).
+  - **Service:** `api/services/googleDriveService.js` (encapsulates `busboy` streaming and `googleapis` logic).
+  - **Storage:** Files are streamed directly to the folder specified by `driveFolderId`.
+  - **Response Data:** Returns JSON with `id`, `name`, and `webViewLink`.
 
 ### File Validation Rules
 - **Allowed MIME Types:** `image/jpeg`, `image/jpg`, `image/png`, `image/gif`, `application/pdf`, `text/plain`.
