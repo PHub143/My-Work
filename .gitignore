@@ -3,6 +3,12 @@
 api/.env
 api/config/google.json
 
+# Database
+*.db
+*.db-journal
+api/prisma/migrations/
+api/prisma/dev.db
+
 /.DS_Store
 api/node_modules/.package-lock.json
 api/node_modules/accepts/HISTORY.md
@@ -2993,3 +2999,5 @@ api/node_modules/web-streams-polyfill/ponyfill/package.json
 api/node_modules/web-streams-polyfill/ponyfill/es2018/package.json
 api/node_modules/web-streams-polyfill/ponyfill/es6/package.json
 .geminiignore
+.gemini/plans/database-integration.md
+.gemini/plans/refactor-to-mvc.md

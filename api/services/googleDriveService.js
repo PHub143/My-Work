@@ -1,0 +1,149 @@
+const { google } = require('googleapis');
+const busboy = require('busboy');
+require('dotenv').config();
+
+// --- Google Drive API setup ---
+let googleConfig = {};
+try {
+  googleConfig = require('../config/google.json');
+} catch (e) {
+  // ignore if google.json is missing, fallback to env variables
+}
+
+const clientId = process.env.GOOGLE_CLIENT_ID || (googleConfig.oauth && googleConfig.oauth.installed && googleConfig.oauth.installed.client_id);
+const clientSecret = process.env.GOOGLE_CLIENT_SECRET || (googleConfig.oauth && googleConfig.oauth.installed && googleConfig.oauth.installed.client_secret);
+const redirectUri = process.env.GOOGLE_REDIRECT_URI || (googleConfig.oauth && googleConfig.oauth.redirectUri);
+const refreshToken = process.env.GOOGLE_REFRESH_TOKEN || (googleConfig.oauth && googleConfig.oauth.refreshToken);
+const driveFolderId = process.env.GOOGLE_DRIVE_FOLDER_ID || googleConfig.driveFolderId;
+
+const oauth2Client = new google.auth.OAuth2(
+  clientId,
+  clientSecret,
+  redirectUri
+);
+
+if (refreshToken) {
+  oauth2Client.setCredentials({ refresh_token: refreshToken });
+}
+
+const drive = google.drive({ version: 'v3', auth: oauth2Client });
+// --- End of Google Drive API setup ---
+
+/**
+ * Uploads a file to Google Drive using busboy for streaming.
+ * @param {Object} req - Express request object.
+ * @returns {Promise<Object>} - Resolves with the uploaded file data or rejects with an error.
+ */
+const uploadFile = (req) => {
+  return new Promise((resolve, reject) => {
+    const bb = busboy({ headers: req.headers });
+    let fileProcessed = false;
+
+    const allowedTypes = [
+      'image/jpeg',
+      'image/jpg',
+      'image/png',
+      'image/gif',
+      'application/pdf',
+      'text/plain',
+    ];
+
+    bb.on('file', async (name, file, info) => {
+      const { filename, mimeType } = info;
+
+      if (!allowedTypes.includes(mimeType)) {
+        file.resume(); // Discard the file data
+        if (!fileProcessed) {
+          fileProcessed = true;
+          return reject({ status: 400, message: 'Invalid file type. Only JPG/JPEG, PNG, GIF, PDF, and plain text are allowed.' });
+        }
+        return;
+      }
+
+      fileProcessed = true;
+
+      try {
+        const fileMetadata = {
+          name: filename,
+          parents: [driveFolderId]
+        };
+
+        const media = {
+          mimeType: mimeType,
+          body: file, // Directly pipe the stream from busboy to Google Drive API
+        };
+
+        const response = await drive.files.create({
+          requestBody: fileMetadata,
+          media: media,
+          fields: 'id,name,webViewLink,mimeType,size',
+          supportsAllDrives: true,
+        });
+
+        resolve(response.data);
+      } catch (error) {
+        console.error('Error uploading to Google Drive:', error);
+        reject({ status: 500, message: 'Error uploading file to Google Drive.' });
+      }
+    });
+
+    bb.on('error', (err) => {
+      console.error('Busboy error:', err);
+      reject({ status: 500, message: 'Error processing upload.' });
+    });
+
+    bb.on('finish', () => {
+      if (!fileProcessed) {
+        reject({ status: 400, message: 'No file uploaded.' });
+      }
+    });
+
+    req.pipe(bb);
+  });
+};
+
+/**
+ * Lists files from the specified Google Drive folder.
+ * @returns {Promise<Array>} - Resolves with an array of file objects.
+ */
+const listFiles = async () => {
+  try {
+    const response = await drive.files.list({
+      pageSize: 20,
+      fields: 'nextPageToken, files(id, name, webViewLink, mimeType, size)',
+      q: `'${driveFolderId}' in parents and trashed = false`,
+      includeItemsFromAllDrives: true,
+      supportsAllDrives: true,
+    });
+    return response.data.files;
+  } catch (error) {
+    console.error('Error fetching files from Google Drive:', error);
+    throw { status: 500, message: 'Error fetching files from Google Drive.' };
+  }
+};
+
+/**
+ * Deletes a file from Google Drive.
+ * @param {string} fileId - The ID of the file to delete.
+ * @returns {Promise<void>}
+ */
+const deleteFile = async (fileId) => {
+  try {
+    await drive.files.delete({
+      fileId: fileId,
+      supportsAllDrives: true,
+    });
+  } catch (error) {
+    if (error.code === 404) {
+      throw { status: 404, message: 'File not found in Google Drive.' };
+    }
+    console.error('Error deleting file from Google Drive:', error);
+    throw { status: 500, message: 'Error deleting file from Google Drive.' };
+  }
+};
+
+module.exports = {
+  uploadFile,
+  listFiles,
+  deleteFile
+};

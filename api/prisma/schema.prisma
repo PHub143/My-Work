@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model File {
+  id           String    @id @default(cuid())
+  driveFileId  String    @unique
+  name         String
+  mimeType     String
+  webViewLink  String
+  size         Int?      // Size in bytes
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Future-proofing fields
+  owner   User? @relation(fields: [ownerId], references: [id])
+  ownerId String?
+  tags    Tag[] @relation("FileTags")
+}
+
+model User {
+  id    String @id @default(cuid())
+  email String @unique
+  name  String?
+  files File[]
+}
+
+model Tag {
+  id    String @id @default(cuid())
+  name  String @unique
+  files File[] @relation("FileTags")
+}
