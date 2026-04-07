@@ -11,6 +11,7 @@ This project is a fullstack application consisting of a React frontend and an Ex
 
 - Node.js installed on your machine.
 - Google Drive API credentials.
+- A Neon Postgres database connection string.
 
 ## 1. Backend Setup (`api/`)
 
@@ -24,14 +25,22 @@ The backend securely loads configuration through Environment Variables (`.env`) 
    ```bash
    npm install
    ```
-3. Configure Google Drive API:
+3. Configure Google Drive API and Neon:
    - Copy the example `.env` file to set up your environment variables:
      ```bash
      cp .env.example .env
      ```
    - Open `.env` and fill in your OAuth 2.0 credentials (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI`, `GOOGLE_REFRESH_TOKEN`) and `GOOGLE_DRIVE_FOLDER_ID`.
+   - Set `DATABASE_URL` and `DIRECT_URL` to your Neon Postgres connection strings.
+   - `DATABASE_URL` is used by the running API.
+   - `DIRECT_URL` is used by Prisma schema commands.
    - *Alternatively, for local testing, you can place a `google.json` file at `api/config/google.json`.*
-4. Start the server:
+4. Initialize the Neon schema:
+   ```bash
+   npm run build
+   ```
+   This runs `prisma generate` and `prisma db push` so the required tables exist in Neon.
+5. Start the server:
    ```bash
    node server.js
    ```

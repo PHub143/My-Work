@@ -12,7 +12,7 @@ const uploadFileHandler = async (req, res, next) => {
   try {
     driveFileData = await googleDriveService.uploadFile(req);
     
-    // Cache metadata in the local database
+    // Cache metadata in the application database
     const dbFile = await fileService.createFile({
       driveFileId: driveFileData.id,
       name: driveFileData.name,
@@ -41,7 +41,7 @@ const uploadFileHandler = async (req, res, next) => {
 
 /**
  * Handles requests to list files.
- * Now reads from the local SQLite database for high performance.
+ * Reads from the application database for high performance.
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  * @param {Function} next - Express next middleware function.
@@ -77,14 +77,14 @@ const deleteFileHandler = async (req, res, next) => {
     // 1. Delete from Google Drive
     await googleDriveService.deleteFile(fileId);
     
-    // 2. Delete from local database (using driveFileId)
+    // 2. Delete from the application database (using driveFileId)
     try {
       await fileService.deleteFileByDriveId(fileId);
     } catch (dbError) {
       console.error(`File ${fileId} deleted from Drive but failed to delete from DB`, dbError);
     }
 
-    res.status(200).json({ message: 'File deleted successfully from Google Drive and local database.' });
+    res.status(200).json({ message: 'File deleted successfully from Google Drive and the application database.' });
   } catch (error) {
     next(error);
   }

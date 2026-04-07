@@ -5,7 +5,7 @@ const prisma = require('./prismaService');
  */
 const fileService = {
   /**
-   * Retrieves all file records from the local database.
+   * Retrieves file records from the application database.
    * @param {Object} [options] - Pagination options.
    * @param {number} [options.limit] - Number of records to return.
    * @param {number} [options.offset] - Number of records to skip.
@@ -35,7 +35,7 @@ const fileService = {
   },
 
   /**
-   * Creates a new file record in the local database.
+   * Creates a new file record in the application database.
    * @param {Object} data - File metadata.
    * @returns {Promise<Object>}
    */
@@ -72,7 +72,7 @@ const fileService = {
   },
 
   /**
-   * Deletes a file record from the local database by its Google Drive ID.
+   * Deletes a file record from the application database by its Google Drive ID.
    * @param {string} driveFileId - The ID of the file in Google Drive.
    * @returns {Promise<Object>}
    */
@@ -85,7 +85,7 @@ const fileService = {
   },
 
   /**
-   * Upserts a file record in the local database.
+   * Upserts a file record in the application database.
    * Useful for synchronization logic.
    * @param {Object} data - File metadata.
    * @returns {Promise<Object>}
