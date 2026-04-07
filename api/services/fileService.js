@@ -5,14 +5,25 @@ const prisma = require('./prismaService');
  */
 const fileService = {
   /**
-   * Retrieves file records from the application database.
-   * @param {Object} [options] - Pagination options.
+   * Retrieves file records from the application database with optional filtering.
+   * @param {Object} [options] - Pagination and filtering options.
    * @param {number} [options.limit] - Number of records to return.
    * @param {number} [options.offset] - Number of records to skip.
+   * @param {string} [options.includeType] - MIME type prefix to include (e.g., 'image').
+   * @param {string} [options.excludeType] - MIME type prefix to exclude (e.g., 'image').
    * @returns {Promise<Array>}
    */
-  getAllFiles: async ({ limit, offset } = {}) => {
+  getAllFiles: async ({ limit, offset, includeType, excludeType } = {}) => {
+    const where = {};
+    
+    if (includeType) {
+      where.mimeType = { startsWith: `${includeType}/` };
+    } else if (excludeType) {
+      where.NOT = { mimeType: { startsWith: `${excludeType}/` } };
+    }
+
     return prisma.file.findMany({
+      where,
       take: limit,
       skip: offset,
       orderBy: {
@@ -22,11 +33,22 @@ const fileService = {
   },
 
   /**
-   * Counts the total number of file records in the database.
+   * Counts the total number of file records in the database with optional filtering.
+   * @param {Object} [options] - Filtering options.
+   * @param {string} [options.includeType] - MIME type prefix to include (e.g., 'image').
+   * @param {string} [options.excludeType] - MIME type prefix to exclude (e.g., 'image').
    * @returns {Promise<number>}
    */
-  countFiles: async () => {
-    return prisma.file.count();
+  countFiles: async ({ includeType, excludeType } = {}) => {
+    const where = {};
+    
+    if (includeType) {
+      where.mimeType = { startsWith: `${includeType}/` };
+    } else if (excludeType) {
+      where.NOT = { mimeType: { startsWith: `${excludeType}/` } };
+    }
+
+    return prisma.file.count({ where });
   },
 
   /**

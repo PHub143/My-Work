@@ -11,7 +11,7 @@ const Documents = () => {
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const response = await fetch(`${API_URL}/files`);
+        const response = await fetch(`${API_URL}/files?excludeType=image`);
         if (!response.ok) {
           throw new Error('Failed to fetch files from the server.');
         }

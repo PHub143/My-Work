@@ -48,14 +48,15 @@ const uploadFileHandler = async (req, res, next) => {
  */
 const listFilesHandler = async (req, res, next) => {
   try {
-    // Set sensible defaults for pagination
+    // Set sensible defaults for pagination and filtering
     const limit = parseInt(req.query.limit, 10) || 50;
     const offset = parseInt(req.query.offset, 10) || 0;
+    const { includeType, excludeType } = req.query;
     
-    // Fetch both the files and the total count in parallel
+    // Fetch both the files and the total count in parallel with filters
     const [files, total] = await Promise.all([
-      fileService.getAllFiles({ limit, offset }),
-      fileService.countFiles()
+      fileService.getAllFiles({ limit, offset, includeType, excludeType }),
+      fileService.countFiles({ includeType, excludeType })
     ]);
     
     res.status(200).json({ 
