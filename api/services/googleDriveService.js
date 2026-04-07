@@ -53,7 +53,10 @@ const uploadFile = (req) => {
   assertGoogleDriveConfig();
 
   return new Promise((resolve, reject) => {
-    const bb = busboy({ headers: req.headers });
+    const bb = busboy({ 
+      headers: req.headers,
+      limits: { fileSize: 20 * 1024 * 1024 } // 20MB limit
+    });
     let fileProcessed = false;
 
     const allowedTypes = [
@@ -66,15 +69,18 @@ const uploadFile = (req) => {
     ];
 
     bb.on('file', async (name, file, info) => {
+      // If a file is already being processed, discard any additional files
+      if (fileProcessed) {
+        file.resume();
+        return;
+      }
+
       const { filename, mimeType } = info;
 
       if (!allowedTypes.includes(mimeType)) {
         file.resume(); // Discard the file data
-        if (!fileProcessed) {
-          fileProcessed = true;
-          return reject(createServiceError(400, 'Invalid file type. Only JPG/JPEG, PNG, GIF, PDF, and plain text are allowed.'));
-        }
-        return;
+        fileProcessed = true;
+        return reject(createServiceError(400, 'Invalid file type. Only JPG/JPEG, PNG, GIF, PDF, and plain text are allowed.'));
       }
 
       fileProcessed = true;
@@ -102,6 +108,12 @@ const uploadFile = (req) => {
         console.error('Error uploading to Google Drive:', error);
         reject(createServiceError(500, 'Error uploading file to Google Drive.'));
       }
+    });
+
+    bb.on('limit', () => {
+      if (fileProcessed) return;
+      fileProcessed = true;
+      reject(createServiceError(413, 'File size limit exceeded (max 20MB).'));
     });
 
     bb.on('error', (err) => {

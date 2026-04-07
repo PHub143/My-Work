@@ -6,23 +6,27 @@ async function syncDatabase() {
   console.log('Starting full synchronization from Google Drive...');
   
   try {
-    // 1. Fetch all files from Google Drive
+    // 1. Fetch all files from the Database first to prevent race condition orphans
+    const dbFiles = await fileService.getAllFiles();
+    console.log(`Found ${dbFiles.length} records in the database.`);
+
+    // 2. Fetch all files from Google Drive
     const driveFiles = await googleDriveService.listFiles();
     const driveFileIds = new Set(driveFiles.map(file => file.id));
     
     console.log(`Found ${driveFiles.length} files in Google Drive.`);
 
-    // 2. Fetch all files from the Database
-    const dbFiles = await fileService.getAllFiles();
-    console.log(`Found ${dbFiles.length} records in the database.`);
-
     // 3. Identify and delete orphaned database records
     let deletedCount = 0;
     for (const dbFile of dbFiles) {
       if (!driveFileIds.has(dbFile.driveFileId)) {
-        await fileService.deleteFileByDriveId(dbFile.driveFileId);
-        console.log(`Deleted orphaned record: ${dbFile.name} (${dbFile.driveFileId})`);
-        deletedCount++;
+        try {
+          await fileService.deleteFileByDriveId(dbFile.driveFileId);
+          console.log(`Deleted orphaned record: ${dbFile.name} (${dbFile.driveFileId})`);
+          deletedCount++;
+        } catch (delError) {
+          console.warn(`Failed to delete orphaned record ${dbFile.driveFileId}:`, delError.message);
+        }
       }
     }
 
@@ -43,15 +47,13 @@ async function syncDatabase() {
     console.log(`Summary: ${syncedCount} files synced, ${deletedCount} orphaned records removed.`);
   } catch (error) {
     console.error('An error occurred during synchronization:', error);
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
 // Export the function for use in other modules (like server.js)
 module.exports = { syncDatabase };
 
-// If the script is run directly, execute syncDatabase
+// If the script is run directly, execute syncDatabase and then disconnect
 if (require.main === module) {
-  syncDatabase();
+  syncDatabase().finally(() => prisma.$disconnect());
 }

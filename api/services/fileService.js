@@ -22,6 +22,14 @@ const fileService = {
   },
 
   /**
+   * Counts the total number of file records in the database.
+   * @returns {Promise<number>}
+   */
+  countFiles: async () => {
+    return prisma.file.count();
+  },
+
+  /**
    * Finds a file record by its Google Drive ID.
    * @param {string} driveFileId - The ID of the file in Google Drive.
    * @returns {Promise<Object|null>}

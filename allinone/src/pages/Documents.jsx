@@ -13,10 +13,11 @@ const Documents = () => {
       try {
         const response = await fetch(`${API_URL}/files`);
         if (!response.ok) {
-          throw new Error('Failed to fetch files from Google Drive.');
+          throw new Error('Failed to fetch files from the server.');
         }
         const data = await response.json();
-        setFiles(data);
+        // data is now { files: [...], total: 10, limit: 50, offset: 0 }
+        setFiles(data.files || []);
       } catch (err) {
         setError(err.message);
       } finally {

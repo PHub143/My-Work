@@ -52,9 +52,18 @@ const listFilesHandler = async (req, res, next) => {
     const limit = parseInt(req.query.limit, 10) || 50;
     const offset = parseInt(req.query.offset, 10) || 0;
     
-    // Pass pagination params to the service layer
-    const files = await fileService.getAllFiles({ limit, offset });
-    res.status(200).json(files);
+    // Fetch both the files and the total count in parallel
+    const [files, total] = await Promise.all([
+      fileService.getAllFiles({ limit, offset }),
+      fileService.countFiles()
+    ]);
+    
+    res.status(200).json({ 
+      files, 
+      total,
+      limit,
+      offset
+    });
   } catch (error) {
     next(error);
   }
@@ -75,7 +84,16 @@ const deleteFileHandler = async (req, res, next) => {
 
   try {
     // 1. Delete from Google Drive
-    await googleDriveService.deleteFile(fileId);
+    try {
+      await googleDriveService.deleteFile(fileId);
+    } catch (driveError) {
+      // If the file is already gone from Drive, we should still try to clean up the DB
+      if (driveError.status === 404) {
+        console.warn(`File ${fileId} not found in Google Drive, proceeding with database cleanup.`);
+      } else {
+        throw driveError;
+      }
+    }
     
     // 2. Delete from the application database (using driveFileId)
     try {
