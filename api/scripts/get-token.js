@@ -2,8 +2,9 @@ const { google } = require('googleapis');
 const http = require('http');
 const url = require('url');
 const fs = require('fs');
+const path = require('path');
 
-const configPath = '../config/google.json';
+const configPath = path.resolve(__dirname, '../config/google.json');
 const googleConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 const clientId = googleConfig.oauth.installed.client_id;
@@ -19,7 +20,8 @@ const authUrl = oauth2Client.generateAuthUrl({
   prompt: 'consent'
 });
 
-const logPath = '../logs/token-log.txt';
+const logPath = path.resolve(__dirname, '../logs/token-log.txt');
+fs.mkdirSync(path.dirname(logPath), { recursive: true });
 fs.writeFileSync(logPath, 'URL: ' + authUrl + '\nListening for callback on port 3000...\n');
 
 const server = http.createServer(async (req, res) => {

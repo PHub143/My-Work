@@ -2,8 +2,9 @@ const { google } = require('googleapis');
 const http = require('http');
 const url = require('url');
 const fs = require('fs');
+const path = require('path');
 
-const configPath = '../config/google.json';
+const configPath = path.resolve(__dirname, '../config/google.json');
 const googleConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 const clientId = googleConfig.oauth.installed.client_id;

@@ -16,6 +16,21 @@ const redirectUri = process.env.GOOGLE_REDIRECT_URI || (googleConfig.oauth && go
 const refreshToken = process.env.GOOGLE_REFRESH_TOKEN || (googleConfig.oauth && googleConfig.oauth.refreshToken);
 const driveFolderId = process.env.GOOGLE_DRIVE_FOLDER_ID || googleConfig.driveFolderId;
 
+function createServiceError(status, message) {
+  const error = new Error(message);
+  error.status = status;
+  return error;
+}
+
+function assertGoogleDriveConfig() {
+  if (!clientId || !clientSecret || !redirectUri || !refreshToken || !driveFolderId) {
+    throw createServiceError(
+      500,
+      'Google Drive configuration is incomplete. Set the required env vars or provide api/config/google.json.'
+    );
+  }
+}
+
 const oauth2Client = new google.auth.OAuth2(
   clientId,
   clientSecret,
@@ -35,6 +50,8 @@ const drive = google.drive({ version: 'v3', auth: oauth2Client });
  * @returns {Promise<Object>} - Resolves with the uploaded file data or rejects with an error.
  */
 const uploadFile = (req) => {
+  assertGoogleDriveConfig();
+
   return new Promise((resolve, reject) => {
     const bb = busboy({ headers: req.headers });
     let fileProcessed = false;
@@ -55,7 +72,7 @@ const uploadFile = (req) => {
         file.resume(); // Discard the file data
         if (!fileProcessed) {
           fileProcessed = true;
-          return reject({ status: 400, message: 'Invalid file type. Only JPG/JPEG, PNG, GIF, PDF, and plain text are allowed.' });
+          return reject(createServiceError(400, 'Invalid file type. Only JPG/JPEG, PNG, GIF, PDF, and plain text are allowed.'));
         }
         return;
       }
@@ -83,18 +100,18 @@ const uploadFile = (req) => {
         resolve(response.data);
       } catch (error) {
         console.error('Error uploading to Google Drive:', error);
-        reject({ status: 500, message: 'Error uploading file to Google Drive.' });
+        reject(createServiceError(500, 'Error uploading file to Google Drive.'));
       }
     });
 
     bb.on('error', (err) => {
       console.error('Busboy error:', err);
-      reject({ status: 500, message: 'Error processing upload.' });
+      reject(createServiceError(500, 'Error processing upload.'));
     });
 
     bb.on('finish', () => {
       if (!fileProcessed) {
-        reject({ status: 400, message: 'No file uploaded.' });
+        reject(createServiceError(400, 'No file uploaded.'));
       }
     });
 
@@ -108,17 +125,29 @@ const uploadFile = (req) => {
  */
 const listFiles = async () => {
   try {
-    const response = await drive.files.list({
-      pageSize: 20,
-      fields: 'nextPageToken, files(id, name, webViewLink, mimeType, size)',
-      q: `'${driveFolderId}' in parents and trashed = false`,
-      includeItemsFromAllDrives: true,
-      supportsAllDrives: true,
-    });
-    return response.data.files;
+    assertGoogleDriveConfig();
+
+    const files = [];
+    let pageToken;
+
+    do {
+      const response = await drive.files.list({
+        pageSize: 100,
+        pageToken,
+        fields: 'nextPageToken, files(id, name, webViewLink, mimeType, size)',
+        q: `'${driveFolderId}' in parents and trashed = false`,
+        includeItemsFromAllDrives: true,
+        supportsAllDrives: true,
+      });
+
+      files.push(...(response.data.files || []));
+      pageToken = response.data.nextPageToken;
+    } while (pageToken);
+
+    return files;
   } catch (error) {
     console.error('Error fetching files from Google Drive:', error);
-    throw { status: 500, message: 'Error fetching files from Google Drive.' };
+    throw error.status ? error : createServiceError(500, 'Error fetching files from Google Drive.');
   }
 };
 
@@ -129,16 +158,18 @@ const listFiles = async () => {
  */
 const deleteFile = async (fileId) => {
   try {
+    assertGoogleDriveConfig();
+
     await drive.files.delete({
       fileId: fileId,
       supportsAllDrives: true,
     });
   } catch (error) {
     if (error.code === 404) {
-      throw { status: 404, message: 'File not found in Google Drive.' };
+      throw createServiceError(404, 'File not found in Google Drive.');
     }
     console.error('Error deleting file from Google Drive:', error);
-    throw { status: 500, message: 'Error deleting file from Google Drive.' };
+    throw error.status ? error : createServiceError(500, 'Error deleting file from Google Drive.');
   }
 };
 
