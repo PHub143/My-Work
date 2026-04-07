@@ -8,12 +8,8 @@ const { syncDatabase } = require('./scripts/sync-drive');
 const app = express();
 const port = process.env.PORT || 3001;
 
-// Configure CORS
-const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-  optionsSuccessStatus: 200
-};
-app.use(cors(corsOptions));
+// Enable CORS for all routes temporarily to troubleshoot
+app.use(cors());
 
 // Use modular routes
 app.use('/', routes);
@@ -44,5 +40,7 @@ app.listen(port, () => {
 
   // Initial sync on server start (optional, but good for ensuring consistency)
   console.log('Running initial synchronization...');
-  syncDatabase().catch(err => console.error('Initial sync failed', err));
+  syncDatabase()
+    .then(() => console.log('Initial sync completed successfully.'))
+    .catch(err => console.error('Initial sync failed during startup:', err));
 });
