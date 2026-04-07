@@ -6,15 +6,28 @@ async function syncDatabase() {
   console.log('Starting full synchronization from Google Drive...');
   
   try {
+    // 1. Fetch all files from Google Drive
     const driveFiles = await googleDriveService.listFiles();
+    const driveFileIds = new Set(driveFiles.map(file => file.id));
     
-    if (!driveFiles || driveFiles.length === 0) {
-      console.log('No files found in the configured Google Drive folder.');
-      return;
+    console.log(`Found ${driveFiles.length} files in Google Drive.`);
+
+    // 2. Fetch all files from the Database
+    const dbFiles = await fileService.getAllFiles();
+    console.log(`Found ${dbFiles.length} records in the database.`);
+
+    // 3. Identify and delete orphaned database records
+    let deletedCount = 0;
+    for (const dbFile of dbFiles) {
+      if (!driveFileIds.has(dbFile.driveFileId)) {
+        await fileService.deleteFileByDriveId(dbFile.driveFileId);
+        console.log(`Deleted orphaned record: ${dbFile.name} (${dbFile.driveFileId})`);
+        deletedCount++;
+      }
     }
 
-    console.log(`Found ${driveFiles.length} files in Google Drive. Syncing...`);
-
+    // 4. Upsert all files from Google Drive into the Database
+    let syncedCount = 0;
     for (const file of driveFiles) {
       await fileService.upsertFile({
         driveFileId: file.id,
@@ -23,10 +36,11 @@ async function syncDatabase() {
         webViewLink: file.webViewLink,
         size: file.size,
       });
-      console.log(`Synced: ${file.name}`);
+      syncedCount++;
     }
 
     console.log('Full synchronization completed successfully.');
+    console.log(`Summary: ${syncedCount} files synced, ${deletedCount} orphaned records removed.`);
   } catch (error) {
     console.error('An error occurred during synchronization:', error);
   } finally {
@@ -34,4 +48,10 @@ async function syncDatabase() {
   }
 }
 
-syncDatabase();
+// Export the function for use in other modules (like server.js)
+module.exports = { syncDatabase };
+
+// If the script is run directly, execute syncDatabase
+if (require.main === module) {
+  syncDatabase();
+}

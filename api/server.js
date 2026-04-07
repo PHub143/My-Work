@@ -1,7 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+const cron = require('node-cron');
 require('dotenv').config();
 const routes = require('./routes');
+const { syncDatabase } = require('./scripts/sync-drive');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -29,4 +31,14 @@ app.use((err, req, res, next) => {
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
+
+  // Schedule full synchronization from Google Drive every hour
+  cron.schedule('0 * * * *', async () => {
+    console.log('Running scheduled synchronization...');
+    await syncDatabase();
+  });
+
+  // Initial sync on server start (optional, but good for ensuring consistency)
+  console.log('Running initial synchronization...');
+  syncDatabase().catch(err => console.error('Initial sync failed', err));
 });
