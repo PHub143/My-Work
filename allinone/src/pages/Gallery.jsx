@@ -48,16 +48,19 @@ const Gallery = () => {
       ) : images.length > 0 ? (
         <div className="gallery-grid">
           {images.map((image) => (
-            <div key={image.id} className="gallery-item">
-              <a href={image.webViewLink} target="_blank" rel="noopener noreferrer">
-                {/* Use webViewLink for external viewing or potentially direct link if proxy is available */}
-                {/* For now we show a stylized card as we don't have direct image proxy URLs from Drive easily available for <img> src without API keys or auth in URL */}
-                <div className="image-placeholder">
-                  <span className="image-icon">🖼️</span>
-                  <span className="image-name">{image.name}</span>
-                </div>
-              </a>
-            </div>
+            <a 
+              key={image.id} 
+              href={image.webViewLink} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="gallery-card"
+            >
+              <div className="card-icon">🖼️</div>
+              <div className="gallery-info">
+                <span className="gallery-name">{image.name}</span>
+                <span className="gallery-link">View image →</span>
+              </div>
+            </a>
           ))}
         </div>
       ) : (

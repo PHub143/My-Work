@@ -46,7 +46,7 @@ const Documents = () => {
           <Spinner />
         </div>
       ) : files.length > 0 ? (
-        <div className="documents-list">
+        <div className="documents-grid">
           {files.map((file) => (
             <a 
               key={file.id} 
@@ -55,6 +55,7 @@ const Documents = () => {
               rel="noopener noreferrer" 
               className="document-card"
             >
+              <div className="card-icon">📄</div>
               <div className="document-info">
                 <span className="document-name">{file.name}</span>
                 <span className="document-link">View document →</span>
