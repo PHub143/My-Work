@@ -13,14 +13,16 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <Suspense fallback={<Spinner />}>
-        <Routes>
-          <Route path='/' element={<Documents />} />
-          <Route path='/gallery' element={<Gallery />} />
-          <Route path='/services' element={<Services />} />
-          <Route path='/upload' element={<Upload />} />
-        </Routes>
-      </Suspense>
+      <main className="content-container">
+        <Suspense fallback={<Spinner />}>
+          <Routes>
+            <Route path='/' element={<Documents />} />
+            <Route path='/gallery' element={<Gallery />} />
+            <Route path='/services' element={<Services />} />
+            <Route path='/upload' element={<Upload />} />
+          </Routes>
+        </Suspense>
+      </main>
     </Router>
   );
 }
