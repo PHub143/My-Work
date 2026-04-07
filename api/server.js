@@ -8,8 +8,12 @@ const { syncDatabase } = require('./scripts/sync-drive');
 const app = express();
 const port = process.env.PORT || 3001;
 
-// Enable CORS for all routes temporarily to troubleshoot
-app.use(cors());
+// Configure CORS for security
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 // Use modular routes
 app.use('/', routes);
