@@ -9,17 +9,17 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 // Configure CORS for security
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  'http://localhost:5173',
-  'http://127.0.0.1:5173'
-].filter(Boolean);
-
 const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    
+    const isLocalhost = origin.startsWith('http://localhost:') || 
+                       origin.startsWith('http://127.0.0.1:') ||
+                       origin === 'http://localhost' ||
+                       origin === 'http://127.0.0.1';
+    
+    if (isLocalhost || origin === process.env.FRONTEND_URL) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
