@@ -8,7 +8,9 @@ async function main() {
     const fileCount = await prisma.file.count();
     console.log(`Successfully connected! Total files in DB: ${fileCount}`);
   } catch (error) {
-    console.error('Database connection failed:', error.message);
+    console.error('Database connection failed:', error);
+    if (error.code) console.error('Error Code:', error.code);
+    if (error.meta) console.error('Error Meta:', error.meta);
     process.exit(1);
   } finally {
     await prisma.$disconnect();

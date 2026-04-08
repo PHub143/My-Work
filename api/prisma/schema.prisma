@@ -15,6 +15,7 @@ model File {
   name         String
   mimeType     String
   webViewLink  String
+  thumbnailLink String?
   size         Int?      // Size in bytes
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt

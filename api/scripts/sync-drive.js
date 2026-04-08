@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fileService = require('../services/fileService');
 const googleDriveService = require('../services/googleDriveService');
 const prisma = require('../services/prismaService');
@@ -38,6 +39,7 @@ async function syncDatabase() {
         name: file.name,
         mimeType: file.mimeType,
         webViewLink: file.webViewLink,
+        thumbnailLink: file.thumbnailLink,
         size: file.size,
       });
       syncedCount++;

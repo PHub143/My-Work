@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prisma Postgres Troubleshooting"
+  short_description: "Debug Prisma and Postgres config, migrations, and connectivity"
+  default_prompt: "Use this skill to diagnose Prisma schema, migration, and Postgres connection problems in this repo."

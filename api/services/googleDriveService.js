@@ -99,7 +99,7 @@ const uploadFile = (req) => {
         const response = await drive.files.create({
           requestBody: fileMetadata,
           media: media,
-          fields: 'id,name,webViewLink,mimeType,size',
+          fields: 'id,name,webViewLink,mimeType,size,thumbnailLink',
           supportsAllDrives: true,
         });
 
@@ -146,7 +146,7 @@ const listFiles = async () => {
       const response = await drive.files.list({
         pageSize: 100,
         pageToken,
-        fields: 'nextPageToken, files(id, name, webViewLink, mimeType, size)',
+        fields: 'nextPageToken, files(id, name, webViewLink, mimeType, size, thumbnailLink)',
         q: `'${driveFolderId}' in parents and trashed = false`,
         includeItemsFromAllDrives: true,
         supportsAllDrives: true,

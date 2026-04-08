@@ -55,7 +55,13 @@ const Gallery = () => {
               rel="noopener noreferrer"
               className="gallery-card"
             >
-              <div className="card-icon">🖼️</div>
+              {image.thumbnailLink ? (
+                <div className="gallery-thumbnail-container">
+                  <img src={image.thumbnailLink} alt={image.name} className="gallery-thumbnail" />
+                </div>
+              ) : (
+                <div className="card-icon">🖼️</div>
+              )}
               <div className="gallery-info">
                 <span className="gallery-name">{image.name}</span>
                 <span className="gallery-link">View image →</span>

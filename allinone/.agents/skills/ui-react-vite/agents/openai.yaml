@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI React Vite"
+  short_description: "Build and refine UI in the Vite React frontend with plain CSS"
+  default_prompt: "Use this skill to implement or redesign UI in the allinone frontend while preserving the existing React and CSS structure."

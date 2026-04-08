@@ -76,6 +76,7 @@ const fileService = {
         name: data.name,
         mimeType: data.mimeType,
         webViewLink: data.webViewLink,
+        thumbnailLink: data.thumbnailLink,
         size: data.size ? parseInt(data.size) : null,
       },
     });
@@ -96,6 +97,7 @@ const fileService = {
         name: data.name,
         mimeType: data.mimeType,
         webViewLink: data.webViewLink,
+        thumbnailLink: data.thumbnailLink,
         size: data.size ? parseInt(data.size) : null,
       },
     });
@@ -129,6 +131,7 @@ const fileService = {
         name: data.name,
         mimeType: data.mimeType,
         webViewLink: data.webViewLink,
+        thumbnailLink: data.thumbnailLink,
         size: data.size ? parseInt(data.size) : null,
       },
       create: {
@@ -136,6 +139,7 @@ const fileService = {
         name: data.name,
         mimeType: data.mimeType,
         webViewLink: data.webViewLink,
+        thumbnailLink: data.thumbnailLink,
         size: data.size ? parseInt(data.size) : null,
       },
     });
