@@ -134,5 +134,6 @@ const deleteFileHandler = async (req, res, next) => {
 module.exports = {
   uploadFileHandler,
   listFilesHandler,
+  getAllTagsHandler,
   deleteFileHandler
 };
