@@ -6,6 +6,7 @@ const fileController = require('../controllers/fileController');
 router.post('/upload', fileController.uploadFileHandler);
 router.get('/files', fileController.listFilesHandler);
 router.get('/tags', fileController.getAllTagsHandler);
+router.patch('/files/:fileId/tags', fileController.updateFileTagsHandler);
 router.delete('/files/:fileId', fileController.deleteFileHandler);
 
 module.exports = router;

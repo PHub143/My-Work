@@ -135,5 +135,38 @@ module.exports = {
   uploadFileHandler,
   listFilesHandler,
   getAllTagsHandler,
+  updateFileTagsHandler,
+  deleteFileHandler
+};
+he DB
+      if (driveError.status === 404) {
+        console.warn(`File ${fileId} not found in Google Drive, proceeding with database cleanup.`);
+      } else {
+        throw driveError;
+      }
+    }
+    
+    // 2. Delete from the application database (using driveFileId)
+    try {
+      await fileService.deleteFileByDriveId(fileId);
+      res.status(200).json({ 
+        message: 'File deleted successfully from Google Drive and the application database.' 
+      });
+    } catch (dbError) {
+      console.error(`File ${fileId} deleted from Drive but failed to delete from DB`, dbError);
+      res.status(500).json({ 
+        message: 'Partial Success: File removed from Google Drive, but database update failed. A background sync will be required.',
+        error: dbError.message
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  uploadFileHandler,
+  listFilesHandler,
+  getAllTagsHandler,
   deleteFileHandler
 };

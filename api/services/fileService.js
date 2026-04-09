@@ -134,20 +134,37 @@ const fileService = {
    * Updates an existing file record by its Google Drive ID.
    * @param {string} driveFileId - The ID of the file in Google Drive.
    * @param {Object} data - Updated metadata.
+   * @param {Array<string>} [tags] - Array of tag names to set.
    * @returns {Promise<Object>}
    */
-  updateFile: async (driveFileId, data) => {
+  updateFile: async (driveFileId, data, tags) => {
+    const updateData = {
+      name: data.name,
+      mimeType: data.mimeType,
+      webViewLink: data.webViewLink,
+      thumbnailLink: data.thumbnailLink,
+      size: data.size ? parseInt(data.size) : null,
+    };
+
+    if (tags) {
+      const uniqueTags = [...new Set(tags)];
+      updateData.tags = {
+        set: [], // Disconnect all current tags first
+        connectOrCreate: uniqueTags.map(tag => ({
+          where: { name: tag },
+          create: { name: tag }
+        }))
+      };
+    }
+
     return prisma.file.update({
       where: {
         driveFileId: driveFileId,
       },
-      data: {
-        name: data.name,
-        mimeType: data.mimeType,
-        webViewLink: data.webViewLink,
-        thumbnailLink: data.thumbnailLink,
-        size: data.size ? parseInt(data.size) : null,
-      },
+      data: updateData,
+      include: {
+        tags: true
+      }
     });
   },
 
