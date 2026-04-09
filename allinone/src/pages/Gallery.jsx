@@ -7,6 +7,7 @@ const Gallery = () => {
   const [images, setImages] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -28,6 +29,24 @@ const Gallery = () => {
     fetchImages();
   }, []);
 
+  const getHighResThumbnail = (url, size = 's1080') => {
+    if (!url) return null;
+    return url.replace(/=s\d+$/, `=${size}`);
+  };
+
+  const closeModal = () => setSelectedImage(null);
+
+  useEffect(() => {
+    if (selectedImage) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedImage]);
+
   return (
     <div className="gallery-container">
       <div className="gallery-header">
@@ -48,30 +67,61 @@ const Gallery = () => {
       ) : images.length > 0 ? (
         <div className="gallery-grid">
           {images.map((image) => (
-            <a 
+            <div 
               key={image.id} 
-              href={image.webViewLink} 
-              target="_blank" 
-              rel="noopener noreferrer"
               className="gallery-card"
+              onClick={() => setSelectedImage(image)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setSelectedImage(image);
+                }
+              }}
             >
               {image.thumbnailLink ? (
                 <div className="gallery-thumbnail-container">
-                  <img src={image.thumbnailLink} alt={image.name} className="gallery-thumbnail" />
+                  <img 
+                    src={getHighResThumbnail(image.thumbnailLink, 's1080')} 
+                    alt={image.name} 
+                    className="gallery-thumbnail" 
+                    loading="lazy"
+                  />
                 </div>
               ) : (
                 <div className="card-icon">🖼️</div>
               )}
               <div className="gallery-info">
                 <span className="gallery-name">{image.name}</span>
-                <span className="gallery-link">View image →</span>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       ) : (
         <div className="no-images">
           <p>No images found in your Drive.</p>
+        </div>
+      )}
+
+      {selectedImage && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={closeModal} aria-label="Close">
+              &times;
+            </button>
+            {selectedImage.thumbnailLink ? (
+              <img 
+                src={getHighResThumbnail(selectedImage.thumbnailLink, 's0')} 
+                alt={selectedImage.name} 
+                className="modal-image" 
+              />
+            ) : (
+              <div className="modal-icon-placeholder">🖼️</div>
+            )}
+            <div className="modal-caption">
+              <h3>{selectedImage.name}</h3>
+            </div>
+          </div>
         </div>
       )}
     </div>
