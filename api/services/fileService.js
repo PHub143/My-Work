@@ -137,7 +137,7 @@ const fileService = {
    * @param {Array<string>} [tags] - Array of tag names to set.
    * @returns {Promise<Object>}
    */
-  updateFile: async (driveFileId, data, tags) => {
+  updateFile: async (driveFileId, data = {}, tags) => {
     const updateData = {
       name: data.name,
       mimeType: data.mimeType,

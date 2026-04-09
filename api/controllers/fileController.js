@@ -88,6 +88,41 @@ const getAllTagsHandler = async (req, res, next) => {
 };
 
 /**
+ * Handles updating tags for an existing file.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ */
+const updateFileTagsHandler = async (req, res, next) => {
+  const { fileId } = req.params;
+  const { tags } = req.body;
+
+  if (!fileId) {
+    return res.status(400).json({ message: 'File ID is required.' });
+  }
+
+  if (!Array.isArray(tags) || !tags.every(t => typeof t === 'string')) {
+    return res.status(400).json({ message: 'Tags must be an array of strings.' });
+  }
+
+  try {
+    const existingFile = await fileService.findFileByDriveId(fileId);
+    if (!existingFile) {
+      return res.status(404).json({ message: 'File not found in database.' });
+    }
+
+    // Only update tags, preserve other data
+    const updatedFile = await fileService.updateFile(fileId, existingFile, tags);
+    res.status(200).json({
+      message: 'File tags updated successfully',
+      file: updatedFile
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * Handles file deletion requests.
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
@@ -136,37 +171,5 @@ module.exports = {
   listFilesHandler,
   getAllTagsHandler,
   updateFileTagsHandler,
-  deleteFileHandler
-};
-he DB
-      if (driveError.status === 404) {
-        console.warn(`File ${fileId} not found in Google Drive, proceeding with database cleanup.`);
-      } else {
-        throw driveError;
-      }
-    }
-    
-    // 2. Delete from the application database (using driveFileId)
-    try {
-      await fileService.deleteFileByDriveId(fileId);
-      res.status(200).json({ 
-        message: 'File deleted successfully from Google Drive and the application database.' 
-      });
-    } catch (dbError) {
-      console.error(`File ${fileId} deleted from Drive but failed to delete from DB`, dbError);
-      res.status(500).json({ 
-        message: 'Partial Success: File removed from Google Drive, but database update failed. A background sync will be required.',
-        error: dbError.message
-      });
-    }
-  } catch (error) {
-    next(error);
-  }
-};
-
-module.exports = {
-  uploadFileHandler,
-  listFilesHandler,
-  getAllTagsHandler,
   deleteFileHandler
 };
