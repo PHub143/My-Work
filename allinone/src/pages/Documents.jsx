@@ -57,7 +57,7 @@ const Documents = () => {
     ));
     setSelectedFile(updatedFile);
     // Refresh tags list
-    fetch(`${API_URL}/tags`)
+    fetch(`${API_URL}/tags?excludeType=image`)
       .then(res => res.json())
       .then(data => setTags(data.tags))
       .catch(err => console.error('Error refreshing tags:', err));

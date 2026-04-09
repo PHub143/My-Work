@@ -119,11 +119,33 @@ const fileService = {
   },
 
   /**
-   * Retrieves all unique tags from the database.
+   * Retrieves all unique tags from the database with optional file type filtering.
+   * @param {Object} [options] - Filtering options.
+   * @param {string} [options.includeType] - MIME type prefix to include (e.g., 'image').
+   * @param {string} [options.excludeType] - MIME type prefix to exclude (e.g., 'image').
    * @returns {Promise<Array>}
    */
-  getAllTags: async () => {
+  getAllTags: async ({ includeType, excludeType } = {}) => {
+    const where = {};
+
+    if (includeType) {
+      where.files = {
+        some: {
+          mimeType: { startsWith: `${includeType}/` }
+        }
+      };
+    } else if (excludeType) {
+      where.files = {
+        some: {
+          NOT: {
+            mimeType: { startsWith: `${excludeType}/` }
+          }
+        }
+      };
+    }
+
     return prisma.tag.findMany({
+      where,
       orderBy: {
         name: 'asc'
       }

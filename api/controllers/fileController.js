@@ -73,14 +73,15 @@ const listFilesHandler = async (req, res, next) => {
 };
 
 /**
- * Handles requests to list all unique tags.
+ * Handles requests to list all unique tags with optional filtering.
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  * @param {Function} next - Express next middleware function.
  */
 const getAllTagsHandler = async (req, res, next) => {
   try {
-    const tags = await fileService.getAllTags();
+    const { includeType, excludeType } = req.query;
+    const tags = await fileService.getAllTags({ includeType, excludeType });
     res.status(200).json({ tags });
   } catch (error) {
     next(error);
