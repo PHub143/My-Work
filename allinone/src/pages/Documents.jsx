@@ -7,16 +7,37 @@ const Documents = () => {
   const [files, setFiles] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [tags, setTags] = useState([]);
+  const [selectedTag, setSelectedTag] = useState(null);
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const response = await fetch(`${API_URL}/tags`);
+        if (response.ok) {
+          const data = await response.json();
+          setTags(data.tags);
+        }
+      } catch (err) {
+        console.error('Error fetching tags:', err);
+      }
+    };
+    fetchTags();
+  }, []);
 
   useEffect(() => {
     const fetchFiles = async () => {
+      setIsLoading(true);
       try {
-        const response = await fetch(`${API_URL}/files?excludeType=image`);
+        let url = `${API_URL}/files?excludeType=image`;
+        if (selectedTag) {
+          url += `&tag=${encodeURIComponent(selectedTag)}`;
+        }
+        const response = await fetch(url);
         if (!response.ok) {
           throw new Error('Failed to fetch files from the server.');
         }
         const data = await response.json();
-        // data is now { files: [...], total: 10, limit: 50, offset: 0 }
         setFiles(data.files || []);
       } catch (err) {
         setError(err.message);
@@ -26,7 +47,7 @@ const Documents = () => {
     };
 
     fetchFiles();
-  }, []);
+  }, [selectedTag]);
 
   return (
     <div className="documents-container">
@@ -34,6 +55,26 @@ const Documents = () => {
         <h1>Documents</h1>
         <p>Your uploaded files on Google Drive</p>
       </div>
+
+      {tags.length > 0 && (
+        <div className="filter-bar">
+          <button 
+            className={`filter-pill ${!selectedTag ? 'active' : ''}`}
+            onClick={() => setSelectedTag(null)}
+          >
+            All
+          </button>
+          {tags.map(tag => (
+            <button 
+              key={tag.id}
+              className={`filter-pill ${selectedTag === tag.name ? 'active' : ''}`}
+              onClick={() => setSelectedTag(tag.name)}
+            >
+              {tag.name}
+            </button>
+          ))}
+        </div>
+      )}
 
       {error && (
         <div className="error-message">

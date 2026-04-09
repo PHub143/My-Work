@@ -13,13 +13,21 @@ const fileService = {
    * @param {string} [options.excludeType] - MIME type prefix to exclude (e.g., 'image').
    * @returns {Promise<Array>}
    */
-  getAllFiles: async ({ limit, offset, includeType, excludeType } = {}) => {
+  getAllFiles: async ({ limit, offset, includeType, excludeType, tag } = {}) => {
     const where = {};
     
     if (includeType) {
       where.mimeType = { startsWith: `${includeType}/` };
     } else if (excludeType) {
       where.NOT = { mimeType: { startsWith: `${excludeType}/` } };
+    }
+
+    if (tag) {
+      where.tags = {
+        some: {
+          name: tag
+        }
+      };
     }
 
     return prisma.file.findMany({
@@ -29,6 +37,9 @@ const fileService = {
       orderBy: {
         createdAt: 'desc',
       },
+      include: {
+        tags: true
+      }
     });
   },
 
@@ -37,15 +48,24 @@ const fileService = {
    * @param {Object} [options] - Filtering options.
    * @param {string} [options.includeType] - MIME type prefix to include (e.g., 'image').
    * @param {string} [options.excludeType] - MIME type prefix to exclude (e.g., 'image').
+   * @param {string} [options.tag] - Tag name to filter by.
    * @returns {Promise<number>}
    */
-  countFiles: async ({ includeType, excludeType } = {}) => {
+  countFiles: async ({ includeType, excludeType, tag } = {}) => {
     const where = {};
     
     if (includeType) {
       where.mimeType = { startsWith: `${includeType}/` };
     } else if (excludeType) {
       where.NOT = { mimeType: { startsWith: `${excludeType}/` } };
+    }
+
+    if (tag) {
+      where.tags = {
+        some: {
+          name: tag
+        }
+      };
     }
 
     return prisma.file.count({ where });
@@ -61,15 +81,25 @@ const fileService = {
       where: {
         driveFileId: driveFileId,
       },
+      include: {
+        tags: true
+      }
     });
   },
 
   /**
    * Creates a new file record in the application database.
    * @param {Object} data - File metadata.
+   * @param {Array<string>} [tags] - Array of tag names.
    * @returns {Promise<Object>}
    */
-  createFile: async (data) => {
+  createFile: async (data, tags = []) => {
+    const uniqueTags = [...new Set(tags)];
+    const tagData = uniqueTags.map(tag => ({
+      where: { name: tag },
+      create: { name: tag }
+    }));
+
     return prisma.file.create({
       data: {
         driveFileId: data.driveFileId,
@@ -78,7 +108,25 @@ const fileService = {
         webViewLink: data.webViewLink,
         thumbnailLink: data.thumbnailLink,
         size: data.size ? parseInt(data.size) : null,
+        tags: {
+          connectOrCreate: tagData
+        }
       },
+      include: {
+        tags: true
+      }
+    });
+  },
+
+  /**
+   * Retrieves all unique tags from the database.
+   * @returns {Promise<Array>}
+   */
+  getAllTags: async () => {
+    return prisma.tag.findMany({
+      orderBy: {
+        name: 'asc'
+      }
     });
   },
 

@@ -7,14 +7,60 @@ const Upload = () => {
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState({ type: '', message: '' });
   const [isUploading, setIsUploading] = useState(false);
+  const [tags, setTags] = useState([]);
+  const [availableTags, setAvailableTags] = useState([]);
+  const [tagInput, setTagInput] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const fileInputRef = useRef(null);
+
+  React.useEffect(() => {
+    fetchAvailableTags();
+  }, []);
+
+  const fetchAvailableTags = async () => {
+    try {
+      const response = await fetch(`${API_URL}/tags`);
+      if (response.ok) {
+        const data = await response.json();
+        setAvailableTags(data.tags.map(t => t.name));
+      }
+    } catch (error) {
+      console.error('Error fetching tags:', error);
+    }
+  };
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
       setFile(selectedFile);
       setStatus({ type: '', message: '' });
+      
+      // Auto-detect default tag based on file type
+      const fileType = selectedFile.type.split('/')[0];
+      const subType = selectedFile.type.split('/')[1];
+      
+      let defaultTag = '';
+      if (fileType === 'image') defaultTag = 'image';
+      else if (subType === 'pdf') defaultTag = 'pdf';
+      else if (fileType === 'text') defaultTag = 'text';
+
+      if (defaultTag && !tags.includes(defaultTag)) {
+        setTags(prev => [...prev, defaultTag]);
+      }
     }
+  };
+
+  const addTag = (tag) => {
+    const normalizedTag = tag.trim().toLowerCase();
+    if (normalizedTag && !tags.includes(normalizedTag)) {
+      setTags([...tags, normalizedTag]);
+    }
+    setTagInput('');
+    setShowSuggestions(false);
+  };
+
+  const removeTag = (tagToRemove) => {
+    setTags(tags.filter(tag => tag !== tagToRemove));
   };
 
   const handleUpload = async () => {
@@ -27,6 +73,8 @@ const Upload = () => {
     setStatus({ type: '', message: '' });
 
     const formData = new FormData();
+    // Important: Append fields before file for busboy sequential processing
+    formData.append('tags', JSON.stringify(tags));
     formData.append('file', file);
 
     try {
@@ -39,11 +87,12 @@ const Upload = () => {
 
       if (response.ok) {
         setStatus({ type: 'success', message: 'File uploaded successfully!' });
-        setFile(null); // Clear file after successful upload
-        // Clear file input using ref
+        setFile(null);
+        setTags([]); // Clear tags
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }
+        fetchAvailableTags(); // Refresh tags list
       } else {
         setStatus({ type: 'error', message: data.message || 'Error uploading file.' });
       }
@@ -54,6 +103,10 @@ const Upload = () => {
       setIsUploading(false);
     }
   };
+
+  const filteredSuggestions = availableTags.filter(
+    t => t.toLowerCase().includes(tagInput.toLowerCase()) && !tags.includes(t)
+  );
 
   return (
     <div className="upload-container">
@@ -77,6 +130,58 @@ const Upload = () => {
               Selected: <strong>{file.name}</strong> ({(file.size / 1024).toFixed(1)} KB)
             </div>
           )}
+        </div>
+
+        <div className="tags-section">
+          <div className="tags-container">
+            {tags.map(tag => (
+              <span key={tag} className="tag-pill">
+                {tag}
+                <button onClick={() => removeTag(tag)} className="tag-remove">&times;</button>
+              </span>
+            ))}
+          </div>
+          
+          <div className="tag-input-wrapper">
+            <input
+              type="text"
+              placeholder="Add tag..."
+              value={tagInput}
+              onChange={(e) => {
+                setTagInput(e.target.value);
+                setShowSuggestions(true);
+              }}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  addTag(tagInput);
+                }
+              }}
+              className="tag-input"
+              disabled={isUploading}
+            />
+            {showSuggestions && tagInput && (
+              <div className="tag-suggestions">
+                {filteredSuggestions.length > 0 ? (
+                  filteredSuggestions.map(tag => (
+                    <div 
+                      key={tag} 
+                      className="tag-suggestion-item"
+                      onClick={() => addTag(tag)}
+                    >
+                      {tag}
+                    </div>
+                  ))
+                ) : (
+                  <div className="tag-suggestion-item" onClick={() => addTag(tagInput)}>
+                    Create new tag: "{tagInput}"
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         <button 

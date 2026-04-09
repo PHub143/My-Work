@@ -62,6 +62,106 @@
   color: var(--color-label);
 }
 
+.tags-section {
+  margin-bottom: var(--spacing-xl);
+  text-align: left;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  min-height: 32px;
+}
+
+.tag-pill {
+  background: var(--color-system-blue);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  animation: scaleIn 0.2s ease;
+}
+
+.tag-remove {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  transition: background 0.2s ease;
+}
+
+.tag-remove:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.tag-input-wrapper {
+  position: relative;
+}
+
+.tag-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--color-separator);
+  border-radius: var(--border-radius-button);
+  background: var(--color-tertiary-system-background);
+  color: var(--color-label);
+  font-family: inherit;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.tag-input:focus {
+  outline: none;
+  border-color: var(--color-system-blue);
+}
+
+.tag-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--background-glass);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--color-separator);
+  border-radius: 12px;
+  margin-top: 4px;
+  z-index: 10;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.tag-suggestion-item {
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-size: 14px;
+}
+
+.tag-suggestion-item:hover {
+  background: var(--color-quaternary-label);
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
 .upload-button {
   width: 100%;
   padding: 16px;

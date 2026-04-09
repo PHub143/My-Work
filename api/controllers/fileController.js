@@ -10,7 +10,8 @@ const fileService = require('../services/fileService');
 const uploadFileHandler = async (req, res, next) => {
   let driveFileData = null;
   try {
-    driveFileData = await googleDriveService.uploadFile(req);
+    const uploadResult = await googleDriveService.uploadFile(req);
+    driveFileData = uploadResult;
     
     // Cache metadata in the application database
     const dbFile = await fileService.createFile({
@@ -18,8 +19,9 @@ const uploadFileHandler = async (req, res, next) => {
       name: driveFileData.name,
       mimeType: driveFileData.mimeType,
       webViewLink: driveFileData.webViewLink,
+      thumbnailLink: driveFileData.thumbnailLink,
       size: driveFileData.size,
-    });
+    }, uploadResult.tags);
 
     res.status(200).json({ 
       message: 'File uploaded to Google Drive and cached successfully', 
@@ -51,12 +53,12 @@ const listFilesHandler = async (req, res, next) => {
     // Set sensible defaults for pagination and filtering
     const limit = parseInt(req.query.limit, 10) || 50;
     const offset = parseInt(req.query.offset, 10) || 0;
-    const { includeType, excludeType } = req.query;
+    const { includeType, excludeType, tag } = req.query;
     
     // Fetch both the files and the total count in parallel with filters
     const [files, total] = await Promise.all([
-      fileService.getAllFiles({ limit, offset, includeType, excludeType }),
-      fileService.countFiles({ includeType, excludeType })
+      fileService.getAllFiles({ limit, offset, includeType, excludeType, tag }),
+      fileService.countFiles({ includeType, excludeType, tag })
     ]);
     
     res.status(200).json({ 
@@ -65,6 +67,21 @@ const listFilesHandler = async (req, res, next) => {
       limit,
       offset
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Handles requests to list all unique tags.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ */
+const getAllTagsHandler = async (req, res, next) => {
+  try {
+    const tags = await fileService.getAllTags();
+    res.status(200).json({ tags });
   } catch (error) {
     next(error);
   }

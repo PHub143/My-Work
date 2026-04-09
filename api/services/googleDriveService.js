@@ -58,6 +58,7 @@ const uploadFile = (req) => {
       limits: { fileSize: 20 * 1024 * 1024 } // 20MB limit
     });
     let fileProcessed = false;
+    let tags = [];
 
     const allowedTypes = [
       'image/jpeg',
@@ -68,6 +69,17 @@ const uploadFile = (req) => {
       'text/plain',
     ];
 
+    bb.on('field', (name, val) => {
+      if (name === 'tags') {
+        try {
+          tags = JSON.parse(val);
+        } catch (e) {
+          // Fallback if not JSON
+          tags = val.split(',').map(t => t.trim()).filter(t => t);
+        }
+      }
+    });
+
     bb.on('file', async (name, file, info) => {
       // If a file is already being processed, discard any additional files
       if (fileProcessed) {
@@ -76,6 +88,12 @@ const uploadFile = (req) => {
       }
 
       const { filename, mimeType } = info;
+
+      file.on('limit', () => {
+        fileProcessed = true;
+        file.resume();
+        reject(createServiceError(413, 'File size limit exceeded (max 20MB).'));
+      });
 
       if (!allowedTypes.includes(mimeType)) {
         file.resume(); // Discard the file data
@@ -103,7 +121,10 @@ const uploadFile = (req) => {
           supportsAllDrives: true,
         });
 
-        resolve(response.data);
+        resolve({
+          ...response.data,
+          tags: tags
+        });
       } catch (error) {
         console.error('Error uploading to Google Drive:', error);
         reject(createServiceError(500, 'Error uploading file to Google Drive.'));
