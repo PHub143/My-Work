@@ -36,9 +36,16 @@ const Documents = () => {
           url += `&tag=${encodeURIComponent(selectedTag)}`;
         }
         const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error('Failed to fetch files from the server.');
+
+        if (response.status === 412) {
+          window.location.href = '#/settings';
+          return;
         }
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch documents from the server.');
+        }
+
         const data = await response.json();
         setFiles(data.files || []);
       } catch (err) {

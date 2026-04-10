@@ -8,7 +8,7 @@ const getAuthUrlHandler = async (req, res, next) => {
   try {
     const config = await configService.getDriveConfig();
     if (!config || !config.clientId || !config.clientSecret || !config.redirectUri) {
-      return res.status(400).json({ message: 'Google Drive credentials are not fully configured in settings.' });
+      return res.status(412).json({ message: 'Google Drive credentials are not fully configured in settings.' });
     }
 
     const oauth2Client = new google.auth.OAuth2(

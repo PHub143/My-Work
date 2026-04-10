@@ -83,6 +83,11 @@ const Upload = () => {
         body: formData,
       });
 
+      if (response.status === 412) {
+        window.location.href = '#/settings';
+        return;
+      }
+
       const data = await response.json();
 
       if (response.ok) {

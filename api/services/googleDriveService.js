@@ -17,7 +17,7 @@ async function getDriveClient() {
   
   if (!config || !config.clientId || !config.clientSecret || !config.redirectUri || !config.refreshToken) {
     throw createServiceError(
-      500,
+      412,
       'Google Drive is not fully configured. Please complete the setup in the Settings page.'
     );
   }

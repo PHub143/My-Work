@@ -84,9 +84,11 @@ The repository contains a `.github/workflows/deploy.yml` action that automatical
 ### Backend (Node.js Server)
 Because GitHub Pages only supports static hosting, the Node.js `api` server must be deployed to a separate hosting provider such as Render, Railway, Heroku, or a VPS.
 - **Configuring Secrets:** When you deploy the backend to your chosen hosting provider, DO NOT commit your `.env` or `google.json` files to GitHub. 
-- Go to the Environment Variables (or Config Vars) section of your hosting provider's dashboard and paste the contents of your local `.env` file (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, etc.). The code is designed to pick these up automatically via `process.env`.
+- Go to the Environment Variables (or Config Vars) section of your hosting provider's dashboard and provide your `DATABASE_URL`, `DIRECT_URL`, and `ENCRYPTION_KEY`.
+- Google Drive credentials will be managed through the application's own settings interface once deployed.
 
 ## Additional Information
 
 - **Linting (Frontend):** You can verify the frontend code quality by running `npm run lint` in the `allinone/` directory.
 - **Security:** Do not commit your `google.json` or any `.env` files containing sensitive credentials to version control. The `.gitignore` has been updated to prevent this.
+revent this.

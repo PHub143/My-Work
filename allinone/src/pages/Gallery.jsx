@@ -36,6 +36,12 @@ const Gallery = () => {
           url += `&tag=${encodeURIComponent(selectedTag)}`;
         }
         const response = await fetch(url);
+        
+        if (response.status === 412) {
+          window.location.href = '#/settings';
+          return;
+        }
+
         if (!response.ok) {
           throw new Error('Failed to fetch images from the server.');
         }
