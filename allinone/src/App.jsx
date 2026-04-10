@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import React, { Suspense, lazy, useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
@@ -12,24 +12,33 @@ const Upload = lazy(() => import('./pages/Upload'));
 const Settings = lazy(() => import('./pages/Settings'));
 const OAuthCallback = lazy(() => import('./pages/OAuthCallback'));
 
-function App() {
-  const [initialCode, setInitialCode] = useState(null);
+/**
+ * Helper component to detect OAuth code in the search string (non-hash part)
+ * and redirect to the hash-based callback route.
+ */
+const OAuthDetector = () => {
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Detect Google OAuth code in the URL query string
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     if (code) {
-      setInitialCode(code);
-      // Clean the URL query params IMMEDIATELY to prevent double-detection
+      // Clean the search params from the URL immediately
       const newUrl = window.location.pathname + window.location.hash;
       window.history.replaceState({}, document.title, newUrl);
+      
+      // Navigate to the React Router hash route
+      navigate(`/oauth/callback?code=${code}`, { replace: true });
     }
-  }, []);
+  }, [navigate]);
 
+  return null;
+};
+
+function App() {
   return (
     <Router>
-      {initialCode && <Navigate to={`/oauth/callback?code=${initialCode}`} replace />}
+      <OAuthDetector />
       <Navbar />
       <main className="content-container">
         <Suspense fallback={<Spinner />}>
