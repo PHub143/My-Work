@@ -1,5 +1,5 @@
 import { HashRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
-import React, { Suspense, lazy, useState, useEffect } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import Spinner from './components/Spinner';
