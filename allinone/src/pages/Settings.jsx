@@ -31,16 +31,19 @@ const Settings = () => {
       const response = await fetch(`${API_URL}/config/drive`);
       if (response.ok) {
         const data = await response.json();
-        setConfig({
-          clientId: data.clientId || '',
-          clientSecret: '', // Don't populate secret on client side
-          redirectUri: data.redirectUri || '',
-          driveFolderId: data.driveFolderId || ''
-        });
-        setStatus({
-          hasClientSecret: data.hasClientSecret || false,
-          hasRefreshToken: data.hasRefreshToken || false
-        });
+        const driveConfig = data.config;
+        if (driveConfig) {
+          setConfig({
+            clientId: driveConfig.clientId || '',
+            clientSecret: '', // Don't populate secret on client side
+            redirectUri: driveConfig.redirectUri || '',
+            folderId: driveConfig.folderId || ''
+          });
+          setStatus({
+            hasClientSecret: driveConfig.hasClientSecret || false,
+            hasRefreshToken: driveConfig.hasRefreshToken || false
+          });
+        }
       }
     } catch (error) {
       console.error('Error fetching config:', error);
