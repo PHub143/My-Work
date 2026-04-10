@@ -54,8 +54,11 @@ async function syncDatabase() {
 
     console.log('Full synchronization completed successfully.');
     console.log(`Summary: ${syncedCount} files synced, ${deletedCount} orphaned records removed.`);
+    
+    return { syncedCount, deletedCount };
   } catch (error) {
     console.error('An error occurred during synchronization:', error);
+    throw error;
   }
 }
 

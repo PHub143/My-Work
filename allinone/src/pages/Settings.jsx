@@ -15,6 +15,7 @@ const Settings = () => {
   const [status, setStatus] = useState({ hasClientSecret: false, hasRefreshToken: false });
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
   useEffect(() => {
@@ -98,6 +99,33 @@ const Settings = () => {
     } catch (error) {
       console.error('Error getting auth URL:', error);
       setMessage({ type: 'error', text: 'Connection to server failed.' });
+    }
+  };
+
+  const handleSync = async () => {
+    setIsSyncing(true);
+    setMessage({ type: '', text: '' });
+
+    try {
+      const response = await fetch(`${API_URL}/config/sync`, {
+        method: 'POST'
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setMessage({
+          type: 'success',
+          text: `Sync successful! ${data.syncedCount ?? 0} files synced, ${data.deletedCount ?? 0} orphaned records removed.`
+        });
+      } else {
+        const data = await response.json();
+        setMessage({ type: 'error', text: data.error || 'Failed to sync drive.' });
+      }
+    } catch (error) {
+      console.error('Error syncing drive:', error);
+      setMessage({ type: 'error', text: 'Connection to server failed.' });
+    } finally {
+      setIsSyncing(false);
     }
   };
 
@@ -189,6 +217,16 @@ const Settings = () => {
               title={!status.hasClientSecret ? "Save Client ID and Secret first" : "Authenticate with Google"}
             >
               Authenticate with Google Drive
+            </button>
+
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={handleSync}
+              disabled={isSyncing || !status.hasRefreshToken}
+              title={!status.hasRefreshToken ? "Authenticate with Google Drive first" : "Sync Drive"}
+            >
+              {isSyncing ? <><Spinner inline /> Syncing...</> : 'Sync Drive'}
             </button>
           </div>
         </form>

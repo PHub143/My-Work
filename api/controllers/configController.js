@@ -1,4 +1,5 @@
 const configService = require('../services/configService');
+const { syncDatabase } = require('../scripts/sync-drive');
 
 /**
  * Handles GET requests for the Drive configuration.
@@ -71,7 +72,24 @@ const upsertDriveConfigHandler = async (req, res, next) => {
   }
 };
 
+/**
+ * Handles manual sync request.
+ */
+const syncDriveHandler = async (req, res, next) => {
+  try {
+    const result = await syncDatabase();
+    res.status(200).json({
+      message: 'Sync completed successfully.',
+      syncedCount: result.syncedCount,
+      deletedCount: result.deletedCount
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getDriveConfigHandler,
-  upsertDriveConfigHandler
+  upsertDriveConfigHandler,
+  syncDriveHandler
 };
