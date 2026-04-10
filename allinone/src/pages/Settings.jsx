@@ -10,7 +10,7 @@ const Settings = () => {
     clientId: '',
     clientSecret: '',
     redirectUri: '',
-    driveFolderId: ''
+    folderId: ''
   });
   const [status, setStatus] = useState({ hasClientSecret: false, hasRefreshToken: false });
   const [isLoading, setIsLoading] = useState(true);
@@ -165,12 +165,12 @@ const Settings = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="driveFolderId">Drive Folder ID</label>
+            <label htmlFor="folderId">Drive Folder ID</label>
             <input
               type="text"
-              id="driveFolderId"
-              name="driveFolderId"
-              value={config.driveFolderId}
+              id="folderId"
+              name="folderId"
+              value={config.folderId}
               onChange={handleChange}
               placeholder="Enter Google Drive Folder ID"
             />
