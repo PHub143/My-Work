@@ -9,7 +9,7 @@ const OAuthCallback = () => {
   const navigate = useNavigate();
   const code = searchParams.get('code');
   const [status, setStatus] = useState('Authenticating with Google...');
-  const [error, setError] = useState(code ? '' : 'No authorization code found in the URL.');
+  const [error, setError] = useState(code ? '' : 'No authorization code found in the URL. If you just redirected, please try again from Settings.');
 
   useEffect(() => {
     if (!code) {

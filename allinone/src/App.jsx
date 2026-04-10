@@ -1,5 +1,5 @@
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import React, { Suspense, lazy } from 'react';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { Suspense, lazy, useState } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import Spinner from './components/Spinner';
@@ -13,8 +13,21 @@ const Settings = lazy(() => import('./pages/Settings'));
 const OAuthCallback = lazy(() => import('./pages/OAuthCallback'));
 
 function App() {
+  // Detect Google OAuth code in the URL query string (GitHub Pages doesn't support hashes in redirect URI)
+  const [oauthCode] = useState(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    if (code) {
+      // Clean the URL query params to keep it clean and prevent re-detecting
+      window.history.replaceState({}, document.title, window.location.pathname);
+      return code;
+    }
+    return null;
+  });
+
   return (
     <Router>
+      {oauthCode && <Navigate to={`/oauth/callback?code=${oauthCode}`} replace />}
       <Navbar />
       <main className="content-container">
         <Suspense fallback={<Spinner />}>
