@@ -76,4 +76,5 @@ This is a fullstack JavaScript project with the following structure:
 The following custom agents are available in this project:
 - **`pm-agent`**: Specialized in requirements gathering, task breakdown, and roadmapping. Located in `.gemini/agents/pm-agent.md`.
 - **`code-reviewer`**: Expert for code quality and bug analysis. Located in `.gemini/agents/code-reviewer.md`.
+- **`fe-agent`**: Senior Frontend Architect specializing in Apple UI/UX and React 19. Located in `.gemini/agents/fe-agent.md`.
 

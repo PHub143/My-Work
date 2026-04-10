@@ -34,6 +34,13 @@ async function syncDatabase() {
     // 4. Upsert all files from Google Drive into the Database
     let syncedCount = 0;
     for (const file of driveFiles) {
+      // Ensure the file is public during sync
+      try {
+        await googleDriveService.makeFilePublic(file.id);
+      } catch (permError) {
+        console.warn(`Failed to set public permissions for ${file.name} (${file.id}):`, permError.message);
+      }
+
       await fileService.upsertFile({
         driveFileId: file.id,
         name: file.name,

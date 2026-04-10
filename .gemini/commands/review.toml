@@ -1,0 +1,6 @@
+description = "Review changes using @code-reviewer and fix identified issues."
+prompt = """
+1. Call @code-reviewer to audit the recent changes for bugs, performance, and best practices.
+2. Address and fix all issues or suggestions identified by the reviewer.
+3. Run `npm run lint` in the `allinone/` directory to ensure compliance with the design system and code quality standards.
+"""

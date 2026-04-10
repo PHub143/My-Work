@@ -121,8 +121,23 @@ const uploadFile = (req) => {
           supportsAllDrives: true,
         });
 
+        const driveFile = response.data;
+
+        // Make the file public (anyone with link can view) to ensure thumbnailLink works
+        try {
+          await drive.permissions.create({
+            fileId: driveFile.id,
+            requestBody: {
+              role: 'reader',
+              type: 'anyone',
+            },
+          });
+        } catch (permError) {
+          console.error(`Warning: Failed to set permissions for file ${driveFile.id}:`, permError.message);
+        }
+
         resolve({
-          ...response.data,
+          ...driveFile,
           tags: tags
         });
       } catch (error) {
@@ -150,6 +165,27 @@ const uploadFile = (req) => {
 
     req.pipe(bb);
   });
+};
+
+/**
+ * Makes a file public (anyone with link can view).
+ * @param {string} fileId - The ID of the file to make public.
+ * @returns {Promise<void>}
+ */
+const makeFilePublic = async (fileId) => {
+  try {
+    assertGoogleDriveConfig();
+    await drive.permissions.create({
+      fileId: fileId,
+      requestBody: {
+        role: 'reader',
+        type: 'anyone',
+      },
+    });
+  } catch (error) {
+    console.error(`Error making file ${fileId} public:`, error);
+    throw error.status ? error : createServiceError(500, 'Error making file public on Google Drive.');
+  }
 };
 
 /**
@@ -209,5 +245,6 @@ const deleteFile = async (fileId) => {
 module.exports = {
   uploadFile,
   listFiles,
-  deleteFile
+  deleteFile,
+  makeFilePublic
 };
