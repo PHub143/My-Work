@@ -8,6 +8,9 @@ const { syncDatabase } = require('./scripts/sync-drive');
 const app = express();
 const port = process.env.PORT || 3001;
 
+// Middleware for parsing JSON bodies
+app.use(express.json());
+
 // Configure CORS for security
 const corsOptions = {
   origin: function (origin, callback) {
@@ -60,5 +63,11 @@ app.listen(port, () => {
   console.log('Running initial synchronization...');
   syncDatabase()
     .then(() => console.log('Initial sync completed successfully.'))
-    .catch(err => console.error('Initial sync failed during startup:', err));
+    .catch(err => {
+      if (err.status === 500 && err.message.includes('not fully configured')) {
+        console.warn('Initial sync skipped: Google Drive is not fully configured. Use the Settings UI to complete setup.');
+      } else {
+        console.error('Initial sync failed during startup:', err);
+      }
+    });
 });

@@ -33,6 +33,11 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="nav-item">
+            <Link to="/settings" className="nav-links">
+              ⚙️ Settings
+            </Link>
+          </li>
+          <li className="nav-item">
             <button onClick={toggleTheme} className="theme-toggle">
               {theme === 'light' ? '🌙' : '☀️'}
             </button>

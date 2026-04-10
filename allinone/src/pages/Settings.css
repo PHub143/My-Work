@@ -1,0 +1,170 @@
+.settings-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: var(--spacing-xxl) var(--spacing-m);
+  box-sizing: border-box;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.settings-card {
+  background: var(--background-glass);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--color-separator);
+  border-radius: var(--border-radius-card);
+  padding: var(--spacing-xl);
+  width: 100%;
+  max-width: 600px;
+  box-shadow: var(--shadow-apple);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-l);
+}
+
+.settings-card h1 {
+  margin: 0;
+  text-align: center;
+}
+
+.status-indicators {
+  display: flex;
+  gap: var(--spacing-s);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.status-badge {
+  padding: var(--spacing-s) var(--spacing-m);
+  border-radius: var(--border-radius-inner);
+  font-size: var(--font-size-subheadline);
+  font-weight: var(--font-weight-semibold);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.status-badge .icon {
+  font-weight: bold;
+}
+
+.status-badge.active {
+  background: rgba(48, 209, 88, 0.15); /* light green */
+  color: var(--color-system-green);
+  border: 1px solid rgba(48, 209, 88, 0.3);
+}
+
+.status-badge.inactive {
+  background: rgba(255, 69, 58, 0.15); /* light red */
+  color: var(--color-system-red);
+  border: 1px solid rgba(255, 69, 58, 0.3);
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.form-group label {
+  font-size: var(--font-size-footnote);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-secondary-label);
+  margin-left: var(--spacing-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input {
+  padding: 14px 16px;
+  border-radius: var(--border-radius-inner);
+  border: 1px solid var(--color-separator);
+  background: var(--color-tertiary-system-background);
+  color: var(--color-label);
+  font-size: var(--font-size-body);
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--color-system-blue);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+  background: var(--color-secondary-system-background);
+}
+
+.form-group input::placeholder {
+  color: var(--color-tertiary-label);
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+  margin-top: var(--spacing-s);
+}
+
+.primary-button, .secondary-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-s);
+  width: 100%;
+}
+
+.primary-button {
+  background: var(--color-system-blue);
+  color: #FFFFFF;
+}
+
+.primary-button:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.secondary-button {
+  background: transparent;
+  color: var(--color-system-blue);
+  border: 1px solid var(--color-system-blue);
+}
+
+.secondary-button:hover:not(:disabled) {
+  background: rgba(0, 122, 255, 0.1);
+}
+
+.primary-button:disabled, .secondary-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.status-message {
+  padding: var(--spacing-m);
+  border-radius: var(--border-radius-inner);
+  font-size: var(--font-size-subheadline);
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.status-message.success {
+  background: rgba(48, 209, 88, 0.15);
+  color: var(--color-system-green);
+  border: 1px solid rgba(48, 209, 88, 0.3);
+}
+
+.status-message.error {
+  background: rgba(255, 69, 58, 0.15);
+  color: var(--color-system-red);
+  border: 1px solid rgba(255, 69, 58, 0.3);
+}

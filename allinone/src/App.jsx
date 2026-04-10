@@ -8,6 +8,8 @@ const Documents = lazy(() => import('./pages/Documents'));
 const Gallery = lazy(() => import('./pages/Gallery'));
 const Services = lazy(() => import('./pages/Services'));
 const Upload = lazy(() => import('./pages/Upload'));
+const Settings = lazy(() => import('./pages/Settings'));
+const OAuthCallback = lazy(() => import('./pages/OAuthCallback'));
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
             <Route path='/gallery' element={<Gallery />} />
             <Route path='/services' element={<Services />} />
             <Route path='/upload' element={<Upload />} />
+            <Route path='/settings' element={<Settings />} />
+            <Route path='/oauth/callback' element={<OAuthCallback />} />
           </Routes>
         </Suspense>
       </main>

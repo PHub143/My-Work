@@ -1,20 +1,6 @@
 const { google } = require('googleapis');
 const busboy = require('busboy');
-require('dotenv').config();
-
-// --- Google Drive API setup ---
-let googleConfig = {};
-try {
-  googleConfig = require('../config/google.json');
-} catch (e) {
-  // ignore if google.json is missing, fallback to env variables
-}
-
-const clientId = process.env.GOOGLE_CLIENT_ID || (googleConfig.oauth && googleConfig.oauth.installed && googleConfig.oauth.installed.client_id);
-const clientSecret = process.env.GOOGLE_CLIENT_SECRET || (googleConfig.oauth && googleConfig.oauth.installed && googleConfig.oauth.installed.client_secret);
-const redirectUri = process.env.GOOGLE_REDIRECT_URI || (googleConfig.oauth && googleConfig.oauth.redirectUri);
-const refreshToken = process.env.GOOGLE_REFRESH_TOKEN || (googleConfig.oauth && googleConfig.oauth.refreshToken);
-const driveFolderId = process.env.GOOGLE_DRIVE_FOLDER_ID || googleConfig.driveFolderId;
+const configService = require('./configService');
 
 function createServiceError(status, message) {
   const error = new Error(message);
@@ -22,35 +8,49 @@ function createServiceError(status, message) {
   return error;
 }
 
-function assertGoogleDriveConfig() {
-  if (!clientId || !clientSecret || !redirectUri || !refreshToken || !driveFolderId) {
+/**
+ * Gets a configured Google Drive client.
+ * Fetches credentials from the database.
+ */
+async function getDriveClient() {
+  const config = await configService.getDriveConfig();
+  
+  if (!config || !config.clientId || !config.clientSecret || !config.redirectUri || !config.refreshToken) {
     throw createServiceError(
       500,
-      'Google Drive configuration is incomplete. Set the required env vars or provide api/config/google.json.'
+      'Google Drive is not fully configured. Please complete the setup in the Settings page.'
     );
   }
+
+  const oauth2Client = new google.auth.OAuth2(
+    config.clientId,
+    config.clientSecret,
+    config.redirectUri
+  );
+
+  oauth2Client.setCredentials({ refresh_token: config.refreshToken });
+
+  return {
+    drive: google.drive({ version: 'v3', auth: oauth2Client }),
+    driveFolderId: config.folderId
+  };
 }
-
-const oauth2Client = new google.auth.OAuth2(
-  clientId,
-  clientSecret,
-  redirectUri
-);
-
-if (refreshToken) {
-  oauth2Client.setCredentials({ refresh_token: refreshToken });
-}
-
-const drive = google.drive({ version: 'v3', auth: oauth2Client });
-// --- End of Google Drive API setup ---
 
 /**
  * Uploads a file to Google Drive using busboy for streaming.
  * @param {Object} req - Express request object.
  * @returns {Promise<Object>} - Resolves with the uploaded file data or rejects with an error.
  */
-const uploadFile = (req) => {
-  assertGoogleDriveConfig();
+const uploadFile = async (req) => {
+  let drive, driveFolderId;
+  try {
+    ({ drive, driveFolderId } = await getDriveClient());
+  } catch (error) {
+    // If client initialization fails, we must consume/drain the request stream 
+    // to prevent the connection from hanging.
+    req.resume();
+    throw error;
+  }
 
   return new Promise((resolve, reject) => {
     const bb = busboy({ 
@@ -174,7 +174,7 @@ const uploadFile = (req) => {
  */
 const makeFilePublic = async (fileId) => {
   try {
-    assertGoogleDriveConfig();
+    const { drive } = await getDriveClient();
     await drive.permissions.create({
       fileId: fileId,
       requestBody: {
@@ -194,7 +194,7 @@ const makeFilePublic = async (fileId) => {
  */
 const listFiles = async () => {
   try {
-    assertGoogleDriveConfig();
+    const { drive, driveFolderId } = await getDriveClient();
 
     const files = [];
     let pageToken;
@@ -227,7 +227,7 @@ const listFiles = async () => {
  */
 const deleteFile = async (fileId) => {
   try {
-    assertGoogleDriveConfig();
+    const { drive } = await getDriveClient();
 
     await drive.files.delete({
       fileId: fileId,
