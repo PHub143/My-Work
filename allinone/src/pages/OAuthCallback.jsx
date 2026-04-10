@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { API_URL } from '../config';
 import Spinner from '../components/Spinner';
@@ -8,15 +8,17 @@ const OAuthCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const code = searchParams.get('code');
+  const hasExchanged = useRef(false);
   const [status, setStatus] = useState('Authenticating with Google...');
   const [error, setError] = useState(code ? '' : 'No authorization code found in the URL. If you just redirected, please try again from Settings.');
 
   useEffect(() => {
-    if (!code) {
+    if (!code || hasExchanged.current) {
       return;
     }
 
     const exchangeCode = async () => {
+      hasExchanged.current = true;
       try {
         const response = await fetch(`${API_URL}/auth/google/callback`, {
           method: 'POST',
@@ -28,12 +30,14 @@ const OAuthCallback = () => {
 
         if (response.ok) {
           setStatus('Authentication successful! Redirecting...');
-          setTimeout(() => {
-            navigate('/settings', { state: { message: 'Successfully authenticated with Google Drive!' } });
-          }, 1500);
+          // Clean the URL hash params
+          navigate('/settings', { 
+            state: { message: 'Successfully authenticated with Google Drive!' },
+            replace: true 
+          });
         } else {
           const data = await response.json();
-          setError(data.error || 'Authentication failed.');
+          setError(data.message || data.error || 'Authentication failed. The code may have expired or already been used.');
         }
       } catch (err) {
         console.error('Error during code exchange:', err);

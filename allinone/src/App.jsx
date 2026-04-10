@@ -1,5 +1,5 @@
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import React, { Suspense, lazy, useState } from 'react';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import Spinner from './components/Spinner';
@@ -13,21 +13,23 @@ const Settings = lazy(() => import('./pages/Settings'));
 const OAuthCallback = lazy(() => import('./pages/OAuthCallback'));
 
 function App() {
-  // Detect Google OAuth code in the URL query string (GitHub Pages doesn't support hashes in redirect URI)
-  const [oauthCode] = useState(() => {
+  const [initialCode, setInitialCode] = useState(null);
+
+  useEffect(() => {
+    // Detect Google OAuth code in the URL query string
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     if (code) {
-      // Clean the URL query params to keep it clean and prevent re-detecting
-      window.history.replaceState({}, document.title, window.location.pathname);
-      return code;
+      setInitialCode(code);
+      // Clean the URL query params IMMEDIATELY to prevent double-detection
+      const newUrl = window.location.pathname + window.location.hash;
+      window.history.replaceState({}, document.title, newUrl);
     }
-    return null;
-  });
+  }, []);
 
   return (
     <Router>
-      {oauthCode && <Navigate to={`/oauth/callback?code=${oauthCode}`} replace />}
+      {initialCode && <Navigate to={`/oauth/callback?code=${initialCode}`} replace />}
       <Navbar />
       <main className="content-container">
         <Suspense fallback={<Spinner />}>
