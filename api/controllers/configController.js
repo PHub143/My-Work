@@ -31,9 +31,12 @@ const getDriveConfigHandler = async (req, res, next) => {
  * Handles POST requests to upsert Drive configuration.
  */
 const upsertDriveConfigHandler = async (req, res, next) => {
-  const { clientId, clientSecret, redirectUri, folderId } = req.body;
+  const { clientId, clientSecret, redirectUri, folderId, driveFolderId } = req.body;
+  
+  // Accept either folderId (preferred) or driveFolderId (legacy)
+  const finalFolderId = folderId || driveFolderId;
 
-  if (!clientId || !redirectUri || !folderId) {
+  if (!clientId || !redirectUri || !finalFolderId) {
     return res.status(400).json({ message: 'Missing required configuration fields.' });
   }
 
@@ -54,7 +57,7 @@ const upsertDriveConfigHandler = async (req, res, next) => {
       clientId,
       clientSecret: finalClientSecret,
       redirectUri,
-      folderId,
+      folderId: finalFolderId,
       refreshToken: existingConfig ? existingConfig.refreshToken : null
     });
 
