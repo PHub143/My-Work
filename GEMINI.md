@@ -69,6 +69,7 @@ This is a fullstack JavaScript project with the following structure:
   - **Backend:** `api/middleware/authMiddleware.js` provides `authenticateToken` and `isAdmin` checks.
   - **Routes:** `api/routes/userRoutes.js` handles login and registration.
   - **Access Control:** `Documents` and `Gallery` are publicly accessible (read-only). `Upload` requires authentication (`AuthenticatedRoute`). `Settings` requires admin privileges (`AdminRoute`).
+  - **Default Admin:** `admin@example.com` / `adminpassword123` (seeded via `api/scripts/seed-admin.js`).
 - **OAuth Flow:**
   - `api/routes/authRoutes.js` and `api/controllers/authController.js` handle the OAuth2 flow to obtain refresh tokens.
 - **Service:** `api/services/configService.js` manages configuration retrieval and encryption/decryption of secrets.
