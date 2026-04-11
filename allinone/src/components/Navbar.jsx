@@ -55,7 +55,7 @@ const Navbar = () => {
           <li className="nav-item">
             {isAuthenticated ? (
               <button onClick={handleLogout} className="nav-links logout-btn">
-                Logout ({user.name || 'Admin'})
+                Logout
               </button>
             ) : (
               <Link to="/login" className="nav-links login-btn">
