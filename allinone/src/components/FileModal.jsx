@@ -8,6 +8,16 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
   const [tagInput, setTagInput] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
+  const [showInfo, setShowInfo] = useState(true);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   useEffect(() => {
     if (file) {
@@ -57,7 +67,7 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
     setEditingTags(editingTags.filter(t => t !== tagToRemove));
   };
 
-  const getHighResThumbnail = (url, size = 's1080') => {
+  const getHighResThumbnail = (url, size = 's0') => {
     if (!url) return null;
     return url.replace(/=s\d+.*$/, `=${size}`);
   };
@@ -70,120 +80,140 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
 
   if (!file) return null;
 
+  const toggleInfo = () => setShowInfo(!showInfo);
+
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className={`modal-content ${!isImage ? 'info-only' : ''}`} onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose} aria-label="Close modal">
-          &times;
-        </button>
+    <div className={`modal-overlay ${isImage ? 'image-overlay' : ''}`} onClick={onClose}>
+      <div 
+        className={`modal-content ${isImage ? 'image-mode' : 'info-only'}`} 
+        onClick={(e) => e.stopPropagation()}
+      >
         
-        <div className={isImage ? "modal-layout" : "modal-details-container"}>
+        {isImage && (
+          <div className="modal-image-container" onClick={onClose}>
+            {file.thumbnailLink ? (
+              <img 
+                src={getHighResThumbnail(file.thumbnailLink, 's0')} 
+                alt={file.name} 
+                className="modal-full-image" 
+                onClick={(e) => e.stopPropagation()}
+              />
+            ) : (
+              <div className="modal-icon-placeholder" onClick={(e) => e.stopPropagation()}>🖼️</div>
+            )}
+          </div>
+        )}
+
+        <div className="modal-controls">
           {isImage && (
-            <div className="modal-visual">
-              {file.thumbnailLink ? (
-                <img 
-                  src={getHighResThumbnail(file.thumbnailLink, 's0')} 
-                  alt={file.name} 
-                  className="modal-image" 
-                />
-              ) : (
-                <div className="modal-icon-placeholder">🖼️</div>
-              )}
+            <button className={`control-btn toggle-info-btn ${showInfo ? 'active' : ''}`} onClick={toggleInfo} aria-label="Toggle info panel" title="Info">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+            </button>
+          )}
+          <button className="control-btn close-btn" onClick={onClose} aria-label="Close modal" title="Close">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div className={`modal-info-panel ${isImage ? 'floating-panel' : ''} ${!showInfo && isImage ? 'hidden-panel' : ''}`}>
+          {!isImage && (
+            <div className="modal-icon-header">
+              <span className="large-icon" role="img" aria-label="file icon">{getFileIcon(file.mimeType)}</span>
             </div>
           )}
+          
+          <div className="modal-header-section">
+            <h3>{file.name}</h3>
+            <p className="modal-meta">
+              {file.size ? `${(file.size / (1024 * 1024)).toFixed(2)} MB` : 'Unknown size'} • {new Date(file.createdAt).toLocaleDateString()}
+            </p>
+          </div>
 
-          <div className={isImage ? "modal-info-panel" : "modal-details-content"}>
-            {!isImage && (
-              <div className="modal-icon-header">
-                <span className="large-icon" role="img" aria-label="file icon">{getFileIcon(file.mimeType)}</span>
-              </div>
-            )}
-            
-            <div className="modal-header-section">
-              <h3>{file.name}</h3>
-              <p className="modal-meta">
-                {file.size ? `${(file.size / (1024 * 1024)).toFixed(2)} MB` : 'Unknown size'} • {new Date(file.createdAt).toLocaleDateString()}
-              </p>
-            </div>
-
-            <div className="modal-tags-section">
-              <div className="modal-tags-header">
-                <h4>Tags</h4>
-                {!isEditingTags ? (
-                  <button className="text-action-btn" onClick={() => setIsEditingTags(true)}>Edit</button>
-                ) : (
-                  <div className="edit-actions">
-                    <button 
-                      className="text-action-btn save" 
-                      onClick={handleUpdateTags}
-                      disabled={isSaving}
-                    >
-                      {isSaving ? 'Saving...' : 'Save'}
-                    </button>
-                    <button className="text-action-btn" onClick={() => setIsEditingTags(false)} disabled={isSaving}>Cancel</button>
-                  </div>
-                )}
-              </div>
-
-              {error && <p className="modal-error">{error}</p>}
-
-              {isEditingTags ? (
-                <div className="modal-tag-editor">
-                  <div className="active-tags">
-                    {editingTags.map(tag => (
-                      <span key={tag} className="edit-tag-pill">
-                        {tag}
-                        <button 
-                          aria-label={`Remove tag ${tag}`} 
-                          onClick={() => removeTag(tag)}
-                        >
-                          &times;
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                  <div className="tag-input-group">
-                    <input 
-                      type="text" 
-                      placeholder="Add tag..." 
-                      value={tagInput}
-                      aria-label="New tag name"
-                      onChange={(e) => setTagInput(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault();
-                          addTag(tagInput);
-                        }
-                      }}
-                    />
-                    <button onClick={() => addTag(tagInput)}>Add</button>
-                  </div>
-                </div>
+          <div className="modal-tags-section">
+            <div className="modal-tags-header">
+              <h4>Tags</h4>
+              {!isEditingTags ? (
+                <button className="text-action-btn" onClick={() => setIsEditingTags(true)}>Edit</button>
               ) : (
-                <div className="modal-tags-display">
-                  {file.tags?.length > 0 ? (
-                    file.tags.map(tag => (
-                      <span key={tag.id} className="modal-tag-pill">{tag.name}</span>
-                    ))
-                  ) : (
-                    <p className="no-tags-label">No tags</p>
-                  )}
+                <div className="edit-actions">
+                  <button 
+                    className="text-action-btn save" 
+                    onClick={handleUpdateTags}
+                    disabled={isSaving}
+                  >
+                    {isSaving ? 'Saving...' : 'Save'}
+                  </button>
+                  <button className="text-action-btn" onClick={() => setIsEditingTags(false)} disabled={isSaving}>Cancel</button>
                 </div>
               )}
             </div>
 
-            <div className="modal-footer-actions">
-              <a 
-                href={file.webViewLink} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="primary-action-btn"
-              >
-                {isImage ? 'View in Drive' : 'Open in Drive'}
-              </a>
-            </div>
+            {error && <p className="modal-error">{error}</p>}
+
+            {isEditingTags ? (
+              <div className="modal-tag-editor">
+                <div className="active-tags">
+                  {editingTags.map(tag => (
+                    <span key={tag} className="edit-tag-pill">
+                      {tag}
+                      <button 
+                        aria-label={`Remove tag ${tag}`} 
+                        onClick={() => removeTag(tag)}
+                      >
+                        &times;
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <div className="tag-input-group">
+                  <input 
+                    type="text" 
+                    placeholder="Add tag..." 
+                    value={tagInput}
+                    aria-label="New tag name"
+                    onChange={(e) => setTagInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        addTag(tagInput);
+                      }
+                    }}
+                  />
+                  <button onClick={() => addTag(tagInput)}>Add</button>
+                </div>
+              </div>
+            ) : (
+              <div className="modal-tags-display">
+                {file.tags?.length > 0 ? (
+                  file.tags.map(tag => (
+                    <span key={tag.id} className="modal-tag-pill">{tag.name}</span>
+                  ))
+                ) : (
+                  <p className="no-tags-label">No tags</p>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="modal-footer-actions">
+            <a 
+              href={file.webViewLink} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="primary-action-btn"
+            >
+              {isImage ? 'View in Drive' : 'Open in Drive'}
+            </a>
           </div>
         </div>
+
       </div>
     </div>
   );

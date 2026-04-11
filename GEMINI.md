@@ -9,51 +9,64 @@ This is a fullstack JavaScript project with the following structure:
 - `api/`: Backend server built with Express, following a Service-Oriented MVC pattern.
   - `routes/`: Express router modules defining API endpoints.
   - `controllers/`: Request and response handlers for API logic.
-  - `services/`: Business logic and external API integrations (e.g., Google Drive).
+  - `services/`: Business logic and external API integrations (e.g., Google Drive, Prisma).
   - `config/`: Configuration files and API credentials.
-  - `scripts/`: Utility and setup scripts (e.g., token generation).
+  - `prisma/`: Prisma schema and migration files for PostgreSQL.
+  - `scripts/`: Utility and setup scripts (e.g., token generation, database sync).
   - `logs/`: Application and process logs.
   - `uploads/`: Directory dedicated strictly for test data files.
 
 ## Development Workflow
 
-## Frontend (`allinone/`)
+### Frontend (`allinone/`)
 - **Framework:** React 19+
 - **Styling:** CSS modules or plain CSS are preferred. Always ensure the frontend is responsive across different screen sizes.
 - **Design System (Apple UI/UX):** Strictly follow Apple's Human Interface Guidelines (HIG).
-  - **Typography:** Use the **San Francisco (SF Pro)** font stack.
-  - **Aesthetics:** Utilize "glassmorphism" (`backdrop-filter: blur`), subtle translucent borders, soft drop shadows, and high-contrast text.
-  - **Layout:** Minimalist, generous whitespace, and large rounded corners (e.g., `border-radius: 12px` to `18px`).
+  - **Typography:** Use the **San Francisco (SF Pro)** font stack (`-apple-system`, `BlinkMacSystemFont`, `SF Pro Text`, `SF Pro Display`).
+  - **Aesthetics:** Utilize "glassmorphism" (`backdrop-filter: blur(20px)`), subtle translucent borders, soft drop shadows, and high-contrast text.
+  - **Layout:** Minimalist, generous whitespace, and large rounded corners (e.g., `border-radius: 12px` to `20px`).
   - **Interaction:** Ensure fluid, smooth transitions for hover states, buttons, and modals.
+  - **Themes:** Supports Light and Dark modes via `ThemeContext.jsx` and `data-theme` attribute on the `html` element.
 - **Linting:** Use `npm run lint` within the `allinone/` directory to verify code quality.
 - **Commands:** Use `npm run dev` for local development and `npm run build` for production builds.
 
-
 ### Backend (`api/`)
 - **Framework:** Express
+- **Database:** PostgreSQL managed by Prisma ORM.
 - **File Handling:** Uses `busboy` for streaming file uploads directly to Google Drive (no local storage).
 - **Integrations:** Google Drive API via `googleapis`.
 - **Security:** Never commit or expose `google.json` or related credential files.
 - **api/uploads/:** Only test files store here.
+- **Syncing:** Periodic or manual synchronization between Google Drive and the local database via `api/scripts/sync-drive.js`.
 
-## Upload Function Architecture
+## Core Feature Architectures
 
-### Implementation Details
+### 1. Upload & Storage
 - **Frontend Component:** `allinone/src/pages/Upload.jsx`
   - Uses `FormData` to send files to the `/upload` endpoint.
-  - Features: Client-side file type filtering (`accept` attribute), upload progress state, and direct response handling (using `webViewLink`).
-- **Backend Architecture:** Service-Oriented MVC
-  - **Router:** `api/routes/fileRoutes.js` (defines `POST /upload`).
-  - **Controller:** `api/controllers/fileController.js` (handles request/response logic).
-  - **Service:** `api/services/googleDriveService.js` (encapsulates `busboy` streaming and `googleapis` logic).
-  - **Storage:** Files are streamed directly to the folder specified by `driveFolderId`.
-  - **Response Data:** Returns JSON with `id`, `name`, and `webViewLink`.
+  - Features: Client-side file type filtering (`accept` attribute), upload progress state.
+- **Backend Flow:**
+  - `api/routes/fileRoutes.js` (defines `POST /upload`).
+  - `api/controllers/fileController.js`: Orchestrates the upload to Drive and then caches metadata in the database.
+  - `api/services/googleDriveService.js`: Encapsulates `busboy` streaming and `googleapis` logic.
+  - `api/services/fileService.js`: Handles database operations for file metadata and tags.
+- **Validation:** Server-side `busboy` stream validation checks `mimeType` and `fileSize` (max 20MB) before processing.
 
-### File Validation Rules
-- **Allowed MIME Types:** `image/jpeg`, `image/jpg`, `image/png`, `image/gif`, `application/pdf`, `text/plain`.
-- **Validation Layers:**
-  - **Client-side:** UI restricts file selection via the `accept` attribute.
-  - **Server-side:** `busboy` stream validation checks `mimeType` before processing.
+### 2. Database Layer (Prisma)
+- **Schema:** `api/prisma/schema.prisma`
+- **Models:**
+  - `File`: Stores Google Drive file metadata (`driveFileId`, `name`, `mimeType`, `webViewLink`, `thumbnailLink`, `size`).
+  - `User`: Basic user model for potential multi-user support.
+  - `Tag`: Supports categorizing files with many-to-many relationship to `File`.
+  - `DriveConfig`: Stores encrypted Google Drive API credentials and the target `folderId`.
+- **Service:** `api/services/prismaService.js` (Singleton instance of PrismaClient).
+
+### 3. Configuration & OAuth
+- **Settings:** Managed via `allinone/src/pages/Settings.jsx`.
+- **Backend Flow:**
+  - `api/routes/configRoutes.js` and `api/controllers/configController.js` handle CRUD for `DriveConfig`.
+  - `api/routes/authRoutes.js` and `api/controllers/authController.js` handle the OAuth2 flow to obtain refresh tokens.
+- **Service:** `api/services/configService.js` manages configuration retrieval and encryption/decryption of secrets.
 
 ## Mandatory Guidelines
 
@@ -64,10 +77,12 @@ This is a fullstack JavaScript project with the following structure:
 5. **Security:**
    - Protect credentials in the `api/` directory.
    - Validate file uploads (type, size) before processing.
-4. **Tool Usage:**
+   - Encrypt sensitive data in the database (e.g., `clientSecret`, `refreshToken`).
+6. **Tool Usage:**
    - Always run linting commands after modifying frontend code.
    - Verify backend changes by testing the Express endpoints (e.g., using `curl` or temporary test scripts).
-5. **Context Efficiency:**
+   - Use `npx prisma generate` after changing `schema.prisma`.
+7. **Context Efficiency:**
    - When working on the frontend, focus on the `allinone/` directory.
    - When working on the backend, focus on the `api/` directory.
 
@@ -77,4 +92,3 @@ The following custom agents are available in this project:
 - **`pm-agent`**: Specialized in requirements gathering, task breakdown, and roadmapping. Located in `.gemini/agents/pm-agent.md`.
 - **`code-reviewer`**: Expert for code quality and bug analysis. Located in `.gemini/agents/code-reviewer.md`.
 - **`fe-agent`**: Senior Frontend Architect specializing in Apple UI/UX and React 19. Located in `.gemini/agents/fe-agent.md`.
-
