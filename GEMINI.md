@@ -42,11 +42,12 @@ This is a fullstack JavaScript project with the following structure:
 ## Core Feature Architectures
 
 ### 1. Upload & Storage
-- **Frontend Component:** `allinone/src/pages/Upload.jsx`
-  - Uses `FormData` to send files to the `/upload` endpoint.
-  - Features: Client-side file type filtering (`accept` attribute), upload progress state.
+- **Frontend Components:** 
+  - `allinone/src/pages/Upload.jsx`: Uses `FormData` to send files to the `/upload` endpoint.
+  - `allinone/src/pages/Documents.jsx`: Lists non-image files.
+  - `allinone/src/pages/Gallery.jsx`: Lists image files in a responsive grid.
 - **Backend Flow:**
-  - `api/routes/fileRoutes.js` (defines `POST /upload`).
+  - `api/routes/fileRoutes.js`: Defines routes for uploading, listing, and tagging files (all protected by `authenticateToken`).
   - `api/controllers/fileController.js`: Orchestrates the upload to Drive and then caches metadata in the database.
   - `api/services/googleDriveService.js`: Encapsulates `busboy` streaming and `googleapis` logic.
   - `api/services/fileService.js`: Handles database operations for file metadata and tags.
@@ -56,24 +57,31 @@ This is a fullstack JavaScript project with the following structure:
 - **Schema:** `api/prisma/schema.prisma`
 - **Models:**
   - `File`: Stores Google Drive file metadata (`driveFileId`, `name`, `mimeType`, `webViewLink`, `thumbnailLink`, `size`).
-  - `User`: Basic user model for potential multi-user support.
+  - `User`: Stores user credentials (`email`, `password` hashed, `role`, `name`).
   - `Tag`: Supports categorizing files with many-to-many relationship to `File`.
   - `DriveConfig`: Stores encrypted Google Drive API credentials and the target `folderId`.
 - **Service:** `api/services/prismaService.js` (Singleton instance of PrismaClient).
 
-### 3. Configuration & OAuth
-- **Settings:** Managed via `allinone/src/pages/Settings.jsx`.
-- **Backend Flow:**
-  - `api/routes/configRoutes.js` and `api/controllers/configController.js` handle CRUD for `DriveConfig`.
+### 3. Configuration & Authentication
+- **Settings:** Managed via `allinone/src/pages/Settings.jsx` (Admin only).
+- **Authentication:**
+  - **Frontend:** `allinone/src/AuthContext.jsx` manages JWT token, login/logout, and user session.
+  - **Backend:** `api/middleware/authMiddleware.js` provides `authenticateToken` and `isAdmin` checks.
+  - **Routes:** `api/routes/userRoutes.js` handles login and registration.
+  - **Access Control:** `Documents` and `Gallery` are publicly accessible (read-only). `Upload` requires authentication (`AuthenticatedRoute`). `Settings` requires admin privileges (`AdminRoute`).
+- **OAuth Flow:**
   - `api/routes/authRoutes.js` and `api/controllers/authController.js` handle the OAuth2 flow to obtain refresh tokens.
 - **Service:** `api/services/configService.js` manages configuration retrieval and encryption/decryption of secrets.
 
 ## Mandatory Guidelines
 
-1. **Environment Variables:** Always use `.env` files for configuration. Do not hardcode API keys or secrets.
-2. **Code Style:** Adhere to the existing ESLint configuration in `allinone/`.
+1. **Environment Variables:** Always use `.env` files for configuration. Do not hardcode API keys or secrets. Requires `JWT_SECRET` for authentication.
+2. **Code Style:** Adhere to the existing ESLint configuration in `allinone/`. Use `useMemo` for derived state in Contexts to avoid cascading renders.
 3. **Responsiveness:** All frontend components and layouts MUST be responsive and functional on mobile, tablet, and desktop devices.
-4. **UX/UI:** Always have a spinner when an API is running.
+4. **UX/UI:** 
+   - Always have a spinner when an API is running.
+   - Use the `.glass` utility class for glassmorphism effects.
+   - All file/gallery access requires being logged in.
 5. **Security:**
    - Protect credentials in the `api/` directory.
    - Validate file uploads (type, size) before processing.

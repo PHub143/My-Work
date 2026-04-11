@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Spinner from './components/Spinner';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
+import AuthenticatedRoute from './components/AuthenticatedRoute';
 import { AuthProvider } from './AuthContext';
 import { ThemeProvider } from './ThemeContext';
 
@@ -52,7 +53,9 @@ function App() {
                 <Route element={<ProtectedRoute />}>
                   <Route path='/' element={<Documents />} />
                   <Route path='/gallery' element={<Gallery />} />
-                  <Route path='/upload' element={<Upload />} />
+                  <Route element={<AuthenticatedRoute />}>
+                    <Route path='/upload' element={<Upload />} />
+                  </Route>
                 </Route>
                 <Route path='/services' element={<Services />} />
                 <Route element={<AdminRoute />}>

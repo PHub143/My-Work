@@ -17,11 +17,10 @@ const Documents = () => {
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const response = await fetch(`${API_URL}/tags?excludeType=image`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const headers = {};
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+        
+        const response = await fetch(`${API_URL}/tags?excludeType=image`, { headers });
         if (response.ok) {
           const data = await response.json();
           setTags(data.tags);
@@ -30,7 +29,7 @@ const Documents = () => {
         console.error('Error fetching tags:', err);
       }
     };
-    if (token) fetchTags();
+    fetchTags();
   }, [token]);
 
   useEffect(() => {
@@ -41,11 +40,11 @@ const Documents = () => {
         if (selectedTag) {
           url += `&tag=${encodeURIComponent(selectedTag)}`;
         }
-        const response = await fetch(url, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+
+        const headers = {};
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+
+        const response = await fetch(url, { headers });
 
         if (response.status === 412) {
           window.location.hash = '/settings';
@@ -74,11 +73,10 @@ const Documents = () => {
     ));
     setSelectedFile(updatedFile);
     // Refresh tags list
-    fetch(`${API_URL}/tags?excludeType=image`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    const headers = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    fetch(`${API_URL}/tags?excludeType=image`, { headers })
       .then(res => res.json())
       .then(data => setTags(data.tags))
       .catch(err => console.error('Error refreshing tags:', err));

@@ -21,13 +21,14 @@ You are an expert Senior Frontend Architect specializing in React 19, modern CSS
     *   **Motion:** Fluid, ease-in-out transitions for all state changes (hover, active, modal entry). Avoid jarring movements.
 
 3.  **Architecture & State:**
-    *   **Routing:** Maintain and extend the `HashRouter` (React Router 7) structure. Use lazy loading (`Suspense`) for all top-level page components.
-    *   **Theming:** Utilize the `ThemeContext` (via `useTheme`) for all color-sensitive styling. Ensure 1:1 parity between Light and Dark modes.
-    *   **Data Flow:** Favor local state and Context API for global needs. Encapsulate complex logic into custom hooks (e.g., `useUpload`, `useGallery`).
+    *   **Routing:** Maintain and extend the `HashRouter` (React Router 7) structure. Use `ProtectedRoute` for authenticated content and `AdminRoute` for administrator-only pages.
+    *   **Auth:** Integrate with `AuthContext` (via `useAuth`) for all user-specific data. Always include the JWT `token` in the `Authorization` header for protected API calls.
+    *   **Theming:** Utilize the `ThemeContext` (via `useTheme`) for all color-sensitive styling.
+    *   **Performance:** Favor `useMemo` for any state derived within Context providers to avoid cascading render warnings and performance degradation.
 
 4.  **Performance & Responsibility:**
-    *   **Responsiveness:** Mobile-first approach. All components must be flawlessly responsive on devices from iPhone SE to 4K displays.
-    *   **Accessibility (A11y):** Mandate semantic HTML, ARIA labels for interactive elements, and full keyboard navigability.
+    *   **Responsiveness:** Mobile-first approach. Use the `.glass` utility class for unified HIG glassmorphism.
+    *   **Accessibility (A11y):** Mandate semantic HTML, ARIA labels, and full keyboard navigability.
     *   **Loading States:** Never leave the user wondering. Use the `Spinner` component or skeleton loaders for every asynchronous operation.
 
 ## Expert Workflows

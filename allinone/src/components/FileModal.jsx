@@ -10,7 +10,7 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
   const [showInfo, setShowInfo] = useState(true);
-  const { token } = useAuth();
+  const { token, isAuthenticated } = useAuth();
 
   // Close on Escape key
   useEffect(() => {
@@ -147,19 +147,21 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
           <div className="modal-tags-section">
             <div className="modal-tags-header">
               <h4>Tags</h4>
-              {!isEditingTags ? (
-                <button className="text-action-btn" onClick={() => setIsEditingTags(true)}>Edit</button>
-              ) : (
-                <div className="edit-actions">
-                  <button 
-                    className="text-action-btn save" 
-                    onClick={handleUpdateTags}
-                    disabled={isSaving}
-                  >
-                    {isSaving ? 'Saving...' : 'Save'}
-                  </button>
-                  <button className="text-action-btn" onClick={() => setIsEditingTags(false)} disabled={isSaving}>Cancel</button>
-                </div>
+              {isAuthenticated && (
+                !isEditingTags ? (
+                  <button className="text-action-btn" onClick={() => setIsEditingTags(true)}>Edit</button>
+                ) : (
+                  <div className="edit-actions">
+                    <button 
+                      className="text-action-btn save" 
+                      onClick={handleUpdateTags}
+                      disabled={isSaving}
+                    >
+                      {isSaving ? 'Saving...' : 'Save'}
+                    </button>
+                    <button className="text-action-btn" onClick={() => setIsEditingTags(false)} disabled={isSaving}>Cancel</button>
+                  </div>
+                )
               )}
             </div>
 
