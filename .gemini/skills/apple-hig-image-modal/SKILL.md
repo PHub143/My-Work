@@ -32,6 +32,7 @@ This skill provides a workflow and design patterns for creating an immersive ima
 ### Structural Requirements
 - **Overlay Toggle:** Use a boolean state (e.g., `showInfo`) to control the visibility of metadata.
 - **Control Bar:** A subtle, translucent bar for buttons (Close, Info, Action, Delete).
+- **Close Button:** Should use a clear, bold 'X' icon (e.g., `strokeWidth="3"`) and Apple System Red (`#ff3b30` or `var(--color-system-red)`) for translucent backgrounds to ensure clarity and immediate recognition.
 - **Z-Index Management:**
   - Base: Image
   - Level 1: Translucent Overlay Panels
@@ -72,6 +73,20 @@ This skill provides a workflow and design patterns for creating an immersive ima
   border: none;
   cursor: pointer;
   color: #fff;
+}
+
+.control-btn:focus-visible {
+  outline: 2px solid #007aff;
+  outline-offset: 2px;
+}
+
+.control-btn.close-btn {
+  background: rgba(255, 59, 48, 0.8);
+  color: #fff;
+}
+
+.control-btn.close-btn:hover {
+  background: rgba(255, 59, 48, 1);
 }
 ```
 
