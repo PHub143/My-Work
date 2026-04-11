@@ -41,7 +41,10 @@
   max-width: 500px;
   width: 100%;
   padding: 2.5rem;
+  padding-right: 5rem; /* Give the close button its own breathing room */
   gap: 2rem;
+  max-height: 90vh; /* Prevent modal from exceeding viewport */
+  overflow-y: auto; /* Allow scrolling for many tags */
 }
 
 /* Full-bleed (edge-to-edge) image display */
@@ -239,6 +242,8 @@
   font-weight: 600;
   margin-bottom: 0.25rem;
   line-height: 1.3;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .modal-meta {

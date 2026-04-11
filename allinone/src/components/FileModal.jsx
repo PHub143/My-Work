@@ -13,11 +13,17 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
   // Close on Escape key
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        if (isEditingTags) {
+          setIsEditingTags(false);
+        } else {
+          onClose();
+        }
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
+  }, [onClose, isEditingTags]);
 
   useEffect(() => {
     if (file) {
