@@ -102,3 +102,19 @@ The following custom agents are available in this project:
 - **`code-reviewer`**: Expert for code quality and bug analysis. Located in `.gemini/agents/code-reviewer.md`.
 - **`fe-agent`**: Senior Frontend Architect specializing in Apple UI/UX and React 19. Located in `.gemini/agents/fe-agent.md`.
 - **`qa-fe-agent`**: Senior QA Engineer for frontend quality assurance — functional testing, accessibility, HIG compliance, responsiveness, performance, and security. Located in `.gemini/agents/qa-fe-agent.md`.
+- **`be-agent`**: Senior Backend Engineer and Database Architect specializing in Node.js, Express, Prisma ORM, and PostgreSQL. Located in `.gemini/agents/be-agent.md`.
+
+## MemPalace Integration (Agentic Memory)
+
+This project uses **MemPalace** for persistent agentic memory. Every major decision, architecture trade-off, and debugging session is stored in the Palace.
+
+- **Structure:**
+  - **Wing:** `my_work` (Primary project wing)
+  - **Rooms:** `allinone` (Frontend), `backend` (API), `mempalace_main` (Memory System), `planning`, `scripts`, `testing`.
+- **Usage:**
+  - **Mining:** To update the memory after major code changes:
+    ```bash
+    mempalace mine .
+    ```
+  - **Memory Protocol:** Agents should call `mempalace_search` to recall previous decisions or `mempalace_status` to understand the current memory taxonomy.
+- **MCP Server:** MemPalace tools are available via MCP for enhanced context-awareness during session-based interactions.
