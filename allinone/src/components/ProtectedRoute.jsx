@@ -50,10 +50,6 @@ const ProtectedRoute = () => {
     );
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
   if (!isConfigured) {
     if (user?.role === 'ADMIN') {
       return <Navigate to="/settings" state={{ 

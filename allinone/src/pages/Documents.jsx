@@ -64,7 +64,7 @@ const Documents = () => {
       }
     };
 
-    if (token) fetchFiles();
+    fetchFiles();
   }, [selectedTag, token]);
 
   const handleUpdateSuccess = (updatedFile) => {

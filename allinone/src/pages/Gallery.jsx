@@ -63,7 +63,7 @@ const Gallery = () => {
       }
     };
 
-    if (token) fetchImages();
+    fetchImages();
   }, [selectedTag, token]);
 
   const handleUpdateSuccess = (updatedFile) => {

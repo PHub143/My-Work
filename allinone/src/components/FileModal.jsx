@@ -10,7 +10,7 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
   const [showInfo, setShowInfo] = useState(true);
-  const { token, isAuthenticated } = useAuth();
+  const { token, isAuthenticated, user } = useAuth();
 
   // Close on Escape key
   useEffect(() => {
@@ -147,7 +147,7 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
           <div className="modal-tags-section">
             <div className="modal-tags-header">
               <h4>Tags</h4>
-              {isAuthenticated && (
+              {user?.role === 'ADMIN' && (
                 !isEditingTags ? (
                   <button className="text-action-btn" onClick={() => setIsEditingTags(true)}>Edit</button>
                 ) : (
