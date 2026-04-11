@@ -1,4 +1,4 @@
-description = "Full automated workflow: Plan (@pm-agent) -> Execute (Main/@fe-agent) -> Review (@code-reviewer) -> Fix -> Build -> Push."
+description = "Full automated workflow: Plan (@pm-agent) -> Execute (Main/@fe-agent) -> Review (@code-reviewer) -> QA (@qa-fe-agent) -> Fix -> Build -> Push."
 prompt = """
 You are a senior technical lead orchestrating a full-stack development workflow for the following task:
 "{{args}}"
@@ -15,7 +15,8 @@ Analyze the plan from @pm-agent.
 
 ### Phase 3: Quality Assurance
 1. Call @code-reviewer to audit the implemented changes for bugs, performance, and best practices.
-2. Address and fix all issues identified by the reviewer.
+2. Call @qa-fe-agent to perform a targeted frontend QA audit (checking Functionality, HIG Compliance, Accessibility, and Responsiveness).
+3. Address and fix all issues identified by both the code reviewer and the QA agent.
 
 ### Phase 4: Verification
 Run the following verification commands and ensure they pass:

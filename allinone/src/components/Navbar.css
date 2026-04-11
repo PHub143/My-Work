@@ -137,3 +137,33 @@
 .logout-btn:active {
   transform: scale(0.95);
 }
+
+.auth-section {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-s);
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-quaternary-label);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--color-separator);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-label);
+  cursor: default;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.user-avatar:hover {
+  background: var(--color-tertiary-label);
+  border-color: var(--color-secondary-label);
+}

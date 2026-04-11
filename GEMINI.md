@@ -101,3 +101,4 @@ The following custom agents are available in this project:
 - **`pm-agent`**: Specialized in requirements gathering, task breakdown, and roadmapping. Located in `.gemini/agents/pm-agent.md`.
 - **`code-reviewer`**: Expert for code quality and bug analysis. Located in `.gemini/agents/code-reviewer.md`.
 - **`fe-agent`**: Senior Frontend Architect specializing in Apple UI/UX and React 19. Located in `.gemini/agents/fe-agent.md`.
+- **`qa-fe-agent`**: Senior QA Engineer for frontend quality assurance — functional testing, accessibility, HIG compliance, responsiveness, performance, and security. Located in `.gemini/agents/qa-fe-agent.md`.
