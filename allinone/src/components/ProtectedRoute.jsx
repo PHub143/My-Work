@@ -12,7 +12,7 @@ import { useAuth } from '../AuthContext';
 const ProtectedRoute = () => {
   const [isConfigured, setIsConfigured] = useState(null);
   const [isLoadingConfig, setIsLoadingConfig] = useState(true);
-  const { user, isLoading: isLoadingAuth } = useAuth();
+  const { user, isLoading: isLoadingAuth, isAuthenticated } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -50,7 +50,9 @@ const ProtectedRoute = () => {
     );
   }
 
-  // Removed !isAuthenticated check to make login optional for public pages
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
 
   if (!isConfigured) {
     if (user?.role === 'ADMIN') {
