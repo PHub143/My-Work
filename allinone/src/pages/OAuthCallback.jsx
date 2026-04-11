@@ -2,18 +2,20 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { API_URL } from '../config';
 import Spinner from '../components/Spinner';
+import { useAuth } from '../AuthContext';
 import './OAuthCallback.css';
 
 const OAuthCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { token } = useAuth();
   const code = searchParams.get('code');
   const hasExchanged = useRef(false);
   const [status, setStatus] = useState('Authenticating with Google...');
   const [error, setError] = useState(code ? '' : 'No authorization code found in the URL. If you just redirected, please try again from Settings.');
 
   useEffect(() => {
-    if (!code || hasExchanged.current) {
+    if (!code || hasExchanged.current || !token) {
       return;
     }
 
@@ -24,13 +26,13 @@ const OAuthCallback = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify({ code }),
         });
 
         if (response.ok) {
           setStatus('Authentication successful! Redirecting...');
-          // Clean the URL hash params
           navigate('/settings', { 
             state: { message: 'Successfully authenticated with Google Drive!' },
             replace: true 
@@ -46,7 +48,7 @@ const OAuthCallback = () => {
     };
 
     exchangeCode();
-  }, [code, navigate]);
+  }, [code, navigate, token]);
 
   return (
     <div className="oauth-callback-container">

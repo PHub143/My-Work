@@ -162,3 +162,38 @@ button {
 button:active {
   transform: scale(0.98);
 }
+
+/* Common Components and Utilities */
+.glass {
+  background: var(--background-glass);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--color-separator);
+  box-shadow: var(--shadow-apple);
+}
+
+.primary-btn {
+  background: var(--color-system-blue);
+  color: #FFFFFF;
+}
+
+.primary-btn:hover {
+  background-color: #0062CC;
+  transform: translateY(-1px);
+}
+
+.primary-btn:active {
+  background-color: #0056B3;
+  transform: translateY(0);
+}
+
+.text-btn {
+  color: var(--color-system-blue);
+  background: transparent;
+  padding: 8px 12px;
+  font-weight: 500;
+}
+
+.text-btn:hover {
+  background: var(--color-quaternary-label);
+}

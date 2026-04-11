@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './FileModal.css';
 import { API_URL } from '../config';
+import { useAuth } from '../AuthContext';
 
 const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
   const [isEditingTags, setIsEditingTags] = useState(false);
@@ -9,6 +10,7 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
   const [showInfo, setShowInfo] = useState(true);
+  const { token } = useAuth();
 
   // Close on Escape key
   useEffect(() => {
@@ -41,6 +43,7 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ tags: editingTags }),
       });

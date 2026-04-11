@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import './Upload.css';
 import { API_URL, ALLOWED_FILE_TYPES } from '../config';
 import Spinner from '../components/Spinner';
+import { useAuth } from '../AuthContext';
 
 const Upload = () => {
   const [file, setFile] = useState(null);
@@ -12,14 +13,15 @@ const Upload = () => {
   const [tagInput, setTagInput] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const fileInputRef = useRef(null);
+  const { token } = useAuth();
 
-  React.useEffect(() => {
-    fetchAvailableTags();
-  }, []);
-
-  const fetchAvailableTags = async () => {
+  const fetchAvailableTags = React.useCallback(async () => {
     try {
-      const response = await fetch(`${API_URL}/tags`);
+      const response = await fetch(`${API_URL}/tags`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       if (response.ok) {
         const data = await response.json();
         setAvailableTags(data.tags.map(t => t.name));
@@ -27,7 +29,11 @@ const Upload = () => {
     } catch (error) {
       console.error('Error fetching tags:', error);
     }
-  };
+  }, [token]);
+
+  React.useEffect(() => {
+    if (token) fetchAvailableTags();
+  }, [token, fetchAvailableTags]);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -80,11 +86,14 @@ const Upload = () => {
     try {
       const response = await fetch(`${API_URL}/upload`, {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
         body: formData,
       });
 
       if (response.status === 412) {
-        window.location.href = '#/settings';
+        window.location.hash = '/settings';
         return;
       }
 

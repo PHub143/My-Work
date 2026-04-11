@@ -4,12 +4,16 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Spinner from './components/Spinner';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
+import { AuthProvider } from './AuthContext';
+import { ThemeProvider } from './ThemeContext';
 
 const Documents = lazy(() => import('./pages/Documents'));
 const Gallery = lazy(() => import('./pages/Gallery'));
 const Services = lazy(() => import('./pages/Services'));
 const Upload = lazy(() => import('./pages/Upload'));
 const Settings = lazy(() => import('./pages/Settings'));
+const Login = lazy(() => import('./pages/Login'));
 const OAuthCallback = lazy(() => import('./pages/OAuthCallback'));
 
 /**
@@ -37,24 +41,31 @@ const OAuthDetector = () => {
 
 function App() {
   return (
-    <Router>
-      <OAuthDetector />
-      <Navbar />
-      <main className="content-container">
-        <Suspense fallback={<Spinner />}>
-          <Routes>
-            <Route element={<ProtectedRoute />}>
-              <Route path='/' element={<Documents />} />
-              <Route path='/gallery' element={<Gallery />} />
-              <Route path='/upload' element={<Upload />} />
-            </Route>
-            <Route path='/services' element={<Services />} />
-            <Route path='/settings' element={<Settings />} />
-            <Route path='/oauth/callback' element={<OAuthCallback />} />
-          </Routes>
-        </Suspense>
-      </main>
-    </Router>
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
+          <OAuthDetector />
+          <Navbar />
+          <main className="content-container">
+            <Suspense fallback={<Spinner />}>
+              <Routes>
+                <Route element={<ProtectedRoute />}>
+                  <Route path='/' element={<Documents />} />
+                  <Route path='/gallery' element={<Gallery />} />
+                  <Route path='/upload' element={<Upload />} />
+                </Route>
+                <Route path='/services' element={<Services />} />
+                <Route element={<AdminRoute />}>
+                  <Route path='/settings' element={<Settings />} />
+                </Route>
+                <Route path='/login' element={<Login />} />
+                <Route path='/oauth/callback' element={<OAuthCallback />} />
+              </Routes>
+            </Suspense>
+          </main>
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

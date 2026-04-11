@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation, Link } from 'react-router-dom';
 import { API_URL } from '../config';
 import Spinner from './Spinner';
+import { useAuth } from '../AuthContext';
 
 /**
  * A wrapper component that checks if Google Drive is configured.
- * Redirects to /settings if configuration is missing.
+ * Redirects Admins to /settings if configuration is missing.
+ * Shows a message to regular users.
  */
 const ProtectedRoute = () => {
   const [isConfigured, setIsConfigured] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingConfig, setIsLoadingConfig] = useState(true);
+  const { user, isAuthenticated, isLoading: isLoadingAuth } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -18,7 +21,6 @@ const ProtectedRoute = () => {
         const response = await fetch(`${API_URL}/config/drive`);
         if (response.ok) {
           const data = await response.json();
-          // We consider it configured if we have both client credentials and a refresh token
           const configured = data.config && data.config.hasClientSecret && data.config.hasRefreshToken;
           setIsConfigured(configured);
         } else {
@@ -28,14 +30,14 @@ const ProtectedRoute = () => {
         console.error('Error checking Drive configuration:', error);
         setIsConfigured(false);
       } finally {
-        setIsLoading(false);
+        setIsLoadingConfig(false);
       }
     };
 
     checkConfig();
   }, []);
 
-  if (isLoading) {
+  if (isLoadingConfig || isLoadingAuth) {
     return (
       <div style={{ 
         display: 'flex', 
@@ -48,12 +50,31 @@ const ProtectedRoute = () => {
     );
   }
 
+  if (!isAuthenticated) {
+    // Redirect to login if not authenticated
+    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+  }
+
   if (!isConfigured) {
-    // Redirect to settings with a message
-    return <Navigate to="/settings" state={{ 
-      message: 'Google Drive setup is required to access this page.',
-      from: location.pathname 
-    }} replace />;
+    if (user?.role === 'ADMIN') {
+      return <Navigate to="/settings" state={{ 
+        message: 'Google Drive setup is required to access this page.',
+        from: location.pathname 
+      }} replace />;
+    } else {
+      return (
+        <div className="status-message-container glass" style={{ margin: '2rem', padding: '3rem', textAlign: 'center', borderRadius: '20px' }}>
+          <h2>System Unavailable</h2>
+          <p style={{ color: 'var(--color-secondary-label)', marginTop: '1rem' }}>
+            The Google Drive integration is not yet configured. 
+            Please contact the system administrator to complete the setup.
+          </p>
+          <div style={{ marginTop: '2rem' }}>
+            <Link to="/login" className="text-btn">Admin Login</Link>
+          </div>
+        </div>
+      );
+    }
   }
 
   return <Outlet />;

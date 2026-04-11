@@ -27,10 +27,12 @@ model File {
 }
 
 model User {
-  id    String @id @default(cuid())
-  email String @unique
-  name  String?
-  files File[]
+  id       String   @id @default(cuid())
+  email    String   @unique
+  name     String?
+  password String
+  role     String   @default("USER")
+  files    File[]
 }
 
 model Tag {

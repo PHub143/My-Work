@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import './Settings.css';
 import { API_URL } from '../config';
 import Spinner from '../components/Spinner';
+import { useAuth } from '../AuthContext';
 
 const Settings = () => {
   const location = useLocation();
+  const { token } = useAuth();
   const [config, setConfig] = useState({
     clientId: '',
     clientSecret: '',
@@ -18,18 +20,13 @@ const Settings = () => {
   const [isSyncing, setIsSyncing] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
-  useEffect(() => {
-    if (location.state?.message) {
-      setMessage({ type: 'success', text: location.state.message });
-      // Clear state so it doesn't persist on refresh
-      window.history.replaceState({}, document.title);
-    }
-    fetchConfig();
-  }, [location]);
-
-  const fetchConfig = async () => {
+  const fetchConfig = useCallback(async () => {
     try {
-      const response = await fetch(`${API_URL}/config/drive`);
+      const response = await fetch(`${API_URL}/config/drive`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       if (response.ok) {
         const data = await response.json();
         const driveConfig = data.config;
@@ -52,7 +49,16 @@ const Settings = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [token]);
+
+  useEffect(() => {
+    if (location.state?.message) {
+      setMessage({ type: 'success', text: location.state.message });
+      // Clear state so it doesn't persist on refresh
+      window.history.replaceState({}, document.title);
+    }
+    fetchConfig();
+  }, [location, fetchConfig]);
 
   const handleChange = (e) => {
     setConfig({ ...config, [e.target.name]: e.target.value });
@@ -66,7 +72,10 @@ const Settings = () => {
     try {
       const response = await fetch(`${API_URL}/config/drive`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(config)
       });
 
@@ -87,7 +96,11 @@ const Settings = () => {
 
   const handleAuth = async () => {
     try {
-      const response = await fetch(`${API_URL}/auth/google/url`);
+      const response = await fetch(`${API_URL}/auth/google/url`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       if (response.ok) {
         const data = await response.json();
         if (data.url) {
@@ -108,7 +121,10 @@ const Settings = () => {
 
     try {
       const response = await fetch(`${API_URL}/config/sync`, {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       if (response.ok) {

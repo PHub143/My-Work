@@ -3,6 +3,7 @@ import './Gallery.css';
 import { API_URL } from '../config';
 import Spinner from '../components/Spinner';
 import FileModal from '../components/FileModal';
+import { useAuth } from '../AuthContext';
 
 const Gallery = () => {
   const [images, setImages] = useState([]);
@@ -11,11 +12,16 @@ const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [tags, setTags] = useState([]);
   const [selectedTag, setSelectedTag] = useState(null);
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const response = await fetch(`${API_URL}/tags`);
+        const response = await fetch(`${API_URL}/tags?includeType=image`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         if (response.ok) {
           const data = await response.json();
           setTags(data.tags);
@@ -24,8 +30,8 @@ const Gallery = () => {
         console.error('Error fetching tags:', err);
       }
     };
-    fetchTags();
-  }, []);
+    if (token) fetchTags();
+  }, [token]);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -35,10 +41,14 @@ const Gallery = () => {
         if (selectedTag) {
           url += `&tag=${encodeURIComponent(selectedTag)}`;
         }
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         
         if (response.status === 412) {
-          window.location.href = '#/settings';
+          window.location.hash = '/settings';
           return;
         }
 
@@ -54,8 +64,8 @@ const Gallery = () => {
       }
     };
 
-    fetchImages();
-  }, [selectedTag]);
+    if (token) fetchImages();
+  }, [selectedTag, token]);
 
   const handleUpdateSuccess = (updatedFile) => {
     setImages(prevImages => prevImages.map(img => 
@@ -63,7 +73,11 @@ const Gallery = () => {
     ));
     setSelectedImage(updatedFile);
     // Refresh tags list
-    fetch(`${API_URL}/tags?includeType=image`)
+    fetch(`${API_URL}/tags?includeType=image`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(res => res.json())
       .then(data => setTags(data.tags))
       .catch(err => console.error('Error refreshing tags:', err));
