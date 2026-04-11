@@ -1,0 +1,50 @@
+wing: my_work
+rooms:
+- name: allinone
+  description: Files from allinone/
+  keywords:
+  - allinone
+  - allinone
+- name: backend
+  description: Files from api/
+  keywords:
+  - backend
+  - api
+- name: mempalace_main
+  description: Files from mempalace-main/
+  keywords:
+  - mempalace_main
+  - mempalace-main
+- name: configuration
+  description: Files from config/
+  keywords:
+  - configuration
+  - config
+- name: planning
+  description: Files from planning/
+  keywords:
+  - planning
+  - planning
+- name: scripts
+  description: Files from utils/
+  keywords:
+  - scripts
+  - utils
+- name: testing
+  description: Files from tests/
+  keywords:
+  - testing
+  - tests
+- name: documentation
+  description: Files from docs/
+  keywords:
+  - documentation
+  - docs
+- name: design
+  description: Files from assets/
+  keywords:
+  - design
+  - assets
+- name: general
+  description: Files that don't fit other rooms
+  keywords: []
