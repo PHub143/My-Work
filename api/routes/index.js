@@ -11,6 +11,6 @@ router.use('/', fileRoutes);
 // Mount configuration and authentication routes
 router.use('/config', configRoutes);
 router.use('/auth', authRoutes);
-router.use('/user', userRoutes);
+router.use('/users', userRoutes);
 
 module.exports = router;

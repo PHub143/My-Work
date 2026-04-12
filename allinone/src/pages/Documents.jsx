@@ -82,6 +82,17 @@ const Documents = () => {
       .catch(err => console.error('Error refreshing tags:', err));
   };
 
+  const handleDeleteSuccess = (driveFileId) => {
+    setFiles(prevFiles => prevFiles.filter(f => f.driveFileId !== driveFileId));
+    // Refresh tags list
+    const headers = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    fetch(`${API_URL}/tags?excludeType=image,video`, { headers })
+      .then(res => res.json())
+      .then(data => setTags(data.tags))
+      .catch(err => console.error('Error refreshing tags:', err));
+  };
+
   const closeModal = () => setSelectedFile(null);
 
   useEffect(() => {
@@ -182,6 +193,7 @@ const Documents = () => {
         file={selectedFile} 
         onClose={closeModal} 
         onUpdateSuccess={handleUpdateSuccess}
+        onDeleteSuccess={handleDeleteSuccess}
         isImage={false}
       />
     </div>

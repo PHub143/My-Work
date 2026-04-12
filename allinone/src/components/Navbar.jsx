@@ -30,22 +30,24 @@ const Navbar = () => {
               Gallery
             </Link>
           </li>
-          <li className="nav-item">
-            <Link to="/services" className="nav-links">
-              Services
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/upload" className="nav-links">
-              Upload
-            </Link>
-          </li>
           {user?.role === 'ADMIN' && (
-            <li className="nav-item">
-              <Link to="/settings" className="nav-links">
-                ⚙️ Settings
-              </Link>
-            </li>
+            <>
+              <li className="nav-item">
+                <Link to="/users" className="nav-links">
+                  Users
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/upload" className="nav-links">
+                  Upload
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/settings" className="nav-links">
+                  ⚙️ Settings
+                </Link>
+              </li>
+            </>
           )}
           <li className="nav-item">
             <button onClick={toggleTheme} className="theme-toggle">

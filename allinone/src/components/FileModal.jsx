@@ -3,11 +3,13 @@ import './FileModal.css';
 import { API_URL } from '../config';
 import { useAuth } from '../AuthContext';
 
-const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
+const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = false }) => {
   const [isEditingTags, setIsEditingTags] = useState(false);
   const [editingTags, setEditingTags] = useState([]);
   const [tagInput, setTagInput] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [error, setError] = useState(null);
   const [showInfo, setShowInfo] = useState(true);
   const { token, user } = useAuth();
@@ -68,6 +70,34 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
       setError('An error occurred while updating tags');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleDeleteFile = async () => {
+    setIsDeleting(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_URL}/files/${file.driveFileId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        onDeleteSuccess(file.driveFileId);
+        onClose();
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Failed to delete file');
+        setShowDeleteConfirm(false);
+      }
+    } catch (err) {
+      console.error('Error deleting file:', err);
+      setError('An error occurred while deleting the file');
+      setShowDeleteConfirm(false);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -159,6 +189,22 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
               </svg>
             </button>
           )}
+          {user?.role === 'ADMIN' && (
+            <button 
+              className={`control-btn delete-btn ${isDeleting ? 'loading' : ''} ${showDeleteConfirm ? 'active' : ''}`} 
+              onClick={() => setShowDeleteConfirm(!showDeleteConfirm)} 
+              disabled={isDeleting}
+              aria-label="Delete file" 
+              title="Delete File"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
+              </svg>
+            </button>
+          )}
           <button className="control-btn close-btn" onClick={onClose} aria-label="Close modal" title="Close">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 6L6 18M6 6l12 12"/>
@@ -175,6 +221,19 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
           
           <div className="modal-header-section">
             <h3>{file.name}</h3>
+            {showDeleteConfirm && (
+              <div className="delete-confirm-overlay">
+                <p>Delete this file permanently?</p>
+                <div className="confirm-actions">
+                  <button className="confirm-btn delete" onClick={handleDeleteFile} disabled={isDeleting}>
+                    {isDeleting ? 'Deleting...' : 'Confirm Delete'}
+                  </button>
+                  <button className="confirm-btn cancel" onClick={() => setShowDeleteConfirm(false)} disabled={isDeleting}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
             <p className="modal-meta">
               {formatBytes(file.size)} • {new Date(file.createdAt).toLocaleDateString()}
             </p>

@@ -37,6 +37,18 @@ const userService = {
   },
 
   /**
+   * Retrieves all users from the database.
+   * @returns {Promise<Array>}
+   */
+  getAllUsers: async () => {
+    return prisma.user.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  },
+
+  /**
    * Updates an existing user's information.
    * Hashes the password if it's being changed.
    * @param {string} id - The user's ID.
@@ -52,6 +64,17 @@ const userService = {
     return prisma.user.update({
       where: { id },
       data: updateData,
+    });
+  },
+
+  /**
+   * Deletes a user from the database.
+   * @param {string} id - The user's ID.
+   * @returns {Promise<Object>}
+   */
+  deleteUser: async (id) => {
+    return prisma.user.delete({
+      where: { id },
     });
   },
 };

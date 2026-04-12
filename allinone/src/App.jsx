@@ -11,7 +11,7 @@ import { ThemeProvider } from './ThemeContext';
 
 const Documents = lazy(() => import('./pages/Documents'));
 const Gallery = lazy(() => import('./pages/Gallery'));
-const Services = lazy(() => import('./pages/Services'));
+const Users = lazy(() => import('./pages/Users'));
 const Upload = lazy(() => import('./pages/Upload'));
 const Settings = lazy(() => import('./pages/Settings'));
 const Login = lazy(() => import('./pages/Login'));
@@ -57,8 +57,8 @@ function App() {
                     <Route path='/upload' element={<Upload />} />
                   </Route>
                 </Route>
-                <Route path='/services' element={<Services />} />
                 <Route element={<AdminRoute />}>
+                  <Route path='/users' element={<Users />} />
                   <Route path='/settings' element={<Settings />} />
                 </Route>
                 <Route path='/login' element={<Login />} />

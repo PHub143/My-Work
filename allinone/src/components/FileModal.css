@@ -169,6 +169,69 @@
   transform: scale(1.05);
 }
 
+.control-btn.delete-btn {
+  background: rgba(255, 59, 48, 0.15);
+  color: #ff3b30;
+  border: 1px solid rgba(255, 59, 48, 0.3);
+}
+
+.control-btn.delete-btn:hover {
+  background: rgba(255, 59, 48, 0.8);
+  color: #fff;
+}
+
+.control-btn.delete-btn.active {
+  background: #ff3b30;
+  color: #fff;
+}
+
+/* Delete Confirmation Overlay */
+.delete-confirm-overlay {
+  background: rgba(255, 59, 48, 0.1);
+  border: 1px solid rgba(255, 59, 48, 0.2);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 1rem 0;
+  animation: slideDown 0.3s ease;
+}
+
+.delete-confirm-overlay p {
+  color: #ff3b30;
+  font-weight: 600;
+  margin-bottom: 1rem !important;
+  font-size: 0.95rem;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.confirm-btn {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.confirm-btn.delete {
+  background: #ff3b30;
+  color: white;
+}
+
+.confirm-btn.cancel {
+  background: var(--color-quaternary-label);
+  color: var(--color-label);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .modal-content.info-only .modal-controls {
   top: 1.5rem;
   right: 1.5rem;

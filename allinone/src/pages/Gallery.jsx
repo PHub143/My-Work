@@ -81,6 +81,17 @@ const Gallery = () => {
       .catch(err => console.error('Error refreshing tags:', err));
   };
 
+  const handleDeleteSuccess = (driveFileId) => {
+    setImages(prevImages => prevImages.filter(img => img.driveFileId !== driveFileId));
+    // Refresh tags list
+    const headers = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    fetch(`${API_URL}/tags?includeType=image,video`, { headers })
+      .then(res => res.json())
+      .then(data => setTags(data.tags))
+      .catch(err => console.error('Error refreshing tags:', err));
+  };
+
   const getHighResThumbnail = (url, size = 's1080') => {
     if (!url) return null;
     return url.replace(/=s\d+.*$/, `=${size}`);
@@ -191,6 +202,7 @@ const Gallery = () => {
         file={selectedImage} 
         onClose={closeModal} 
         onUpdateSuccess={handleUpdateSuccess}
+        onDeleteSuccess={handleDeleteSuccess}
         isImage={true}
       />
     </div>
