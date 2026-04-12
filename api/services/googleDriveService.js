@@ -31,7 +31,11 @@ async function getDriveClient() {
   oauth2Client.setCredentials({ refresh_token: config.refreshToken });
 
   return {
-    drive: google.drive({ version: 'v3', auth: oauth2Client }),
+    drive: google.drive({ 
+      version: 'v3', 
+      auth: oauth2Client,
+      timeout: 120 * 60 * 1000 // 2 hours global timeout
+    }),
     driveFolderId: config.folderId
   };
 }

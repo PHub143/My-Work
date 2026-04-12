@@ -5,6 +5,13 @@ require('dotenv').config();
 const routes = require('./routes');
 const { syncDatabase } = require('./scripts/sync-drive');
 
+// BigInt JSON serialization patch
+// Required for Prisma BigInt fields to be correctly handled in Express responses
+BigInt.prototype.toJSON = function() {
+  const int = Number(this);
+  return Number.isSafeInteger(int) ? int : this.toString();
+};
+
 const app = express();
 const port = process.env.PORT || 3001;
 
@@ -57,8 +64,12 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
+
+  // Set server-level timeouts for multi-GB uploads (2 hours)
+  server.keepAliveTimeout = 2 * 60 * 60 * 1000;
+  server.headersTimeout = 2 * 60 * 60 * 1000 + 1000;
 
   // Schedule full synchronization from Google Drive every hour
   cron.schedule('0 * * * *', async () => {

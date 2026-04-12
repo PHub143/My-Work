@@ -20,7 +20,7 @@ const Gallery = () => {
         const headers = {};
         if (token) headers['Authorization'] = `Bearer ${token}`;
 
-        const response = await fetch(`${API_URL}/tags?includeType=image`, { headers });
+        const response = await fetch(`${API_URL}/tags?includeType=image,video`, { headers });
         if (response.ok) {
           const data = await response.json();
           setTags(data.tags);
@@ -36,7 +36,7 @@ const Gallery = () => {
     const fetchImages = async () => {
       setIsLoading(true);
       try {
-        let url = `${API_URL}/files?includeType=image`;
+        let url = `${API_URL}/files?includeType=image,video`;
         if (selectedTag) {
           url += `&tag=${encodeURIComponent(selectedTag)}`;
         }
@@ -75,7 +75,7 @@ const Gallery = () => {
     const headers = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    fetch(`${API_URL}/tags?includeType=image`, { headers })
+    fetch(`${API_URL}/tags?includeType=image,video`, { headers })
       .then(res => res.json())
       .then(data => setTags(data.tags))
       .catch(err => console.error('Error refreshing tags:', err));
@@ -109,7 +109,7 @@ const Gallery = () => {
     <div className="gallery-container">
       <div className="gallery-header">
         <h1>Gallery</h1>
-        <p>Your uploaded images on Google Drive</p>
+        <p>Your uploaded images and videos on Google Drive</p>
       </div>
 
       {tags.length > 0 && (

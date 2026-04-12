@@ -17,9 +17,15 @@ const fileService = {
     const where = {};
     
     if (includeType) {
-      where.mimeType = { startsWith: `${includeType}/` };
+      const types = includeType.split(',').map(t => t.trim());
+      where.OR = types.map(t => ({
+        mimeType: { startsWith: `${t}/` }
+      }));
     } else if (excludeType) {
-      where.NOT = { mimeType: { startsWith: `${excludeType}/` } };
+      const types = excludeType.split(',').map(t => t.trim());
+      where.NOT = types.map(t => ({
+        mimeType: { startsWith: `${t}/` }
+      }));
     }
 
     if (tag) {
@@ -46,8 +52,8 @@ const fileService = {
   /**
    * Counts the total number of file records in the database with optional filtering.
    * @param {Object} [options] - Filtering options.
-   * @param {string} [options.includeType] - MIME type prefix to include (e.g., 'image').
-   * @param {string} [options.excludeType] - MIME type prefix to exclude (e.g., 'image').
+   * @param {string} [options.includeType] - MIME type prefix(es) to include (e.g., 'image' or 'image,video').
+   * @param {string} [options.excludeType] - MIME type prefix(es) to exclude (e.g., 'image' or 'image,video').
    * @param {string} [options.tag] - Tag name to filter by.
    * @returns {Promise<number>}
    */
@@ -55,9 +61,15 @@ const fileService = {
     const where = {};
     
     if (includeType) {
-      where.mimeType = { startsWith: `${includeType}/` };
+      const types = includeType.split(',').map(t => t.trim());
+      where.OR = types.map(t => ({
+        mimeType: { startsWith: `${t}/` }
+      }));
     } else if (excludeType) {
-      where.NOT = { mimeType: { startsWith: `${excludeType}/` } };
+      const types = excludeType.split(',').map(t => t.trim());
+      where.NOT = types.map(t => ({
+        mimeType: { startsWith: `${t}/` }
+      }));
     }
 
     if (tag) {
@@ -129,17 +141,21 @@ const fileService = {
     const where = {};
 
     if (includeType) {
+      const types = includeType.split(',').map(t => t.trim());
       where.files = {
         some: {
-          mimeType: { startsWith: `${includeType}/` }
+          OR: types.map(t => ({
+            mimeType: { startsWith: `${t}/` }
+          }))
         }
       };
     } else if (excludeType) {
+      const types = excludeType.split(',').map(t => t.trim());
       where.files = {
         some: {
-          NOT: {
-            mimeType: { startsWith: `${excludeType}/` }
-          }
+          NOT: types.map(t => ({
+            mimeType: { startsWith: `${t}/` }
+          }))
         }
       };
     }

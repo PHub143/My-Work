@@ -20,7 +20,7 @@ const Documents = () => {
         const headers = {};
         if (token) headers['Authorization'] = `Bearer ${token}`;
         
-        const response = await fetch(`${API_URL}/tags?excludeType=image`, { headers });
+        const response = await fetch(`${API_URL}/tags?excludeType=image,video`, { headers });
         if (response.ok) {
           const data = await response.json();
           setTags(data.tags);
@@ -36,7 +36,7 @@ const Documents = () => {
     const fetchFiles = async () => {
       setIsLoading(true);
       try {
-        let url = `${API_URL}/files?excludeType=image`;
+        let url = `${API_URL}/files?excludeType=image,video`;
         if (selectedTag) {
           url += `&tag=${encodeURIComponent(selectedTag)}`;
         }
@@ -76,7 +76,7 @@ const Documents = () => {
     const headers = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    fetch(`${API_URL}/tags?excludeType=image`, { headers })
+    fetch(`${API_URL}/tags?excludeType=image,video`, { headers })
       .then(res => res.json())
       .then(data => setTags(data.tags))
       .catch(err => console.error('Error refreshing tags:', err));
