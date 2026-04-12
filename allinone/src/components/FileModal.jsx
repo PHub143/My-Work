@@ -11,6 +11,13 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
   const [error, setError] = useState(null);
   const [showInfo, setShowInfo] = useState(true);
   const { token, user } = useAuth();
+  
+  const isVideo = file?.mimeType?.startsWith('video/');
+  const isDoc = file?.mimeType?.includes('pdf') || 
+                file?.mimeType?.includes('document') || 
+                file?.mimeType?.includes('text/plain');
+
+  const hasPreview = isImage || isVideo || isDoc;
 
   // Close on Escape key
   useEffect(() => {
@@ -84,7 +91,24 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
   const getFileIcon = (mimeType) => {
     if (mimeType.includes('pdf')) return '📕';
     if (mimeType.includes('text/plain')) return '📄';
+    if (mimeType.startsWith('video/')) return '🎬';
+    if (mimeType.startsWith('image/')) return '🖼️';
     return '📁';
+  };
+
+  const formatBytes = (bytes, decimals = 2) => {
+    if (!bytes) return '0 Bytes';
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  };
+
+  const getPreviewUrl = (url) => {
+    if (!url) return null;
+    // Google Drive /view links can be converted to /preview for a cleaner iframe view
+    return url.replace(/\/view\?usp=drivesdk$/, '/preview');
   };
 
   if (!file) return null;
@@ -93,28 +117,40 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
 
   return (
     <div className={`modal-overlay ${isImage ? 'image-overlay' : ''}`} onClick={onClose}>
-      <div 
-        className={`modal-content ${isImage ? 'image-mode' : 'info-only'}`} 
-        onClick={(e) => e.stopPropagation()}
-      >
-        
-        {isImage && (
-          <div className="modal-image-container" onClick={onClose}>
-            {file.thumbnailLink ? (
-              <img 
-                src={getHighResThumbnail(file.thumbnailLink, 's0')} 
-                alt={file.name} 
-                className="modal-full-image" 
-                onClick={(e) => e.stopPropagation()}
-              />
-            ) : (
-              <div className="modal-icon-placeholder" onClick={(e) => e.stopPropagation()}>🖼️</div>
-            )}
-          </div>
-        )}
+        <div 
+          className={`modal-content ${hasPreview ? 'preview-mode' : 'info-only'}`} 
+          onClick={(e) => e.stopPropagation()}
+        >
+          
+          {hasPreview && (
+            <div className="modal-preview-container" onClick={onClose}>
+              {isImage ? (
+                file.thumbnailLink ? (
+                  <img 
+                    src={getHighResThumbnail(file.thumbnailLink, 's0')} 
+                    alt={file.name} 
+                    className="modal-full-image" 
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                ) : (
+                  <div className="modal-icon-placeholder" onClick={(e) => e.stopPropagation()}>🖼️</div>
+                )
+              ) : (
+                <div className="modal-document-viewer" onClick={(e) => e.stopPropagation()}>
+                  <iframe 
+                    src={getPreviewUrl(file.webViewLink)} 
+                    title={file.name}
+                    className="viewer-iframe"
+                    frameBorder="0"
+                    allow="autoplay"
+                  />
+                </div>
+              )}
+            </div>
+          )}
 
         <div className="modal-controls">
-          {isImage && (
+          {hasPreview && (
             <button className={`control-btn toggle-info-btn ${showInfo ? 'active' : ''}`} onClick={toggleInfo} aria-label="Toggle info panel" title="Info">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
@@ -130,8 +166,8 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
           </button>
         </div>
 
-        <div className={`modal-info-panel ${isImage ? 'floating-panel' : ''} ${!showInfo && isImage ? 'hidden-panel' : ''}`}>
-          {!isImage && (
+        <div className={`modal-info-panel ${hasPreview ? 'floating-panel' : ''} ${!showInfo && hasPreview ? 'hidden-panel' : ''}`}>
+          {!hasPreview && (
             <div className="modal-icon-header">
               <span className="large-icon" role="img" aria-label="file icon">{getFileIcon(file.mimeType)}</span>
             </div>
@@ -140,7 +176,7 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
           <div className="modal-header-section">
             <h3>{file.name}</h3>
             <p className="modal-meta">
-              {file.size ? `${(file.size / (1024 * 1024)).toFixed(2)} MB` : 'Unknown size'} • {new Date(file.createdAt).toLocaleDateString()}
+              {formatBytes(file.size)} • {new Date(file.createdAt).toLocaleDateString()}
             </p>
           </div>
 
@@ -219,7 +255,7 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
               rel="noopener noreferrer"
               className="primary-action-btn"
             >
-              {isImage ? 'View in Drive' : 'Open in Drive'}
+              Open in Drive
             </a>
           </div>
         </div>

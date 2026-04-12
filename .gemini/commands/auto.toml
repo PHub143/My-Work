@@ -14,19 +14,25 @@ Analyze the plan from @pm-agent.
 - If the task is strictly backend (within the `api/` directory), delegate the implementation to @be-agent.
 - If the task is full-stack or cross-directory, coordinate between @fe-agent and @be-agent, or perform the implementation yourself.
 
-### Phase 3: Quality Assurance
+### Phase 3: Build & Initialization
+1.  Run `npm run build` in both `allinone/` and `api/` to verify structural integrity.
+2.  Start the development environment:
+    - Launch the backend: `npm start` in the `api/` directory.
+    - Launch the frontend: `npm run dev` in the `allinone/` directory.
+3.  Ensure both services are reachable at their respective ports (3001 and 5173).
+
+### Phase 4: Quality Assurance
 1. Call @code-reviewer to audit the implemented changes for bugs, performance, and best practices.
-2. Call @qa-fe-agent to perform a targeted frontend QA audit (checking Functionality, HIG Compliance, Accessibility, and Responsiveness).
+2. Call @qa-fe-agent to perform a targeted frontend QA audit on the **live application** (checking Functionality, HIG Compliance, Accessibility, and Responsiveness).
 3. Address and fix all issues identified by both the code reviewer and the QA agent.
 
-### Phase 4: Verification
-Run the following verification commands and ensure they pass:
-- In `allinone/`: `npm run lint` and `npm run build`.
-- In `api/`: `npm run build`.
+### Phase 5: Verification
+Run the following final verification commands and ensure they pass:
+- In `allinone/`: `npm run lint`.
 
-### Phase 5: Submission
+### Phase 6: Submission
 1. Review all changes with `git status` and `git diff`.
 2. Stage and commit the changes with a concise, meaningful message.
-3. Push the changes to the remote repository.
+3. If applicable, push the changes to the remote repository.
 4. Sync the workspace changes with MemPalace (`mempalace mine .`) so you remember the work completed.
 """
