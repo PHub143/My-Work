@@ -147,8 +147,8 @@
 }
 
 .action-icon-btn {
-  background: none;
-  border: none;
+  background: var(--color-quaternary-label);
+  border: 1px solid var(--color-separator);
   width: 36px;
   height: 36px;
   border-radius: 8px;
@@ -156,17 +156,24 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: var(--color-secondary-label);
+  color: var(--color-label);
+  font-size: 16px;
+  line-height: 1;
   transition: all 0.2s ease;
 }
 
 .action-icon-btn:hover {
-  background: var(--color-quaternary-label);
+  background: var(--color-tertiary-label);
   color: var(--color-label);
 }
 
+.action-icon-btn.edit:hover {
+  background: rgba(0, 122, 255, 0.15);
+  color: var(--color-system-blue);
+}
+
 .action-icon-btn.delete:hover {
-  background: rgba(255, 59, 48, 0.1);
+  background: rgba(255, 59, 48, 0.15);
   color: var(--color-system-red);
 }
 
@@ -175,11 +182,9 @@
   cursor: not-allowed;
 }
 
-.action-icon-btn svg {
+.action-icon-btn span {
   display: block;
-  width: 18px;
-  height: 18px;
-  color: inherit;
+  font-style: normal;
 }
 
 .inline-confirm {
