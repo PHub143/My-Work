@@ -10,7 +10,7 @@ const FileModal = ({ file, onClose, onUpdateSuccess, isImage = false }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
   const [showInfo, setShowInfo] = useState(true);
-  const { token, isAuthenticated, user } = useAuth();
+  const { token, user } = useAuth();
 
   // Close on Escape key
   useEffect(() => {

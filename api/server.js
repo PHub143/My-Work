@@ -32,6 +32,13 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+// Extend timeout for large file uploads (2 hours)
+app.use('/upload', (req, res, next) => {
+  req.setTimeout(2 * 60 * 60 * 1000);
+  res.setTimeout(2 * 60 * 60 * 1000);
+  next();
+});
+
 // Use modular routes
 app.use('/', routes);
 

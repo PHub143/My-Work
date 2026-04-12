@@ -55,18 +55,25 @@ const uploadFile = async (req) => {
   return new Promise((resolve, reject) => {
     const bb = busboy({ 
       headers: req.headers,
-      limits: { fileSize: 20 * 1024 * 1024 } // 20MB limit
+      limits: { fileSize: 10 * 1024 * 1024 * 1024 } // 10GB limit
     });
     let fileProcessed = false;
     let tags = [];
 
     const allowedTypes = [
-      'image/jpeg',
-      'image/jpg',
-      'image/png',
-      'image/gif',
-      'application/pdf',
-      'text/plain',
+      // Images
+      'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml',
+      // Documents
+      'application/pdf', 'text/plain',
+      'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      // Video
+      'video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/x-matroska', 'video/webm',
+      // Audio
+      'audio/mpeg', 'audio/wav', 'audio/aac', 'audio/ogg',
+      // Archives
+      'application/zip', 'application/x-rar-compressed', 'application/gzip',
     ];
 
     bb.on('field', (name, val) => {
@@ -92,13 +99,13 @@ const uploadFile = async (req) => {
       file.on('limit', () => {
         fileProcessed = true;
         file.resume();
-        reject(createServiceError(413, 'File size limit exceeded (max 20MB).'));
+        reject(createServiceError(413, 'File size limit exceeded (max 10GB).'));
       });
 
       if (!allowedTypes.includes(mimeType)) {
         file.resume(); // Discard the file data
         fileProcessed = true;
-        return reject(createServiceError(400, 'Invalid file type. Only JPG/JPEG, PNG, GIF, PDF, and plain text are allowed.'));
+        return reject(createServiceError(400, `Invalid file type: ${mimeType}. Supported: images, videos, audio, documents, and archives.`));
       }
 
       fileProcessed = true;
@@ -149,7 +156,7 @@ const uploadFile = async (req) => {
     bb.on('limit', () => {
       if (fileProcessed) return;
       fileProcessed = true;
-      reject(createServiceError(413, 'File size limit exceeded (max 20MB).'));
+      reject(createServiceError(413, 'File size limit exceeded (max 10GB).'));
     });
 
     bb.on('error', (err) => {

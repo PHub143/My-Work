@@ -14,15 +14,21 @@
   border-radius: var(--border-radius-card);
   box-shadow: var(--shadow-apple);
   width: 100%;
-  max-width: 480px;
+  max-width: 520px;
   text-align: center;
   border: 1px solid var(--color-separator);
 }
 
 .upload-card h1 {
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-xs);
   font-size: var(--font-size-title-1);
   color: var(--color-label);
+}
+
+.upload-subtitle {
+  font-size: var(--font-size-subheadline);
+  color: var(--color-secondary-label);
+  margin-bottom: var(--spacing-xl);
 }
 
 .file-input-wrapper {
@@ -61,6 +67,10 @@
 .file-name strong {
   color: var(--color-label);
 }
+
+/* ──────────────────────────────────────── */
+/* Tags Section                            */
+/* ──────────────────────────────────────── */
 
 .tags-section {
   margin-bottom: var(--spacing-xl);
@@ -162,8 +172,87 @@
   to { transform: scale(1); opacity: 1; }
 }
 
-.upload-button {
+/* ──────────────────────────────────────── */
+/* Upload Progress Bar                     */
+/* ──────────────────────────────────────── */
+
+.upload-progress-section {
+  margin-bottom: var(--spacing-l);
+  animation: fadeIn 0.3s ease;
+}
+
+.upload-progress-track {
   width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--color-tertiary-system-background);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--color-separator);
+}
+
+.upload-progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--color-system-blue), #5AC8FA, var(--color-system-blue));
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.upload-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3));
+  border-radius: 0 4px 4px 0;
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.upload-progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  font-size: var(--font-size-caption-1);
+}
+
+.upload-progress-percent {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-system-blue);
+  font-variant-numeric: tabular-nums;
+}
+
+.upload-progress-bytes {
+  color: var(--color-secondary-label);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ──────────────────────────────────────── */
+/* Upload & Cancel Buttons                 */
+/* ──────────────────────────────────────── */
+
+.upload-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.upload-button {
+  flex: 1;
   padding: 16px;
   border: none;
   border-radius: var(--border-radius-button);
@@ -188,6 +277,31 @@
 .upload-button:active:not(:disabled) {
   transform: scale(0.98);
 }
+
+.cancel-button {
+  padding: 16px 24px;
+  border: none;
+  border-radius: var(--border-radius-button);
+  background-color: var(--color-system-red);
+  color: #FFFFFF;
+  font-size: var(--font-size-headline);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+  animation: scaleIn 0.2s ease;
+}
+
+.cancel-button:hover {
+  opacity: 0.9;
+}
+
+.cancel-button:active {
+  transform: scale(0.98);
+}
+
+/* ──────────────────────────────────────── */
+/* Status Messages                         */
+/* ──────────────────────────────────────── */
 
 .status-message {
   margin-top: var(--spacing-xl);

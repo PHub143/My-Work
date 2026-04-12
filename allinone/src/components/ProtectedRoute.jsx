@@ -12,7 +12,7 @@ import { useAuth } from '../AuthContext';
 const ProtectedRoute = () => {
   const [isConfigured, setIsConfigured] = useState(null);
   const [isLoadingConfig, setIsLoadingConfig] = useState(true);
-  const { user, isLoading: isLoadingAuth, isAuthenticated } = useAuth();
+  const { user, isLoading: isLoadingAuth } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
