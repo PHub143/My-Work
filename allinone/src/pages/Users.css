@@ -138,6 +138,9 @@
 
 .actions-cell {
   text-align: right;
+}
+
+.actions-wrapper {
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
@@ -172,8 +175,16 @@
   cursor: not-allowed;
 }
 
+.action-icon-btn svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  color: inherit;
+}
+
 .inline-confirm {
   display: flex;
+  justify-content: flex-end;
   gap: 0.5rem;
   animation: fadeIn 0.2s ease;
 }

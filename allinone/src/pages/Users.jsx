@@ -167,7 +167,7 @@ const Users = () => {
                         <button className="confirm-btn cancel" onClick={() => setDeletingUserId(null)}>Cancel</button>
                       </div>
                     ) : (
-                      <>
+                      <div className="actions-wrapper">
                         <button className="action-icon-btn edit" onClick={() => handleOpenModal(u)} title="Edit">
                           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -193,7 +193,7 @@ const Users = () => {
                             <line x1="14" y1="11" x2="14" y2="17"></line>
                           </svg>
                         </button>
-                      </>
+                      </div>
                     )}
                   </td>
                 </tr>

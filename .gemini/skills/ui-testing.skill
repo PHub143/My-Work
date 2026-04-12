@@ -1,0 +1,6 @@
+# UI Testing Guidelines
+
+When performing UI testing, and interacting with input fields:
+- ALWAYS clear the input field before inputting a new value.
+- Do not assume the input field is empty when initially focused.
+- Ensure the field is fully cleared prior to typing passwords or usernames to avoid concatenation of old and new data.
