@@ -103,6 +103,7 @@ The following custom agents are available in this project:
 - **`fe-agent`**: Senior Frontend Architect specializing in Apple UI/UX and React 19. Located in `.gemini/agents/fe-agent.md`.
 - **`qa-fe-agent`**: Senior QA Engineer for frontend quality assurance — functional testing, accessibility, HIG compliance, responsiveness, performance, and security. Located in `.gemini/agents/qa-fe-agent.md`.
 - **`be-agent`**: Senior Backend Engineer and Database Architect specializing in Node.js, Express, Prisma ORM, and PostgreSQL. Located in `.gemini/agents/be-agent.md`.
+- **`jira-agent`**: Senior Technical Product Owner specializing in writing production-ready Jira tickets with structured requirements, acceptance criteria, and technical context. Expert at decomposing epics into stories and tasks. Located in `.gemini/agents/jira-agent.md`.
 
 ## MemPalace Integration (Agentic Memory)
 
