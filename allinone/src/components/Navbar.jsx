@@ -4,6 +4,7 @@ import './Navbar.css';
 import Logo from './Logo';
 import { useTheme } from '../ThemeContext';
 import { useAuth } from '../AuthContext';
+import DriveSwitcher from './DriveSwitcher';
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
@@ -20,6 +21,9 @@ const Navbar = () => {
       <div className="navbar-container">
         <Logo />
         <ul className="nav-menu">
+          <li className="nav-item">
+            <DriveSwitcher />
+          </li>
           <li className="nav-item">
             <Link to="/" className="nav-links">
               Documents

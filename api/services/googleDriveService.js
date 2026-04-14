@@ -10,10 +10,11 @@ function createServiceError(status, message) {
 
 /**
  * Gets a configured Google Drive client.
- * Fetches credentials from the database.
+ * Fetches credentials from the database for the specified drive config.
+ * @param {string} [driveConfigId] - Optional drive config ID. Falls back to default.
  */
-async function getDriveClient() {
-  const config = await configService.getDriveConfig();
+async function getDriveClient(driveConfigId) {
+  const config = await configService.getDriveConfig(driveConfigId);
   
   if (!config || !config.clientId || !config.clientSecret || !config.redirectUri || !config.refreshToken) {
     throw createServiceError(
@@ -36,19 +37,21 @@ async function getDriveClient() {
       auth: oauth2Client,
       timeout: 120 * 60 * 1000 // 2 hours global timeout
     }),
-    driveFolderId: config.folderId
+    driveFolderId: config.folderId,
+    driveConfigId: config.id
   };
 }
 
 /**
  * Uploads a file to Google Drive using busboy for streaming.
  * @param {Object} req - Express request object.
+ * @param {string} [driveConfigId] - Optional drive config ID.
  * @returns {Promise<Object>} - Resolves with the uploaded file data or rejects with an error.
  */
-const uploadFile = async (req) => {
-  let drive, driveFolderId;
+const uploadFile = async (req, driveConfigId) => {
+  let drive, driveFolderId, resolvedDriveConfigId;
   try {
-    ({ drive, driveFolderId } = await getDriveClient());
+    ({ drive, driveFolderId, driveConfigId: resolvedDriveConfigId } = await getDriveClient(driveConfigId));
   } catch (error) {
     // If client initialization fails, we must consume/drain the request stream 
     // to prevent the connection from hanging.
@@ -89,6 +92,7 @@ const uploadFile = async (req) => {
           tags = val.split(',').map(t => t.trim()).filter(t => t);
         }
       }
+      // driveConfigId can also come from form data — but we already have it from params
     });
 
     bb.on('file', async (name, file, info) => {
@@ -149,7 +153,8 @@ const uploadFile = async (req) => {
 
         resolve({
           ...driveFile,
-          tags: tags
+          tags: tags,
+          driveConfigId: resolvedDriveConfigId
         });
       } catch (error) {
         console.error('Error uploading to Google Drive:', error);
@@ -181,11 +186,12 @@ const uploadFile = async (req) => {
 /**
  * Makes a file public (anyone with link can view).
  * @param {string} fileId - The ID of the file to make public.
+ * @param {string} [driveConfigId] - Optional drive config ID.
  * @returns {Promise<void>}
  */
-const makeFilePublic = async (fileId) => {
+const makeFilePublic = async (fileId, driveConfigId) => {
   try {
-    const { drive } = await getDriveClient();
+    const { drive } = await getDriveClient(driveConfigId);
     await drive.permissions.create({
       fileId: fileId,
       requestBody: {
@@ -201,11 +207,12 @@ const makeFilePublic = async (fileId) => {
 
 /**
  * Lists files from the specified Google Drive folder.
+ * @param {string} [driveConfigId] - Optional drive config ID.
  * @returns {Promise<Array>} - Resolves with an array of file objects.
  */
-const listFiles = async () => {
+const listFiles = async (driveConfigId) => {
   try {
-    const { drive, driveFolderId } = await getDriveClient();
+    const { drive, driveFolderId } = await getDriveClient(driveConfigId);
 
     const files = [];
     let pageToken;
@@ -234,11 +241,12 @@ const listFiles = async () => {
 /**
  * Deletes a file from Google Drive.
  * @param {string} fileId - The ID of the file to delete.
+ * @param {string} [driveConfigId] - Optional drive config ID.
  * @returns {Promise<void>}
  */
-const deleteFile = async (fileId) => {
+const deleteFile = async (fileId, driveConfigId) => {
   try {
-    const { drive } = await getDriveClient();
+    const { drive } = await getDriveClient(driveConfigId);
 
     await drive.files.delete({
       fileId: fileId,

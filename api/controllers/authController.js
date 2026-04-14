@@ -2,11 +2,13 @@ const { google } = require('googleapis');
 const configService = require('../services/configService');
 
 /**
- * Generates the Google OAuth URL.
+ * Generates the Google OAuth URL for a specific drive config.
+ * Embeds the driveConfigId in the OAuth state parameter.
  */
 const getAuthUrlHandler = async (req, res, next) => {
   try {
-    const config = await configService.getDriveConfig();
+    const driveConfigId = req.query.driveConfigId;
+    const config = await configService.getDriveConfig(driveConfigId);
     if (!config || !config.clientId || !config.clientSecret || !config.redirectUri) {
       return res.status(412).json({ message: 'Google Drive credentials are not fully configured in settings.' });
     }
@@ -17,10 +19,14 @@ const getAuthUrlHandler = async (req, res, next) => {
       config.redirectUri
     );
 
+    // Encode the driveConfigId in the state parameter for the callback
+    const state = JSON.stringify({ driveConfigId: config.id });
+
     const authUrl = oauth2Client.generateAuthUrl({
       access_type: 'offline',
       prompt: 'consent',
       scope: ['https://www.googleapis.com/auth/drive'],
+      state: state,
     });
 
     res.status(200).json({ url: authUrl });
@@ -30,18 +36,31 @@ const getAuthUrlHandler = async (req, res, next) => {
 };
 
 /**
- * Exchanges auth code for refresh token and saves it.
+ * Exchanges auth code for refresh token and saves it to the correct drive config.
+ * Extracts driveConfigId from the OAuth state parameter.
  */
 const googleCallbackHandler = async (req, res, next) => {
-  const { code } = req.body;
+  const { code, state } = req.body;
   if (!code) {
     return res.status(400).json({ message: 'Authorization code is required.' });
   }
 
   try {
-    const config = await configService.getDriveConfig();
+    // Parse the state to get the driveConfigId
+    let driveConfigId;
+    if (state) {
+      try {
+        const stateData = JSON.parse(state);
+        driveConfigId = stateData.driveConfigId;
+      } catch (e) {
+        // State might be just the driveConfigId string for backward compat
+        driveConfigId = state;
+      }
+    }
+
+    const config = await configService.getDriveConfig(driveConfigId);
     if (!config) {
-      return res.status(400).json({ message: 'Config not found.' });
+      return res.status(400).json({ message: 'Drive configuration not found.' });
     }
 
     const oauth2Client = new google.auth.OAuth2(
@@ -60,6 +79,7 @@ const googleCallbackHandler = async (req, res, next) => {
 
     await configService.upsertDriveConfig({
       ...config,
+      id: config.id,
       refreshToken: tokens.refresh_token
     });
 

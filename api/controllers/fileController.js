@@ -9,8 +9,10 @@ const fileService = require('../services/fileService');
  */
 const uploadFileHandler = async (req, res, next) => {
   let driveFileData = null;
+  const driveConfigId = req.query.driveConfigId;
+
   try {
-    const uploadResult = await googleDriveService.uploadFile(req);
+    const uploadResult = await googleDriveService.uploadFile(req, driveConfigId);
     driveFileData = uploadResult;
     
     // Cache metadata in the application database
@@ -21,6 +23,7 @@ const uploadFileHandler = async (req, res, next) => {
       webViewLink: driveFileData.webViewLink,
       thumbnailLink: driveFileData.thumbnailLink,
       size: driveFileData.size,
+      driveConfigId: driveFileData.driveConfigId,
     }, uploadResult.tags);
 
     res.status(200).json({ 
@@ -31,7 +34,7 @@ const uploadFileHandler = async (req, res, next) => {
     // Rollback: if DB insert fails, remove the file from Drive
     if (driveFileData && driveFileData.id) {
       try {
-        await googleDriveService.deleteFile(driveFileData.id);
+        await googleDriveService.deleteFile(driveFileData.id, driveConfigId);
         console.warn(`Rolled back orphaned Drive file: ${driveFileData.id}`);
       } catch (rollbackError) {
         console.error('Critical: Failed to rollback Drive file', rollbackError);
@@ -53,12 +56,12 @@ const listFilesHandler = async (req, res, next) => {
     // Set sensible defaults for pagination and filtering
     const limit = parseInt(req.query.limit, 10) || 50;
     const offset = parseInt(req.query.offset, 10) || 0;
-    const { includeType, excludeType, tag } = req.query;
+    const { includeType, excludeType, tag, driveConfigId } = req.query;
     
     // Fetch both the files and the total count in parallel with filters
     const [files, total] = await Promise.all([
-      fileService.getAllFiles({ limit, offset, includeType, excludeType, tag }),
-      fileService.countFiles({ includeType, excludeType, tag })
+      fileService.getAllFiles({ limit, offset, includeType, excludeType, tag, driveConfigId }),
+      fileService.countFiles({ includeType, excludeType, tag, driveConfigId })
     ]);
     
     res.status(200).json({ 
@@ -80,8 +83,8 @@ const listFilesHandler = async (req, res, next) => {
  */
 const getAllTagsHandler = async (req, res, next) => {
   try {
-    const { includeType, excludeType } = req.query;
-    const tags = await fileService.getAllTags({ includeType, excludeType });
+    const { includeType, excludeType, driveConfigId } = req.query;
+    const tags = await fileService.getAllTags({ includeType, excludeType, driveConfigId });
     res.status(200).json({ tags });
   } catch (error) {
     next(error);
@@ -125,6 +128,7 @@ const updateFileTagsHandler = async (req, res, next) => {
 
 /**
  * Handles file deletion requests.
+ * Looks up the file's driveConfigId from the database to use the correct Drive credentials.
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  * @param {Function} next - Express next middleware function.
@@ -137,9 +141,13 @@ const deleteFileHandler = async (req, res, next) => {
   }
 
   try {
+    // Look up the file to get its driveConfigId
+    const existingFile = await fileService.findFileByDriveId(fileId);
+    const driveConfigId = existingFile?.driveConfigId;
+
     // 1. Delete from Google Drive
     try {
-      await googleDriveService.deleteFile(fileId);
+      await googleDriveService.deleteFile(fileId, driveConfigId);
     } catch (driveError) {
       // If the file is already gone from Drive, we should still try to clean up the DB
       if (driveError.status === 404) {

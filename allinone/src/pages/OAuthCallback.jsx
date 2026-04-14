@@ -10,6 +10,7 @@ const OAuthCallback = () => {
   const navigate = useNavigate();
   const { token } = useAuth();
   const code = searchParams.get('code');
+  const stateParam = searchParams.get('state');
   const hasExchanged = useRef(false);
   const [status, setStatus] = useState('Authenticating with Google...');
   const [error, setError] = useState(code ? '' : 'No authorization code found in the URL. If you just redirected, please try again from Settings.');
@@ -28,7 +29,7 @@ const OAuthCallback = () => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           },
-          body: JSON.stringify({ code }),
+          body: JSON.stringify({ code, state: stateParam }),
         });
 
         if (response.ok) {
@@ -48,7 +49,7 @@ const OAuthCallback = () => {
     };
 
     exchangeCode();
-  }, [code, navigate, token]);
+  }, [code, navigate, token, stateParam]);
 
   return (
     <div className="oauth-callback-container">

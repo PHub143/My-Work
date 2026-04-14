@@ -4,6 +4,7 @@ import { API_URL } from '../config';
 import Spinner from '../components/Spinner';
 import FileModal from '../components/FileModal';
 import { useAuth } from '../AuthContext';
+import { useDrive } from '../DriveContext';
 
 const Documents = () => {
   const [files, setFiles] = useState([]);
@@ -13,6 +14,7 @@ const Documents = () => {
   const [selectedTag, setSelectedTag] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const { token } = useAuth();
+  const { activeDriveId, activeDrive } = useDrive();
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -20,7 +22,10 @@ const Documents = () => {
         const headers = {};
         if (token) headers['Authorization'] = `Bearer ${token}`;
         
-        const response = await fetch(`${API_URL}/tags?excludeType=image,video`, { headers });
+        let url = `${API_URL}/tags?excludeType=image,video`;
+        if (activeDriveId) url += `&driveConfigId=${activeDriveId}`;
+
+        const response = await fetch(url, { headers });
         if (response.ok) {
           const data = await response.json();
           setTags(data.tags);
@@ -30,15 +35,19 @@ const Documents = () => {
       }
     };
     fetchTags();
-  }, [token]);
+  }, [token, activeDriveId]);
 
   useEffect(() => {
     const fetchFiles = async () => {
       setIsLoading(true);
+      setError(null);
       try {
         let url = `${API_URL}/files?excludeType=image,video`;
         if (selectedTag) {
           url += `&tag=${encodeURIComponent(selectedTag)}`;
+        }
+        if (activeDriveId) {
+          url += `&driveConfigId=${activeDriveId}`;
         }
 
         const headers = {};
@@ -65,7 +74,7 @@ const Documents = () => {
     };
 
     fetchFiles();
-  }, [selectedTag, token]);
+  }, [selectedTag, token, activeDriveId]);
 
   const handleUpdateSuccess = (updatedFile) => {
     setFiles(prevFiles => prevFiles.map(f => 
@@ -76,7 +85,10 @@ const Documents = () => {
     const headers = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    fetch(`${API_URL}/tags?excludeType=image,video`, { headers })
+    let url = `${API_URL}/tags?excludeType=image,video`;
+    if (activeDriveId) url += `&driveConfigId=${activeDriveId}`;
+
+    fetch(url, { headers })
       .then(res => res.json())
       .then(data => setTags(data.tags))
       .catch(err => console.error('Error refreshing tags:', err));
@@ -87,7 +99,11 @@ const Documents = () => {
     // Refresh tags list
     const headers = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
-    fetch(`${API_URL}/tags?excludeType=image,video`, { headers })
+
+    let url = `${API_URL}/tags?excludeType=image,video`;
+    if (activeDriveId) url += `&driveConfigId=${activeDriveId}`;
+
+    fetch(url, { headers })
       .then(res => res.json())
       .then(data => setTags(data.tags))
       .catch(err => console.error('Error refreshing tags:', err));
@@ -118,11 +134,20 @@ const Documents = () => {
     return '📁';
   };
 
+  // Reset tag filter when drive changes
+  useEffect(() => {
+    setSelectedTag(null);
+  }, [activeDriveId]);
+
   return (
     <div className="documents-container">
       <div className="documents-header">
         <h1>Documents</h1>
-        <p>Your uploaded files on Google Drive</p>
+        <p>
+          {activeDrive
+            ? `Files on ${activeDrive.name}`
+            : 'Your uploaded files on Google Drive'}
+        </p>
       </div>
 
       {tags.length > 0 && (

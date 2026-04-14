@@ -3,6 +3,7 @@ import './Upload.css';
 import { API_URL, ALLOWED_FILE_TYPES, MAX_FILE_SIZE } from '../config';
 import Spinner from '../components/Spinner';
 import { useAuth } from '../AuthContext';
+import { useDrive } from '../DriveContext';
 
 /**
  * Formats bytes into a human-readable string (e.g., "1.24 GB").
@@ -46,6 +47,7 @@ const Upload = () => {
   const fileInputRef = useRef(null);
   const xhrRef = useRef(null);
   const { token } = useAuth();
+  const { activeDriveId, activeDrive } = useDrive();
 
   const fetchAvailableTags = useCallback(async () => {
     try {
@@ -194,7 +196,11 @@ const Upload = () => {
       setIsUploading(false);
     });
 
-    xhr.open('POST', `${API_URL}/upload`);
+    let uploadUrl = `${API_URL}/upload`;
+    if (activeDriveId) {
+      uploadUrl += `?driveConfigId=${activeDriveId}`;
+    }
+    xhr.open('POST', uploadUrl);
     xhr.setRequestHeader('Authorization', `Bearer ${token}`);
     xhr.send(formData);
   };
@@ -207,7 +213,11 @@ const Upload = () => {
     <div className="upload-container">
       <div className="upload-card">
         <h1>Upload to Google Drive</h1>
-        <p className="upload-subtitle">Supports videos, images, documents & more — up to 10 GB</p>
+        <p className="upload-subtitle">
+          {activeDrive
+            ? `Uploading to ${activeDrive.name} — up to 10 GB`
+            : 'Supports videos, images, documents & more — up to 10 GB'}
+        </p>
         
         <div className="file-input-wrapper">
           <label htmlFor="file-upload" className="custom-file-upload">

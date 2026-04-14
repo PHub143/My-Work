@@ -11,9 +11,10 @@ const fileService = {
    * @param {number} [options.offset] - Number of records to skip.
    * @param {string} [options.includeType] - MIME type prefix to include (e.g., 'image').
    * @param {string} [options.excludeType] - MIME type prefix to exclude (e.g., 'image').
+   * @param {string} [options.driveConfigId] - Filter by drive config ID.
    * @returns {Promise<Array>}
    */
-  getAllFiles: async ({ limit, offset, includeType, excludeType, tag } = {}) => {
+  getAllFiles: async ({ limit, offset, includeType, excludeType, tag, driveConfigId } = {}) => {
     const where = {};
     
     if (includeType) {
@@ -34,6 +35,10 @@ const fileService = {
           name: tag
         }
       };
+    }
+
+    if (driveConfigId) {
+      where.driveConfigId = driveConfigId;
     }
 
     return prisma.file.findMany({
@@ -55,9 +60,10 @@ const fileService = {
    * @param {string} [options.includeType] - MIME type prefix(es) to include (e.g., 'image' or 'image,video').
    * @param {string} [options.excludeType] - MIME type prefix(es) to exclude (e.g., 'image' or 'image,video').
    * @param {string} [options.tag] - Tag name to filter by.
+   * @param {string} [options.driveConfigId] - Filter by drive config ID.
    * @returns {Promise<number>}
    */
-  countFiles: async ({ includeType, excludeType, tag } = {}) => {
+  countFiles: async ({ includeType, excludeType, tag, driveConfigId } = {}) => {
     const where = {};
     
     if (includeType) {
@@ -78,6 +84,10 @@ const fileService = {
           name: tag
         }
       };
+    }
+
+    if (driveConfigId) {
+      where.driveConfigId = driveConfigId;
     }
 
     return prisma.file.count({ where });
@@ -112,18 +122,27 @@ const fileService = {
       create: { name: tag }
     }));
 
+    const createData = {
+      driveFileId: data.driveFileId,
+      name: data.name,
+      mimeType: data.mimeType,
+      webViewLink: data.webViewLink,
+      thumbnailLink: data.thumbnailLink,
+      size: data.size ? parseInt(data.size) : null,
+      tags: {
+        connectOrCreate: tagData
+      }
+    };
+
+    // Associate with drive config if provided
+    if (data.driveConfigId) {
+      createData.driveConfig = {
+        connect: { id: data.driveConfigId }
+      };
+    }
+
     return prisma.file.create({
-      data: {
-        driveFileId: data.driveFileId,
-        name: data.name,
-        mimeType: data.mimeType,
-        webViewLink: data.webViewLink,
-        thumbnailLink: data.thumbnailLink,
-        size: data.size ? parseInt(data.size) : null,
-        tags: {
-          connectOrCreate: tagData
-        }
-      },
+      data: createData,
       include: {
         tags: true
       }
@@ -135,28 +154,37 @@ const fileService = {
    * @param {Object} [options] - Filtering options.
    * @param {string} [options.includeType] - MIME type prefix to include (e.g., 'image').
    * @param {string} [options.excludeType] - MIME type prefix to exclude (e.g., 'image').
+   * @param {string} [options.driveConfigId] - Filter by drive config ID.
    * @returns {Promise<Array>}
    */
-  getAllTags: async ({ includeType, excludeType } = {}) => {
+  getAllTags: async ({ includeType, excludeType, driveConfigId } = {}) => {
     const where = {};
+
+    const fileFilters = [];
 
     if (includeType) {
       const types = includeType.split(',').map(t => t.trim());
-      where.files = {
-        some: {
-          OR: types.map(t => ({
-            mimeType: { startsWith: `${t}/` }
-          }))
-        }
-      };
+      fileFilters.push({
+        OR: types.map(t => ({
+          mimeType: { startsWith: `${t}/` }
+        }))
+      });
     } else if (excludeType) {
       const types = excludeType.split(',').map(t => t.trim());
+      fileFilters.push({
+        NOT: types.map(t => ({
+          mimeType: { startsWith: `${t}/` }
+        }))
+      });
+    }
+
+    if (driveConfigId) {
+      fileFilters.push({ driveConfigId });
+    }
+
+    if (fileFilters.length > 0) {
       where.files = {
-        some: {
-          NOT: types.map(t => ({
-            mimeType: { startsWith: `${t}/` }
-          }))
-        }
+        some: fileFilters.length === 1 ? fileFilters[0] : { AND: fileFilters }
       };
     }
 
@@ -226,24 +254,27 @@ const fileService = {
    * @returns {Promise<Object>}
    */
   upsertFile: async (data) => {
+    const upsertData = {
+      name: data.name,
+      mimeType: data.mimeType,
+      webViewLink: data.webViewLink,
+      thumbnailLink: data.thumbnailLink,
+      size: data.size ? parseInt(data.size) : null,
+    };
+
+    // Include driveConfigId in both create and update if provided
+    if (data.driveConfigId) {
+      upsertData.driveConfigId = data.driveConfigId;
+    }
+
     return prisma.file.upsert({
       where: {
         driveFileId: data.driveFileId,
       },
-      update: {
-        name: data.name,
-        mimeType: data.mimeType,
-        webViewLink: data.webViewLink,
-        thumbnailLink: data.thumbnailLink,
-        size: data.size ? parseInt(data.size) : null,
-      },
+      update: upsertData,
       create: {
         driveFileId: data.driveFileId,
-        name: data.name,
-        mimeType: data.mimeType,
-        webViewLink: data.webViewLink,
-        thumbnailLink: data.thumbnailLink,
-        size: data.size ? parseInt(data.size) : null,
+        ...upsertData,
       },
     });
   },

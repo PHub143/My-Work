@@ -4,6 +4,7 @@ import { API_URL } from '../config';
 import Spinner from '../components/Spinner';
 import FileModal from '../components/FileModal';
 import { useAuth } from '../AuthContext';
+import { useDrive } from '../DriveContext';
 
 const Gallery = () => {
   const [images, setImages] = useState([]);
@@ -13,6 +14,7 @@ const Gallery = () => {
   const [tags, setTags] = useState([]);
   const [selectedTag, setSelectedTag] = useState(null);
   const { token } = useAuth();
+  const { activeDriveId, activeDrive } = useDrive();
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -20,7 +22,10 @@ const Gallery = () => {
         const headers = {};
         if (token) headers['Authorization'] = `Bearer ${token}`;
 
-        const response = await fetch(`${API_URL}/tags?includeType=image,video`, { headers });
+        let url = `${API_URL}/tags?includeType=image,video`;
+        if (activeDriveId) url += `&driveConfigId=${activeDriveId}`;
+
+        const response = await fetch(url, { headers });
         if (response.ok) {
           const data = await response.json();
           setTags(data.tags);
@@ -30,15 +35,19 @@ const Gallery = () => {
       }
     };
     fetchTags();
-  }, [token]);
+  }, [token, activeDriveId]);
 
   useEffect(() => {
     const fetchImages = async () => {
       setIsLoading(true);
+      setError(null);
       try {
         let url = `${API_URL}/files?includeType=image,video`;
         if (selectedTag) {
           url += `&tag=${encodeURIComponent(selectedTag)}`;
+        }
+        if (activeDriveId) {
+          url += `&driveConfigId=${activeDriveId}`;
         }
 
         const headers = {};
@@ -64,7 +73,7 @@ const Gallery = () => {
     };
 
     fetchImages();
-  }, [selectedTag, token]);
+  }, [selectedTag, token, activeDriveId]);
 
   const handleUpdateSuccess = (updatedFile) => {
     setImages(prevImages => prevImages.map(img => 
@@ -75,7 +84,10 @@ const Gallery = () => {
     const headers = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    fetch(`${API_URL}/tags?includeType=image,video`, { headers })
+    let url = `${API_URL}/tags?includeType=image,video`;
+    if (activeDriveId) url += `&driveConfigId=${activeDriveId}`;
+
+    fetch(url, { headers })
       .then(res => res.json())
       .then(data => setTags(data.tags))
       .catch(err => console.error('Error refreshing tags:', err));
@@ -86,7 +98,11 @@ const Gallery = () => {
     // Refresh tags list
     const headers = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
-    fetch(`${API_URL}/tags?includeType=image,video`, { headers })
+
+    let url = `${API_URL}/tags?includeType=image,video`;
+    if (activeDriveId) url += `&driveConfigId=${activeDriveId}`;
+
+    fetch(url, { headers })
       .then(res => res.json())
       .then(data => setTags(data.tags))
       .catch(err => console.error('Error refreshing tags:', err));
@@ -116,11 +132,20 @@ const Gallery = () => {
     };
   }, [selectedImage]);
 
+  // Reset tag filter when drive changes
+  useEffect(() => {
+    setSelectedTag(null);
+  }, [activeDriveId]);
+
   return (
     <div className="gallery-container">
       <div className="gallery-header">
         <h1>Gallery</h1>
-        <p>Your uploaded images and videos on Google Drive</p>
+        <p>
+          {activeDrive
+            ? `Images and videos on ${activeDrive.name}`
+            : 'Your uploaded images and videos on Google Drive'}
+        </p>
       </div>
 
       {tags.length > 0 && (

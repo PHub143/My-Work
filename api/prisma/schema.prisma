@@ -24,6 +24,10 @@ model File {
   owner   User? @relation(fields: [ownerId], references: [id])
   ownerId String?
   tags    Tag[] @relation("FileTags")
+
+  // Multi-drive support
+  driveConfig   DriveConfig? @relation(fields: [driveConfigId], references: [id])
+  driveConfigId String?
 }
 
 model User {
@@ -44,12 +48,15 @@ model Tag {
 }
 
 model DriveConfig {
-  id           String   @id @default("singleton") // Ensure only one config exists
+  id           String   @id @default(cuid())
+  name         String   @default("Default Drive")
   clientId     String
   clientSecret String   // Encrypted
   redirectUri  String
   refreshToken String?  // Encrypted
   folderId     String
+  isDefault    Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  files        File[]
 }

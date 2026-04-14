@@ -8,6 +8,7 @@ import AdminRoute from './components/AdminRoute';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
 import { AuthProvider } from './AuthContext';
 import { ThemeProvider } from './ThemeContext';
+import { DriveProvider } from './DriveContext';
 
 const Documents = lazy(() => import('./pages/Documents'));
 const Gallery = lazy(() => import('./pages/Gallery'));
@@ -27,13 +28,16 @@ const OAuthDetector = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
+    const state = urlParams.get('state');
     if (code) {
       // Clean the search params from the URL immediately
       const newUrl = window.location.pathname + window.location.hash;
       window.history.replaceState({}, document.title, newUrl);
       
-      // Navigate to the React Router hash route
-      navigate(`/oauth/callback?code=${code}`, { replace: true });
+      // Navigate to the React Router hash route, preserving state for drive-specific auth
+      let callbackUrl = `/oauth/callback?code=${code}`;
+      if (state) callbackUrl += `&state=${encodeURIComponent(state)}`;
+      navigate(callbackUrl, { replace: true });
     }
   }, [navigate]);
 
@@ -44,6 +48,7 @@ function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
+        <DriveProvider>
         <Router>
           <OAuthDetector />
           <Navbar />
@@ -67,6 +72,7 @@ function App() {
             </Suspense>
           </main>
         </Router>
+        </DriveProvider>
       </AuthProvider>
     </ThemeProvider>
   );
