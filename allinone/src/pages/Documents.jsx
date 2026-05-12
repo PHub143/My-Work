@@ -6,6 +6,18 @@ import FileModal from '../components/FileModal';
 import { useAuth } from '../AuthContext';
 import { useDrive } from '../DriveContext';
 
+function formatBytes(bytes = 0) {
+  if (!bytes) return '0 B';
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+  const i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), sizes.length - 1);
+  return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(i === 0 ? 0 : 1))} ${sizes[i]}`;
+}
+
+function formatDate(value) {
+  if (!value) return 'Unknown';
+  return new Date(value).toLocaleDateString([], { month: 'short', day: 'numeric' });
+}
+
 const Documents = () => {
   const [files, setFiles] = useState([]);
   const [error, setError] = useState(null);
@@ -128,10 +140,14 @@ const Documents = () => {
     };
   }, [selectedFile]);
 
-  const getFileIcon = (mimeType) => {
-    if (mimeType.includes('pdf')) return '📕';
-    if (mimeType.includes('text/plain')) return '📄';
-    return '📁';
+  const getFileExt = (file) => {
+    const mimeType = file.mimeType || '';
+    if (mimeType.includes('pdf')) return 'PDF';
+    if (mimeType.includes('text/plain')) return 'TXT';
+    if (mimeType.includes('spreadsheet') || mimeType.includes('excel')) return 'XLS';
+    if (mimeType.includes('presentation') || mimeType.includes('powerpoint')) return 'PPT';
+    if (mimeType.includes('document') || mimeType.includes('word')) return 'DOC';
+    return file.name?.split('.').pop()?.slice(0, 4).toUpperCase() || 'FILE';
   };
 
   // Reset tag filter when drive changes
@@ -139,80 +155,111 @@ const Documents = () => {
     setSelectedTag(null);
   }, [activeDriveId]);
 
-  return (
-    <div className="documents-container">
-      <div className="documents-header">
-        <h1>Documents</h1>
-        <p>
-          {activeDrive
-            ? `Files on ${activeDrive.name}`
-            : 'Your uploaded files on Google Drive'}
-        </p>
-      </div>
+  const totalSize = files.reduce((sum, file) => sum + (file.size ? Number(file.size) : 0), 0);
+  const folderPills = [
+    { name: 'All docs', icon: '✦', count: files.length, value: null },
+    ...tags.slice(0, 4).map(tag => ({ name: tag.name, icon: '#', count: tag.count || '', value: tag.name }))
+  ];
 
-      {tags.length > 0 && (
-        <div className="filter-bar">
-          <button 
-            className={`filter-pill ${!selectedTag ? 'active' : ''}`}
-            onClick={() => setSelectedTag(null)}
-          >
-            All
-          </button>
-          {tags.map(tag => (
-            <button 
-              key={tag.id}
-              className={`filter-pill ${selectedTag === tag.name ? 'active' : ''}`}
-              onClick={() => setSelectedTag(tag.name)}
+  return (
+    <div className="documents-container cosmic-page" style={{ '--page-accent': 'var(--cosmic-blue)' }}>
+      <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor"/>
+      </svg>
+      <div className="cosmic-cube" />
+
+      <div className="documents-content cosmic-content">
+        <div className="documents-header">
+          <div className="documents-kicker">
+            <span className="documents-badge">{files.length} FILE{files.length === 1 ? '' : 'S'}</span>
+            <span className="documents-meta">· text · pdf · {formatBytes(totalSize)}</span>
+          </div>
+          <h1>
+            Read, review, <em>repeat.</em>
+          </h1>
+          <p>
+            {activeDrive
+              ? `Files on ${activeDrive.name}`
+              : 'Your uploaded files on Google Drive'}
+          </p>
+        </div>
+
+        <div className="folder-pill-row">
+          {folderPills.map((folder, i) => (
+            <button
+              key={folder.name}
+              className={`folder-pill ${selectedTag === folder.value ? 'active' : ''}`}
+              onClick={() => setSelectedTag(folder.value)}
+              style={{ '--folder-index': i }}
             >
-              {tag.name}
+              <span>{folder.icon}</span>
+              {folder.name}
+              <span className="folder-count">{folder.count}</span>
             </button>
           ))}
         </div>
-      )}
 
-      {error && (
-        <div className="error-message">
-          {error}
-        </div>
-      )}
+        {tags.length > 4 && (
+          <div className="filter-bar compact">
+            {tags.slice(4).map(tag => (
+              <button
+                key={tag.id}
+                className={`filter-pill ${selectedTag === tag.name ? 'active' : ''}`}
+                onClick={() => setSelectedTag(tag.name)}
+              >
+                #{tag.name}
+              </button>
+            ))}
+          </div>
+        )}
 
-      {isLoading ? (
-        <div className="loading-container">
-          <Spinner />
-        </div>
-      ) : files.length > 0 ? (
-        <div className="documents-grid">
-          {files.map((file) => (
-            <div 
-              key={file.id} 
-              className="document-card"
-              onClick={() => setSelectedFile(file)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  setSelectedFile(file);
-                }
-              }}
-            >
-              <div className="document-icon">{getFileIcon(file.mimeType)}</div>
-              <div className="document-info">
-                <span className="document-name">{file.name}</span>
-                <div className="card-tags">
-                  {file.tags?.slice(0, 2).map(tag => (
-                    <span key={tag.id} className="card-tag">{tag.name}</span>
-                  ))}
-                  {file.tags?.length > 2 && <span className="card-tag">+{file.tags.length - 2}</span>}
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
+        )}
+
+        {isLoading ? (
+          <div className="loading-container">
+            <Spinner />
+          </div>
+        ) : files.length > 0 ? (
+          <div className="documents-grid">
+            {files.map((file, i) => {
+              const tag = file.tags?.[0]?.name || 'misc';
+              return (
+                <div
+                  key={file.id}
+                  className="document-card"
+                  onClick={() => setSelectedFile(file)}
+                  role="button"
+                  tabIndex={0}
+                  style={{ '--card-index': i }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      setSelectedFile(file);
+                    }
+                  }}
+                >
+                  <div className="document-card-top">
+                    <span className="document-ext">{getFileExt(file)}</span>
+                    <span className="document-size">{formatBytes(file.size)}</span>
+                  </div>
+                  <span className="document-name">{file.name}</span>
+                  <div className="document-footer">
+                    <span>{formatDate(file.modifiedTime || file.createdTime)}</span>
+                    <span className="card-tag">#{tag}</span>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="no-documents">
-          <p>No documents found in your Drive.</p>
-        </div>
-      )}
+              );
+            })}
+          </div>
+        ) : (
+          <div className="no-documents">
+            <p>No documents found in your Drive.</p>
+          </div>
+        )}
+      </div>
 
       <FileModal 
         file={selectedFile} 

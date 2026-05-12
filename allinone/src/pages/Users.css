@@ -1,8 +1,12 @@
 .users-page {
-  padding: clamp(24px, 4vw, 56px);
+  padding: 0;
+  min-height: calc(100vh - 76px);
+}
+
+.users-content {
+  padding: 8px 48px 48px;
   max-width: 1240px;
   margin: 0 auto;
-  min-height: calc(100vh - 76px);
 }
 
 .users-header {
@@ -13,12 +17,44 @@
   gap: 1.5rem;
 }
 
+.users-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.users-badge {
+  padding: 4px 12px;
+  background: var(--cosmic-cyan);
+  color: var(--cosmic-bg);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  transform: rotate(-2deg);
+  display: inline-block;
+}
+
+.users-meta {
+  font-size: 11px;
+  color: var(--cosmic-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
 .users-header h1 {
   font-family: var(--font-family-display);
-  font-size: clamp(3.6rem, 9vw, 6.6rem);
+  font-size: clamp(4.5rem, 10vw, 6.9rem);
   font-weight: 400;
-  line-height: 0.86;
+  line-height: 0.9;
   margin-bottom: 0.7rem;
+}
+
+.users-header h1 em {
+  color: var(--cosmic-yellow);
+  font-style: italic;
 }
 
 .users-header p {
@@ -27,17 +63,18 @@
 }
 
 .add-user-btn {
-  background: var(--cosmic-cyan);
-  color: var(--cosmic-bg);
-  border: 2px solid var(--cosmic-ink);
-  padding: 0.82rem 1.35rem;
+  background: var(--cosmic-pink);
+  color: var(--cosmic-ink);
+  border: none;
+  padding: 14px 22px;
   border-radius: 999px;
   font-weight: 800;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.76);
+  box-shadow: 4px 4px 0 var(--cosmic-ink);
+  transform: rotate(-1.5deg);
   transition: transform 0.2s ease, background 0.2s ease;
 }
 
@@ -47,8 +84,9 @@
 }
 
 .add-user-btn:hover {
-  transform: translateY(-2px);
+  transform: rotate(0deg) translateY(-2px);
   background: var(--cosmic-yellow);
+  color: var(--cosmic-bg);
 }
 
 .error-banner {
@@ -61,71 +99,112 @@
   font-weight: 700;
 }
 
-.users-table-container {
-  overflow-x: auto;
-  border-radius: 8px;
-  border: 1.5px solid var(--color-separator);
-  background: rgba(254, 249, 240, 0.08);
+.users-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  padding: 20px 0;
 }
 
-.users-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-  min-width: 760px;
+.user-polaroid {
+  padding: 16px 16px 20px;
+  border-radius: 6px;
+  background: var(--cosmic-cream);
+  color: var(--cosmic-bg);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+  transform: rotate(-3deg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.users-table th {
-  padding: 1.1rem 1.4rem;
+.user-polaroid:nth-child(4n + 2) { transform: rotate(2deg); }
+.user-polaroid:nth-child(4n + 3) { transform: rotate(-2deg); }
+.user-polaroid:nth-child(4n) { transform: rotate(3deg); }
+
+.user-polaroid:hover {
+  transform: rotate(0deg) translateY(-5px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.46);
+}
+
+.user-tape {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 60px;
+  height: 18px;
+  background: rgba(255, 206, 86, 0.6);
+  border-radius: 1px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.user-portrait {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  margin-bottom: 14px;
+  background: var(--cosmic-yellow);
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-polaroid:nth-child(4n + 2) .user-portrait { background: var(--cosmic-pink); }
+.user-polaroid:nth-child(4n + 3) .user-portrait { background: var(--cosmic-cyan); }
+.user-polaroid:nth-child(4n) .user-portrait { background: var(--cosmic-ink); }
+
+.user-portrait span {
+  font-size: clamp(3rem, 6vw, 5rem);
   font-weight: 800;
-  color: var(--cosmic-yellow);
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  border-bottom: 1.5px solid var(--color-separator);
-  background: rgba(254, 249, 240, 0.04);
-}
-
-.users-table td {
-  padding: 1.15rem 1.4rem;
-  border-bottom: 1px solid var(--color-separator);
-  color: var(--color-label);
-}
-
-.users-table tbody tr:hover {
-  background: rgba(254, 249, 240, 0.06);
-}
-
-.user-name-cell {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-weight: 800;
-}
-
-.avatar-small {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--cosmic-pink), var(--cosmic-purple));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  color: var(--cosmic-ink);
-  border: 2px solid var(--cosmic-ink);
-}
-
-.unnamed {
-  font-weight: 400;
-  color: var(--color-tertiary-label);
+  font-family: var(--font-family-display);
   font-style: italic;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 1;
 }
 
-.self-tag {
-  color: var(--cosmic-cyan);
-  font-size: 0.8rem;
-  margin-left: 0.5rem;
+.user-polaroid:nth-child(4n) .user-portrait span {
+  color: var(--cosmic-bg);
+}
+
+.user-portrait strong {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 3px 8px;
+  background: var(--cosmic-bg);
+  color: var(--cosmic-ink);
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.user-polaroid-name {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font-family-display);
+  font-style: italic;
+  margin-bottom: 4px;
+}
+
+.user-polaroid-email {
+  font-size: 10.5px;
+  opacity: 0.64;
+  margin-bottom: 10px;
+  word-break: break-all;
+}
+
+.user-polaroid-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+.user-card-actions {
+  margin-top: 12px;
 }
 
 .role-badge {
@@ -146,13 +225,9 @@
   color: var(--cosmic-bg);
 }
 
-.actions-cell {
-  text-align: right;
-}
-
 .actions-wrapper {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 0.5rem;
 }
 
@@ -354,7 +429,7 @@
 }
 
 @media (max-width: 768px) {
-  .users-page {
+  .users-content {
     padding: 24px 16px;
   }
 
@@ -368,7 +443,21 @@
     justify-content: center;
   }
 
+  .users-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .user-polaroid {
+    transform: none !important;
+  }
+
   .user-modal-content {
     padding: 1.4rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1080px) {
+  .users-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

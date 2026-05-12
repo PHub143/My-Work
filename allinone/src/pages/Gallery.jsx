@@ -6,6 +6,18 @@ import FileModal from '../components/FileModal';
 import { useAuth } from '../AuthContext';
 import { useDrive } from '../DriveContext';
 
+function formatBytes(bytes = 0) {
+  if (!bytes) return '0 B';
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+  const i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), sizes.length - 1);
+  return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(i === 0 ? 0 : 1))} ${sizes[i]}`;
+}
+
+function formatDate(value) {
+  if (!value) return 'Unknown';
+  return new Date(value).toLocaleDateString([], { month: 'short', day: 'numeric' });
+}
+
 const Gallery = () => {
   const [images, setImages] = useState([]);
   const [error, setError] = useState(null);
@@ -137,24 +149,47 @@ const Gallery = () => {
     setSelectedTag(null);
   }, [activeDriveId]);
 
-  return (
-    <div className="gallery-container">
-      <div className="gallery-header">
-        <h1>Gallery</h1>
-        <p>
-          {activeDrive
-            ? `Images and videos on ${activeDrive.name}`
-            : 'Your uploaded images and videos on Google Drive'}
-        </p>
-      </div>
+  const totalSize = images.reduce((sum, image) => sum + (image.size ? Number(image.size) : 0), 0);
 
-      {tags.length > 0 && (
+  return (
+    <div className="gallery-container cosmic-page" style={{ '--page-accent': 'var(--cosmic-pink)' }}>
+      <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor"/>
+      </svg>
+      <div className="cosmic-cube" />
+
+      <div className="gallery-content cosmic-content">
+        <div className="gallery-header">
+          <div className="gallery-title-block">
+            <div className="gallery-kicker">
+              <span className="gallery-badge">VOL. 04</span>
+              <span className="gallery-meta">· {images.length} entries · {activeDrive?.name || 'summer 2026'}</span>
+            </div>
+            <h1>
+              The <em>gallery</em>
+              <span>of <em>everything</em>.</span>
+            </h1>
+            <p>
+              {activeDrive
+                ? `Images and videos on ${activeDrive.name}`
+                : 'Your uploaded images and videos on Google Drive'}
+            </p>
+          </div>
+          <div className="gallery-storage-card">
+            <span>STORAGE</span>
+            <strong>{formatBytes(totalSize)}</strong>
+            <div className="gallery-storage-track">
+              <div style={{ width: `${Math.min(100, Math.max(12, images.length * 8))}%` }} />
+            </div>
+          </div>
+        </div>
+
         <div className="filter-bar">
           <button 
             className={`filter-pill ${!selectedTag ? 'active' : ''}`}
             onClick={() => setSelectedTag(null)}
           >
-            All
+            ★ All · {images.length}
           </button>
           {tags.map(tag => (
             <button 
@@ -162,66 +197,62 @@ const Gallery = () => {
               className={`filter-pill ${selectedTag === tag.name ? 'active' : ''}`}
               onClick={() => setSelectedTag(tag.name)}
             >
-              {tag.name}
+              #{tag.name}
             </button>
           ))}
         </div>
-      )}
 
-      {error && (
-        <div className="error-message">
-          {error}
-        </div>
-      )}
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
+        )}
 
-      {isLoading ? (
-        <div className="loading-container">
-          <Spinner />
-        </div>
-      ) : images.length > 0 ? (
-        <div className="gallery-grid">
-          {images.map((image) => (
-            <div 
-              key={image.id} 
-              className="gallery-card"
-              onClick={() => setSelectedImage(image)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  setSelectedImage(image);
-                }
-              }}
-            >
-              {image.thumbnailLink ? (
-                <div className="gallery-thumbnail-container">
-                  <img 
-                    src={getHighResThumbnail(image.thumbnailLink, 's1080')} 
-                    alt={image.name} 
-                    className="gallery-thumbnail" 
-                    loading="lazy"
-                  />
-                </div>
-              ) : (
-                <div className="card-icon">🖼️</div>
-              )}
-              <div className="gallery-info">
-                <span className="gallery-name">{image.name}</span>
-                <div className="card-tags">
-                  {image.tags?.slice(0, 2).map(tag => (
-                    <span key={tag.id} className="card-tag">{tag.name}</span>
-                  ))}
-                  {image.tags?.length > 2 && <span className="card-tag">+{image.tags.length - 2}</span>}
+        {isLoading ? (
+          <div className="loading-container">
+            <Spinner />
+          </div>
+        ) : images.length > 0 ? (
+          <div className="gallery-grid">
+            {images.map((image) => (
+              <div 
+                key={image.id} 
+                className="gallery-card"
+                onClick={() => setSelectedImage(image)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    setSelectedImage(image);
+                  }
+                }}
+              >
+                {image.thumbnailLink ? (
+                  <div className="gallery-thumbnail-container">
+                    <img 
+                      src={getHighResThumbnail(image.thumbnailLink, 's1080')} 
+                      alt={image.name} 
+                      className="gallery-thumbnail" 
+                      loading="lazy"
+                    />
+                  </div>
+                ) : (
+                  <div className="card-icon">🖼️</div>
+                )}
+                <span className="gallery-tag-chip">#{image.tags?.[0]?.name || 'misc'}</span>
+                <div className="gallery-info">
+                  <span className="gallery-name">{image.name}</span>
+                  <span className="gallery-file-meta">{formatBytes(image.size)} · {formatDate(image.modifiedTime || image.createdTime)}</span>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="no-images">
-          <p>No images found in your Drive.</p>
-        </div>
-      )}
+            ))}
+          </div>
+        ) : (
+          <div className="no-images">
+            <p>No images found in your Drive.</p>
+          </div>
+        )}
+      </div>
 
       <FileModal 
         file={selectedImage} 

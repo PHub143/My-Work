@@ -1,21 +1,37 @@
 .gallery-container {
-  padding: clamp(24px, 4vw, 56px);
+  padding: 0;
+}
+
+.gallery-content {
+  padding: 8px 48px 48px;
   max-width: 1320px;
   margin: 0 auto;
 }
 
 .gallery-header {
-  margin-bottom: 2rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 28px;
 }
 
-.gallery-header::before {
-  content: "MEDIA";
-  display: inline-block;
-  margin-bottom: 12px;
+.gallery-title-block {
+  flex: 1;
+}
+
+.gallery-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.gallery-badge {
   padding: 5px 13px;
   border-radius: 999px;
-  background: var(--cosmic-pink);
-  color: var(--cosmic-ink);
+  background: var(--cosmic-cyan);
+  color: var(--cosmic-bg);
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -23,19 +39,81 @@
   box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.72);
 }
 
+.gallery-meta {
+  font-size: 11px;
+  color: var(--cosmic-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
 .gallery-header h1 {
   font-family: var(--font-family-display);
-  font-size: clamp(4rem, 12vw, 8rem);
+  font-size: clamp(5rem, 11vw, 8.1rem);
   font-weight: 400;
-  line-height: 0.84;
+  line-height: 0.85;
   margin-bottom: 0.8rem;
   color: var(--cosmic-ink);
+}
+
+.gallery-header h1 span {
+  display: block;
+  margin-top: 4px;
+}
+
+.gallery-header h1 em {
+  color: var(--cosmic-yellow);
+  font-style: italic;
+}
+
+.gallery-header h1 span em {
+  color: var(--cosmic-pink);
 }
 
 .gallery-header p {
   color: var(--color-secondary-label);
   font-size: clamp(1rem, 2vw, 1.2rem);
   max-width: 620px;
+}
+
+.gallery-storage-card {
+  padding: 16px;
+  background: var(--cosmic-ink);
+  color: var(--cosmic-bg);
+  border-radius: 16px;
+  transform: rotate(2deg);
+  max-width: 220px;
+  min-width: 200px;
+  box-shadow: 4px 4px 0 var(--cosmic-purple);
+}
+
+.gallery-storage-card span {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--cosmic-purple);
+  margin-bottom: 4px;
+}
+
+.gallery-storage-card strong {
+  font-size: 28px;
+  font-weight: 700;
+  font-family: var(--font-family-display);
+  line-height: 1;
+}
+
+.gallery-storage-track {
+  height: 6px;
+  background: #e5d5b8;
+  border-radius: 999px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.gallery-storage-track div {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cosmic-pink), var(--cosmic-orange));
 }
 
 .filter-bar {
@@ -91,7 +169,7 @@
 
 .gallery-card {
   background: rgba(254, 249, 240, 0.08);
-  border-radius: 8px;
+  border-radius: 18px;
   border: 2px solid rgba(254, 249, 240, 0.18);
   overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
@@ -172,20 +250,29 @@
   text-overflow: ellipsis;
 }
 
-.card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
+.gallery-tag-chip {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 10px;
+  background: var(--cosmic-cyan);
+  color: var(--cosmic-bg);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
 }
 
-.card-tag {
-  font-size: 10px;
-  background: var(--cosmic-yellow);
-  color: var(--cosmic-bg);
-  padding: 3px 8px;
-  border-radius: 999px;
-  text-transform: lowercase;
-  font-weight: 800;
+.gallery-card:nth-child(5n + 2) .gallery-tag-chip { background: var(--cosmic-yellow); }
+.gallery-card:nth-child(5n + 3) .gallery-tag-chip { background: var(--cosmic-purple); color: var(--cosmic-ink); }
+.gallery-card:nth-child(5n + 4) .gallery-tag-chip { background: var(--cosmic-orange); }
+.gallery-card:nth-child(5n) .gallery-tag-chip { background: var(--cosmic-pink); color: var(--cosmic-ink); }
+
+.gallery-file-meta {
+  display: block;
+  font-size: 11px;
+  opacity: 0.72;
+  margin-top: 2px;
+  color: var(--cosmic-ink);
 }
 
 .loading-container,
@@ -202,6 +289,11 @@
 }
 
 @media (max-width: 900px) {
+  .gallery-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .gallery-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-auto-rows: 190px;
@@ -216,7 +308,7 @@
 }
 
 @media (max-width: 560px) {
-  .gallery-container {
+  .gallery-content {
     padding: 22px 16px;
   }
 

@@ -157,7 +157,7 @@ const Settings = () => {
         const data = await response.json();
         setMessage({ type: 'error', text: data.message || 'Failed to save settings.' });
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Connection to server failed.' });
     } finally {
       setIsSaving(false);
@@ -175,7 +175,7 @@ const Settings = () => {
       } else {
         setMessage({ type: 'error', text: 'Failed to get authentication URL.' });
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Connection to server failed.' });
     }
   };
@@ -200,7 +200,7 @@ const Settings = () => {
         const data = await response.json();
         setMessage({ type: 'error', text: data.error || data.message || 'Failed to sync drive.' });
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Connection to server failed.' });
     } finally {
       setSyncingDriveId(null);
@@ -221,7 +221,7 @@ const Settings = () => {
         const data = await response.json();
         setMessage({ type: 'error', text: data.message || 'Failed to set default drive.' });
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Connection to server failed.' });
     }
   };
@@ -241,21 +241,34 @@ const Settings = () => {
         const data = await response.json();
         setMessage({ type: 'error', text: data.message || 'Failed to delete drive.' });
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Connection to server failed.' });
     }
   };
 
   if (isLoading) {
-    return <div className="settings-page"><Spinner /></div>;
+    return (
+      <div className="settings-page cosmic-page" style={{ '--page-accent': 'var(--cosmic-purple)' }}>
+        <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor"/>
+        </svg>
+        <div className="cosmic-cube" />
+        <div className="settings-content cosmic-content"><Spinner /></div>
+      </div>
+    );
   }
 
   // Form view (create or edit)
   if (isCreating || editingDrive) {
     const isEdit = !!editingDrive;
     return (
-      <div className="settings-page">
-        <div className="settings-form-card">
+      <div className="settings-page cosmic-page" style={{ '--page-accent': 'var(--cosmic-purple)' }}>
+        <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor"/>
+        </svg>
+        <div className="cosmic-cube" />
+        <div className="settings-content cosmic-content">
+          <div className="settings-form-card">
           <button className="settings-back-btn" onClick={closeForm}>
             <BackIcon /> Back
           </button>
@@ -302,6 +315,7 @@ const Settings = () => {
               <button type="button" className="btn-outline" onClick={closeForm}>Cancel</button>
             </div>
           </form>
+          </div>
         </div>
       </div>
     );
@@ -312,7 +326,12 @@ const Settings = () => {
   const totalFiles = drives.reduce((sum, d) => sum + (d.fileCount || 0), 0);
 
   return (
-    <div className="settings-page">
+    <div className="settings-page cosmic-page" style={{ '--page-accent': 'var(--cosmic-purple)' }}>
+      <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor"/>
+      </svg>
+      <div className="cosmic-cube" />
+      <div className="settings-content cosmic-content">
       {/* Hero */}
       <div className="settings-hero">
         <div>
@@ -485,6 +504,7 @@ const Settings = () => {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 };

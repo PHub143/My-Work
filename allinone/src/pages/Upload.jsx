@@ -210,35 +210,72 @@ const Upload = () => {
   );
 
   return (
-    <div className="upload-container">
-      <div className="upload-card">
-        <h1>Upload to Google Drive</h1>
+    <div className="upload-container cosmic-page" style={{ '--page-accent': 'var(--cosmic-orange)' }}>
+      <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor"/>
+      </svg>
+      <div className="cosmic-cube" />
+
+      <div className="upload-content cosmic-content">
+        <div className="upload-header">
+          <span className="upload-badge">UP TO 10 GB</span>
+          <h1>Send it <em>up.</em></h1>
+          <p className="upload-subtitle">
+            Auto-tagged · Auto-organized · Synced to <span>{activeDrive?.name || 'Google Drive'}</span>
+          </p>
+        </div>
+
+        <div className="upload-card">
+          <div className="upload-drop-grid">
+            <div>
+              <h2>{file ? file.name : 'Drag your stuff here.'}</h2>
+              <p className="upload-drop-copy">
+                {file
+                  ? `${formatBytes(file.size)} · ready to upload`
+                  : 'or click below · paste with ⌘V · accepts pretty much anything'}
+              </p>
+              <div className="file-input-wrapper">
+                <label htmlFor="file-upload" className="custom-file-upload">
+                  {file ? 'Change file' : 'Choose file'}
+                </label>
+                <input
+                  id="file-upload"
+                  type="file"
+                  onChange={handleFileChange}
+                  disabled={isUploading}
+                  ref={fileInputRef}
+                  accept={ALLOWED_FILE_TYPES.join(',')}
+                />
+                <button
+                  type="button"
+                  className="paste-button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploading}
+                >
+                  Paste ⌘V
+                </button>
+              </div>
+            </div>
+            <div className="upload-orbit" aria-hidden="true">
+              <div>
+                <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <p className="upload-subtitle">
           {activeDrive
             ? `Uploading to ${activeDrive.name} — up to 10 GB`
             : 'Supports videos, images, documents & more — up to 10 GB'}
         </p>
-        
-        <div className="file-input-wrapper">
-          <label htmlFor="file-upload" className="custom-file-upload">
-            {file ? 'Change File' : 'Select File'}
-          </label>
-          <input 
-            id="file-upload" 
-            type="file" 
-            onChange={handleFileChange} 
-            disabled={isUploading}
-            ref={fileInputRef}
-            accept={ALLOWED_FILE_TYPES.join(',')}
-          />
-          {file && (
-            <div className="file-name">
-              Selected: <strong>{file.name}</strong> ({formatBytes(file.size)})
-            </div>
-          )}
-        </div>
 
         <div className="tags-section">
+          <div className="tag-label">Tag with →</div>
           <div className="tags-container">
             {tags.map(tag => (
               <span key={tag} className="tag-pill">

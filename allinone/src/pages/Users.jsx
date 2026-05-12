@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './Users.css';
 import { API_URL } from '../config';
 import { useAuth } from '../AuthContext';
@@ -16,11 +16,15 @@ const Users = () => {
   
   const { token, user: currentUser } = useAuth();
 
-  useEffect(() => {
-    fetchUsers();
-  }, [token]);
+  const getInitials = (u) => {
+    const source = u.name || u.email || '';
+    const parts = source.trim().split(/\s+/);
+    const first = parts[0]?.charAt(0) || '';
+    const second = parts[1]?.charAt(0) || '';
+    return (first + second).toUpperCase() || '?';
+  };
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -40,7 +44,11 @@ const Users = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [token]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
 
   const handleOpenModal = (user = null) => {
     if (user) {
@@ -112,88 +120,83 @@ const Users = () => {
   };
 
   return (
-    <div className="users-page">
-      <div className="users-header">
-        <div>
-          <h1>User Management</h1>
-          <p>Create, edit, and manage system accounts</p>
-        </div>
-        <button className="add-user-btn" onClick={() => handleOpenModal()}>
-          <span>+</span> Add User
-        </button>
-      </div>
+    <div className="users-page cosmic-page" style={{ '--page-accent': 'var(--cosmic-cyan)' }}>
+      <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor"/>
+      </svg>
+      <div className="cosmic-cube" />
 
-      {error && <div className="error-banner">{error}</div>}
-
-      {isLoading ? (
-        <div className="loading-state">
-          <Spinner />
+      <div className="users-content cosmic-content">
+        <div className="users-header">
+          <div>
+            <div className="users-kicker">
+              <span className="users-badge">{users.length} ACCOUNT{users.length === 1 ? '' : 'S'}</span>
+              <span className="users-meta">· {users.filter(u => u.role === 'ADMIN').length} admin · {users.filter(u => u.role !== 'ADMIN').length} users</span>
+            </div>
+            <h1>Your <em>crew.</em></h1>
+            <p>Create, edit, and manage system accounts</p>
+          </div>
+          <button className="add-user-btn" onClick={() => handleOpenModal()}>
+            <span>+</span> Invite a friend
+          </button>
         </div>
-      ) : (
-        <div className="users-table-container glass">
-          <table className="users-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Created</th>
-                <th className="actions-cell">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((u) => (
-                <tr key={u.id}>
-                  <td>
-                    <div className="user-name-cell">
-                      <div className="avatar-small">
-                        {u.name?.charAt(0).toUpperCase() || u.email.charAt(0).toUpperCase()}
-                      </div>
-                      {u.name || <span className="unnamed">Unnamed User</span>}
-                      {u.id === currentUser.id && <span className="self-tag">(You)</span>}
+
+        {error && <div className="error-banner">{error}</div>}
+
+        {isLoading ? (
+          <div className="loading-state">
+            <Spinner />
+          </div>
+        ) : (
+          <div className="users-card-grid">
+            {users.map((u, i) => (
+              <article key={u.id} className="user-polaroid" style={{ '--user-index': i }}>
+                <div className="user-tape" />
+                <div className="user-portrait">
+                  <span>{getInitials(u)}</span>
+                  {u.id === currentUser.id && <strong>YOU</strong>}
+                </div>
+                <div className="user-polaroid-name">{u.name || 'Unnamed User'}</div>
+                <div className="user-polaroid-email">{u.email}</div>
+                <div className="user-polaroid-footer">
+                  <span className={`role-badge ${u.role === 'ADMIN' ? 'admin' : 'user'}`}>
+                    {u.role}
+                  </span>
+                  <span>{new Date(u.createdAt).toLocaleDateString()}</span>
+                </div>
+                <div className="user-card-actions">
+                  {deletingUserId === u.id ? (
+                    <div className="inline-confirm">
+                      <button className="confirm-btn delete" onClick={() => handleDelete(u.id)}>Confirm</button>
+                      <button className="confirm-btn cancel" onClick={() => setDeletingUserId(null)}>Cancel</button>
                     </div>
-                  </td>
-                  <td>{u.email}</td>
-                  <td>
-                    <span className={`role-badge ${u.role === 'ADMIN' ? 'admin' : 'user'}`}>
-                      {u.role}
-                    </span>
-                  </td>
-                  <td>{new Date(u.createdAt).toLocaleDateString()}</td>
-                  <td className="actions-cell">
-                    {deletingUserId === u.id ? (
-                      <div className="inline-confirm">
-                        <button className="confirm-btn delete" onClick={() => handleDelete(u.id)}>Confirm</button>
-                        <button className="confirm-btn cancel" onClick={() => setDeletingUserId(null)}>Cancel</button>
-                      </div>
-                    ) : (
-                      <div className="actions-wrapper">
-                        <button className="action-icon-btn edit" onClick={() => handleOpenModal(u)} title="Edit">
-                          <span>✏️</span>
-                        </button>
-                        <button 
-                          className="action-icon-btn delete" 
-                          onClick={() => {
-                            if (u.id === currentUser.id) {
-                              alert("You cannot delete your own account.");
-                              return;
-                            }
-                            setDeletingUserId(u.id);
-                          }} 
-                          title="Delete"
-                          disabled={u.id === currentUser.id}
-                        >
-                          <span>🗑️</span>
-                        </button>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+                  ) : (
+                    <div className="actions-wrapper">
+                      <button className="action-icon-btn edit" onClick={() => handleOpenModal(u)} title="Edit">
+                        <span>✏️</span>
+                      </button>
+                      <button
+                        className="action-icon-btn delete"
+                        onClick={() => {
+                          if (u.id === currentUser.id) {
+                            alert("You cannot delete your own account.");
+                            return;
+                          }
+                          setDeletingUserId(u.id);
+                        }}
+                        title="Delete"
+                        disabled={u.id === currentUser.id}
+                      >
+                        <span>🗑️</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
 
       {isModalOpen && (
         <div className="user-modal-overlay" onClick={handleCloseModal}>
