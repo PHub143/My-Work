@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import Logo from './Logo';
 import { useTheme } from '../ThemeContext';
@@ -25,31 +25,31 @@ const Navbar = () => {
             <DriveSwitcher />
           </li>
           <li className="nav-item">
-            <Link to="/" className="nav-links">
+            <NavLink to="/" end className="nav-links">
               Documents
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <Link to="/gallery" className="nav-links">
+            <NavLink to="/gallery" className="nav-links">
               Gallery
-            </Link>
+            </NavLink>
           </li>
           {user?.role === 'ADMIN' && (
             <>
               <li className="nav-item">
-                <Link to="/users" className="nav-links">
+                <NavLink to="/users" className="nav-links">
                   Users
-                </Link>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link to="/upload" className="nav-links">
+                <NavLink to="/upload" className="nav-links">
                   Upload
-                </Link>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link to="/settings" className="nav-links">
-                  ⚙️ Settings
-                </Link>
+                <NavLink to="/settings" className="nav-links">
+                  Settings
+                </NavLink>
               </li>
             </>
           )}

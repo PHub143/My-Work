@@ -5,11 +5,18 @@
 
 .logo {
   text-decoration: none;
-  color: var(--color-label);
-  font-size: var(--font-size-title-1);
-  font-weight: var(--font-weight-bold);
+  color: var(--cosmic-bg);
+  font-size: var(--font-size-title-2);
+  font-weight: 800;
   display: flex;
-  letter-spacing: -0.4px;
+  letter-spacing: 0;
+  gap: 1px;
+  background: var(--cosmic-ink);
+  border: 2px solid var(--cosmic-ink);
+  border-radius: 8px;
+  padding: 7px 12px;
+  box-shadow: 4px 4px 0 var(--cosmic-pink);
+  transform: rotate(-2deg);
 }
 
 .logo span {
@@ -17,25 +24,25 @@
 }
 
 .logo span:nth-child(1) {
-  color: var(--color-system-red);
+  color: var(--cosmic-pink);
 }
 
 .logo span:nth-child(2) {
-  color: var(--color-system-green);
+  color: var(--cosmic-cyan);
 }
 
 .logo span:nth-child(3) {
-  color: var(--color-system-blue);
+  color: var(--cosmic-purple);
 }
 
 .logo:hover span:nth-child(1) {
-  color: var(--color-system-blue);
+  color: var(--cosmic-orange);
 }
 
 .logo:hover span:nth-child(2) {
-  color: var(--color-system-red);
+  color: var(--cosmic-pink);
 }
 
 .logo:hover span:nth-child(3) {
-  color: var(--color-system-green);
+  color: var(--cosmic-blue);
 }

@@ -6,6 +6,44 @@ import Spinner from '../components/Spinner';
 import { useAuth } from '../AuthContext';
 import { useDrive } from '../DriveContext';
 
+const TABS = ['Drives', 'Account', 'Appearance', 'Tags', 'Notifications'];
+
+const MailIcon = () => (
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="4" width="20" height="16" rx="2"/>
+    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+  </svg>
+);
+
+const PlusIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="12" y1="5" x2="12" y2="19"/>
+    <line x1="5" y1="12" x2="19" y2="12"/>
+  </svg>
+);
+
+const EditIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+  </svg>
+);
+
+const TrashIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="3 6 5 6 21 6"/>
+    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+    <path d="M10 11v6M14 11v6"/>
+    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+  </svg>
+);
+
+const BackIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="15 18 9 12 15 6"/>
+  </svg>
+);
+
 const Settings = () => {
   const location = useLocation();
   const { token } = useAuth();
@@ -15,9 +53,10 @@ const Settings = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [syncingDriveId, setSyncingDriveId] = useState(null);
   const [message, setMessage] = useState({ type: '', text: '' });
-  const [editingDrive, setEditingDrive] = useState(null); // null = list view, object = form view
+  const [editingDrive, setEditingDrive] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(null);
+  const [activeTab, setActiveTab] = useState('Drives');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -31,9 +70,7 @@ const Settings = () => {
   const fetchDrives = useCallback(async () => {
     try {
       const response = await fetch(`${API_URL}/config/drives`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` }
       });
       if (response.ok) {
         const data = await response.json();
@@ -63,14 +100,7 @@ const Settings = () => {
   const openCreateForm = () => {
     setIsCreating(true);
     setEditingDrive(null);
-    setFormData({
-      name: '',
-      clientId: '',
-      clientSecret: '',
-      redirectUri: '',
-      folderId: '',
-      isDefault: false
-    });
+    setFormData({ name: '', clientId: '', clientSecret: '', redirectUri: '', folderId: '', isDefault: false });
     setMessage({ type: '', text: '' });
   };
 
@@ -79,9 +109,7 @@ const Settings = () => {
     setEditingDrive(drive);
     try {
       const response = await fetch(`${API_URL}/config/drive/${drive.id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` }
       });
       if (response.ok) {
         const data = await response.json();
@@ -111,22 +139,14 @@ const Settings = () => {
     e.preventDefault();
     setIsSaving(true);
     setMessage({ type: '', text: '' });
-
     try {
       const body = { ...formData };
-      if (editingDrive) {
-        body.id = editingDrive.id;
-      }
-
+      if (editingDrive) body.id = editingDrive.id;
       const response = await fetch(`${API_URL}/config/drive`, {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(body)
       });
-
       if (response.ok) {
         const data = await response.json();
         setMessage({ type: 'success', text: data.message || 'Settings saved successfully.' });
@@ -138,7 +158,6 @@ const Settings = () => {
         setMessage({ type: 'error', text: data.message || 'Failed to save settings.' });
       }
     } catch (error) {
-      console.error('Error saving config:', error);
       setMessage({ type: 'error', text: 'Connection to server failed.' });
     } finally {
       setIsSaving(false);
@@ -148,20 +167,15 @@ const Settings = () => {
   const handleAuth = async (drive) => {
     try {
       const response = await fetch(`${API_URL}/auth/google/url?driveConfigId=${drive.id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` }
       });
       if (response.ok) {
         const data = await response.json();
-        if (data.url) {
-          window.location.href = data.url;
-        }
+        if (data.url) window.location.href = data.url;
       } else {
         setMessage({ type: 'error', text: 'Failed to get authentication URL.' });
       }
     } catch (error) {
-      console.error('Error getting auth URL:', error);
       setMessage({ type: 'error', text: 'Connection to server failed.' });
     }
   };
@@ -169,15 +183,11 @@ const Settings = () => {
   const handleSync = async (drive) => {
     setSyncingDriveId(drive.id);
     setMessage({ type: '', text: '' });
-
     try {
       const response = await fetch(`${API_URL}/config/sync/${drive.id}`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` }
       });
-
       if (response.ok) {
         const data = await response.json();
         setMessage({
@@ -191,7 +201,6 @@ const Settings = () => {
         setMessage({ type: 'error', text: data.error || data.message || 'Failed to sync drive.' });
       }
     } catch (error) {
-      console.error('Error syncing drive:', error);
       setMessage({ type: 'error', text: 'Connection to server failed.' });
     } finally {
       setSyncingDriveId(null);
@@ -202,11 +211,8 @@ const Settings = () => {
     try {
       const response = await fetch(`${API_URL}/config/drive/${drive.id}/default`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` }
       });
-
       if (response.ok) {
         setMessage({ type: 'success', text: `"${drive.name}" is now the default drive.` });
         fetchDrives();
@@ -216,7 +222,6 @@ const Settings = () => {
         setMessage({ type: 'error', text: data.message || 'Failed to set default drive.' });
       }
     } catch (error) {
-      console.error('Error setting default:', error);
       setMessage({ type: 'error', text: 'Connection to server failed.' });
     }
   };
@@ -225,11 +230,8 @@ const Settings = () => {
     try {
       const response = await fetch(`${API_URL}/config/drive/${drive.id}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` }
       });
-
       if (response.ok) {
         setMessage({ type: 'success', text: `"${drive.name}" has been deleted.` });
         setConfirmDelete(null);
@@ -240,33 +242,29 @@ const Settings = () => {
         setMessage({ type: 'error', text: data.message || 'Failed to delete drive.' });
       }
     } catch (error) {
-      console.error('Error deleting drive:', error);
       setMessage({ type: 'error', text: 'Connection to server failed.' });
     }
   };
 
   if (isLoading) {
-    return <div className="settings-container"><Spinner /></div>;
+    return <div className="settings-page"><Spinner /></div>;
   }
 
-  // Show form view (create or edit)
+  // Form view (create or edit)
   if (isCreating || editingDrive) {
     const isEdit = !!editingDrive;
     return (
-      <div className="settings-container">
-        <div className="settings-card">
-          <div className="settings-form-header">
-            <button className="back-button" onClick={closeForm}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-              Back
-            </button>
-            <h1>{isEdit ? `Edit ${editingDrive.name}` : 'Add New Drive'}</h1>
-          </div>
+      <div className="settings-page">
+        <div className="settings-form-card">
+          <button className="settings-back-btn" onClick={closeForm}>
+            <BackIcon /> Back
+          </button>
+          <h2 className="settings-form-title">
+            {isEdit ? `Edit ${editingDrive.name}` : 'Add New Drive'}
+          </h2>
 
           {message.text && (
-            <div className={`status-message ${message.type}`} role="status">
+            <div className={`settings-message settings-message--${message.type}`} role="status">
               {message.text}
             </div>
           )}
@@ -274,75 +272,34 @@ const Settings = () => {
           <form onSubmit={handleSave} className="settings-form">
             <div className="form-group">
               <label htmlFor="name">Drive Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="e.g., Work Drive, Personal Photos"
-                required
-              />
+              <input type="text" id="name" name="name" value={formData.name} onChange={handleChange}
+                placeholder="e.g., Work Drive, Personal Photos" required />
             </div>
-
             <div className="form-group">
               <label htmlFor="clientId">Client ID</label>
-              <input
-                type="text"
-                id="clientId"
-                name="clientId"
-                value={formData.clientId}
-                onChange={handleChange}
-                placeholder="Enter Google Client ID"
-                required
-              />
+              <input type="text" id="clientId" name="clientId" value={formData.clientId} onChange={handleChange}
+                placeholder="Enter Google Client ID" required />
             </div>
-
             <div className="form-group">
               <label htmlFor="clientSecret">Client Secret</label>
-              <input
-                type="password"
-                id="clientSecret"
-                name="clientSecret"
-                value={formData.clientSecret}
-                onChange={handleChange}
-                placeholder={isEdit && editingDrive.hasClientSecret ? "•••••••• (Leave blank to keep existing)" : "Enter Google Client Secret"}
-              />
+              <input type="password" id="clientSecret" name="clientSecret" value={formData.clientSecret} onChange={handleChange}
+                placeholder={isEdit && editingDrive.hasClientSecret ? '•••••••• (Leave blank to keep existing)' : 'Enter Google Client Secret'} />
             </div>
-
             <div className="form-group">
               <label htmlFor="redirectUri">Redirect URI</label>
-              <input
-                type="text"
-                id="redirectUri"
-                name="redirectUri"
-                value={formData.redirectUri}
-                onChange={handleChange}
-                placeholder="e.g., http://localhost:5173/oauth/callback"
-                required
-              />
+              <input type="text" id="redirectUri" name="redirectUri" value={formData.redirectUri} onChange={handleChange}
+                placeholder="e.g., http://localhost:5173/oauth/callback" required />
             </div>
-
             <div className="form-group">
               <label htmlFor="folderId">Drive Folder ID</label>
-              <input
-                type="text"
-                id="folderId"
-                name="folderId"
-                value={formData.folderId}
-                onChange={handleChange}
-                placeholder="Enter Google Drive Folder ID"
-                required
-              />
+              <input type="text" id="folderId" name="folderId" value={formData.folderId} onChange={handleChange}
+                placeholder="Enter Google Drive Folder ID" required />
             </div>
-
-            <div className="button-group">
-              <button type="submit" className="primary-button" disabled={isSaving}>
-                {isSaving ? <><Spinner inline /> Saving...</> : (isEdit ? 'Update Drive' : 'Create Drive')}
+            <div className="form-btn-row">
+              <button type="submit" className="btn-primary" disabled={isSaving}>
+                {isSaving ? <><Spinner inline /> Saving…</> : (isEdit ? 'Update Drive' : 'Create Drive')}
               </button>
-              <button type="button" className="secondary-button" onClick={closeForm}>
-                Cancel
-              </button>
+              <button type="button" className="btn-outline" onClick={closeForm}>Cancel</button>
             </div>
           </form>
         </div>
@@ -350,123 +307,165 @@ const Settings = () => {
     );
   }
 
-  // Drive list view
+  // List view
+  const connectedCount = drives.filter(d => d.hasRefreshToken).length;
+  const totalFiles = drives.reduce((sum, d) => sum + (d.fileCount || 0), 0);
+
   return (
-    <div className="settings-container">
-      <div className="settings-card">
-        <div className="settings-list-header">
-          <div>
-            <h1>Google Drive Settings</h1>
-            <p className="settings-subtitle">Manage your connected Google Drive accounts</p>
+    <div className="settings-page">
+      {/* Hero */}
+      <div className="settings-hero">
+        <div>
+          <div className="settings-drive-status">
+            <span className="settings-drives-badge">
+              {drives.length} DRIVE{drives.length !== 1 ? 'S' : ''}
+            </span>
+            <span className="settings-connected-label">
+              · {connectedCount > 0 ? 'CONNECTED & SYNCED' : 'NOT CONNECTED'}
+            </span>
           </div>
-          <button className="primary-button add-drive-btn" onClick={openCreateForm}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19" />
-              <line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
-            Add Drive
-          </button>
+          <h1 className="settings-hero-title">
+            Make it <em>yours.</em>
+          </h1>
         </div>
+        <button className="settings-add-btn" onClick={openCreateForm}>
+          <PlusIcon /> Add drive
+        </button>
+      </div>
 
-        {message.text && (
-          <div className={`status-message ${message.type}`} role="status">
-            {message.text}
-          </div>
-        )}
+      {/* Tab strip */}
+      <div className="settings-tabs">
+        {TABS.map((tab, i) => (
+          <button
+            key={tab}
+            className={`settings-tab ${activeTab === tab ? 'settings-tab--active' : ''}`}
+            style={activeTab === tab ? { '--tab-color': ['var(--cosmic-pink)', 'var(--cosmic-cyan)', 'var(--cosmic-yellow)', 'var(--cosmic-orange)', 'var(--cosmic-purple)'][i] } : {}}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
 
-        {drives.length === 0 ? (
-          <div className="no-drives">
-            <div className="no-drives-icon">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 12H16L14 15H10L8 12H2" />
-                <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
-              </svg>
+      {message.text && (
+        <div className={`settings-message settings-message--${message.type}`} role="status">
+          {message.text}
+        </div>
+      )}
+
+      {/* Drives tab content */}
+      {activeTab === 'Drives' && (
+        <>
+          {drives.length === 0 ? (
+            <div className="settings-empty">
+              <div className="settings-empty-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 12H16L14 15H10L8 12H2"/>
+                  <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>
+                </svg>
+              </div>
+              <p>No drives configured yet.</p>
+              <button className="btn-primary" onClick={openCreateForm}>Add Your First Drive</button>
             </div>
-            <p>No drives configured yet.</p>
-            <button className="primary-button" onClick={openCreateForm}>
-              Add Your First Drive
-            </button>
-          </div>
-        ) : (
-          <div className="drives-grid">
-            {drives.map((drive) => (
-              <div key={drive.id} className={`drive-card ${drive.isDefault ? 'is-default' : ''}`}>
-                <div className="drive-card-header">
-                  <div className="drive-card-title">
-                    <svg className="drive-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M22 12H16L14 15H10L8 12H2" />
-                      <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
-                    </svg>
-                    <span className="drive-card-name">{drive.name}</span>
-                    {drive.isDefault && <span className="default-tag">Default</span>}
+          ) : (
+            drives.map((drive) => (
+              <div key={drive.id} className="drive-card-new">
+                <div className="drive-card-top">
+                  <div className="drive-card-icon-wrap">
+                    <MailIcon />
                   </div>
-                  <div className="drive-card-actions-top">
-                    <button
-                      className="icon-btn"
-                      onClick={() => openEditForm(drive)}
-                      title="Edit"
-                    >
-                      <span style={{ fontSize: '15px' }}>✏️</span>
+                  <div className="drive-card-identity">
+                    <div className="drive-card-name-row">
+                      <span className="drive-card-name">{drive.name}</span>
+                      {drive.isDefault && <span className="drive-default-badge">DEFAULT</span>}
+                    </div>
+                    <div className="drive-card-meta">
+                      {drive.fileCount} file{drive.fileCount !== 1 ? 's' : ''} · folder {drive.folderId?.slice(0, 12)}…
+                    </div>
+                  </div>
+                  <div className="drive-card-edit-actions">
+                    <button className="drive-edit-btn" onClick={() => openEditForm(drive)} title="Edit">
+                      <EditIcon />
                     </button>
-                    <button
-                      className="icon-btn danger"
-                      onClick={() => setConfirmDelete(drive)}
-                      title="Delete"
-                    >
-                      <span style={{ fontSize: '15px' }}>🗑️</span>
+                    <button className="drive-delete-btn" onClick={() => setConfirmDelete(drive)} title="Delete">
+                      <TrashIcon />
                     </button>
                   </div>
                 </div>
 
-                <div className="status-indicators">
-                  <div className={`status-badge ${drive.hasClientSecret ? 'active' : 'inactive'}`}>
-                    <span className="icon">{drive.hasClientSecret ? '✓' : '✕'}</span>
-                    Credentials
+                <div className="drive-status-grid">
+                  <div className="drive-status-chip drive-status-chip--cyan">
+                    <span className="drive-status-label">STATUS</span>
+                    <span className="drive-status-value">
+                      {drive.hasRefreshToken ? '✓ Live' : '✕ Offline'}
+                    </span>
                   </div>
-                  <div className={`status-badge ${drive.hasRefreshToken ? 'active' : 'inactive'}`}>
-                    <span className="icon">{drive.hasRefreshToken ? '✓' : '✕'}</span>
-                    Authenticated
+                  <div className="drive-status-chip drive-status-chip--cyan">
+                    <span className="drive-status-label">AUTH</span>
+                    <span className="drive-status-value">
+                      {drive.hasClientSecret ? '✓ Verified' : '✕ Missing'}
+                    </span>
+                  </div>
+                  <div className="drive-status-chip drive-status-chip--pink">
+                    <span className="drive-status-label">FILES</span>
+                    <span className="drive-status-value">{drive.fileCount}</span>
+                  </div>
+                  <div className="drive-status-chip drive-status-chip--purple">
+                    <span className="drive-status-label">LAST SYNC</span>
+                    <span className="drive-status-value">
+                      {drive.lastSync ? new Date(drive.lastSync).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Never'}
+                    </span>
                   </div>
                 </div>
 
-                <div className="drive-card-stats">
-                  <span className="stat">{drive.fileCount} file{drive.fileCount !== 1 ? 's' : ''}</span>
-                  <span className="stat-divider">·</span>
-                  <span className="stat">Folder: {drive.folderId?.slice(0, 12)}…</span>
-                </div>
-
-                <div className="drive-card-actions">
+                <div className="drive-action-row">
+                  <button className="drive-reauth-btn" onClick={() => handleAuth(drive)}
+                    disabled={!drive.hasClientSecret}>
+                    Re-authenticate
+                  </button>
+                  <button className="drive-sync-btn" onClick={() => handleSync(drive)}
+                    disabled={syncingDriveId === drive.id || !drive.hasRefreshToken}>
+                    {syncingDriveId === drive.id ? <><Spinner inline /> Syncing…</> : 'Sync now ↻'}
+                  </button>
                   {!drive.isDefault && (
-                    <button
-                      className="action-btn"
-                      onClick={() => handleSetDefault(drive)}
-                      title="Set as default drive"
-                    >
+                    <button className="drive-default-btn" onClick={() => handleSetDefault(drive)}>
                       Set Default
                     </button>
                   )}
-                  <button 
-                    className="action-btn"
-                    onClick={() => handleAuth(drive)}
-                    disabled={!drive.hasClientSecret}
-                    title={!drive.hasClientSecret ? "Save credentials first" : "Authenticate with Google"}
-                  >
-                    Authenticate
-                  </button>
-                  <button
-                    className="action-btn"
-                    onClick={() => handleSync(drive)}
-                    disabled={syncingDriveId === drive.id || !drive.hasRefreshToken}
-                    title={!drive.hasRefreshToken ? "Authenticate first" : "Sync Drive"}
-                  >
-                    {syncingDriveId === drive.id ? <><Spinner inline /> Syncing…</> : 'Sync'}
-                  </button>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+            ))
+          )}
+
+          {/* Storage section */}
+          {drives.length > 0 && (
+            <div className="storage-section">
+              <div className="storage-label">STORAGE · {totalFiles} FILES ACROSS {drives.length} DRIVE{drives.length !== 1 ? 'S' : ''}</div>
+              <div className="storage-bar">
+                {drives.map((drive, i) => {
+                  const pct = totalFiles > 0 ? Math.round((drive.fileCount / totalFiles) * 100) : Math.floor(100 / drives.length);
+                  const colors = ['var(--cosmic-pink)', 'var(--cosmic-cyan)', 'var(--cosmic-yellow)', 'var(--cosmic-orange)', 'var(--cosmic-purple)'];
+                  return (
+                    <div key={drive.id} className="storage-bar-seg" style={{ width: `${pct}%`, background: colors[i % colors.length] }}>
+                      {drive.name}
+                    </div>
+                  );
+                })}
+                {drives.length > 0 && (
+                  <div className="storage-bar-free">Connected</div>
+                )}
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      {/* Other tabs placeholder */}
+      {activeTab !== 'Drives' && (
+        <div className="settings-placeholder">
+          <p>{activeTab} settings coming soon.</p>
+        </div>
+      )}
 
       {/* Delete confirmation modal */}
       {confirmDelete && (
@@ -475,21 +474,13 @@ const Settings = () => {
             <h3>Delete "{confirmDelete.name}"?</h3>
             <p>This action cannot be undone. All associated configuration will be permanently removed.</p>
             {confirmDelete.fileCount > 0 && (
-              <p className="warning-text">
-                ⚠️ This drive has {confirmDelete.fileCount} file{confirmDelete.fileCount !== 1 ? 's' : ''} associated. 
-                You must sync and remove them first.
+              <p className="modal-warning">
+                ⚠️ This drive has {confirmDelete.fileCount} file{confirmDelete.fileCount !== 1 ? 's' : ''} associated. You must sync and remove them first.
               </p>
             )}
             <div className="modal-actions">
-              <button className="secondary-button" onClick={() => setConfirmDelete(null)}>
-                Cancel
-              </button>
-              <button
-                className="danger-button"
-                onClick={() => handleDelete(confirmDelete)}
-              >
-                Delete Drive
-              </button>
+              <button className="btn-outline" onClick={() => setConfirmDelete(null)}>Cancel</button>
+              <button className="btn-danger" onClick={() => handleDelete(confirmDelete)}>Delete Drive</button>
             </div>
           </div>
         </div>
