@@ -98,7 +98,11 @@ function DesignCanvas({ children, minScale, maxScale, style }) {
     if (!didRead.current) return;
     if (skipNextWrite.current) { skipNextWrite.current = false; return; }
     const t = setTimeout(() => {
-      window.omelette?.writeFile(DC_STATE_FILE, JSON.stringify({ sections: state.sections })).catch(() => {});
+      const writePromise = window.omelette?.writeFile?.(
+        DC_STATE_FILE,
+        JSON.stringify({ sections: state.sections }),
+      );
+      writePromise?.catch(() => {});
     }, 250);
     return () => clearTimeout(t);
   }, [state.sections]);
@@ -619,4 +623,3 @@ function DCPostIt({ children, top, left, right, bottom, rotate = -2, width = 180
 }
 
 Object.assign(window, { DesignCanvas, DCSection, DCArtboard, DCPostIt });
-

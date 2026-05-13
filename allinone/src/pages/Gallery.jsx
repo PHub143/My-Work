@@ -152,7 +152,20 @@ const Gallery = () => {
   const totalSize = images.reduce((sum, image) => sum + (image.size ? Number(image.size) : 0), 0);
 
   return (
-    <div className="gallery-container cosmic-page" style={{ '--page-accent': 'var(--cosmic-pink)' }}>
+    <div
+      className="gallery-container cosmic-page"
+      style={{
+        '--page-accent': 'var(--cosmic-pink)',
+        '--cosmic-orb-top': '4px',
+        '--cosmic-orb-right': '60px',
+        '--cosmic-star-top': '124px',
+        '--cosmic-star-left': '45%',
+        '--cosmic-star-size': '40px',
+        '--cosmic-cube-top': '44px',
+        '--cosmic-cube-left': '240px',
+        '--cosmic-cube-size': '24px',
+      }}
+    >
       <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
         <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor"/>
       </svg>
@@ -166,8 +179,13 @@ const Gallery = () => {
               <span className="gallery-meta">· {images.length} entries · {activeDrive?.name || 'summer 2026'}</span>
             </div>
             <h1>
-              The <em>gallery</em>
-              <span>of <em>everything</em>.</span>
+              The <span className="gallery-title-word">
+                gallery
+                <svg className="gallery-title-swoop" viewBox="0 0 200 16" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M2 12 Q 50 2, 100 8 T 198 6" />
+                </svg>
+              </span>
+              <span className="gallery-title-line">of <em>everything</em>.</span>
             </h1>
             <p>
               {activeDrive

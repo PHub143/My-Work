@@ -5,40 +5,44 @@
 .drive-switcher-toggle {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
+  gap: 8px;
+  padding: 8px 14px;
   border-radius: 999px;
-  border: 1.5px solid var(--cosmic-cyan);
-  background: rgba(254, 249, 240, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
   color: var(--cosmic-ink);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
 }
 
 .drive-switcher-toggle:hover {
-  background: rgba(6, 214, 160, 0.14);
-  border-color: var(--cosmic-yellow);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-.drive-icon {
+.drive-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cosmic-cyan);
+  box-shadow: 0 0 10px rgba(6, 214, 160, 0.8);
   flex-shrink: 0;
-  opacity: 0.7;
 }
 
 .drive-name {
-  max-width: 120px;
+  max-width: 160px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .drive-chevron {
   flex-shrink: 0;
-  opacity: 0.5;
+  opacity: 0.6;
   transition: transform 0.2s ease;
 }
 
@@ -180,12 +184,12 @@
   .drive-name {
     display: none;
   }
-  
+
   .drive-chevron {
     display: none;
   }
-  
+
   .drive-switcher-toggle {
-    padding: 6px 8px;
+    padding: 8px 10px;
   }
 }

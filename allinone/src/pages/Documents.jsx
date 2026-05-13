@@ -162,7 +162,18 @@ const Documents = () => {
   ];
 
   return (
-    <div className="documents-container cosmic-page" style={{ '--page-accent': 'var(--cosmic-blue)' }}>
+    <div
+      className="documents-container cosmic-page"
+      style={{
+        '--page-accent': 'var(--cosmic-blue)',
+        '--cosmic-orb-top': '88px',
+        '--cosmic-orb-right': '56px',
+        '--cosmic-star-top': '208px',
+        '--cosmic-star-left': '46%',
+        '--cosmic-cube-top': '118px',
+        '--cosmic-cube-left': '198px',
+      }}
+    >
       <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
         <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor"/>
       </svg>
@@ -170,18 +181,28 @@ const Documents = () => {
 
       <div className="documents-content cosmic-content">
         <div className="documents-header">
-          <div className="documents-kicker">
-            <span className="documents-badge">{files.length} FILE{files.length === 1 ? '' : 'S'}</span>
-            <span className="documents-meta">· text · pdf · {formatBytes(totalSize)}</span>
+          <div className="documents-title-block">
+            <div className="documents-kicker">
+              <span className="documents-badge">{files.length} FILE{files.length === 1 ? '' : 'S'}</span>
+              <span className="documents-meta">· text · pdf · {formatBytes(totalSize)}</span>
+            </div>
+            <h1>
+              Read, review, <em>repeat.</em>
+            </h1>
+            <p>
+              {activeDrive
+                ? `Files on ${activeDrive.name}`
+                : 'Your uploaded files on Google Drive'}
+            </p>
           </div>
-          <h1>
-            Read, review, <em>repeat.</em>
-          </h1>
-          <p>
-            {activeDrive
-              ? `Files on ${activeDrive.name}`
-              : 'Your uploaded files on Google Drive'}
-          </p>
+
+          <div className="documents-storage-card">
+            <span>STORAGE</span>
+            <strong>{formatBytes(totalSize)}</strong>
+            <div className="documents-storage-track">
+              <div style={{ width: `${Math.min(100, Math.max(12, (totalSize / (10 * 1024 * 1024 * 1024)) * 100))}%` }} />
+            </div>
+          </div>
         </div>
 
         <div className="folder-pill-row">

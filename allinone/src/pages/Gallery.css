@@ -2,6 +2,18 @@
   padding: 0;
 }
 
+.gallery-container::after {
+  display: block;
+  bottom: 80px;
+  left: 80px;
+  width: 80px;
+  height: 80px;
+  background: var(--page-accent, var(--cosmic-pink));
+  transform: rotate(15deg);
+  animation: blob 14s ease-in-out infinite;
+  opacity: 0.7;
+}
+
 .gallery-content {
   padding: 8px 48px 48px;
   max-width: 1320px;
@@ -49,25 +61,45 @@
 
 .gallery-header h1 {
   font-family: var(--font-family-display);
-  font-size: clamp(5rem, 11vw, 8.1rem);
+  font-size: clamp(5rem, 10.2vw, 8.125rem);
   font-weight: 400;
   line-height: 0.85;
-  margin-bottom: 0.8rem;
+  letter-spacing: -0.05em;
+  margin: 0 0 0.8rem;
   color: var(--cosmic-ink);
 }
 
-.gallery-header h1 span {
+.gallery-title-line {
   display: block;
   margin-top: 4px;
 }
 
-.gallery-header h1 em {
+.gallery-title-word {
+  display: inline;
+  position: relative;
   color: var(--cosmic-yellow);
   font-style: italic;
 }
 
-.gallery-header h1 span em {
+.gallery-title-swoop {
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 16px;
+  overflow: visible;
+}
+
+.gallery-title-swoop path {
+  fill: none;
+  stroke: var(--cosmic-pink);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.gallery-header h1 em {
   color: var(--cosmic-pink);
+  font-style: italic;
 }
 
 .gallery-header p {
@@ -286,6 +318,11 @@
   border: 1.5px dashed var(--cosmic-line);
   border-radius: 8px;
   background: rgba(254, 249, 240, 0.05);
+}
+
+@keyframes blob {
+  0%, 100% { border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%; }
+  50% { border-radius: 30% 70% 40% 60% / 60% 30% 70% 40%; }
 }
 
 @media (max-width: 900px) {

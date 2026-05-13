@@ -353,7 +353,7 @@
   padding: 15px 22px;
   border: 2px solid var(--cosmic-ink);
   border-radius: 999px;
-  color: var(--cosmic-bg);
+  color: var(--cosmic-ink);
   font-size: var(--font-size-headline);
   font-weight: 800;
   cursor: pointer;
