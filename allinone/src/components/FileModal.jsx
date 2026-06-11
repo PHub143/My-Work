@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import './FileModal.css';
 import { API_URL } from '../config';
 import { useAuth } from '../AuthContext';
+import { isAdmin } from '../utils/roles';
 
 const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = false }) => {
   const [isEditingTags, setIsEditingTags] = useState(false);
@@ -13,6 +14,7 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
   const [error, setError] = useState(null);
   const [showInfo, setShowInfo] = useState(true);
   const { token, user } = useAuth();
+  const canAdmin = isAdmin(user);
   
   const isVideo = file?.mimeType?.startsWith('video/');
   const isDoc = file?.mimeType?.includes('pdf') || 
@@ -21,6 +23,11 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
 
   const hasPreview = isImage || isVideo || isDoc;
 
+  const handleClose = useCallback(() => {
+    setShowDeleteConfirm(false);
+    onClose();
+  }, [onClose]);
+
   // Close on Escape key
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -28,15 +35,17 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
         if (isEditingTags) {
           setIsEditingTags(false);
         } else {
-          onClose();
+          handleClose();
         }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose, isEditingTags]);
+  }, [handleClose, isEditingTags]);
 
   useEffect(() => {
+    setShowDeleteConfirm(false);
+
     if (file) {
       setEditingTags(file.tags?.map(t => t.name) || []);
       setIsEditingTags(false);
@@ -44,7 +53,16 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
     }
   }, [file]);
 
+  useEffect(() => {
+    if (!canAdmin) {
+      setIsEditingTags(false);
+      setShowDeleteConfirm(false);
+    }
+  }, [canAdmin]);
+
   const handleUpdateTags = async () => {
+    if (!canAdmin) return;
+
     setIsSaving(true);
     setError(null);
     try {
@@ -74,6 +92,8 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
   };
 
   const handleDeleteFile = async () => {
+    if (!canAdmin) return;
+
     setIsDeleting(true);
     setError(null);
     try {
@@ -86,7 +106,7 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
 
       if (response.ok) {
         onDeleteSuccess(file.driveFileId);
-        onClose();
+        handleClose();
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Failed to delete file');
@@ -146,14 +166,14 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
   const toggleInfo = () => setShowInfo(!showInfo);
 
   return (
-    <div className={`modal-overlay ${isImage ? 'image-overlay' : ''}`} onClick={onClose}>
+    <div className={`modal-overlay ${isImage ? 'image-overlay' : ''}`} onClick={handleClose}>
         <div 
           className={`modal-content ${hasPreview ? 'preview-mode' : 'info-only'}`} 
           onClick={(e) => e.stopPropagation()}
         >
           
           {hasPreview && (
-            <div className="modal-preview-container" onClick={onClose}>
+            <div className="modal-preview-container" onClick={handleClose}>
               {isImage ? (
                 file.thumbnailLink ? (
                   <img 
@@ -189,7 +209,7 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
               </svg>
             </button>
           )}
-          {user?.role === 'ADMIN' && (
+          {canAdmin && (
             <button 
               className={`control-btn delete-btn ${isDeleting ? 'loading' : ''} ${showDeleteConfirm ? 'active' : ''}`} 
               onClick={() => setShowDeleteConfirm(!showDeleteConfirm)} 
@@ -205,7 +225,7 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
               </svg>
             </button>
           )}
-          <button className="control-btn close-btn" onClick={onClose} aria-label="Close modal" title="Close">
+          <button className="control-btn close-btn" onClick={handleClose} aria-label="Close modal" title="Close">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 6L6 18M6 6l12 12"/>
             </svg>
@@ -242,7 +262,7 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
           <div className="modal-tags-section">
             <div className="modal-tags-header">
               <h4>Tags</h4>
-              {user?.role === 'ADMIN' && (
+              {canAdmin && (
                 !isEditingTags ? (
                   <button className="text-action-btn" onClick={() => setIsEditingTags(true)}>Edit</button>
                 ) : (
@@ -262,7 +282,7 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
 
             {error && <p className="modal-error">{error}</p>}
 
-            {isEditingTags ? (
+            {canAdmin && isEditingTags ? (
               <div className="modal-tag-editor">
                 <div className="active-tags">
                   {editingTags.map(tag => (

@@ -4,6 +4,7 @@ import './Navbar.css';
 import Logo from './Logo';
 import { useTheme } from '../ThemeContext';
 import { useAuth } from '../AuthContext';
+import { isAdmin } from '../utils/roles';
 import DriveSwitcher from './DriveSwitcher';
 
 const Navbar = () => {
@@ -16,6 +17,7 @@ const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isLearningOpen, setIsLearningOpen] = useState(false);
   const isLearningActive = location.pathname.startsWith('/learning');
+  const canAdmin = isAdmin(user);
 
   const handleLogout = () => {
     logout();
@@ -56,16 +58,20 @@ const Navbar = () => {
         </div>
 
         <ul className="nav-menu">
-          <li className="nav-item">
-            <NavLink to="/" end className="nav-links">
-              Documents
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink to="/gallery" className="nav-links">
-              Gallery
-            </NavLink>
-          </li>
+          {canAdmin && (
+            <>
+              <li className="nav-item">
+                <NavLink to="/" end className="nav-links">
+                  Documents
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/gallery" className="nav-links">
+                  Gallery
+                </NavLink>
+              </li>
+            </>
+          )}
           <li className="nav-item nav-dropdown" ref={learningRef}>
             <button
               type="button"
@@ -94,7 +100,7 @@ const Navbar = () => {
               </div>
             )}
           </li>
-          {user?.role === 'ADMIN' && (
+          {canAdmin && (
             <>
               <li className="nav-item">
                 <NavLink to="/users" className="nav-links">

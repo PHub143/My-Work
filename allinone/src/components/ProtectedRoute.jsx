@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate, Outlet, useLocation, Link } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { API_URL } from '../config';
 import Spinner from './Spinner';
 import { useAuth } from '../AuthContext';
+import { isAdmin } from '../utils/roles';
 
 /**
  * A wrapper component that checks if Google Drive is configured.
  * Redirects Admins to /settings if configuration is missing.
- * Shows a message to regular users.
+ * Redirects regular users to Learning.
  */
 const ProtectedRoute = () => {
   const [isConfigured, setIsConfigured] = useState(null);
   const [isLoadingConfig, setIsLoadingConfig] = useState(true);
-  const { user, isLoading: isLoadingAuth } = useAuth();
+  const { user, isAuthenticated, isLoading: isLoadingAuth } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -50,26 +51,21 @@ const ProtectedRoute = () => {
     );
   }
 
+  const canAdmin = isAdmin(user);
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+  }
+
+  if (!canAdmin) {
+    return <Navigate to="/learning/ai-103" replace />;
+  }
+
   if (!isConfigured) {
-    if (user?.role === 'ADMIN') {
-      return <Navigate to="/settings" state={{ 
-        message: 'Google Drive setup is required to access this page.',
-        from: location.pathname 
-      }} replace />;
-    } else {
-      return (
-        <div className="status-message-container glass" style={{ margin: '2rem', padding: '3rem', textAlign: 'center', borderRadius: '20px' }}>
-          <h2>System Unavailable</h2>
-          <p style={{ color: 'var(--color-secondary-label)', marginTop: '1rem' }}>
-            The Google Drive integration is not yet configured. 
-            Please contact the system administrator to complete the setup.
-          </p>
-          <div style={{ marginTop: '2rem' }}>
-            <Link to="/login" className="text-btn">Admin Login</Link>
-          </div>
-        </div>
-      );
-    }
+    return <Navigate to="/settings" state={{ 
+      message: 'Google Drive setup is required to access this page.',
+      from: location.pathname 
+    }} replace />;
   }
 
   return <Outlet />;
