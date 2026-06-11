@@ -3,6 +3,7 @@ const test = require('node:test');
 const path = require('node:path');
 
 const controllerPath = path.resolve(__dirname, 'controllers/userAuthController.js');
+const userControllerPath = path.resolve(__dirname, 'controllers/userController.js');
 const middlewarePath = path.resolve(__dirname, 'middleware/authMiddleware.js');
 const userServicePath = path.resolve(__dirname, 'services/userService.js');
 const prismaServicePath = path.resolve(__dirname, 'services/prismaService.js');
@@ -17,14 +18,33 @@ const {
 } = require('./utils/roles');
 
 function loadWithMockedUserService(targetPath, mockService) {
+  const cachedTarget = require.cache[targetPath];
+  const cachedUserService = require.cache[userServicePath];
+
   delete require.cache[targetPath];
+  delete require.cache[userServicePath];
   require.cache[userServicePath] = {
     id: userServicePath,
     filename: userServicePath,
     loaded: true,
     exports: mockService,
   };
-  return require(targetPath);
+
+  try {
+    return require(targetPath);
+  } finally {
+    if (cachedTarget) {
+      require.cache[targetPath] = cachedTarget;
+    } else {
+      delete require.cache[targetPath];
+    }
+
+    if (cachedUserService) {
+      require.cache[userServicePath] = cachedUserService;
+    } else {
+      delete require.cache[userServicePath];
+    }
+  }
 }
 
 function loadUserServiceWithMockedPrisma(mockPrisma) {
@@ -84,6 +104,7 @@ test('public register cannot create an admin role from request body', async () =
         email: data.email,
         name: data.name,
         role: data.role,
+        roles: data.roles,
       };
     },
   });
@@ -101,8 +122,52 @@ test('public register cannot create an admin role from request body', async () =
   await registerHandler(req, res, assert.fail);
 
   assert.equal(res.statusCode, 201);
-  assert.equal(createdUsers[0].role, ROLES.STUDENT);
+  assert.equal(Object.hasOwn(createdUsers[0], 'role'), false);
+  assert.deepEqual(createdUsers[0].roles, [ROLES.STUDENT]);
   assert.equal(res.body.user.role, ROLES.STUDENT);
+  assert.deepEqual(res.body.user.roles, [ROLES.STUDENT]);
+});
+
+test('login emits normalized role and roles in token and response', async () => {
+  const bcrypt = require('bcryptjs');
+  const jwt = require('jsonwebtoken');
+  const password = 'password123';
+  const passwordHash = await bcrypt.hash(password, 10);
+  const { loginHandler } = loadWithMockedUserService(controllerPath, {
+    findUserByEmail: async () => ({
+      id: 'admin_1',
+      email: 'admin@example.com',
+      name: 'Admin User',
+      password: passwordHash,
+      role: ROLES.STUDENT,
+      roles: [ROLES.ADMIN],
+    }),
+  });
+
+  const req = {
+    body: {
+      email: 'admin@example.com',
+      password,
+    },
+  };
+  const res = makeResponse();
+
+  await loginHandler(req, res, assert.fail);
+
+  const payload = jwt.verify(res.body.token, process.env.JWT_SECRET || 'your-default-secret-key-change-this-in-production');
+  assert.equal(res.statusCode, 200);
+  assert.equal(payload.id, 'admin_1');
+  assert.equal(payload.email, 'admin@example.com');
+  assert.equal(payload.name, 'Admin User');
+  assert.equal(payload.role, ROLES.ADMIN);
+  assert.deepEqual(payload.roles, [ROLES.STUDENT, ROLES.ADMIN]);
+  assert.deepEqual(res.body.user, {
+    id: 'admin_1',
+    email: 'admin@example.com',
+    name: 'Admin User',
+    role: ROLES.ADMIN,
+    roles: [ROLES.STUDENT, ROLES.ADMIN],
+  });
 });
 
 test('normalizeRoles maps legacy USER to STUDENT', () => {
@@ -290,4 +355,252 @@ test('isAdmin rejects stale admin token when persisted role is no longer ADMIN',
   assert.equal(nextCalled, false);
   assert.equal(res.statusCode, 403);
   assert.equal(res.body.message, 'Access denied. Administrator privileges required.');
+});
+
+test('isAdmin accepts admin from token and persisted roles', async () => {
+  const { isAdmin } = loadWithMockedUserService(middlewarePath, {
+    findUserById: async () => ({
+      id: 'user_1',
+      email: 'admin@example.com',
+      roles: [ROLES.ADMIN],
+    }),
+  });
+
+  const req = {
+    user: {
+      id: 'user_1',
+      email: 'admin@example.com',
+      roles: [ROLES.ADMIN],
+    },
+  };
+  const res = makeResponse();
+  let nextCalled = false;
+
+  await isAdmin(req, res, () => {
+    nextCalled = true;
+  });
+
+  assert.equal(nextCalled, true);
+  assert.equal(res.statusCode, 200);
+});
+
+test('isAdmin rejects stale admin token when persisted roles are STUDENT', async () => {
+  const { isAdmin } = loadWithMockedUserService(middlewarePath, {
+    findUserById: async () => ({
+      id: 'user_1',
+      email: 'user@example.com',
+      role: ROLES.STUDENT,
+      roles: [ROLES.STUDENT],
+    }),
+  });
+
+  const req = {
+    user: {
+      id: 'user_1',
+      email: 'user@example.com',
+      roles: [ROLES.ADMIN],
+    },
+  };
+  const res = makeResponse();
+  let nextCalled = false;
+
+  await isAdmin(req, res, () => {
+    nextCalled = true;
+  });
+
+  assert.equal(nextCalled, false);
+  assert.equal(res.statusCode, 403);
+  assert.equal(res.body.message, 'Access denied. Administrator privileges required.');
+});
+
+test('admin create accepts roles and returns normalized safe user', async () => {
+  const createdUsers = [];
+  const userController = loadWithMockedUserService(userControllerPath, {
+    findUserByEmail: async () => null,
+    createUser: async (data) => {
+      createdUsers.push(data);
+      return {
+        id: 'user_1',
+        email: data.email,
+        name: data.name,
+        password: 'hashed-password',
+        role: primaryRole(data.roles),
+        roles: data.roles,
+      };
+    },
+  });
+
+  const req = {
+    body: {
+      email: 'admin@example.com',
+      password: 'password123',
+      name: 'Admin User',
+      role: ROLES.STUDENT,
+      roles: [ROLES.ADMIN],
+    },
+  };
+  const res = makeResponse();
+
+  await userController.createUser(req, res, assert.fail);
+
+  assert.equal(res.statusCode, 201);
+  assert.deepEqual(createdUsers[0].roles, [ROLES.ADMIN]);
+  assert.equal(Object.hasOwn(createdUsers[0], 'role'), false);
+  assert.equal(Object.hasOwn(res.body.user, 'password'), false);
+  assert.equal(res.body.user.role, ROLES.ADMIN);
+  assert.deepEqual(res.body.user.roles, [ROLES.ADMIN]);
+});
+
+test('admin create rejects unknown roles', async () => {
+  const userController = loadWithMockedUserService(userControllerPath, {
+    findUserByEmail: assert.fail,
+    createUser: assert.fail,
+  });
+  const req = {
+    body: {
+      email: 'manager@example.com',
+      password: 'password123',
+      roles: ['MANAGER'],
+    },
+  };
+  const res = makeResponse();
+
+  await userController.createUser(req, res, assert.fail);
+
+  assert.equal(res.statusCode, 400);
+  assert.equal(res.body.message, 'Role must be ADMIN or STUDENT.');
+});
+
+test('admin create rejects null roles', async () => {
+  const userController = loadWithMockedUserService(userControllerPath, {
+    findUserByEmail: assert.fail,
+    createUser: assert.fail,
+  });
+  const req = {
+    body: {
+      email: 'student@example.com',
+      password: 'password123',
+      roles: null,
+    },
+  };
+  const res = makeResponse();
+
+  await userController.createUser(req, res, assert.fail);
+
+  assert.equal(res.statusCode, 400);
+  assert.equal(res.body.message, 'At least one role is required.');
+});
+
+test('admin create rejects blank roles', async () => {
+  const userController = loadWithMockedUserService(userControllerPath, {
+    findUserByEmail: assert.fail,
+    createUser: assert.fail,
+  });
+  const req = {
+    body: {
+      email: 'student@example.com',
+      password: 'password123',
+      roles: [''],
+    },
+  };
+  const res = makeResponse();
+
+  await userController.createUser(req, res, assert.fail);
+
+  assert.equal(res.statusCode, 400);
+  assert.equal(res.body.message, 'At least one role is required.');
+});
+
+test('admin create rejects blank scalar roles', async () => {
+  const userController = loadWithMockedUserService(userControllerPath, {
+    findUserByEmail: assert.fail,
+    createUser: assert.fail,
+  });
+  const req = {
+    body: {
+      email: 'student@example.com',
+      password: 'password123',
+      roles: '',
+    },
+  };
+  const res = makeResponse();
+
+  await userController.createUser(req, res, assert.fail);
+
+  assert.equal(res.statusCode, 400);
+  assert.equal(res.body.message, 'At least one role is required.');
+});
+
+test('admin create rejects null role entries', async () => {
+  const userController = loadWithMockedUserService(userControllerPath, {
+    findUserByEmail: assert.fail,
+    createUser: assert.fail,
+  });
+  const req = {
+    body: {
+      email: 'student@example.com',
+      password: 'password123',
+      roles: [null],
+    },
+  };
+  const res = makeResponse();
+
+  await userController.createUser(req, res, assert.fail);
+
+  assert.equal(res.statusCode, 400);
+  assert.equal(res.body.message, 'At least one role is required.');
+});
+
+test('admin update rejects empty roles array', async () => {
+  const userController = loadWithMockedUserService(userControllerPath, {
+    updateUser: assert.fail,
+  });
+  const req = {
+    params: { id: 'user_1' },
+    body: {
+      roles: [],
+    },
+  };
+  const res = makeResponse();
+
+  await userController.updateUser(req, res, assert.fail);
+
+  assert.equal(res.statusCode, 400);
+  assert.equal(res.body.message, 'At least one role is required.');
+});
+
+test('admin update rejects array role shorthand', async () => {
+  const userController = loadWithMockedUserService(userControllerPath, {
+    updateUser: assert.fail,
+  });
+  const req = {
+    params: { id: 'user_1' },
+    body: {
+      role: [],
+    },
+  };
+  const res = makeResponse();
+
+  await userController.updateUser(req, res, assert.fail);
+
+  assert.equal(res.statusCode, 400);
+  assert.equal(res.body.message, 'At least one role is required.');
+});
+
+test('admin update rejects blank role shorthand', async () => {
+  const userController = loadWithMockedUserService(userControllerPath, {
+    updateUser: assert.fail,
+  });
+  const req = {
+    params: { id: 'user_1' },
+    body: {
+      role: '',
+    },
+  };
+  const res = makeResponse();
+
+  await userController.updateUser(req, res, assert.fail);
+
+  assert.equal(res.statusCode, 400);
+  assert.equal(res.body.message, 'At least one role is required.');
 });

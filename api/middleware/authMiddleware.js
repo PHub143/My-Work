@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const userService = require('../services/userService');
+const { isAdminUser } = require('../utils/roles');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-default-secret-key-change-this-in-production';
 
@@ -25,11 +27,20 @@ const authenticateToken = (req, res, next) => {
 /**
  * Middleware to check if the authenticated user is an Admin.
  */
-const isAdmin = (req, res, next) => {
-  if (!req.user || req.user.role !== 'ADMIN') {
+const isAdmin = async (req, res, next) => {
+  if (!isAdminUser(req.user)) {
     return res.status(403).json({ message: 'Access denied. Administrator privileges required.' });
   }
-  next();
+
+  try {
+    const currentUser = await userService.findUserById(req.user.id);
+    if (!isAdminUser(currentUser)) {
+      return res.status(403).json({ message: 'Access denied. Administrator privileges required.' });
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {

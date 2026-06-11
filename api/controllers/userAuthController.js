@@ -1,6 +1,7 @@
 const userService = require('../services/userService');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { ROLES, withNormalizedRoles } = require('../utils/roles');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-default-secret-key-change-this-in-production';
 
@@ -28,9 +29,17 @@ const loginHandler = async (req, res, next) => {
       return res.status(401).json({ message: 'Invalid email or password.' });
     }
 
+    const normalizedUser = withNormalizedRoles(user);
+
     // Generate JWT
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role, name: user.name },
+      {
+        id: normalizedUser.id,
+        email: normalizedUser.email,
+        role: normalizedUser.role,
+        roles: normalizedUser.roles,
+        name: normalizedUser.name,
+      },
       JWT_SECRET,
       { expiresIn: '24h' }
     );
@@ -39,10 +48,11 @@ const loginHandler = async (req, res, next) => {
       message: 'Login successful',
       token,
       user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role
+        id: normalizedUser.id,
+        email: normalizedUser.email,
+        name: normalizedUser.name,
+        role: normalizedUser.role,
+        roles: normalizedUser.roles,
       }
     });
   } catch (error) {
@@ -57,7 +67,7 @@ const loginHandler = async (req, res, next) => {
  * @param {Function} next - Express next middleware function.
  */
 const registerHandler = async (req, res, next) => {
-  const { email, password, name, role } = req.body;
+  const { email, password, name } = req.body;
 
   if (!email || !password) {
     return res.status(400).json({ message: 'Email and password are required.' });
@@ -73,16 +83,18 @@ const registerHandler = async (req, res, next) => {
       email,
       password,
       name,
-      role: role || 'USER'
+      roles: [ROLES.STUDENT],
     });
+    const normalizedUser = withNormalizedRoles(newUser);
 
     res.status(201).json({
       message: 'User created successfully',
       user: {
-        id: newUser.id,
-        email: newUser.email,
-        name: newUser.name,
-        role: newUser.role
+        id: normalizedUser.id,
+        email: normalizedUser.email,
+        name: normalizedUser.name,
+        role: normalizedUser.role,
+        roles: normalizedUser.roles,
       }
     });
   } catch (error) {
