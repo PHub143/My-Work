@@ -1,5 +1,14 @@
 const prisma = require('./prismaService');
 const bcrypt = require('bcryptjs');
+const {
+  normalizeRoles,
+  primaryRole,
+  withNormalizedRoles,
+} = require('../utils/roles');
+
+function hasOwn(data, key) {
+  return Object.prototype.hasOwnProperty.call(data, key);
+}
 
 /**
  * User Service for database operations.
@@ -11,11 +20,28 @@ const userService = {
    * @returns {Promise<Object|null>}
    */
   findUserByEmail: async (email) => {
-    return prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         email: email,
       },
     });
+
+    return withNormalizedRoles(user);
+  },
+
+  /**
+   * Finds a user by their ID.
+   * @param {string} id - The user's ID.
+   * @returns {Promise<Object|null>}
+   */
+  findUserById: async (id) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    return withNormalizedRoles(user);
   },
 
   /**
@@ -26,14 +52,18 @@ const userService = {
    */
   createUser: async (data) => {
     const hashedPassword = await bcrypt.hash(data.password, 10);
-    return prisma.user.create({
+    const roles = normalizeRoles(hasOwn(data, 'roles') ? data.roles : data.role);
+    const user = await prisma.user.create({
       data: {
         email: data.email,
         name: data.name,
         password: hashedPassword,
-        role: data.role || 'USER',
+        role: primaryRole(roles),
+        roles,
       },
     });
+
+    return withNormalizedRoles(user);
   },
 
   /**
@@ -41,11 +71,13 @@ const userService = {
    * @returns {Promise<Array>}
    */
   getAllUsers: async () => {
-    return prisma.user.findMany({
+    const users = await prisma.user.findMany({
       orderBy: {
         createdAt: 'desc',
       },
     });
+
+    return users.map(withNormalizedRoles);
   },
 
   /**
@@ -59,12 +91,22 @@ const userService = {
     const updateData = { ...data };
     if (data.password) {
       updateData.password = await bcrypt.hash(data.password, 10);
+    } else if (hasOwn(data, 'password')) {
+      delete updateData.password;
     }
 
-    return prisma.user.update({
+    if (hasOwn(data, 'roles') || hasOwn(data, 'role')) {
+      const roles = normalizeRoles(hasOwn(data, 'roles') ? data.roles : data.role);
+      updateData.roles = roles;
+      updateData.role = primaryRole(roles);
+    }
+
+    const user = await prisma.user.update({
       where: { id },
       data: updateData,
     });
+
+    return withNormalizedRoles(user);
   },
 
   /**

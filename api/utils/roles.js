@@ -51,11 +51,17 @@ function getUserRoles(user, options = {}) {
     return [];
   }
 
+  const roles = [];
+
   if (Array.isArray(user.roles)) {
-    return normalizeRoles(user.roles, options);
+    roles.push(...user.roles);
+  } else if (user.roles != null) {
+    roles.push(user.roles);
   }
 
-  return normalizeRoles(user.role, options);
+  roles.push(user.role);
+
+  return normalizeRoles(roles, options);
 }
 
 function hasRole(user, role) {

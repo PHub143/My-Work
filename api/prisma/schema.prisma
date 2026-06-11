@@ -36,6 +36,7 @@ model User {
   name      String?
   password  String
   role      String   @default("USER")
+  roles     Json     @default("[\"STUDENT\"]")
   files     File[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
