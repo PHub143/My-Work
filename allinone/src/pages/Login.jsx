@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { API_URL } from '../config';
+import { isAdmin, isStudent } from '../utils/roles';
+import {
+  ADMIN_FALLBACK_ROUTE,
+  LEARNING_FALLBACK_ROUTE,
+  canRoleAccessPath,
+  getLoginModeForPath
+} from '../utils/routeAccess';
 import './Login.css';
 
 const Login = () => {
@@ -14,7 +21,24 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  const from = location.state?.from || '/';
+  const from = location.state?.from || ADMIN_FALLBACK_ROUTE;
+  const loginMode = getLoginModeForPath(from);
+  const isStudentMode = loginMode === 'student';
+  const loginContent = isStudentMode
+    ? {
+        title: 'Student Login',
+        subtitle: 'Sign in to continue learning',
+        placeholder: 'student@example.com',
+        button: 'Sign in as Student',
+        fallback: LEARNING_FALLBACK_ROUTE
+      }
+    : {
+        title: 'Admin Login',
+        subtitle: 'Sign in to manage the workspace',
+        placeholder: 'admin@example.com',
+        button: 'Sign in as Admin',
+        fallback: ADMIN_FALLBACK_ROUTE
+      };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +58,13 @@ const Login = () => {
 
       if (response.ok) {
         login(data.token);
-        navigate(from, { replace: true });
+        const requestedPath = from || loginContent.fallback;
+        navigate(requestedPath, {
+          replace: true,
+          state: canRoleAccessPath(data.user, requestedPath, { isAdmin, isStudent })
+            ? undefined
+            : { locked: true }
+        });
       } else {
         setError(data.message || 'Login failed. Please try again.');
       }
@@ -49,8 +79,8 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-card glass">
-        <h2>Admin Login</h2>
-        <p className="login-subtitle">Sign in to manage system settings</p>
+        <h2>{loginContent.title}</h2>
+        <p className="login-subtitle">{loginContent.subtitle}</p>
         
         {error && <div className="login-error-message">{error}</div>}
         
@@ -60,7 +90,7 @@ const Login = () => {
             <input
               id="email"
               type="email"
-              placeholder="admin@example.com"
+              placeholder={loginContent.placeholder}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -85,7 +115,7 @@ const Login = () => {
             className="login-submit-btn primary-btn" 
             disabled={isLoading}
           >
-            {isLoading ? 'Signing in...' : 'Sign In'}
+            {isLoading ? 'Signing in...' : loginContent.button}
           </button>
         </form>
       </div>

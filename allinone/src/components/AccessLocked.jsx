@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
+import '../pages/Login.css';
 
 const AccessLocked = () => {
   const { logout } = useAuth();
