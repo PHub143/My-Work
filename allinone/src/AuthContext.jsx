@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useState, useEffect, useContext, useCallback, useMemo } from 'react';
+import { normalizeRoles, primaryRole } from './utils/roles';
 
 const AuthContext = createContext();
 
@@ -44,11 +45,16 @@ export const AuthProvider = ({ children }) => {
   const user = useMemo(() => {
     const decoded = decodeToken(token);
     if (!decoded) return null;
+    const roles = normalizeRoles([
+      ...(Array.isArray(decoded.roles) ? decoded.roles : [decoded.roles]),
+      decoded.role
+    ]);
     
     return {
       id: decoded.id,
       email: decoded.email,
-      role: decoded.role,
+      roles,
+      role: primaryRole(roles),
       name: decoded.name
     };
   }, [token]);
