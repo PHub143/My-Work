@@ -4,6 +4,7 @@ const cron = require('node-cron');
 require('dotenv').config();
 const routes = require('./routes');
 const { syncDatabase } = require('./scripts/sync-drive');
+const { ensureDefaultAdmin, DEFAULT_ADMIN_EMAIL } = require('./services/defaultAdminService');
 
 // BigInt JSON serialization patch
 // Required for Prisma BigInt fields to be correctly handled in Express responses
@@ -70,6 +71,16 @@ const server = app.listen(port, () => {
   // Set server-level timeouts for multi-GB uploads (2 hours)
   server.keepAliveTimeout = 2 * 60 * 60 * 1000;
   server.headersTimeout = 2 * 60 * 60 * 1000 + 1000;
+
+  ensureDefaultAdmin()
+    .then(({ created }) => {
+      if (created) {
+        console.log(`Default admin account created for ${DEFAULT_ADMIN_EMAIL}.`);
+      }
+    })
+    .catch(err => {
+      console.error('Default admin initialization failed:', err);
+    });
 
   // Schedule full synchronization from Google Drive every hour
   cron.schedule('0 * * * *', async () => {

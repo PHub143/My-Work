@@ -6,6 +6,7 @@ const controllerPath = path.resolve(__dirname, 'controllers/userAuthController.j
 const userControllerPath = path.resolve(__dirname, 'controllers/userController.js');
 const middlewarePath = path.resolve(__dirname, 'middleware/authMiddleware.js');
 const userServicePath = path.resolve(__dirname, 'services/userService.js');
+const defaultAdminServicePath = path.resolve(__dirname, 'services/defaultAdminService.js');
 const prismaServicePath = path.resolve(__dirname, 'services/prismaService.js');
 const {
   ROLES,
@@ -67,6 +68,37 @@ function loadUserServiceWithMockedPrisma(mockPrisma) {
         require.cache[userServicePath] = cachedUserService;
       } else {
         delete require.cache[userServicePath];
+      }
+
+      if (cachedPrismaService) {
+        require.cache[prismaServicePath] = cachedPrismaService;
+      } else {
+        delete require.cache[prismaServicePath];
+      }
+    },
+  };
+}
+
+function loadDefaultAdminServiceWithMockedPrisma(mockPrisma) {
+  const cachedDefaultAdminService = require.cache[defaultAdminServicePath];
+  const cachedPrismaService = require.cache[prismaServicePath];
+
+  delete require.cache[defaultAdminServicePath];
+  delete require.cache[prismaServicePath];
+  require.cache[prismaServicePath] = {
+    id: prismaServicePath,
+    filename: prismaServicePath,
+    loaded: true,
+    exports: mockPrisma,
+  };
+
+  return {
+    defaultAdminService: require(defaultAdminServicePath),
+    cleanup() {
+      if (cachedDefaultAdminService) {
+        require.cache[defaultAdminServicePath] = cachedDefaultAdminService;
+      } else {
+        delete require.cache[defaultAdminServicePath];
       }
 
       if (cachedPrismaService) {
@@ -603,4 +635,66 @@ test('admin update rejects blank role shorthand', async () => {
 
   assert.equal(res.statusCode, 400);
   assert.equal(res.body.message, 'At least one role is required.');
+});
+
+test('ensureDefaultAdmin creates the default admin when missing', async () => {
+  let createPayload;
+  const { defaultAdminService, cleanup } = loadDefaultAdminServiceWithMockedPrisma({
+    user: {
+      findUnique: async ({ where }) => {
+        assert.deepEqual(where, { email: 'lieutienthinh@gmail.com' });
+        return null;
+      },
+      create: async (payload) => {
+        createPayload = payload;
+        return {
+          id: 'admin_1',
+          ...payload.data,
+        };
+      },
+    },
+  });
+
+  try {
+    const result = await defaultAdminService.ensureDefaultAdmin();
+
+    assert.equal(result.created, true);
+    assert.equal(createPayload.data.email, 'lieutienthinh@gmail.com');
+    assert.equal(createPayload.data.name, 'Default Admin');
+    assert.equal(createPayload.data.role, ROLES.ADMIN);
+    assert.deepEqual(createPayload.data.roles, [ROLES.ADMIN]);
+    assert.notEqual(createPayload.data.password, 'admin123');
+    assert.equal(await require('bcryptjs').compare('admin123', createPayload.data.password), true);
+  } finally {
+    cleanup();
+  }
+});
+
+test('ensureDefaultAdmin leaves an existing default admin untouched', async () => {
+  let createCalled = false;
+  const existingAdmin = {
+    id: 'admin_1',
+    email: 'lieutienthinh@gmail.com',
+    name: 'Existing Admin',
+    role: ROLES.ADMIN,
+    roles: [ROLES.ADMIN],
+  };
+  const { defaultAdminService, cleanup } = loadDefaultAdminServiceWithMockedPrisma({
+    user: {
+      findUnique: async () => existingAdmin,
+      create: async () => {
+        createCalled = true;
+      },
+    },
+  });
+
+  try {
+    const result = await defaultAdminService.ensureDefaultAdmin();
+
+    assert.equal(result.created, false);
+    assert.equal(result.user, existingAdmin);
+    assert.equal(createCalled, false);
+  } finally {
+    cleanup();
+  }
 });
