@@ -62,9 +62,9 @@ const ProtectedRoute = () => {
   }
 
   if (!isConfigured) {
-    return <Navigate to="/settings" state={{ 
+    return <Navigate to="/settings" state={{
       message: 'Google Drive setup is required to access this page.',
-      from: location.pathname 
+      from: location.pathname
     }} replace />;
   }
 

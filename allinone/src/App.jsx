@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Spinner from './components/Spinner';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
+import LearningRoute from './components/LearningRoute';
 import { AuthProvider } from './AuthContext';
 import { ThemeProvider } from './ThemeContext';
 import { DriveProvider } from './DriveContext';
@@ -64,8 +65,10 @@ function App() {
                   <Route path='/users' element={<Users />} />
                   <Route path='/settings' element={<Settings />} />
                 </Route>
+                <Route element={<LearningRoute />}>
+                  <Route path='/learning/ai-103' element={<AI103 />} />
+                </Route>
                 <Route path='/login' element={<Login />} />
-                <Route path='/learning/ai-103' element={<AI103 />} />
                 <Route path='/oauth/callback' element={<OAuthCallback />} />
               </Routes>
             </Suspense>

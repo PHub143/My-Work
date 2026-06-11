@@ -4,7 +4,7 @@ import './Navbar.css';
 import Logo from './Logo';
 import { useTheme } from '../ThemeContext';
 import { useAuth } from '../AuthContext';
-import { isAdmin } from '../utils/roles';
+import { isAdmin, isStudent } from '../utils/roles';
 import DriveSwitcher from './DriveSwitcher';
 
 const Navbar = () => {
@@ -18,6 +18,7 @@ const Navbar = () => {
   const [isLearningOpen, setIsLearningOpen] = useState(false);
   const isLearningActive = location.pathname.startsWith('/learning');
   const canAdmin = isAdmin(user);
+  const canLearn = isAuthenticated && isStudent(user);
 
   const handleLogout = () => {
     logout();
@@ -72,34 +73,36 @@ const Navbar = () => {
               </li>
             </>
           )}
-          <li className="nav-item nav-dropdown" ref={learningRef}>
-            <button
-              type="button"
-              className={`nav-links nav-dropdown-trigger ${isLearningActive ? 'active' : ''}`}
-              aria-haspopup="menu"
-              aria-expanded={isLearningOpen}
-              onClick={() => setIsLearningOpen((open) => !open)}
-            >
-              Learning
-            </button>
-            {isLearningOpen && (
-              <div className="nav-dropdown-menu" role="menu">
-                <NavLink
-                  to="/learning/ai-103"
-                  className="nav-dropdown-item"
-                  role="menuitem"
-                  onClick={() => setIsLearningOpen(false)}
-                >
-                  <span>AI</span>
-                  <small>AI-103</small>
-                </NavLink>
-                <button type="button" className="nav-dropdown-item disabled" disabled>
-                  <span>English</span>
-                  <small>Coming soon</small>
-                </button>
-              </div>
-            )}
-          </li>
+          {canLearn && (
+            <li className="nav-item nav-dropdown" ref={learningRef}>
+              <button
+                type="button"
+                className={`nav-links nav-dropdown-trigger ${isLearningActive ? 'active' : ''}`}
+                aria-haspopup="menu"
+                aria-expanded={isLearningOpen}
+                onClick={() => setIsLearningOpen((open) => !open)}
+              >
+                Learning
+              </button>
+              {isLearningOpen && (
+                <div className="nav-dropdown-menu" role="menu">
+                  <NavLink
+                    to="/learning/ai-103"
+                    className="nav-dropdown-item"
+                    role="menuitem"
+                    onClick={() => setIsLearningOpen(false)}
+                  >
+                    <span>AI</span>
+                    <small>AI-103</small>
+                  </NavLink>
+                  <button type="button" className="nav-dropdown-item disabled" disabled>
+                    <span>English</span>
+                    <small>Coming soon</small>
+                  </button>
+                </div>
+              )}
+            </li>
+          )}
           {canAdmin && (
             <>
               <li className="nav-item">
