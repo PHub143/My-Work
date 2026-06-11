@@ -19,7 +19,7 @@ const Navbar = () => {
   const isLearningActive = location.pathname.startsWith('/learning');
   const canAdmin = isAdmin(user);
   const canLearn = !isAuthenticated || isStudent(user);
-  const showAdminTabs = !isAuthenticated || canAdmin;
+  const showContentTabs = !isAuthenticated || canAdmin;
 
   const handleLogout = () => {
     logout();
@@ -60,7 +60,7 @@ const Navbar = () => {
         </div>
 
         <ul className="nav-menu">
-          {showAdminTabs && (
+          {showContentTabs && (
             <>
               <li className="nav-item">
                 <NavLink to="/" end className="nav-links">
@@ -112,7 +112,7 @@ const Navbar = () => {
               )}
             </li>
           )}
-          {showAdminTabs && (
+          {canAdmin && (
             <>
               <li className="nav-item">
                 <NavLink to="/users" className="nav-links">
