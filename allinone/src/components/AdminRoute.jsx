@@ -3,6 +3,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { isAdmin } from '../utils/roles';
 import Spinner from './Spinner';
+import AccessLocked from './AccessLocked';
 
 /**
  * A wrapper component that checks if the user is an Admin.
@@ -31,7 +32,7 @@ const AdminRoute = () => {
   }
 
   if (!isAdmin(user)) {
-    return <Navigate to="/learning/ai-103" replace />;
+    return <AccessLocked />;
   }
 
   return <Outlet />;

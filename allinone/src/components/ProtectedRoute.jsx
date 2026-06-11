@@ -4,6 +4,7 @@ import { API_URL } from '../config';
 import Spinner from './Spinner';
 import { useAuth } from '../AuthContext';
 import { isAdmin } from '../utils/roles';
+import AccessLocked from './AccessLocked';
 
 /**
  * A wrapper component that checks if Google Drive is configured.
@@ -58,7 +59,7 @@ const ProtectedRoute = () => {
   }
 
   if (!canAdmin) {
-    return <Navigate to="/learning/ai-103" replace />;
+    return <AccessLocked />;
   }
 
   if (!isConfigured) {
