@@ -3,6 +3,19 @@ import './Users.css';
 import { API_URL } from '../config';
 import { useAuth } from '../AuthContext';
 import Spinner from '../components/Spinner';
+import { ROLES, normalizeRoles, primaryRole } from '../utils/roles';
+
+const createDefaultFormData = () => ({ name: '', email: '', password: '', roles: [ROLES.STUDENT] });
+
+const roleLabels = {
+  [ROLES.ADMIN]: 'Admin',
+  [ROLES.STUDENT]: 'Student'
+};
+
+const modalTitleId = 'user-modal-title';
+const nameInputId = 'user-name';
+const emailInputId = 'user-email';
+const passwordInputId = 'user-password';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -10,7 +23,7 @@ const Users = () => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
-  const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'USER' });
+  const [formData, setFormData] = useState(createDefaultFormData);
   const [isSaving, setIsSaving] = useState(false);
   const [deletingUserId, setDeletingUserId] = useState(null);
   
@@ -35,7 +48,10 @@ const Users = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        setUsers(data.users);
+        setUsers(data.users.map((u) => {
+          const roles = normalizeRoles(u.roles || u.role);
+          return { ...u, roles, role: primaryRole(roles) };
+        }));
       } else {
         throw new Error('Failed to fetch users');
       }
@@ -53,10 +69,15 @@ const Users = () => {
   const handleOpenModal = (user = null) => {
     if (user) {
       setEditingUser(user);
-      setFormData({ name: user.name || '', email: user.email, password: '', role: user.role });
+      setFormData({
+        name: user.name || '',
+        email: user.email,
+        password: '',
+        roles: normalizeRoles(user.roles || user.role)
+      });
     } else {
       setEditingUser(null);
-      setFormData({ name: '', email: '', password: '', role: 'USER' });
+      setFormData(createDefaultFormData());
     }
     setIsModalOpen(true);
   };
@@ -64,6 +85,24 @@ const Users = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setEditingUser(null);
+  };
+
+  const toggleRole = (role) => {
+    setFormData((current) => {
+      const currentRoles = normalizeRoles(current.roles);
+      if (currentRoles.length === 1 && currentRoles.includes(role)) {
+        return { ...current, roles: currentRoles };
+      }
+
+      const nextRoles = currentRoles.includes(role)
+        ? currentRoles.filter((currentRole) => currentRole !== role)
+        : [...currentRoles, role];
+
+      return {
+        ...current,
+        roles: normalizeRoles(nextRoles)
+      };
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -131,7 +170,7 @@ const Users = () => {
           <div>
             <div className="users-kicker">
               <span className="users-badge">{users.length} ACCOUNT{users.length === 1 ? '' : 'S'}</span>
-              <span className="users-meta">· {users.filter(u => u.role === 'ADMIN').length} admin · {users.filter(u => u.role !== 'ADMIN').length} users</span>
+              <span className="users-meta">· {users.filter(u => u.roles.includes(ROLES.ADMIN)).length} admin · {users.filter(u => u.roles.includes(ROLES.STUDENT)).length} students</span>
             </div>
             <h1>Your <em>crew.</em></h1>
             <p>Create, edit, and manage system accounts</p>
@@ -159,9 +198,13 @@ const Users = () => {
                 <div className="user-polaroid-name">{u.name || 'Unnamed User'}</div>
                 <div className="user-polaroid-email">{u.email}</div>
                 <div className="user-polaroid-footer">
-                  <span className={`role-badge ${u.role === 'ADMIN' ? 'admin' : 'user'}`}>
-                    {u.role}
-                  </span>
+                  <div className="role-badge-group" aria-label="User roles">
+                    {u.roles.map((role) => (
+                      <span key={role} className={`role-badge ${role === ROLES.ADMIN ? 'admin' : 'student'}`}>
+                        {roleLabels[role] || role}
+                      </span>
+                    ))}
+                  </div>
                   <span>{new Date(u.createdAt).toLocaleDateString()}</span>
                 </div>
                 <div className="user-card-actions">
@@ -200,16 +243,23 @@ const Users = () => {
 
       {isModalOpen && (
         <div className="user-modal-overlay" onClick={handleCloseModal}>
-          <div className="user-modal-content glass" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="user-modal-content glass"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={modalTitleId}
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-header">
-              <h2>{editingUser ? 'Edit User' : 'Create New User'}</h2>
-              <button className="close-modal" onClick={handleCloseModal}>&times;</button>
+              <h2 id={modalTitleId}>{editingUser ? 'Edit User' : 'Create New User'}</h2>
+              <button className="close-modal" onClick={handleCloseModal} aria-label="Close user modal">&times;</button>
             </div>
             
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label>Full Name</label>
+                <label htmlFor={nameInputId}>Full Name</label>
                 <input 
+                  id={nameInputId}
                   type="text" 
                   value={formData.name} 
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -217,8 +267,9 @@ const Users = () => {
                 />
               </div>
               <div className="form-group">
-                <label>Email Address</label>
+                <label htmlFor={emailInputId}>Email Address</label>
                 <input 
+                  id={emailInputId}
                   type="email" 
                   value={formData.email} 
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -227,8 +278,9 @@ const Users = () => {
                 />
               </div>
               <div className="form-group">
-                <label>{editingUser ? 'New Password (leave blank to keep current)' : 'Password'}</label>
+                <label htmlFor={passwordInputId}>{editingUser ? 'New Password (leave blank to keep current)' : 'Password'}</label>
                 <input 
+                  id={passwordInputId}
                   type="password" 
                   value={formData.password} 
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
@@ -237,14 +289,26 @@ const Users = () => {
                 />
               </div>
               <div className="form-group">
-                <label>Role</label>
-                <select 
-                  value={formData.role} 
-                  onChange={(e) => setFormData({...formData, role: e.target.value})}
-                >
-                  <option value="USER">User</option>
-                  <option value="ADMIN">Admin</option>
-                </select>
+                <label>Roles</label>
+                <div className="role-checklist">
+                  {[ROLES.ADMIN, ROLES.STUDENT].map((role) => {
+                    const selectedRoles = normalizeRoles(formData.roles);
+                    const isChecked = selectedRoles.includes(role);
+                    const isOnlySelectedRole = selectedRoles.length === 1 && isChecked;
+
+                    return (
+                      <label key={role} className="role-check">
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          disabled={isOnlySelectedRole}
+                          onChange={() => toggleRole(role)}
+                        />
+                        <span>{roleLabels[role]}</span>
+                      </label>
+                    );
+                  })}
+                </div>
               </div>
 
               <div className="modal-actions">

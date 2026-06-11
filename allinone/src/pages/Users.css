@@ -19,6 +19,7 @@
 
 .users-kicker {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
@@ -215,12 +216,21 @@
   letter-spacing: 0.03em;
 }
 
+.role-badge-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
 .role-badge.admin {
   background: var(--cosmic-yellow);
   color: var(--cosmic-bg);
 }
 
-.role-badge.user {
+.role-badge.user,
+.role-badge.student {
   background: var(--cosmic-cyan);
   color: var(--cosmic-bg);
 }
@@ -375,6 +385,54 @@
   outline: none;
   border-color: var(--cosmic-cyan);
   box-shadow: 0 0 0 4px rgba(6, 214, 160, 0.14);
+}
+
+.role-checklist {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.role-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0.72rem 0.86rem;
+  border: 1.5px solid var(--color-separator);
+  border-radius: 8px;
+  background: rgba(254, 249, 240, 0.09);
+  color: var(--color-label);
+  font-weight: 800;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.role-check:hover {
+  border-color: var(--cosmic-cyan);
+  transform: translateY(-1px);
+}
+
+.role-check:has(input:disabled) {
+  opacity: 0.58;
+  cursor: not-allowed;
+}
+
+.role-check:has(input:disabled):hover {
+  border-color: var(--color-separator);
+  transform: none;
+}
+
+.role-check input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--cosmic-cyan);
+  cursor: pointer;
+}
+
+.role-check input:disabled {
+  cursor: not-allowed;
 }
 
 .modal-actions {
