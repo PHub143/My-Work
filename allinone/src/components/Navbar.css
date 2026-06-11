@@ -77,6 +77,7 @@
   color: var(--cosmic-ink);
   display: flex;
   align-items: center;
+  gap: 6px;
   text-decoration: none;
   padding: 8px 16px;
   font-size: 0.86rem;
@@ -84,6 +85,85 @@
   transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
   border-radius: 999px;
   border: 1.5px solid transparent;
+}
+
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-trigger {
+  appearance: none;
+  background: transparent;
+  font-family: inherit;
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 180px;
+  padding: 7px;
+  border-radius: 14px;
+  background: rgba(10, 6, 18, 0.96);
+  border: 1.5px solid var(--color-separator);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.62), 0 18px 40px rgba(0, 0, 0, 0.35);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  z-index: 1001;
+}
+
+.nav-dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  background: inherit;
+  border-left: 1.5px solid var(--color-separator);
+  border-top: 1.5px solid var(--color-separator);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.nav-dropdown-item {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  color: var(--cosmic-ink);
+  background: transparent;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-align: left;
+}
+
+.nav-dropdown-item:hover,
+.nav-dropdown-item.active {
+  opacity: 1;
+  background: rgba(254, 249, 240, 0.1);
+}
+
+.nav-dropdown-item.active {
+  color: var(--cosmic-yellow);
+}
+
+.nav-dropdown-item small {
+  color: var(--color-secondary-label);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.nav-dropdown-item.disabled {
+  cursor: not-allowed;
+  opacity: 0.56;
 }
 
 .nav-links:hover {
@@ -272,6 +352,16 @@
 
   .nav-links {
     padding: 7px 10px;
+  }
+
+  .nav-dropdown-menu {
+    left: 0;
+    transform: none;
+  }
+
+  .nav-dropdown-menu::before {
+    left: 24px;
+    transform: rotate(45deg);
   }
 
   .pro-pill {

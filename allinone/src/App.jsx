@@ -12,6 +12,7 @@ import { DriveProvider } from './DriveContext';
 
 const Documents = lazy(() => import('./pages/Documents'));
 const Gallery = lazy(() => import('./pages/Gallery'));
+const AI103 = lazy(() => import('./pages/AI103'));
 const Users = lazy(() => import('./pages/Users'));
 const Upload = lazy(() => import('./pages/Upload'));
 const Settings = lazy(() => import('./pages/Settings'));
@@ -67,6 +68,7 @@ function App() {
                   <Route path='/settings' element={<Settings />} />
                 </Route>
                 <Route path='/login' element={<Login />} />
+                <Route path='/learning/ai-103' element={<AI103 />} />
                 <Route path='/oauth/callback' element={<OAuthCallback />} />
               </Routes>
             </Suspense>

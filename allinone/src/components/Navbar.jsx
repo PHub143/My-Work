@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import Logo from './Logo';
 import { useTheme } from '../ThemeContext';
@@ -10,8 +10,12 @@ const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const profileRef = useRef(null);
+  const learningRef = useRef(null);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isLearningOpen, setIsLearningOpen] = useState(false);
+  const isLearningActive = location.pathname.startsWith('/learning');
 
   const handleLogout = () => {
     logout();
@@ -23,11 +27,15 @@ const Navbar = () => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
         setIsProfileOpen(false);
       }
+      if (learningRef.current && !learningRef.current.contains(event.target)) {
+        setIsLearningOpen(false);
+      }
     };
 
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
         setIsProfileOpen(false);
+        setIsLearningOpen(false);
       }
     };
 
@@ -57,6 +65,34 @@ const Navbar = () => {
             <NavLink to="/gallery" className="nav-links">
               Gallery
             </NavLink>
+          </li>
+          <li className="nav-item nav-dropdown" ref={learningRef}>
+            <button
+              type="button"
+              className={`nav-links nav-dropdown-trigger ${isLearningActive ? 'active' : ''}`}
+              aria-haspopup="menu"
+              aria-expanded={isLearningOpen}
+              onClick={() => setIsLearningOpen((open) => !open)}
+            >
+              Learning
+            </button>
+            {isLearningOpen && (
+              <div className="nav-dropdown-menu" role="menu">
+                <NavLink
+                  to="/learning/ai-103"
+                  className="nav-dropdown-item"
+                  role="menuitem"
+                  onClick={() => setIsLearningOpen(false)}
+                >
+                  <span>AI</span>
+                  <small>AI-103</small>
+                </NavLink>
+                <button type="button" className="nav-dropdown-item disabled" disabled>
+                  <span>English</span>
+                  <small>Coming soon</small>
+                </button>
+              </div>
+            )}
           </li>
           {user?.role === 'ADMIN' && (
             <>
