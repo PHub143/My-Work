@@ -167,6 +167,54 @@ function parseAnswerSelection(question, options) {
   };
 }
 
+function hashSeed(seed) {
+  const value = String(seed || '');
+  let hash = 2166136261;
+
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+
+  return hash >>> 0;
+}
+
+function seededRandom(seed) {
+  let state = hashSeed(seed) || 1;
+
+  return () => {
+    state = Math.imul(1664525, state) + 1013904223;
+    return (state >>> 0) / 4294967296;
+  };
+}
+
+function shuffleQuestions(questions, random) {
+  const shuffled = [...questions];
+
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+
+  return shuffled;
+}
+
+function normalizeSelection(selection) {
+  const values = Array.isArray(selection) ? selection : [selection];
+  return Array.from(
+    new Set(
+      values
+        .filter(Boolean)
+        .flatMap((value) => String(value).match(/[A-Z]/g) || [])
+    )
+  ).sort();
+}
+
+function arraysEqual(left, right) {
+  if (left.length !== right.length) return false;
+  return left.every((value, index) => value === right[index]);
+}
+
 function extractLeadingQuestionType(lines) {
   const firstLine = lines[0] || '';
   const inlineTypeMatch = firstLine.match(/^([A-Z][A-Z ]+)\s*-\s*(.*)$/);
@@ -552,6 +600,78 @@ export function getVisualQuestionDisplayParts(question) {
     promptParagraphs: linesToParagraphs(extracted.lines),
     explanationParagraphs,
     answerRows,
+  };
+}
+
+export function getPracticeQuestionDisplayParts(question) {
+  const extracted = extractLeadingQuestionType(splitNonEmptyLines(question?.prompt || ''));
+  const promptLines = [];
+  const optionLines = [];
+
+  extracted.lines.forEach((line) => {
+    if (OPTION_LINE_PATTERN.test(line)) {
+      optionLines.push(line);
+      return;
+    }
+
+    promptLines.push(line);
+  });
+
+  const options = parseOptionLines(optionLines);
+  const answerSelections = normalizeSelection(question?.answer || '');
+
+  return {
+    type: extracted.type,
+    promptParagraphs: linesToParagraphs(promptLines),
+    options,
+    answerSelection: (question?.answer || '').trim(),
+    answerSelections,
+    answerOptions: options.filter((option) => answerSelections.includes(option.key)),
+    allowsMultipleSelections: answerSelections.length > 1,
+    explanationParagraphs: splitExplanationParagraphs(question?.explanation || ''),
+  };
+}
+
+export function createPracticeSession(questions, options = {}) {
+  const difficulty = options.difficulty || 'easy';
+  const questionCount = options.questionCount || 20;
+  const random = options.seed ? seededRandom(options.seed) : Math.random;
+  const shuffledQuestions = shuffleQuestions(questions || [], random);
+  const selectedQuestions = shuffledQuestions.slice(0, questionCount).map((question) => ({
+    ...question,
+    sourceIndex: questions.findIndex((sourceQuestion) => sourceQuestion.number === question.number),
+  }));
+
+  return {
+    difficulty,
+    timeLimitMinutes: difficulty === 'easy' ? null : undefined,
+    questions: selectedQuestions,
+  };
+}
+
+export function getPracticeSessionResults(questions, selectionsByQuestionNumber) {
+  const items = (questions || []).map((question) => {
+    const parts = getPracticeQuestionDisplayParts(question);
+    const selected = normalizeSelection(selectionsByQuestionNumber?.[question.number] || []);
+    const correct = normalizeSelection(parts.answerSelections);
+    const isCorrect = arraysEqual(selected, correct);
+
+    return {
+      questionNumber: question.number,
+      selected,
+      correct,
+      isCorrect,
+      answerOptions: parts.answerOptions,
+    };
+  });
+  const correctCount = items.filter((item) => item.isCorrect).length;
+  const totalQuestions = items.length;
+
+  return {
+    correctCount,
+    totalQuestions,
+    scorePercent: totalQuestions ? Math.round((correctCount / totalQuestions) * 100) : 0,
+    items,
   };
 }
 

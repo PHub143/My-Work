@@ -160,6 +160,46 @@ test('public register cannot create an admin role from request body', async () =
   assert.deepEqual(res.body.user.roles, [ROLES.STUDENT]);
 });
 
+test('public student register emits token and normalized user response', async () => {
+  const jwt = require('jsonwebtoken');
+  const { registerHandler } = loadWithMockedUserService(controllerPath, {
+    findUserByEmail: async () => null,
+    createUser: async (data) => ({
+      id: 'student_1',
+      email: data.email,
+      name: data.name,
+      role: ROLES.STUDENT,
+      roles: data.roles,
+    }),
+  });
+
+  const req = {
+    body: {
+      email: 'student@example.com',
+      password: 'password123',
+      name: 'Student User',
+    },
+  };
+  const res = makeResponse();
+
+  await registerHandler(req, res, assert.fail);
+
+  const payload = jwt.verify(res.body.token, process.env.JWT_SECRET || 'your-default-secret-key-change-this-in-production');
+  assert.equal(res.statusCode, 201);
+  assert.equal(payload.id, 'student_1');
+  assert.equal(payload.email, 'student@example.com');
+  assert.equal(payload.name, 'Student User');
+  assert.equal(payload.role, ROLES.STUDENT);
+  assert.deepEqual(payload.roles, [ROLES.STUDENT]);
+  assert.deepEqual(res.body.user, {
+    id: 'student_1',
+    email: 'student@example.com',
+    name: 'Student User',
+    role: ROLES.STUDENT,
+    roles: [ROLES.STUDENT],
+  });
+});
+
 test('login emits normalized role and roles in token and response', async () => {
   const bcrypt = require('bcryptjs');
   const jwt = require('jsonwebtoken');

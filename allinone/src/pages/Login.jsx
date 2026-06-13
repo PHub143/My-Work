@@ -12,8 +12,11 @@ import {
 import './Login.css';
 
 const Login = () => {
+  const [authMode, setAuthMode] = useState('login');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   
@@ -24,12 +27,13 @@ const Login = () => {
   const from = location.state?.from || ADMIN_FALLBACK_ROUTE;
   const loginMode = getLoginModeForPath(from);
   const isStudentMode = loginMode === 'student';
+  const isRegisterMode = isStudentMode && authMode === 'register';
   const loginContent = isStudentMode
     ? {
-        title: 'Student Login',
-        subtitle: 'Sign in to continue learning',
+        title: isRegisterMode ? 'Student Register' : 'Student Login',
+        subtitle: isRegisterMode ? 'Create your learning account' : 'Sign in to continue learning',
         placeholder: 'student@example.com',
-        button: 'Sign in as Student',
+        button: isRegisterMode ? 'Create Student Account' : 'Sign in as Student',
         fallback: LEARNING_FALLBACK_ROUTE
       }
     : {
@@ -42,23 +46,33 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isRegisterMode && password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
     setIsLoading(true);
     setError('');
 
     try {
-      const response = await fetch(`${API_URL}/users/login`, {
+      const endpoint = isRegisterMode ? 'register' : 'login';
+      const payload = isRegisterMode
+        ? { email, password, name }
+        : { email, password };
+
+      const response = await fetch(`${API_URL}/users/${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         login(data.token);
-        const requestedPath = from || loginContent.fallback;
+        const requestedPath = isRegisterMode ? LEARNING_FALLBACK_ROUTE : from || loginContent.fallback;
         navigate(requestedPath, {
           replace: true,
           state: canRoleAccessPath(data.user, requestedPath, { isAdmin, isStudent })
@@ -66,14 +80,21 @@ const Login = () => {
             : { locked: true }
         });
       } else {
-        setError(data.message || 'Login failed. Please try again.');
+        setError(data.message || `${isRegisterMode ? 'Registration' : 'Login'} failed. Please try again.`);
       }
     } catch (err) {
-      console.error('Login error:', err);
-      setError('An error occurred during login. Please try again later.');
+      console.error(`${isRegisterMode ? 'Registration' : 'Login'} error:`, err);
+      setError(`An error occurred during ${isRegisterMode ? 'registration' : 'login'}. Please try again later.`);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const switchAuthMode = (nextMode) => {
+    setAuthMode(nextMode);
+    setError('');
+    setPassword('');
+    setConfirmPassword('');
   };
 
   return (
@@ -83,8 +104,41 @@ const Login = () => {
         <p className="login-subtitle">{loginContent.subtitle}</p>
         
         {error && <div className="login-error-message">{error}</div>}
+
+        {isStudentMode && (
+          <div className="login-mode-toggle" aria-label="Student account mode">
+            <button
+              type="button"
+              className={authMode === 'login' ? 'active' : ''}
+              onClick={() => switchAuthMode('login')}
+            >
+              Sign in
+            </button>
+            <button
+              type="button"
+              className={authMode === 'register' ? 'active' : ''}
+              onClick={() => switchAuthMode('register')}
+            >
+              Register
+            </button>
+          </div>
+        )}
         
         <form onSubmit={handleSubmit} className="login-form">
+          {isRegisterMode && (
+            <div className="form-group">
+              <label htmlFor="name">Full Name</label>
+              <input
+                id="name"
+                type="text"
+                placeholder="Student name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                autoComplete="name"
+              />
+            </div>
+          )}
+
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
             <input
@@ -94,6 +148,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              autoComplete="email"
               autoFocus
             />
           </div>
@@ -107,15 +162,31 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              autoComplete={isRegisterMode ? 'new-password' : 'current-password'}
             />
           </div>
+
+          {isRegisterMode && (
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input
+                id="confirmPassword"
+                type="password"
+                placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                autoComplete="new-password"
+              />
+            </div>
+          )}
           
           <button 
             type="submit" 
             className="login-submit-btn primary-btn" 
             disabled={isLoading}
           >
-            {isLoading ? 'Signing in...' : loginContent.button}
+            {isLoading ? (isRegisterMode ? 'Creating account...' : 'Signing in...') : loginContent.button}
           </button>
         </form>
       </div>

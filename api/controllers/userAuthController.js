@@ -5,6 +5,18 @@ const { ROLES, withNormalizedRoles } = require('../utils/roles');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-default-secret-key-change-this-in-production';
 
+const createUserToken = (user) => jwt.sign(
+  {
+    id: user.id,
+    email: user.email,
+    role: user.role,
+    roles: user.roles,
+    name: user.name,
+  },
+  JWT_SECRET,
+  { expiresIn: '24h' }
+);
+
 /**
  * Handles user login.
  * @param {Object} req - Express request object.
@@ -31,18 +43,7 @@ const loginHandler = async (req, res, next) => {
 
     const normalizedUser = withNormalizedRoles(user);
 
-    // Generate JWT
-    const token = jwt.sign(
-      {
-        id: normalizedUser.id,
-        email: normalizedUser.email,
-        role: normalizedUser.role,
-        roles: normalizedUser.roles,
-        name: normalizedUser.name,
-      },
-      JWT_SECRET,
-      { expiresIn: '24h' }
-    );
+    const token = createUserToken(normalizedUser);
 
     res.status(200).json({
       message: 'Login successful',
@@ -86,9 +87,11 @@ const registerHandler = async (req, res, next) => {
       roles: [ROLES.STUDENT],
     });
     const normalizedUser = withNormalizedRoles(newUser);
+    const token = createUserToken(normalizedUser);
 
     res.status(201).json({
       message: 'User created successfully',
+      token,
       user: {
         id: normalizedUser.id,
         email: normalizedUser.email,

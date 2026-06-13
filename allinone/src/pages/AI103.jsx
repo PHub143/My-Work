@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './AI103.css';
 import q1AnswerArea from '../assets/ai103/q1-answer-area.png';
 import q1AnswerAreaBlank from '../assets/ai103/q1-answer-area-blank.png';
@@ -740,7 +741,10 @@ function VisualQuestionContent({ question }) {
 }
 
 const AI103 = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const [isPracticeChooserOpen, setIsPracticeChooserOpen] = useState(false);
+  const [selectedDifficulty, setSelectedDifficulty] = useState('easy');
   const questions = useMemo(() => ai103Content.questions || [], []);
   const [selectedQuestionNumber, setSelectedQuestionNumber] = useState(questions[0]?.number || 1);
   const stats = useMemo(() => getLearningStats(questions), [questions]);
@@ -768,6 +772,17 @@ const AI103 = () => {
       ? `Question ${visibleQuestion.number} / ${questions.length}`
       : `Question ${visibleQuestion.number} (${pagination.currentIndex + 1} / ${pagination.total})`
     : 'No question';
+  const difficulties = [
+    { id: 'easy', label: 'Easy', detail: '20 random questions, no time limit', enabled: true },
+    { id: 'normal', label: 'Normal', detail: 'Coming next', enabled: false },
+    { id: 'hard', label: 'Hard', detail: 'Coming next', enabled: false },
+    { id: 'extra-hard', label: 'Extra Hard', detail: 'Coming next', enabled: false },
+  ];
+
+  const startPractice = () => {
+    if (selectedDifficulty !== 'easy') return;
+    navigate('/learning/ai-103/practice', { state: { difficulty: selectedDifficulty } });
+  };
 
   return (
     <div
@@ -806,6 +821,13 @@ const AI103 = () => {
                 {ai103Content.sourceUrl}
               </a>
             </p>
+            <button
+              type="button"
+              className="ai103-practice-button"
+              onClick={() => setIsPracticeChooserOpen(true)}
+            >
+              Practice
+            </button>
           </div>
 
           <div className="ai103-stat-grid" aria-label="AI-103 document stats">
@@ -927,6 +949,65 @@ const AI103 = () => {
           </section>
         </div>
       </div>
+
+      {isPracticeChooserOpen && (
+        <div
+          className="ai103-practice-modal-backdrop"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setIsPracticeChooserOpen(false);
+            }
+          }}
+        >
+          <section
+            className="ai103-practice-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="ai103-practice-title"
+          >
+            <div className="ai103-practice-modal-header">
+              <span>Practice Test</span>
+              <button
+                type="button"
+                aria-label="Close practice chooser"
+                onClick={() => setIsPracticeChooserOpen(false)}
+              >
+                x
+              </button>
+            </div>
+            <h2 id="ai103-practice-title">Choose Difficulty</h2>
+            <div className="ai103-difficulty-grid" role="radiogroup" aria-label="Practice difficulty">
+              {difficulties.map((difficulty) => (
+                <button
+                  key={difficulty.id}
+                  type="button"
+                  className={`ai103-difficulty-option${selectedDifficulty === difficulty.id ? ' active' : ''}`}
+                  onClick={() => setSelectedDifficulty(difficulty.id)}
+                  role="radio"
+                  aria-checked={selectedDifficulty === difficulty.id}
+                >
+                  <strong>{difficulty.label}</strong>
+                  <span>{difficulty.detail}</span>
+                </button>
+              ))}
+            </div>
+            <div className="ai103-practice-modal-actions">
+              <button type="button" onClick={() => setIsPracticeChooserOpen(false)}>
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="primary"
+                onClick={startPractice}
+                disabled={selectedDifficulty !== 'easy'}
+              >
+                Confirm Easy Mode
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
     </div>
   );
 };

@@ -10,6 +10,9 @@ import {
   getQuestionTwentyOneDisplayParts,
   getQuestionPagination,
   getLearningStats,
+  createPracticeSession,
+  getPracticeQuestionDisplayParts,
+  getPracticeSessionResults,
   getStudyMaterialPages,
   getVisualQuestionDisplayParts,
 } from './learning.js';
@@ -82,6 +85,85 @@ test('getQuestionPagination returns one current question and adjacent targets', 
     previousNumber: null,
     nextNumber: 2,
   });
+});
+
+test('createPracticeSession returns a deterministic 20 question easy session from the question bank', () => {
+  const questions = Array.from({ length: 65 }, (_, index) => ({
+    number: index + 1,
+    prompt: `Question ${index + 1}`,
+    answer: 'A',
+  }));
+
+  const session = createPracticeSession(questions, {
+    difficulty: 'easy',
+    questionCount: 20,
+    seed: 'ai-103-easy',
+  });
+  const repeated = createPracticeSession(questions, {
+    difficulty: 'easy',
+    questionCount: 20,
+    seed: 'ai-103-easy',
+  });
+
+  assert.equal(session.difficulty, 'easy');
+  assert.equal(session.timeLimitMinutes, null);
+  assert.equal(session.questions.length, 20);
+  assert.equal(new Set(session.questions.map((question) => question.number)).size, 20);
+  assert.deepEqual(
+    session.questions.map((question) => question.number),
+    repeated.questions.map((question) => question.number),
+  );
+  assert.ok(session.questions.every((question) => question.sourceIndex >= 0));
+});
+
+test('getPracticeQuestionDisplayParts parses prompt, options, and correct selections for test taking', () => {
+  const question = {
+    number: 12,
+    prompt: [
+      'DRAG DROP -',
+      'You need to configure the project.',
+      'What should you use?',
+      'A. Azure AI Search',
+      'B. Azure Translator',
+      'C. Azure OpenAI Embedding',
+      'D. Text Split',
+    ].join('\n'),
+    answer: 'CD',
+    explanation: 'Use embeddings and split text.',
+  };
+
+  const parts = getPracticeQuestionDisplayParts(question);
+
+  assert.equal(parts.type, 'DRAG DROP');
+  assert.deepEqual(parts.promptParagraphs, [
+    'You need to configure the project.',
+    'What should you use?',
+  ]);
+  assert.deepEqual(parts.options, [
+    { key: 'A', text: 'Azure AI Search' },
+    { key: 'B', text: 'Azure Translator' },
+    { key: 'C', text: 'Azure OpenAI Embedding' },
+    { key: 'D', text: 'Text Split' },
+  ]);
+  assert.deepEqual(parts.answerSelections, ['C', 'D']);
+  assert.equal(parts.allowsMultipleSelections, true);
+});
+
+test('getPracticeSessionResults scores selected answers without caring about order', () => {
+  const questions = [
+    { number: 1, prompt: 'Question 1\nA. One\nB. Two', answer: 'A' },
+    { number: 2, prompt: 'Question 2\nA. One\nB. Two\nC. Three', answer: 'AC' },
+  ];
+
+  const results = getPracticeSessionResults(questions, {
+    1: ['A'],
+    2: ['C', 'A'],
+  });
+
+  assert.equal(results.correctCount, 2);
+  assert.equal(results.totalQuestions, 2);
+  assert.equal(results.scorePercent, 100);
+  assert.deepEqual(results.items.map((item) => item.isCorrect), [true, true]);
 });
 
 test('getQuestionOneDisplayParts preserves the case study structure and answer selections', () => {
