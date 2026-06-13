@@ -11,8 +11,11 @@ import {
   getQuestionPagination,
   getLearningStats,
   createPracticeSession,
+  getPracticeControlConfig,
   getPracticeQuestionDisplayParts,
+  getPracticeResultSummary,
   getPracticeSessionResults,
+  parsePracticeQuestionNumbers,
   getStudyMaterialPages,
   getVisualQuestionDisplayParts,
 } from './learning.js';
@@ -116,6 +119,117 @@ test('createPracticeSession returns a deterministic 20 question easy session fro
   assert.ok(session.questions.every((question) => question.sourceIndex >= 0));
 });
 
+test('createPracticeSession can pin source question numbers for exact practice review', () => {
+  const questions = Array.from({ length: 65 }, (_, index) => ({
+    number: index + 1,
+    prompt: `Question ${index + 1}`,
+    answer: 'A',
+  }));
+
+  const session = createPracticeSession(questions, {
+    difficulty: 'easy',
+    questionCount: 20,
+    questionNumbers: [1, 4],
+    seed: 'fill-remaining',
+  });
+
+  assert.deepEqual(session.questions.slice(0, 2).map((question) => question.number), [1, 4]);
+  assert.equal(session.questions.length, 20);
+  assert.equal(new Set(session.questions.map((question) => question.number)).size, 20);
+});
+
+test('createPracticeSession returns all questions with a 60 minute limit for normal mode', () => {
+  const questions = Array.from({ length: 65 }, (_, index) => ({
+    number: index + 1,
+    prompt: `Question ${index + 1}`,
+    answer: 'A',
+  }));
+
+  const session = createPracticeSession(questions, {
+    difficulty: 'normal',
+    seed: 'normal-full-test',
+  });
+
+  assert.equal(session.difficulty, 'normal');
+  assert.equal(session.timeLimitMinutes, 60);
+  assert.equal(session.questions.length, 65);
+  assert.equal(new Set(session.questions.map((question) => question.number)).size, 65);
+  assert.notDeepEqual(
+    session.questions.map((question) => question.number),
+    questions.map((question) => question.number),
+  );
+});
+
+test('createPracticeSession returns all questions with a 30 minute limit for hard mode', () => {
+  const questions = Array.from({ length: 65 }, (_, index) => ({
+    number: index + 1,
+    prompt: `Question ${index + 1}`,
+    answer: 'A',
+  }));
+
+  const session = createPracticeSession(questions, {
+    difficulty: 'hard',
+    seed: 'hard-full-test',
+  });
+
+  assert.equal(session.difficulty, 'hard');
+  assert.equal(session.timeLimitMinutes, 30);
+  assert.equal(session.questions.length, 65);
+  assert.equal(new Set(session.questions.map((question) => question.number)).size, 65);
+  assert.notDeepEqual(
+    session.questions.map((question) => question.number),
+    questions.map((question) => question.number),
+  );
+});
+
+test('createPracticeSession returns all questions with a 20 minute limit and no hints for extra hard mode', () => {
+  const questions = Array.from({ length: 65 }, (_, index) => ({
+    number: index + 1,
+    prompt: `Question ${index + 1}`,
+    answer: 'A',
+  }));
+
+  const session = createPracticeSession(questions, {
+    difficulty: 'extra-hard',
+    seed: 'extra-hard-full-test',
+  });
+
+  assert.equal(session.difficulty, 'extra-hard');
+  assert.equal(session.timeLimitMinutes, 20);
+  assert.equal(session.answerAreaHintsEnabled, false);
+  assert.equal(session.questions.length, 65);
+  assert.equal(new Set(session.questions.map((question) => question.number)).size, 65);
+  assert.notDeepEqual(
+    session.questions.map((question) => question.number),
+    questions.map((question) => question.number),
+  );
+});
+
+test('createPracticeSession can use a provided random source for regenerating practice tests', () => {
+  const questions = Array.from({ length: 8 }, (_, index) => ({
+    number: index + 1,
+    prompt: `Question ${index + 1}`,
+    answer: 'A',
+  }));
+
+  const frontLoaded = createPracticeSession(questions, {
+    questionCount: 4,
+    random: () => 0,
+  });
+  const originalOrder = createPracticeSession(questions, {
+    questionCount: 4,
+    random: () => 0.999,
+  });
+
+  assert.deepEqual(frontLoaded.questions.map((question) => question.number), [2, 3, 4, 5]);
+  assert.deepEqual(originalOrder.questions.map((question) => question.number), [1, 2, 3, 4]);
+});
+
+test('parsePracticeQuestionNumbers reads unique valid source question numbers from a query string', () => {
+  assert.deepEqual(parsePracticeQuestionNumbers('?questions=1,4,4,abc,66,0,12'), [1, 4, 12]);
+  assert.deepEqual(parsePracticeQuestionNumbers('?difficulty=easy'), []);
+});
+
 test('getPracticeQuestionDisplayParts parses prompt, options, and correct selections for test taking', () => {
   const question = {
     number: 12,
@@ -149,21 +263,178 @@ test('getPracticeQuestionDisplayParts parses prompt, options, and correct select
   assert.equal(parts.allowsMultipleSelections, true);
 });
 
+test('getPracticeControlConfig exposes question 1 dropdown controls and correct selections', () => {
+  const config = getPracticeControlConfig(1);
+
+  assert.equal(config.type, 'dropdowns');
+  assert.deepEqual(config.correct, {
+    deploymentType: 'Standard',
+    versionUpdatePolicy: 'Opt out of automatic model version upgrades',
+  });
+  assert.deepEqual(config.controls.map((control) => control.id), [
+    'deploymentType',
+    'versionUpdatePolicy',
+  ]);
+  assert.deepEqual(config.controls[0].options, [
+    'Standard',
+    'Global Standard',
+    'Global Provisioned',
+  ]);
+  assert.deepEqual(config.controls[1].options, [
+    'Once the current version expires',
+    'Opt out of automatic model version upgrades',
+    'Upgrade once a new default version becomes available',
+  ]);
+});
+
+test('getPracticeControlConfig exposes question 4 yes-no radio controls and correct selections', () => {
+  const config = getPracticeControlConfig(4);
+
+  assert.equal(config.type, 'radioRows');
+  assert.deepEqual(config.correct, {
+    langchainAppearsWithoutTracer: 'No',
+    serviceNamesSeparateTelemetry: 'Yes',
+    contentRecordingCapturesPrompts: 'No',
+  });
+  assert.deepEqual(config.controls.map((control) => control.label), [
+    'The LangChain service will appear in Traces without configuring a tracer.',
+    'Setting different OTEL_SERVICE_NAME values separates the services in Application Insights.',
+    'When using enable_content_recording=False, prompts and tool data will be captured in the telemetry.',
+  ]);
+  assert.equal(config.controls.length, 3);
+  assert.ok(config.controls.every((control) => control.options.join('|') === 'Yes|No'));
+});
+
+test('getPracticeControlConfig covers every visual answer-area question with structured controls', () => {
+  const expectedCorrectAnswers = {
+    1: ['Standard', 'Opt out of automatic model version upgrades'],
+    4: ['No', 'Yes', 'No'],
+    5: ['Multi-file task in pro mode', 'Single-file task in standard mode'],
+    6: ['DefaultAzureCredential', 'create'],
+    7: ['Not(IsBlank(Local.Var01))', '{Upper(Local.Var01)}'],
+    8: [
+      'Select User input, Output, Tool response, and Tool call and set Action to Block.',
+      'A system-assigned managed identity that is assigned the Storage Blob Data Reader role',
+    ],
+    11: ['ask_question', 'approval == "approved"'],
+    15: ['Groundedness evaluation metrics', 'Risk and safety metrics'],
+    18: ['Time To Response and Total Tokens', 'RequestResponse'],
+    20: ['required', 'Using a distinct agent identity bound to the client application'],
+    30: ['"tool_choice"', '"required"'],
+    32: ['Grounding with Bing Search', 'Code interpreter', 'File search'],
+    35: ['0', '"low"'],
+    37: ['Agent memory that uses persistent storage', 'File search tool'],
+    40: ['An Azure Login action that uses OpenID Connect (OIDC)', 'Fail'],
+    49: [
+      'Set action to block.',
+      'Use optical character recognition (OCR) to extract the text from the images first.',
+    ],
+  };
+
+  Object.entries(expectedCorrectAnswers).forEach(([questionNumber, expectedAnswers]) => {
+    const config = getPracticeControlConfig(Number(questionNumber));
+
+    assert.ok(config, `Expected question ${questionNumber} to have structured controls`);
+    assert.equal(config.controls.length, expectedAnswers.length);
+    assert.deepEqual(
+      config.controls.map((control) => config.correct[control.id]),
+      expectedAnswers,
+      `Question ${questionNumber} correct answers should match the answer-area image`,
+    );
+    assert.ok(
+      config.controls.every((control) => control.options.includes(config.correct[control.id])),
+      `Question ${questionNumber} options should include every correct answer`,
+    );
+  });
+});
+
 test('getPracticeSessionResults scores selected answers without caring about order', () => {
   const questions = [
-    { number: 1, prompt: 'Question 1\nA. One\nB. Two', answer: 'A' },
-    { number: 2, prompt: 'Question 2\nA. One\nB. Two\nC. Three', answer: 'AC' },
+    { number: 12, prompt: 'Question 12\nA. One\nB. Two', answer: 'A' },
+    { number: 13, prompt: 'Question 13\nA. One\nB. Two\nC. Three', answer: 'AC' },
   ];
 
   const results = getPracticeSessionResults(questions, {
-    1: ['A'],
-    2: ['C', 'A'],
+    12: ['A'],
+    13: ['C', 'A'],
   });
 
   assert.equal(results.correctCount, 2);
   assert.equal(results.totalQuestions, 2);
   assert.equal(results.scorePercent, 100);
   assert.deepEqual(results.items.map((item) => item.isCorrect), [true, true]);
+});
+
+test('getPracticeSessionResults scores structured visual controls for questions 1 and 4', () => {
+  const questions = [
+    { number: 1, prompt: 'HOTSPOT -\nQuestion 1', answer: '' },
+    { number: 4, prompt: 'HOTSPOT -\nQuestion 4', answer: '' },
+    { number: 49, prompt: 'HOTSPOT -\nQuestion 49', answer: '' },
+  ];
+
+  const results = getPracticeSessionResults(questions, {
+    1: {
+      deploymentType: 'Standard',
+      versionUpdatePolicy: 'Opt out of automatic model version upgrades',
+    },
+    4: {
+      langchainAppearsWithoutTracer: 'No',
+      serviceNamesSeparateTelemetry: 'Yes',
+      contentRecordingCapturesPrompts: 'No',
+    },
+    49: {
+      promptShieldsAction: 'Set action to block.',
+      additionalMitigation: 'Use optical character recognition (OCR) to extract the text from the images first.',
+    },
+  });
+
+  assert.equal(results.correctCount, 3);
+  assert.equal(results.totalQuestions, 3);
+  assert.equal(results.scorePercent, 100);
+  assert.deepEqual(results.items.map((item) => item.correct), [
+    ['Standard', 'Opt out of automatic model version upgrades'],
+    ['No', 'Yes', 'No'],
+    [
+      'Set action to block.',
+      'Use optical character recognition (OCR) to extract the text from the images first.',
+    ],
+  ]);
+});
+
+test('getPracticeSessionResults does not mark manual visual questions correct when unanswered', () => {
+  const questions = [
+    { number: 5, prompt: 'HOTSPOT -\nQuestion 5', answer: '' },
+    { number: 12, prompt: 'Question 12\nA. One\nB. Two', answer: 'A' },
+  ];
+
+  const results = getPracticeSessionResults(questions, {
+    12: ['A'],
+  });
+
+  assert.equal(results.correctCount, 1);
+  assert.deepEqual(results.items.map((item) => item.isCorrect), [false, true]);
+});
+
+test('getPracticeResultSummary formats score details for the submit popup', () => {
+  const questions = [
+    { number: 12, prompt: 'Question 12\nA. One\nB. Two', answer: 'A' },
+    { number: 13, prompt: 'Question 13\nA. One\nB. Two', answer: 'B' },
+    { number: 14, prompt: 'HOTSPOT -\nQuestion 14', answer: '' },
+  ];
+  const results = getPracticeSessionResults(questions, {
+    12: ['A'],
+    13: ['A'],
+  });
+
+  assert.deepEqual(getPracticeResultSummary(results), {
+    scorePercent: 33,
+    correctCount: 1,
+    totalQuestions: 3,
+    autoScoredTotal: 2,
+    manualReviewTotal: 1,
+    title: 'Score: 33%',
+    detail: '1 of 2 auto-scored answers correct. 1 visual question needs manual review.',
+  });
 });
 
 test('getQuestionOneDisplayParts preserves the case study structure and answer selections', () => {

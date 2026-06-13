@@ -215,6 +215,483 @@ function arraysEqual(left, right) {
   return left.every((value, index) => value === right[index]);
 }
 
+const PRACTICE_CONTROL_CONFIGS = {
+  1: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'deploymentType',
+        label: 'Deployment type',
+        options: [
+          'Standard',
+          'Global Standard',
+          'Global Provisioned',
+        ],
+      },
+      {
+        id: 'versionUpdatePolicy',
+        label: 'Version update policy',
+        options: [
+          'Once the current version expires',
+          'Opt out of automatic model version upgrades',
+          'Upgrade once a new default version becomes available',
+        ],
+      },
+    ],
+    correct: {
+      deploymentType: 'Standard',
+      versionUpdatePolicy: 'Opt out of automatic model version upgrades',
+    },
+  },
+  4: {
+    type: 'radioRows',
+    controls: [
+      {
+        id: 'langchainAppearsWithoutTracer',
+        label: 'The LangChain service will appear in Traces without configuring a tracer.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'serviceNamesSeparateTelemetry',
+        label: 'Setting different OTEL_SERVICE_NAME values separates the services in Application Insights.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'contentRecordingCapturesPrompts',
+        label: 'When using enable_content_recording=False, prompts and tool data will be captured in the telemetry.',
+        options: ['Yes', 'No'],
+      },
+    ],
+    correct: {
+      langchainAppearsWithoutTracer: 'No',
+      serviceNamesSeparateTelemetry: 'Yes',
+      contentRecordingCapturesPrompts: 'No',
+    },
+  },
+  5: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'pipeline1',
+        label: 'Pipeline1',
+        options: [
+          'Multi-file task in pro mode',
+          'Multi-file task in standard mode',
+          'Single-file task in pro mode',
+          'Single-file task in standard mode',
+        ],
+      },
+      {
+        id: 'pipeline2',
+        label: 'Pipeline2',
+        options: [
+          'Multi-file task in pro mode',
+          'Multi-file task in standard mode',
+          'Single-file task in pro mode',
+          'Single-file task in standard mode',
+        ],
+      },
+    ],
+    correct: {
+      pipeline1: 'Multi-file task in pro mode',
+      pipeline2: 'Single-file task in standard mode',
+    },
+  },
+  6: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'credential',
+        label: 'credential',
+        options: [
+          'AzureKeyCredential',
+          'ClientSecretCredential',
+          'DefaultAzureCredential',
+        ],
+      },
+      {
+        id: 'responsesMethod',
+        label: 'openai_client.responses method',
+        options: [
+          'compact',
+          'create',
+          'retrieve',
+        ],
+      },
+    ],
+    correct: {
+      credential: 'DefaultAzureCredential',
+      responsesMethod: 'create',
+    },
+  },
+  7: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'conditionExpression',
+        label: 'If/else condition expression',
+        options: [
+          'IsBlank(Local.Var01)',
+          'IsEmpty(Local.Var01)',
+          'Not(IsBlank(Local.Var01))',
+        ],
+      },
+      {
+        id: 'sendMessageExpression',
+        label: 'Send message expression',
+        options: [
+          '{Local.Var01}',
+          '{Upper(Local.Var01)}',
+          '{Upper(Var01)}',
+        ],
+      },
+    ],
+    correct: {
+      conditionExpression: 'Not(IsBlank(Local.Var01))',
+      sendMessageExpression: '{Upper(Local.Var01)}',
+    },
+  },
+  8: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'guardrails',
+        label: 'Guardrails',
+        options: [
+          'Select Tool call and set Action to Block.',
+          'Select User input and Output and set Action to Annotate.',
+          'Select User input and Tool response and set Action to Annotate.',
+          'Select User input, Output, Tool response, and Tool call and set Action to Block.',
+        ],
+      },
+      {
+        id: 'storageAccess',
+        label: 'Storage access',
+        options: [
+          'Storage account access keys',
+          'A user-assigned identity that is assigned the Storage Queue Data Contributor role',
+          'A system-assigned managed identity that is assigned the Storage Blob Data Reader role',
+          'A system-assigned managed identity that is assigned the Storage Blob Data Contributor role',
+        ],
+      },
+    ],
+    correct: {
+      guardrails: 'Select User input, Output, Tool response, and Tool call and set Action to Block.',
+      storageAccess: 'A system-assigned managed identity that is assigned the Storage Blob Data Reader role',
+    },
+  },
+  11: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'approvalType',
+        label: 'approval type',
+        options: [
+          'ask_question',
+          'basic_chat',
+          'data_transformation',
+        ],
+      },
+      {
+        id: 'refundCondition',
+        label: 'execute_refund condition',
+        options: [
+          'approval == "approved"',
+          'propose_refund.output != null',
+          'true',
+        ],
+      },
+    ],
+    correct: {
+      approvalType: 'ask_question',
+      refundCondition: 'approval == "approved"',
+    },
+  },
+  15: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'unsupportedResponses',
+        label: 'Unsupported responses',
+        options: [
+          'Groundedness evaluation metrics',
+          'Latency breakdown traces',
+          'Risk and safety metrics',
+          'Token usage analytics',
+        ],
+      },
+      {
+        id: 'policyViolations',
+        label: 'Policy violations',
+        options: [
+          'Groundedness evaluation metrics',
+          'Latency breakdown traces',
+          'Risk and safety metrics',
+          'Token usage analytics',
+        ],
+      },
+    ],
+    correct: {
+      unsupportedResponses: 'Groundedness evaluation metrics',
+      policyViolations: 'Risk and safety metrics',
+    },
+  },
+  18: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'metricsToEnable',
+        label: 'Metrics to enable',
+        options: [
+          'Model Availability Rate and Provisioned Utilization',
+          'Only Tokens Cache Match Rate',
+          'Only Total Requests filtered to status code 200',
+          'Time To Response and Total Tokens',
+        ],
+      },
+      {
+        id: 'diagnosticLog',
+        label: 'Diagnostic log to collect',
+        options: [
+          'AllMetrics',
+          'audit',
+          'RequestResponse',
+          'trace',
+        ],
+      },
+    ],
+    correct: {
+      metricsToEnable: 'Time To Response and Total Tokens',
+      diagnosticLog: 'RequestResponse',
+    },
+  },
+  20: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'toolChoice',
+        label: 'Set tool_choice to',
+        options: [
+          'auto',
+          'none',
+          'required',
+        ],
+      },
+      {
+        id: 'toolAuthentication',
+        label: 'Configure the tool to authenticate by',
+        options: [
+          'Storing API keys in prompts',
+          'Using the shared project agent identity',
+          'Using a distinct agent identity bound to the client application',
+        ],
+      },
+    ],
+    correct: {
+      toolChoice: 'required',
+      toolAuthentication: 'Using a distinct agent identity bound to the client application',
+    },
+  },
+  30: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'runPayloadKey',
+        label: 'run_payload key',
+        options: [
+          '"auto"',
+          '"required"',
+          '"response_format"',
+          '"tool_choice"',
+          '"tools"',
+          '"type"',
+        ],
+      },
+      {
+        id: 'runPayloadValue',
+        label: 'run_payload value',
+        options: [
+          '"auto"',
+          '"required"',
+          '"response_format"',
+          '"tool_choice"',
+          '"tools"',
+          '"type"',
+        ],
+      },
+    ],
+    correct: {
+      runPayloadKey: '"tool_choice"',
+      runPayloadValue: '"required"',
+    },
+  },
+  32: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'publicWebsites',
+        label: 'Access up-to-date information from public websites',
+        options: [
+          'Code interpreter',
+          'Computer use',
+          'File search',
+          'Grounding with Bing Search',
+          'Microsoft Fabric',
+        ],
+      },
+      {
+        id: 'calculations',
+        label: 'Perform calculations during conversations',
+        options: [
+          'Code interpreter',
+          'Computer use',
+          'File search',
+          'Grounding with Bing Search',
+          'Microsoft Fabric',
+        ],
+      },
+      {
+        id: 'uploadedDocuments',
+        label: 'Retrieve information from documents uploaded directly to the agent',
+        options: [
+          'Code interpreter',
+          'Computer use',
+          'File search',
+          'Grounding with Bing Search',
+          'Microsoft Fabric',
+        ],
+      },
+    ],
+    correct: {
+      publicWebsites: 'Grounding with Bing Search',
+      calculations: 'Code interpreter',
+      uploadedDocuments: 'File search',
+    },
+  },
+  35: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'temperature',
+        label: 'temperature',
+        options: [
+          '0',
+          '1',
+          '2',
+        ],
+      },
+      {
+        id: 'effort',
+        label: 'output_config effort',
+        options: [
+          '"high"',
+          '"low"',
+          '"medium"',
+        ],
+      },
+    ],
+    correct: {
+      temperature: '0',
+      effort: '"low"',
+    },
+  },
+  37: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'retainPreferences',
+        label: 'To retain user preferences across conversations, use',
+        options: [
+          'Agent memory that uses persistent storage',
+          'Conversation history',
+          'Orchestration-managed session context',
+        ],
+      },
+      {
+        id: 'contextualGrounding',
+        label: 'To enable users to provide contextual grounding during chats, use the',
+        options: [
+          'Azure AI Search tool',
+          'Code interpreter tool',
+          'File search tool',
+        ],
+      },
+    ],
+    correct: {
+      retainPreferences: 'Agent memory that uses persistent storage',
+      contextualGrounding: 'File search tool',
+    },
+  },
+  40: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'authenticationMethod',
+        label: 'Authentication method',
+        options: [
+          'A personal access token (PAT)',
+          'A user-assigned managed identity',
+          'An Azure Login action that uses OpenID Connect (OIDC)',
+        ],
+      },
+      {
+        id: 'thresholdAction',
+        label: 'If the evaluation results are NOT met, configure the workflow to',
+        options: [
+          'Lock the target branch',
+          'Send an alert',
+          'Fail',
+        ],
+      },
+    ],
+    correct: {
+      authenticationMethod: 'An Azure Login action that uses OpenID Connect (OIDC)',
+      thresholdAction: 'Fail',
+    },
+  },
+  49: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'promptShieldsAction',
+        label: 'Prompt shields action',
+        options: [
+          'Disable the shield.',
+          'Set action to block.',
+          'Set action to annotate.',
+        ],
+      },
+      {
+        id: 'additionalMitigation',
+        label: 'Additional mitigation',
+        options: [
+          'Enable Spotlighting.',
+          'Create a custom blocklist.',
+          'Use optical character recognition (OCR) to extract the text from the images first.',
+        ],
+      },
+    ],
+    correct: {
+      promptShieldsAction: 'Set action to block.',
+      additionalMitigation: 'Use optical character recognition (OCR) to extract the text from the images first.',
+    },
+  },
+};
+
+function normalizeStructuredSelection(questionNumber, selection) {
+  const config = PRACTICE_CONTROL_CONFIGS[questionNumber];
+  if (!config) return null;
+
+  return config.controls.map((control) => selection?.[control.id] || '');
+}
+
+function structuredCorrectSelection(questionNumber) {
+  const config = PRACTICE_CONTROL_CONFIGS[questionNumber];
+  if (!config) return null;
+
+  return config.controls.map((control) => config.correct[control.id]);
+}
+
 function extractLeadingQuestionType(lines) {
   const firstLine = lines[0] || '';
   const inlineTypeMatch = firstLine.match(/^([A-Z][A-Z ]+)\s*-\s*(.*)$/);
@@ -632,11 +1109,50 @@ export function getPracticeQuestionDisplayParts(question) {
   };
 }
 
+export function getPracticeControlConfig(questionNumber) {
+  return PRACTICE_CONTROL_CONFIGS[questionNumber] || null;
+}
+
+export function parsePracticeQuestionNumbers(search) {
+  const params = new URLSearchParams(search || '');
+  const seen = new Set();
+
+  return (params.get('questions') || '')
+    .split(',')
+    .map((value) => Number(value.trim()))
+    .filter((number) => Number.isInteger(number) && number >= 1 && number <= 65)
+    .filter((number) => {
+      if (seen.has(number)) return false;
+      seen.add(number);
+      return true;
+    });
+}
+
 export function createPracticeSession(questions, options = {}) {
   const difficulty = options.difficulty || 'easy';
-  const questionCount = options.questionCount || 20;
-  const random = options.seed ? seededRandom(options.seed) : Math.random;
-  const shuffledQuestions = shuffleQuestions(questions || [], random);
+  const fullQuestionMode = ['normal', 'hard', 'extra-hard'].includes(difficulty);
+  const timeLimitMinutesByDifficulty = {
+    normal: 60,
+    hard: 30,
+    'extra-hard': 20,
+  };
+  const defaultQuestionCount = fullQuestionMode ? 65 : 20;
+  const questionCount = options.questionCount || defaultQuestionCount;
+  const random = typeof options.random === 'function'
+    ? options.random
+    : options.seed
+      ? seededRandom(options.seed)
+      : Math.random;
+  const pinnedQuestionNumbers = Array.isArray(options.questionNumbers) ? options.questionNumbers : [];
+  const pinnedQuestions = pinnedQuestionNumbers
+    .map((number) => (questions || []).find((question) => question.number === number))
+    .filter(Boolean);
+  const pinnedSet = new Set(pinnedQuestions.map((question) => question.number));
+  const remainingQuestions = (questions || []).filter((question) => !pinnedSet.has(question.number));
+  const shuffledQuestions = [
+    ...pinnedQuestions,
+    ...shuffleQuestions(remainingQuestions, random),
+  ];
   const selectedQuestions = shuffledQuestions.slice(0, questionCount).map((question) => ({
     ...question,
     sourceIndex: questions.findIndex((sourceQuestion) => sourceQuestion.number === question.number),
@@ -644,7 +1160,8 @@ export function createPracticeSession(questions, options = {}) {
 
   return {
     difficulty,
-    timeLimitMinutes: difficulty === 'easy' ? null : undefined,
+    timeLimitMinutes: timeLimitMinutesByDifficulty[difficulty] || null,
+    answerAreaHintsEnabled: difficulty !== 'extra-hard',
     questions: selectedQuestions,
   };
 }
@@ -652,9 +1169,14 @@ export function createPracticeSession(questions, options = {}) {
 export function getPracticeSessionResults(questions, selectionsByQuestionNumber) {
   const items = (questions || []).map((question) => {
     const parts = getPracticeQuestionDisplayParts(question);
-    const selected = normalizeSelection(selectionsByQuestionNumber?.[question.number] || []);
-    const correct = normalizeSelection(parts.answerSelections);
-    const isCorrect = arraysEqual(selected, correct);
+    const structuredSelected = normalizeStructuredSelection(
+      question.number,
+      selectionsByQuestionNumber?.[question.number],
+    );
+    const structuredCorrect = structuredCorrectSelection(question.number);
+    const selected = structuredSelected || normalizeSelection(selectionsByQuestionNumber?.[question.number] || []);
+    const correct = structuredCorrect || normalizeSelection(parts.answerSelections);
+    const isCorrect = correct.length > 0 && arraysEqual(selected, correct);
 
     return {
       questionNumber: question.number,
@@ -672,6 +1194,23 @@ export function getPracticeSessionResults(questions, selectionsByQuestionNumber)
     totalQuestions,
     scorePercent: totalQuestions ? Math.round((correctCount / totalQuestions) * 100) : 0,
     items,
+  };
+}
+
+export function getPracticeResultSummary(results) {
+  const items = results?.items || [];
+  const autoScoredTotal = items.filter((item) => item.correct.length > 0).length;
+  const manualReviewTotal = Math.max(0, (results?.totalQuestions || 0) - autoScoredTotal);
+  const visualQuestionLabel = manualReviewTotal === 1 ? 'visual question needs' : 'visual questions need';
+
+  return {
+    scorePercent: results?.scorePercent || 0,
+    correctCount: results?.correctCount || 0,
+    totalQuestions: results?.totalQuestions || 0,
+    autoScoredTotal,
+    manualReviewTotal,
+    title: `Score: ${results?.scorePercent || 0}%`,
+    detail: `${results?.correctCount || 0} of ${autoScoredTotal} auto-scored answers correct. ${manualReviewTotal} ${visualQuestionLabel} manual review.`,
   };
 }
 

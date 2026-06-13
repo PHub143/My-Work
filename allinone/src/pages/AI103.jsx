@@ -774,13 +774,14 @@ const AI103 = () => {
     : 'No question';
   const difficulties = [
     { id: 'easy', label: 'Easy', detail: '20 random questions, no time limit', enabled: true },
-    { id: 'normal', label: 'Normal', detail: 'Coming next', enabled: false },
-    { id: 'hard', label: 'Hard', detail: 'Coming next', enabled: false },
-    { id: 'extra-hard', label: 'Extra Hard', detail: 'Coming next', enabled: false },
+    { id: 'normal', label: 'Normal', detail: '65 random questions, 60 minute limit', enabled: true },
+    { id: 'hard', label: 'Hard', detail: '65 random questions, 30 minute limit', enabled: true },
+    { id: 'extra-hard', label: 'Extra Hard', detail: '65 random questions, 20 minute limit, no answer-area hints', enabled: true },
   ];
 
   const startPractice = () => {
-    if (selectedDifficulty !== 'easy') return;
+    const selectedMode = difficulties.find((difficulty) => difficulty.id === selectedDifficulty);
+    if (!selectedMode?.enabled) return;
     navigate('/learning/ai-103/practice', { state: { difficulty: selectedDifficulty } });
   };
 
@@ -982,10 +983,15 @@ const AI103 = () => {
                 <button
                   key={difficulty.id}
                   type="button"
-                  className={`ai103-difficulty-option${selectedDifficulty === difficulty.id ? ' active' : ''}`}
+                  className={[
+                    'ai103-difficulty-option',
+                    `mode-${difficulty.id}`,
+                    selectedDifficulty === difficulty.id ? 'active' : '',
+                  ].filter(Boolean).join(' ')}
                   onClick={() => setSelectedDifficulty(difficulty.id)}
                   role="radio"
                   aria-checked={selectedDifficulty === difficulty.id}
+                  disabled={!difficulty.enabled}
                 >
                   <strong>{difficulty.label}</strong>
                   <span>{difficulty.detail}</span>
@@ -1000,9 +1006,9 @@ const AI103 = () => {
                 type="button"
                 className="primary"
                 onClick={startPractice}
-                disabled={selectedDifficulty !== 'easy'}
+                disabled={!difficulties.find((difficulty) => difficulty.id === selectedDifficulty)?.enabled}
               >
-                Confirm Easy Mode
+                Confirm {difficulties.find((difficulty) => difficulty.id === selectedDifficulty)?.label || 'Mode'} Mode
               </button>
             </div>
           </section>

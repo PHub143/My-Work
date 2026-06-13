@@ -765,6 +765,50 @@
   letter-spacing: 0;
 }
 
+.ai103-practice-result-modal h2 {
+  color: var(--cosmic-ink);
+}
+
+.ai103-practice-score-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 4px 0 16px;
+}
+
+.ai103-practice-score-grid div {
+  display: grid;
+  gap: 5px;
+  min-height: 94px;
+  padding: 14px 12px;
+  border: 1.5px solid var(--color-separator);
+  border-radius: 8px;
+  background: rgba(254, 249, 240, 0.08);
+}
+
+.ai103-practice-score-grid strong {
+  font-family: var(--font-family-display);
+  font-size: clamp(2.2rem, 7vw, 3.4rem);
+  font-weight: 400;
+  line-height: 0.9;
+  color: var(--cosmic-yellow);
+}
+
+.ai103-practice-score-grid span {
+  color: var(--color-secondary-label);
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ai103-practice-result-detail {
+  margin: 0;
+  color: var(--color-secondary-label);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
 .ai103-difficulty-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -772,18 +816,45 @@
 }
 
 .ai103-difficulty-option {
+  --difficulty-color: var(--cosmic-cyan);
+  --difficulty-rgb: 6, 214, 160;
   display: grid;
   gap: 8px;
   min-height: 104px;
   padding: 16px;
-  border: 1.5px solid var(--color-separator);
+  border: 1.5px solid rgba(var(--difficulty-rgb), 0.58);
   border-radius: 8px;
-  background: rgba(254, 249, 240, 0.08);
+  background: rgba(var(--difficulty-rgb), 0.08);
   color: var(--color-label);
   text-align: left;
 }
 
+.ai103-difficulty-option.mode-easy,
+.ai103-mode-meta.mode-easy {
+  --difficulty-color: #06d6a0;
+  --difficulty-rgb: 6, 214, 160;
+}
+
+.ai103-difficulty-option.mode-normal,
+.ai103-mode-meta.mode-normal {
+  --difficulty-color: #ffd166;
+  --difficulty-rgb: 255, 209, 102;
+}
+
+.ai103-difficulty-option.mode-hard,
+.ai103-mode-meta.mode-hard {
+  --difficulty-color: #ff8a00;
+  --difficulty-rgb: 255, 138, 0;
+}
+
+.ai103-difficulty-option.mode-extra-hard,
+.ai103-mode-meta.mode-extra-hard {
+  --difficulty-color: #ff4d5d;
+  --difficulty-rgb: 255, 77, 93;
+}
+
 .ai103-difficulty-option strong {
+  color: var(--difficulty-color);
   font-size: 1.02rem;
   font-weight: 950;
 }
@@ -796,9 +867,25 @@
 }
 
 .ai103-difficulty-option.active {
-  border-color: var(--cosmic-pink);
-  background: rgba(255, 77, 143, 0.16);
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.62);
+  border-color: var(--difficulty-color);
+  background: rgba(var(--difficulty-rgb), 0.18);
+  box-shadow: 4px 4px 0 rgba(var(--difficulty-rgb), 0.34);
+}
+
+.ai103-difficulty-option:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.ai103-mode-meta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 5px 10px;
+  border: 1.5px solid rgba(var(--difficulty-rgb), 0.62);
+  border-radius: 999px;
+  background: rgba(var(--difficulty-rgb), 0.14);
+  color: var(--difficulty-color);
 }
 
 .ai103-practice-modal-actions,
@@ -1026,6 +1113,96 @@
   line-height: 1.5;
 }
 
+.ai103-practice-structured {
+  display: grid;
+  gap: 12px;
+}
+
+.ai103-practice-control-row,
+.ai103-practice-radio-row {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1.5px solid var(--color-separator);
+  border-radius: 8px;
+  background: rgba(254, 249, 240, 0.1);
+}
+
+.ai103-practice-control-row > span,
+.ai103-practice-radio-row p {
+  margin: 0;
+  color: var(--color-label);
+  font-size: 0.98rem;
+  font-weight: 850;
+  line-height: 1.45;
+}
+
+.ai103-practice-control-row select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--color-separator);
+  border-radius: 8px;
+  background: var(--color-secondary-system-background);
+  color: var(--color-label);
+  font: inherit;
+  font-weight: 800;
+}
+
+.ai103-practice-control-row select option {
+  background: #fffaf0;
+  color: #1f2937;
+}
+
+.ai103-practice-radio-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 120px));
+  gap: 10px;
+}
+
+.ai103-practice-radio-options label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 9px 12px;
+  border: 1.5px solid var(--color-separator);
+  border-radius: 8px;
+  background: rgba(254, 249, 240, 0.08);
+  color: var(--color-label);
+  font-weight: 950;
+}
+
+.ai103-practice-radio-options input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--cosmic-pink);
+}
+
+.ai103-practice-control-row:focus-within,
+.ai103-practice-radio-row:focus-within {
+  border-color: var(--cosmic-yellow);
+  box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.16);
+}
+
+.ai103-practice-control-row.correct,
+.ai103-practice-radio-options label.correct {
+  border-color: var(--cosmic-cyan);
+  background: rgba(6, 214, 160, 0.14);
+}
+
+.ai103-practice-control-row.incorrect,
+.ai103-practice-radio-options label.incorrect {
+  border-color: var(--cosmic-pink);
+  background: rgba(255, 77, 143, 0.14);
+}
+
+.ai103-practice-radio-options label.selected {
+  border-color: var(--cosmic-yellow);
+  background: rgba(255, 209, 102, 0.12);
+}
+
 .ai103-practice-review,
 .ai103-practice-results {
   display: grid;
@@ -1153,6 +1330,10 @@
   }
 
   .ai103-difficulty-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ai103-practice-score-grid {
     grid-template-columns: 1fr;
   }
 
