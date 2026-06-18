@@ -52,7 +52,7 @@ function formatNumber(value) {
 }
 
 function splitPageText(text) {
-  if (!text.trim()) {
+  if (!text || !text.trim()) {
     return [];
   }
 
@@ -293,15 +293,68 @@ function AnswerSummaryRows({ rows }) {
   }
 
   return (
-    <div className="ai103-answer-summary" role="list" aria-label="Answer summary">
+    <div className="ai103-answer-chips" role="list" aria-label="Answer summary">
       {rows.map((row, index) => {
         const heading = row.label || row.key;
         const rowKey = `${heading}-${row.value}-${index}`;
 
         return (
-          <div className="ai103-answer-summary-row" key={rowKey} role="listitem">
-            <span>{heading}</span>
-            <strong>{row.value}</strong>
+          <span className="ai103-answer-chip" key={rowKey} role="listitem">
+            {heading}: {row.value}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
+function AnswerSelectionChips({ selections }) {
+  if (!selections?.length) {
+    return null;
+  }
+
+  return (
+    <div className="ai103-answer-chips">
+      {selections.map((selection) => (
+        <span className="ai103-answer-chip" key={selection}>
+          {selection}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function PromptBlock({ paragraphs, fallback }) {
+  if (!paragraphs.length) {
+    return fallback ? (
+      <p className="ai103-question-prompt empty">{fallback}</p>
+    ) : null;
+  }
+
+  return paragraphs.map((paragraph, index) => (
+    <p className="ai103-question-prompt" key={`prompt-${index}`}>
+      {paragraph}
+    </p>
+  ));
+}
+
+function OptionsGrid({ options, selectedKeys = [], ariaLabel }) {
+  if (!options?.length) {
+    return null;
+  }
+
+  return (
+    <div className="ai103-option-grid" role="list" aria-label={ariaLabel}>
+      {options.map((option) => {
+        const isSelected = selectedKeys.includes(option.key);
+        return (
+          <div
+            className={`ai103-option-card${isSelected ? ' selected' : ''}`}
+            key={option.key}
+            role="listitem"
+          >
+            <span className="ai103-option-key">{option.key}</span>
+            <p>{option.text}</p>
           </div>
         );
       })}
@@ -309,24 +362,47 @@ function AnswerSummaryRows({ rows }) {
   );
 }
 
-function AnswerSelectionChips({ selections, options }) {
-  if (!selections?.length) {
+function AnswerBlock({ selections, summaryRows, paragraphText, illustration }) {
+  return (
+    <section className="ai103-answer-block" aria-labelledby="ai103-answer-heading">
+      <h3 id="ai103-answer-heading">Answer</h3>
+      {selections ? <AnswerSelectionChips selections={selections} /> : null}
+      {summaryRows ? <AnswerSummaryRows rows={summaryRows} /> : null}
+      {paragraphText ? <p className="ai103-answer-text">{paragraphText}</p> : null}
+      {illustration ? (
+        <figure className="ai103-illustration">
+          <figcaption>Reference Illustration</figcaption>
+          <img src={illustration} alt="Reference illustration for the question" />
+        </figure>
+      ) : null}
+    </section>
+  );
+}
+
+function ExplanationBlock({ paragraphs }) {
+  if (!paragraphs.length) {
     return null;
   }
 
   return (
-    <div className="ai103-answer-chip-row">
-      {selections.map((selection) => (
-        <span className="ai103-answer-chip" key={selection}>
-          {selection}
-        </span>
+    <section className="ai103-explanation" aria-labelledby="ai103-explanation-heading">
+      <h3 id="ai103-explanation-heading">Explanation</h3>
+      {paragraphs.map((paragraph, index) => (
+        <p key={`explanation-${index}`}>{paragraph}</p>
       ))}
-      {options.map((option) => (
-        <span className="ai103-answer-chip ai103-answer-chip-secondary" key={option.key}>
-          {option.text}
-        </span>
-      ))}
-    </div>
+    </section>
+  );
+}
+
+function SectionBlock({ title, children, ariaLabelledBy, className = '' }) {
+  const classes = ['ai103-section-block'];
+  if (className) classes.push(className);
+  const sectionProps = title && ariaLabelledBy ? { 'aria-labelledby': ariaLabelledBy } : {};
+  return (
+    <section className={classes.join(' ')} {...sectionProps}>
+      {title ? <h3 id={ariaLabelledBy}>{title}</h3> : null}
+      {children}
+    </section>
   );
 }
 
@@ -334,79 +410,48 @@ function QuestionOneContent({ question, explanationParagraphs }) {
   const questionParts = getQuestionOneDisplayParts(question);
 
   return (
-    <div className="ai103-q1-content">
-      <div className="ai103-question-type-row">
-        <span className="ai103-hotspot-badge">{questionParts.type}</span>
-        <span>{questionParts.caseStudyTitle}</span>
-      </div>
-
-      <section className="ai103-case-study-callout" aria-labelledby="ai103-q1-case-study">
-        <h2 id="ai103-q1-case-study">{questionParts.caseStudyTitle}</h2>
+    <>
+      <SectionBlock title={questionParts.caseStudyTitle} ariaLabelledBy="ai103-q1-case-study" className="ai103-section-block--lead">
         {questionParts.caseStudyParagraphs.map((paragraph, index) => (
           <p key={`q1-case-study-${index}`}>{paragraph}</p>
         ))}
-      </section>
+      </SectionBlock>
 
       <div className="ai103-q1-section-stack" aria-label="Question 1 case study details">
-        {questionParts.sections.map((section) => (
-          <section className="ai103-q1-detail-section" key={section.title}>
-            <h3>{section.title}</h3>
-            {section.paragraphs.map((paragraph, index) => (
-              <p key={`${section.title}-${index}`}>{paragraph}</p>
+        {questionParts.sections.map((section, index) => (
+          <SectionBlock title={section.title} ariaLabelledBy={`ai103-q1-section-${index}`} key={section.title}>
+            {section.paragraphs.map((paragraph, pIndex) => (
+              <p key={`${section.title}-${pIndex}`}>{paragraph}</p>
             ))}
-          </section>
+          </SectionBlock>
         ))}
       </div>
 
-      <section className="ai103-final-prompt" aria-labelledby="ai103-q1-question">
-        <h2 id="ai103-q1-question">Question</h2>
-        {questionParts.finalPrompt.map((paragraph, index) => (
-          <p key={`q1-final-prompt-${index}`}>{paragraph}</p>
-        ))}
-      </section>
+      <SectionBlock title="Question" ariaLabelledBy="ai103-q1-question">
+        <PromptBlock paragraphs={questionParts.finalPrompt} />
+      </SectionBlock>
 
-      <section className="ai103-answer-visual" aria-labelledby="ai103-q1-answer-area">
-        <div className="ai103-answer-visual-header">
-          <h2 id="ai103-q1-answer-area">Answer Area</h2>
-          <span>PDF page 6</span>
-        </div>
+      <SectionBlock title="Answer Area (Blank) · PDF page 6" ariaLabelledBy="ai103-q1-answer-area">
         <img
           src={q1AnswerAreaBlank}
           alt="Question 1 answer area showing the Deployment type and Version update policy dropdown options before the correct answers are highlighted."
+          className="ai103-answer-image"
+          style={{ maxWidth: 480 }}
         />
-      </section>
+      </SectionBlock>
 
-      <section className="ai103-answer-visual ai103-answer-visual-solved" aria-labelledby="ai103-q1-solved-answer-area">
-        <div className="ai103-answer-visual-header">
-          <h2 id="ai103-q1-solved-answer-area">Correct Answer Area</h2>
-          <span>PDF page 6</span>
-        </div>
+      <SectionBlock title="Correct Answer Area · PDF page 6" ariaLabelledBy="ai103-q1-solved-answer-area">
         <img
           src={q1AnswerArea}
           alt="Question 1 answer area showing Deployment type set to Standard and Version update policy set to Opt out of automatic model version upgrades."
+          className="ai103-answer-image"
+          style={{ maxWidth: 480 }}
         />
-      </section>
+      </SectionBlock>
 
-      <section className="ai103-question-section answer ai103-selected-answer">
-        <h2>Answer</h2>
-        <div className="ai103-answer-chip-row">
-          {questionParts.answerSelections.map((selection) => (
-            <span className="ai103-answer-chip" key={selection}>
-              {selection}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      {explanationParagraphs.length > 0 && (
-        <section className="ai103-question-section description">
-          <h2>Description</h2>
-          {explanationParagraphs.map((paragraph, index) => (
-            <p key={`q1-explanation-${index}`}>{paragraph}</p>
-          ))}
-        </section>
-      )}
-    </div>
+      <AnswerBlock selections={questionParts.answerSelections} />
+      <ExplanationBlock paragraphs={explanationParagraphs} />
+    </>
   );
 }
 
@@ -414,67 +459,33 @@ function QuestionTwoContent({ question }) {
   const questionParts = getQuestionTwoDisplayParts(question);
 
   return (
-    <div className="ai103-q1-content">
-      <div className="ai103-question-type-row">
-        <span>{questionParts.caseStudyTitle}</span>
-        <span>Multiple choice</span>
-      </div>
-
-      <section className="ai103-case-study-callout" aria-labelledby="ai103-q2-case-study">
-        <h2 id="ai103-q2-case-study">{questionParts.caseStudyTitle}</h2>
+    <>
+      <SectionBlock title={questionParts.caseStudyTitle} ariaLabelledBy="ai103-q2-case-study" className="ai103-section-block--lead">
         {questionParts.caseStudyParagraphs.map((paragraph, index) => (
           <p key={`q2-case-study-${index}`}>{paragraph}</p>
         ))}
-      </section>
+      </SectionBlock>
 
-      <div className="ai103-q1-section-stack" aria-label="Question 2 case study details">
-        {questionParts.sections.map((section) => (
-          <section className="ai103-q1-detail-section" key={section.title}>
-            <h3>{section.title}</h3>
-            {section.paragraphs.map((paragraph, index) => (
-              <p key={`${section.title}-${index}`}>{paragraph}</p>
-            ))}
-          </section>
-        ))}
-      </div>
-
-      <section className="ai103-final-prompt" aria-labelledby="ai103-q2-question">
-        <h2 id="ai103-q2-question">Question</h2>
-        {questionParts.finalPrompt.map((paragraph, index) => (
-          <p key={`q2-final-prompt-${index}`}>{paragraph}</p>
-        ))}
-
-        <div className="ai103-option-grid" role="list" aria-label="Question 2 answer options">
-          {questionParts.options.map((option) => (
-            <div
-              className={`ai103-option-card${option.key === questionParts.answerSelection ? ' selected' : ''}`}
-              key={option.key}
-              role="listitem"
-            >
-              <span className="ai103-option-key">{option.key}</span>
-              <p>{option.text}</p>
-            </div>
+      {questionParts.sections.map((section, index) => (
+        <SectionBlock title={section.title} ariaLabelledBy={`ai103-q2-section-${index}`} key={section.title}>
+          {section.paragraphs.map((paragraph, pIndex) => (
+            <p key={`${section.title}-${pIndex}`}>{paragraph}</p>
           ))}
-        </div>
-      </section>
+        </SectionBlock>
+      ))}
 
-      <section className="ai103-question-section answer ai103-selected-answer">
-        <h2>Answer</h2>
-        <AnswerSelectionChips
-          selections={questionParts.answerSelections}
-          options={questionParts.answerOptions}
+      <SectionBlock title="Question" ariaLabelledBy="ai103-q2-question">
+        <PromptBlock paragraphs={questionParts.finalPrompt} />
+        <OptionsGrid
+          options={questionParts.options}
+          selectedKeys={questionParts.answerSelections}
+          ariaLabel="Question 2 answer options"
         />
-      </section>
+      </SectionBlock>
 
-      {questionParts.explanationParagraphs.length > 0 && (
-        <section className="ai103-question-section description">
-          <h2>Description</h2>
-          {questionParts.explanationParagraphs.map((paragraph, index) => (
-            <p key={`q2-explanation-${index}`}>{paragraph}</p>
-          ))}
-        </section>
-      )}
-    </div>
+      <AnswerBlock selections={questionParts.answerSelections} />
+      <ExplanationBlock paragraphs={questionParts.explanationParagraphs} />
+    </>
   );
 }
 
@@ -483,62 +494,36 @@ function MultipleChoiceQuestionContent({ question }) {
   const questionConfig = multipleChoiceQuestionConfigs[question.number];
 
   return (
-    <div className="ai103-q1-content">
-      <div className="ai103-question-type-row">
-        {questionParts.type ? <span>{questionParts.type}</span> : null}
-        <span>Multiple choice</span>
-      </div>
-
-      <section className="ai103-final-prompt" aria-labelledby={`ai103-q${question.number}-question`}>
-        <h2 id={`ai103-q${question.number}-question`}>Question</h2>
-        {questionParts.promptParagraphs.map((paragraph, index) => (
-          <p key={`q${question.number}-prompt-${index}`}>{paragraph}</p>
-        ))}
-      </section>
+    <>
+      <SectionBlock title="Question" ariaLabelledBy={`ai103-q${question.number}-question`}>
+        <PromptBlock paragraphs={questionParts.promptParagraphs} />
+      </SectionBlock>
 
       {questionConfig?.exhibitImage ? (
-        <section className="ai103-answer-visual ai103-exhibit-panel" aria-labelledby={`ai103-q${question.number}-exhibit`}>
-          <div className="ai103-answer-visual-header">
-            <h2 id={`ai103-q${question.number}-exhibit`}>{questionConfig.exhibitTitle}</h2>
-            <span>{questionConfig.exhibitPageLabel}</span>
-          </div>
-          <img src={questionConfig.exhibitImage} alt={questionConfig.exhibitAlt} />
-        </section>
+        <SectionBlock
+          title={`${questionConfig.exhibitTitle} · ${questionConfig.exhibitPageLabel}`}
+          ariaLabelledBy={`ai103-q${question.number}-exhibit`}
+        >
+          <img
+            src={questionConfig.exhibitImage}
+            alt={questionConfig.exhibitAlt}
+            className="ai103-answer-image"
+            style={{ maxWidth: 640 }}
+          />
+        </SectionBlock>
       ) : null}
 
-      <section className="ai103-question-section" aria-labelledby={`ai103-q${question.number}-options`}>
-        <h2 id={`ai103-q${question.number}-options`}>Options</h2>
-        <div className="ai103-option-grid" role="list" aria-label={`Question ${question.number} answer options`}>
-          {questionParts.options.map((option) => (
-            <div
-              className={`ai103-option-card${questionParts.answerSelections.includes(option.key) ? ' selected' : ''}`}
-              key={option.key}
-              role="listitem"
-            >
-              <span className="ai103-option-key">{option.key}</span>
-              <p>{option.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="ai103-question-section answer ai103-selected-answer">
-        <h2>Answer</h2>
-        <AnswerSelectionChips
-          selections={questionParts.answerSelections}
-          options={questionParts.answerOptions}
+      <SectionBlock title="Options" ariaLabelledBy={`ai103-q${question.number}-options`}>
+        <OptionsGrid
+          options={questionParts.options}
+          selectedKeys={questionParts.answerSelections}
+          ariaLabel={`Question ${question.number} answer options`}
         />
-      </section>
+      </SectionBlock>
 
-      {questionParts.explanationParagraphs.length > 0 && (
-        <section className="ai103-question-section description">
-          <h2>Description</h2>
-          {questionParts.explanationParagraphs.map((paragraph, index) => (
-            <p key={`q${question.number}-explanation-${index}`}>{paragraph}</p>
-          ))}
-        </section>
-      )}
-    </div>
+      <AnswerBlock selections={questionParts.answerSelections} />
+      <ExplanationBlock paragraphs={questionParts.explanationParagraphs} />
+    </>
   );
 }
 
@@ -546,75 +531,38 @@ function QuestionTwentyOneContent({ question }) {
   const questionParts = getQuestionTwentyOneDisplayParts(question);
 
   return (
-    <div className="ai103-q1-content">
-      <div className="ai103-question-type-row">
-        {questionParts.type ? <span>{questionParts.type}</span> : null}
-        <span>Multiple choice</span>
-      </div>
+    <>
+      <SectionBlock title="Question" ariaLabelledBy="ai103-q21-question">
+        <PromptBlock paragraphs={questionParts.introParagraphs} />
+      </SectionBlock>
 
-      <section className="ai103-final-prompt" aria-labelledby="ai103-q21-question">
-        <h2 id="ai103-q21-question">Question</h2>
-        {questionParts.introParagraphs.map((paragraph, index) => (
-          <p key={`q21-intro-${index}`}>{paragraph}</p>
-        ))}
-      </section>
-
-      <section className="ai103-question-section" aria-labelledby="ai103-q21-project-items">
-        <h2 id="ai103-q21-project-items">Project1 Contains</h2>
+      <SectionBlock title="Project1 Contains" ariaLabelledBy="ai103-q21-project-items">
         <ul className="ai103-detail-list">
           {questionParts.projectItems.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
-      </section>
+      </SectionBlock>
 
-      <section className="ai103-question-section" aria-labelledby="ai103-q21-scenario">
-        <h2 id="ai103-q21-scenario">Scenario</h2>
-        {questionParts.scenarioParagraphs.map((paragraph, index) => (
-          <p key={`q21-scenario-${index}`}>{paragraph}</p>
-        ))}
-      </section>
+      <SectionBlock title="Scenario" ariaLabelledBy="ai103-q21-scenario">
+        <PromptBlock paragraphs={questionParts.scenarioParagraphs} />
+      </SectionBlock>
 
-      <section className="ai103-question-section" aria-labelledby="ai103-q21-final-prompt">
-        <h2 id="ai103-q21-final-prompt">What Should You Do?</h2>
-        {questionParts.finalPrompt.map((paragraph, index) => (
-          <p key={`q21-final-${index}`}>{paragraph}</p>
-        ))}
-      </section>
+      <SectionBlock title="What Should You Do?" ariaLabelledBy="ai103-q21-final-prompt">
+        <PromptBlock paragraphs={questionParts.finalPrompt} />
+      </SectionBlock>
 
-      <section className="ai103-question-section" aria-labelledby="ai103-q21-options">
-        <h2 id="ai103-q21-options">Options</h2>
-        <div className="ai103-option-grid" role="list" aria-label="Question 21 answer options">
-          {questionParts.options.map((option) => (
-            <div
-              className={`ai103-option-card${questionParts.answerSelections.includes(option.key) ? ' selected' : ''}`}
-              key={option.key}
-              role="listitem"
-            >
-              <span className="ai103-option-key">{option.key}</span>
-              <p>{option.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="ai103-question-section answer ai103-selected-answer">
-        <h2>Answer</h2>
-        <AnswerSelectionChips
-          selections={questionParts.answerSelections}
-          options={questionParts.answerOptions}
+      <SectionBlock title="Options" ariaLabelledBy="ai103-q21-options">
+        <OptionsGrid
+          options={questionParts.options}
+          selectedKeys={questionParts.answerSelections}
+          ariaLabel="Question 21 answer options"
         />
-      </section>
+      </SectionBlock>
 
-      {questionParts.explanationParagraphs.length > 0 && (
-        <section className="ai103-question-section description">
-          <h2>Description</h2>
-          {questionParts.explanationParagraphs.map((paragraph, index) => (
-            <p key={`q21-explanation-${index}`}>{paragraph}</p>
-          ))}
-        </section>
-      )}
-    </div>
+      <AnswerBlock selections={questionParts.answerSelections} />
+      <ExplanationBlock paragraphs={questionParts.explanationParagraphs} />
+    </>
   );
 }
 
@@ -622,67 +570,33 @@ function CaseStudyChoiceQuestionContent({ question }) {
   const questionParts = getCaseStudyChoiceQuestionDisplayParts(question);
 
   return (
-    <div className="ai103-q1-content">
-      <div className="ai103-question-type-row">
-        <span>{questionParts.caseStudyTitle}</span>
-        <span>Multiple choice</span>
-      </div>
-
-      <section className="ai103-case-study-callout" aria-labelledby={`ai103-q${question.number}-case-study`}>
-        <h2 id={`ai103-q${question.number}-case-study`}>{questionParts.caseStudyTitle}</h2>
+    <>
+      <SectionBlock title={questionParts.caseStudyTitle} ariaLabelledBy={`ai103-q${question.number}-case-study`} className="ai103-section-block--lead">
         {questionParts.caseStudyParagraphs.map((paragraph, index) => (
           <p key={`q${question.number}-case-study-${index}`}>{paragraph}</p>
         ))}
-      </section>
+      </SectionBlock>
 
-      <div className="ai103-q1-section-stack" aria-label={`Question ${question.number} case study details`}>
-        {questionParts.sections.map((section) => (
-          <section className="ai103-q1-detail-section" key={section.title}>
-            <h3>{section.title}</h3>
-            {section.paragraphs.map((paragraph, index) => (
-              <p key={`${section.title}-${index}`}>{paragraph}</p>
-            ))}
-          </section>
-        ))}
-      </div>
-
-      <section className="ai103-final-prompt" aria-labelledby={`ai103-q${question.number}-question`}>
-        <h2 id={`ai103-q${question.number}-question`}>Question</h2>
-        {questionParts.finalPrompt.map((paragraph, index) => (
-          <p key={`q${question.number}-prompt-${index}`}>{paragraph}</p>
-        ))}
-
-        <div className="ai103-option-grid" role="list" aria-label={`Question ${question.number} answer options`}>
-          {questionParts.options.map((option) => (
-            <div
-              className={`ai103-option-card${questionParts.answerSelections.includes(option.key) ? ' selected' : ''}`}
-              key={option.key}
-              role="listitem"
-            >
-              <span className="ai103-option-key">{option.key}</span>
-              <p>{option.text}</p>
-            </div>
+      {questionParts.sections.map((section, index) => (
+        <SectionBlock title={section.title} ariaLabelledBy={`ai103-q${question.number}-section-${index}`} key={section.title}>
+          {section.paragraphs.map((paragraph, pIndex) => (
+            <p key={`${section.title}-${pIndex}`}>{paragraph}</p>
           ))}
-        </div>
-      </section>
+        </SectionBlock>
+      ))}
 
-      <section className="ai103-question-section answer ai103-selected-answer">
-        <h2>Answer</h2>
-        <AnswerSelectionChips
-          selections={questionParts.answerSelections}
-          options={questionParts.answerOptions}
+      <SectionBlock title="Question" ariaLabelledBy={`ai103-q${question.number}-question`}>
+        <PromptBlock paragraphs={questionParts.finalPrompt} />
+        <OptionsGrid
+          options={questionParts.options}
+          selectedKeys={questionParts.answerSelections}
+          ariaLabel={`Question ${question.number} answer options`}
         />
-      </section>
+      </SectionBlock>
 
-      {questionParts.explanationParagraphs.length > 0 && (
-        <section className="ai103-question-section description">
-          <h2>Description</h2>
-          {questionParts.explanationParagraphs.map((paragraph, index) => (
-            <p key={`q${question.number}-explanation-${index}`}>{paragraph}</p>
-          ))}
-        </section>
-      )}
-    </div>
+      <AnswerBlock selections={questionParts.answerSelections} />
+      <ExplanationBlock paragraphs={questionParts.explanationParagraphs} />
+    </>
   );
 }
 
@@ -692,52 +606,57 @@ function VisualQuestionContent({ question }) {
   const answerRows = questionParts.answerRows.length > 0 ? questionParts.answerRows : questionConfig.answerRows;
 
   return (
-    <div className="ai103-q1-content">
-      <div className="ai103-question-type-row">
-        <span className="ai103-hotspot-badge">{questionParts.type}</span>
-        <span>PDF answer area</span>
-      </div>
+    <>
+      <SectionBlock title="Question" ariaLabelledBy={`ai103-q${question.number}-question`}>
+        <PromptBlock paragraphs={questionParts.promptParagraphs} />
+      </SectionBlock>
 
-      <section className="ai103-final-prompt" aria-labelledby={`ai103-q${question.number}-question`}>
-        <h2 id={`ai103-q${question.number}-question`}>Question</h2>
-        {questionParts.promptParagraphs.map((paragraph, index) => (
-          <p key={`q${question.number}-prompt-${index}`}>{paragraph}</p>
-        ))}
-      </section>
-
-      <section className="ai103-answer-visual" aria-labelledby={`ai103-q${question.number}-answer-area`}>
-        <div className="ai103-answer-visual-header">
-          <h2 id={`ai103-q${question.number}-answer-area`}>Answer Area</h2>
-          <span>{questionConfig.imagePageLabel}</span>
-        </div>
-        <img src={questionConfig.blankImage} alt={questionConfig.blankAlt} />
-      </section>
+      <SectionBlock title={`Answer Area · ${questionConfig.imagePageLabel}`} ariaLabelledBy={`ai103-q${question.number}-answer-area`}>
+        <img
+          src={questionConfig.blankImage}
+          alt={questionConfig.blankAlt}
+          className="ai103-answer-image"
+          style={{ maxWidth: 640 }}
+        />
+      </SectionBlock>
 
       {questionConfig.solvedImage ? (
-        <section className="ai103-answer-visual ai103-answer-visual-solved" aria-labelledby={`ai103-q${question.number}-solved-answer-area`}>
-          <div className="ai103-answer-visual-header">
-            <h2 id={`ai103-q${question.number}-solved-answer-area`}>Correct Answer Area</h2>
-            <span>{questionConfig.imagePageLabel}</span>
-          </div>
-          <img src={questionConfig.solvedImage} alt={questionConfig.solvedAlt} />
-        </section>
+        <SectionBlock
+          title={`Correct Answer Area · ${questionConfig.imagePageLabel}`}
+          ariaLabelledBy={`ai103-q${question.number}-solved-answer-area`}
+          className="ai103-section-block--success"
+        >
+          <img
+            src={questionConfig.solvedImage}
+            alt={questionConfig.solvedAlt}
+            className="ai103-answer-image"
+            style={{ maxWidth: 640 }}
+          />
+        </SectionBlock>
       ) : null}
 
-      <section className="ai103-question-section answer ai103-selected-answer">
-        <h2>Answer</h2>
-        <AnswerSummaryRows rows={answerRows} />
-      </section>
-
-      {questionParts.explanationParagraphs.length > 0 && (
-        <section className="ai103-question-section description">
-          <h2>Description</h2>
-          {questionParts.explanationParagraphs.map((paragraph, index) => (
-            <p key={`q${question.number}-explanation-${index}`}>{paragraph}</p>
-          ))}
-        </section>
-      )}
-    </div>
+      <AnswerBlock summaryRows={answerRows} />
+      <ExplanationBlock paragraphs={questionParts.explanationParagraphs} />
+    </>
   );
+}
+
+function QuestionTypeTag({ question }) {
+  const label =
+    question.type === 'HOTSPOT' || question.type === 'DRAG DROP'
+      ? question.type
+      : question.type === 'CASE STUDY'
+        ? 'Case Study'
+        : 'Multiple Choice';
+  return <span className="ai103-pill ai103-pill--neutral">{label}</span>;
+}
+
+function questionType(question) {
+  if (!question) return 'Question';
+  if (question.type === 'HOTSPOT') return 'Hotspot';
+  if (question.type === 'DRAG DROP') return 'Drag and Drop';
+  if (question.type === 'CASE STUDY') return 'Case Study';
+  return 'Multiple Choice';
 }
 
 const AI103 = () => {
@@ -787,7 +706,7 @@ const AI103 = () => {
 
   return (
     <div
-      className="ai103-container cosmic-page"
+      className="ai103-container"
       style={{
         '--page-accent': 'var(--cosmic-cyan)',
         '--cosmic-orb-top': '56px',
@@ -800,35 +719,39 @@ const AI103 = () => {
         '--cosmic-cube-size': '28px',
       }}
     >
-      <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
-        <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor" />
-      </svg>
-      <div className="cosmic-cube" />
-
-      <div className="ai103-content cosmic-content">
+      <div className="ai103-content">
         <header className="ai103-header">
           <div className="ai103-title-block">
+            <div className="ai103-title-row">
+              <span className="ai103-bubble" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+              </span>
+              <h1>
+                {ai103Content.title}
+                <span className="ai103-title-suffix">{ai103Content.subtitle}</span>
+              </h1>
+            </div>
             <div className="ai103-kicker">
               <span className="ai103-badge">Learning / AI</span>
               <span className="ai103-meta">{ai103Content.sourceFile}</span>
             </div>
-            <h1>
-              {ai103Content.title}
-              <span>{ai103Content.subtitle}</span>
-            </h1>
             <p className="ai103-source">
               Source:{' '}
               <a href={ai103Content.sourceUrl} target="_blank" rel="noreferrer">
                 {ai103Content.sourceUrl}
               </a>
             </p>
-            <button
-              type="button"
-              className="ai103-practice-button"
-              onClick={() => setIsPracticeChooserOpen(true)}
-            >
-              Practice
-            </button>
+            <div className="ai103-actions">
+              <button
+                type="button"
+                className="ai103-practice-button"
+                onClick={() => setIsPracticeChooserOpen(true)}
+              >
+                Practice
+              </button>
+            </div>
           </div>
 
           <div className="ai103-stat-grid" aria-label="AI-103 document stats">
@@ -838,7 +761,7 @@ const AI103 = () => {
             </div>
             <div className="ai103-stat">
               <strong>{questions.length}</strong>
-              <span>Question cards</span>
+              <span>Question Cards</span>
             </div>
             <div className="ai103-stat">
               <strong>{formatNumber(stats.wordCount)}</strong>
@@ -849,34 +772,36 @@ const AI103 = () => {
 
         <section className="ai103-toolbar" aria-label="AI-103 controls">
           <label className="ai103-search">
-            <span>Search</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
             <input
               type="search"
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
-              placeholder="concept, keyword, or question 12"
+              placeholder="Search concepts, keywords, or 'question 12'"
+              aria-label="Search AI-103 questions"
             />
           </label>
-          <div className="ai103-result-count">
-            <strong>{filteredQuestions.length}</strong>
-            <span>{filteredQuestions.length === 1 ? 'matching question' : 'matching questions'}</span>
-          </div>
-          <div className="ai103-pagination-controls" aria-label="Question pagination">
-            <button
-              type="button"
-              onClick={() => setSelectedQuestionNumber(pagination.previousNumber)}
-              disabled={!pagination.previousNumber}
-            >
-              Previous
-            </button>
-            <span>{paginationLabel}</span>
-            <button
-              type="button"
-              onClick={() => setSelectedQuestionNumber(pagination.nextNumber)}
-              disabled={!pagination.nextNumber}
-            >
-              Next
-            </button>
+          <div className="ai103-search-meta">
+            <div className="ai103-pagination-controls" aria-label="Question pagination">
+              <button
+                type="button"
+                onClick={() => setSelectedQuestionNumber(pagination.previousNumber)}
+                disabled={!pagination.previousNumber}
+              >
+                ← Previous
+              </button>
+              <span>{paginationLabel}</span>
+              <button
+                type="button"
+                onClick={() => setSelectedQuestionNumber(pagination.nextNumber)}
+                disabled={!pagination.nextNumber}
+              >
+                Next →
+              </button>
+            </div>
           </div>
         </section>
 
@@ -889,6 +814,7 @@ const AI103 = () => {
                 className={question.number === visibleQuestion?.number ? 'active' : ''}
                 onClick={() => setSelectedQuestionNumber(question.number)}
                 aria-current={question.number === visibleQuestion?.number ? 'page' : undefined}
+                aria-label={`Go to question ${question.number}`}
               >
                 {question.number}
               </button>
@@ -899,9 +825,13 @@ const AI103 = () => {
             {visibleQuestion ? (
               <article className="ai103-page-card" id={`ai103-question-${visibleQuestion.number}`} key={visibleQuestion.number}>
                 <div className="ai103-page-card-header">
-                  <span>Question {visibleQuestion.number}</span>
-                  <small>PDF pages {visibleQuestion.sourcePages.join(', ')}</small>
+                  <h2>Question {visibleQuestion.number}</h2>
+                  <div className="ai103-page-card-tags">
+                    <QuestionTypeTag question={visibleQuestion} />
+                    <span className="ai103-pill">PDF pages {visibleQuestion.sourcePages.join(', ')}</span>
+                  </div>
                 </div>
+
                 {visibleQuestion.number === 1 ? (
                   <QuestionOneContent question={visibleQuestion} explanationParagraphs={explanationParagraphs} />
                 ) : visibleQuestion.number === 2 ? (
@@ -916,39 +846,49 @@ const AI103 = () => {
                   <MultipleChoiceQuestionContent question={visibleQuestion} />
                 ) : (
                   <>
-                    <div className="ai103-question-section">
-                      <h2>Question</h2>
-                      {promptParagraphs.map((paragraph, index) => (
-                        <p key={`${visibleQuestion.number}-prompt-${index}`}>{paragraph}</p>
-                      ))}
-                    </div>
+                    <SectionBlock title="Question" ariaLabelledBy="ai103-fallback-question">
+                      <PromptBlock paragraphs={promptParagraphs} fallback="No question text extracted." />
+                    </SectionBlock>
                     {answerParagraphs.length > 0 && (
-                      <div className="ai103-question-section answer">
-                        <h2>Answer</h2>
-                        {answerParagraphs.map((paragraph, index) => (
-                          <p key={`${visibleQuestion.number}-answer-${index}`}>{paragraph}</p>
-                        ))}
-                      </div>
+                      <AnswerBlock paragraphText={answerParagraphs.join('\n\n')} />
                     )}
-                    {explanationParagraphs.length > 0 && (
-                      <div className="ai103-question-section description">
-                        <h2>Description</h2>
-                        {explanationParagraphs.map((paragraph, index) => (
-                          <p key={`${visibleQuestion.number}-explanation-${index}`}>{paragraph}</p>
-                        ))}
-                      </div>
-                    )}
+                    <ExplanationBlock paragraphs={explanationParagraphs} />
                   </>
                 )}
+
+                <div className="ai103-footer-stats">
+                  <div className="ai103-footer-stat">
+                    <span className="ai103-footer-stat-label">Type</span>
+                    <span className="ai103-footer-stat-value">{questionType(visibleQuestion)}</span>
+                  </div>
+                  <div className="ai103-footer-stat">
+                    <span className="ai103-footer-stat-label">Source Pages</span>
+                    <span className="ai103-footer-stat-value">{visibleQuestion.sourcePages.join(', ')}</span>
+                  </div>
+                  <div className="ai103-footer-stat">
+                    <span className="ai103-footer-stat-label">Progress</span>
+                    <span className="ai103-footer-stat-value">
+                      {pagination.currentIndex + 1} / {pagination.total}
+                    </span>
+                  </div>
+                </div>
               </article>
             ) : (
               <div className="ai103-empty-state">
-                <strong>No pages found</strong>
-                <span>{searchQuery}</span>
+                <strong>No questions found</strong>
+                <span>{searchQuery ? `No matches for "${searchQuery}"` : 'Try a different search.'}</span>
               </div>
             )}
           </section>
         </div>
+
+        <footer className="ai103-page-footer" aria-label="Page footer">
+          <span>© 2026 · AI-103 study material</span>
+          <div className="ai103-page-footer-links">
+            <a href={ai103Content.sourceUrl} target="_blank" rel="noreferrer">Source</a>
+            <a href="#top">Back to top</a>
+          </div>
+        </footer>
       </div>
 
       {isPracticeChooserOpen && (
@@ -974,7 +914,7 @@ const AI103 = () => {
                 aria-label="Close practice chooser"
                 onClick={() => setIsPracticeChooserOpen(false)}
               >
-                x
+                ×
               </button>
             </div>
             <h2 id="ai103-practice-title">Choose Difficulty</h2>
