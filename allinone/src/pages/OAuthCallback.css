@@ -30,6 +30,11 @@
   to { opacity: 1; transform: scale(1); }
 }
 
+/* ── Light mode ── */
+[data-theme='light'] .oauth-callback-card .primary-button {
+  --btn-primary-hover: var(--cosmic-pink);
+}
+
 .oauth-callback-card h2 {
   margin: 0;
   font-size: var(--font-size-title-3);
@@ -55,7 +60,7 @@
 
 .oauth-callback-card .primary-button {
   background: var(--color-system-blue);
-  color: #FFFFFF;
+  color: var(--btn-primary-fg, #FFFFFF);
   padding: 14px 24px;
   border-radius: var(--border-radius-button);
   font-size: var(--font-size-body);
@@ -67,6 +72,6 @@
 }
 
 .oauth-callback-card .primary-button:hover {
-  background: #0056b3;
+  background: var(--btn-primary-hover, var(--color-system-blue));
   transform: translateY(-1px);
 }

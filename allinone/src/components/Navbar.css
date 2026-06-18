@@ -1,5 +1,5 @@
 .navbar {
-  background: rgba(10, 6, 18, 0.74);
+  background: var(--navbar-bg, rgba(10, 6, 18, 0.74));
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
   min-height: 76px;
@@ -56,10 +56,10 @@
   gap: 0;
   margin: 0;
   padding: 4px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--nav-pill-bg, rgba(255, 255, 255, 0.06));
+  border: 1px solid var(--nav-pill-border, rgba(255, 255, 255, 0.1));
   border-radius: 999px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+  box-shadow: var(--nav-pill-shadow, 0 8px 24px rgba(0, 0, 0, 0.16));
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
 }
@@ -105,9 +105,9 @@
   min-width: 180px;
   padding: 7px;
   border-radius: 14px;
-  background: rgba(10, 6, 18, 0.96);
+  background: var(--nav-dropdown-bg, rgba(10, 6, 18, 0.96));
   border: 1.5px solid var(--color-separator);
-  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.62), 0 18px 40px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--nav-dropdown-shadow, 6px 6px 0 rgba(0, 0, 0, 0.62), 0 18px 40px rgba(0, 0, 0, 0.35));
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
   z-index: 1001;
@@ -153,6 +153,10 @@
   color: var(--cosmic-yellow);
 }
 
+[data-theme='light'] .nav-dropdown-item.active {
+  color: #b45309;
+}
+
 .nav-dropdown-item small {
   color: var(--color-secondary-label);
   font-size: 0.68rem;
@@ -194,6 +198,32 @@
 
 .pro-pill svg {
   flex-shrink: 0;
+}
+
+.theme-toggle-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid var(--color-separator);
+  color: var(--color-label);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--cosmic-yellow);
+  color: var(--cosmic-bg);
+  border-color: var(--cosmic-yellow);
+  transform: scale(1.08);
+}
+
+.theme-toggle-btn:active {
+  transform: scale(0.95);
 }
 
 .login-btn,
@@ -264,9 +294,9 @@
   min-width: 160px;
   padding: 6px;
   border-radius: 16px;
-  background: rgba(10, 6, 18, 0.94);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  background: var(--nav-dropdown-bg, rgba(10, 6, 18, 0.94));
+  border: 1px solid var(--nav-pill-border, rgba(255, 255, 255, 0.12));
+  box-shadow: var(--nav-dropdown-shadow, 0 16px 40px rgba(0, 0, 0, 0.4));
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
   z-index: 1000;
@@ -367,4 +397,77 @@
   .pro-pill {
     margin-left: auto;
   }
+}
+
+/* ── Light mode ── */
+[data-theme='light'] .navbar {
+  --navbar-bg: rgba(248, 239, 226, 0.84);
+}
+
+[data-theme='light'] .nav-menu {
+  --nav-pill-bg: rgba(255, 248, 235, 0.72);
+  --nav-pill-border: rgba(23, 16, 31, 0.14);
+  --nav-pill-shadow: 0 4px 16px rgba(23, 16, 31, 0.1);
+}
+
+[data-theme='light'] .nav-dropdown-menu {
+  --nav-dropdown-bg: rgba(248, 239, 226, 0.96);
+  --nav-dropdown-shadow: 6px 6px 0 rgba(23, 16, 31, 0.14), 0 12px 28px rgba(23, 16, 31, 0.18);
+}
+
+[data-theme='light'] .nav-links {
+  color: var(--cosmic-ink);
+}
+
+[data-theme='light'] .nav-links:hover,
+[data-theme='light'] .nav-links.active {
+  background: rgba(23, 16, 31, 0.08);
+}
+
+[data-theme='light'] .nav-links.active {
+  box-shadow: inset 0 -2px 0 rgba(23, 16, 31, 0.18);
+}
+
+[data-theme='light'] .nav-dropdown-item:hover,
+[data-theme='light'] .nav-dropdown-item.active {
+  background: rgba(23, 16, 31, 0.08);
+}
+
+[data-theme='light'] .profile-menu {
+  --nav-dropdown-bg: rgba(248, 239, 226, 0.96);
+  --nav-pill-border: rgba(23, 16, 31, 0.16);
+  --nav-dropdown-shadow: 0 12px 28px rgba(23, 16, 31, 0.18);
+}
+
+[data-theme='light'] .profile-menu-item:hover {
+  background: rgba(23, 16, 31, 0.08);
+}
+
+[data-theme='light'] .profile-menu-item.danger {
+  color: var(--cosmic-pink);
+}
+
+[data-theme='light'] .user-avatar {
+  border-color: var(--cosmic-ink);
+}
+
+[data-theme='light'] .login-btn {
+  border-color: var(--cosmic-ink);
+  box-shadow: 3px 3px 0 rgba(23, 16, 31, 0.22);
+}
+
+[data-theme='light'] .logout-btn:hover {
+  background: var(--cosmic-orange);
+  color: var(--cosmic-ink);
+}
+
+[data-theme='light'] .theme-toggle-btn {
+  color: var(--cosmic-ink);
+  border-color: rgba(23, 16, 31, 0.2);
+}
+
+[data-theme='light'] .theme-toggle-btn:hover {
+  background: var(--cosmic-ink);
+  color: var(--cosmic-bg);
+  border-color: var(--cosmic-ink);
 }

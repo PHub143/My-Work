@@ -81,6 +81,10 @@
   font-style: italic;
 }
 
+[data-theme='light'] .gallery-title-word {
+  color: #b45309;
+}
+
 .gallery-title-swoop {
   position: absolute;
   bottom: -6px;
@@ -110,13 +114,13 @@
 
 .gallery-storage-card {
   padding: 16px;
-  background: var(--cosmic-ink);
-  color: var(--cosmic-bg);
+  background: var(--gallery-storage-bg, var(--cosmic-ink));
+  color: var(--gallery-storage-color, var(--cosmic-bg));
   border-radius: 16px;
   transform: rotate(2deg);
-  max-width: 220px;
-  min-width: 200px;
-  box-shadow: 4px 4px 0 var(--cosmic-purple);
+  width: 220px;
+  flex-shrink: 0;
+  box-shadow: 4px 4px 0 var(--gallery-storage-shadow, var(--cosmic-purple));
 }
 
 .gallery-storage-card span {
@@ -129,15 +133,18 @@
 }
 
 .gallery-storage-card strong {
-  font-size: 28px;
+  font-size: clamp(18px, 5vw, 24px);
   font-weight: 700;
   font-family: var(--font-family-display);
   line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .gallery-storage-track {
   height: 6px;
-  background: #e5d5b8;
+  background: var(--gallery-track-bg, #e5d5b8);
   border-radius: 999px;
   margin-top: 8px;
   overflow: hidden;
@@ -186,10 +193,10 @@
 }
 
 .filter-pill.active {
-  background: var(--cosmic-ink);
-  color: var(--cosmic-bg);
-  border-color: var(--cosmic-ink);
-  box-shadow: 4px 4px 0 var(--cosmic-pink);
+  background: var(--filter-pill-active-bg, var(--cosmic-ink));
+  color: var(--filter-pill-active-color, var(--cosmic-bg));
+  border-color: var(--filter-pill-active-border, var(--cosmic-ink));
+  box-shadow: 4px 4px 0 var(--filter-pill-active-shadow, var(--cosmic-pink));
 }
 
 .gallery-grid {
@@ -200,13 +207,13 @@
 }
 
 .gallery-card {
-  background: rgba(254, 249, 240, 0.08);
+  background: var(--gallery-card-bg, rgba(254, 249, 240, 0.08));
   border-radius: 18px;
-  border: 2px solid rgba(254, 249, 240, 0.18);
+  border: 2px solid var(--gallery-card-border, rgba(254, 249, 240, 0.18));
   overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   cursor: pointer;
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.32);
+  box-shadow: var(--gallery-card-shadow, 0 14px 36px rgba(0, 0, 0, 0.32));
   position: relative;
 }
 
@@ -276,7 +283,7 @@
   font-size: 1rem;
   font-weight: 800;
   margin-bottom: 8px;
-  color: var(--cosmic-ink);
+  color: var(--gallery-name-color, var(--cosmic-ink));
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -304,7 +311,7 @@
   font-size: 11px;
   opacity: 0.72;
   margin-top: 2px;
-  color: var(--cosmic-ink);
+  color: var(--gallery-file-meta-color, var(--cosmic-ink));
 }
 
 .loading-container,
@@ -352,4 +359,65 @@
   .gallery-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ── Light mode ── */
+[data-theme='light'] .gallery-card {
+  --gallery-card-bg: rgba(23, 16, 31, 0.06);
+  --gallery-card-border: rgba(23, 16, 31, 0.14);
+  --gallery-card-shadow: 0 8px 24px rgba(23, 16, 31, 0.14);
+}
+
+[data-theme='light'] .gallery-card:hover,
+[data-theme='light'] .gallery-card:focus-visible {
+  box-shadow: 6px 6px 0 rgba(23, 16, 31, 0.18), 0 12px 32px rgba(23, 16, 31, 0.16);
+}
+
+[data-theme='light'] .gallery-info {
+  background: linear-gradient(to top, rgba(23, 16, 31, 0.82), transparent);
+}
+
+[data-theme='light'] .gallery-thumbnail-container {
+  opacity: 0.92;
+}
+
+[data-theme='light'] .gallery-storage-card {
+  --gallery-storage-bg: var(--cosmic-bg);
+  --gallery-storage-color: var(--cosmic-ink);
+  --gallery-storage-shadow: rgba(23, 16, 31, 0.18);
+}
+
+[data-theme='light'] .gallery-storage-track {
+  --gallery-track-bg: rgba(23, 16, 31, 0.14);
+}
+
+[data-theme='light'] .gallery-badge {
+  box-shadow: 3px 3px 0 rgba(23, 16, 31, 0.18);
+}
+
+[data-theme='light'] .filter-pill {
+  border-color: rgba(23, 16, 31, 0.18);
+  background: rgba(23, 16, 31, 0.05);
+  color: var(--cosmic-ink);
+}
+
+[data-theme='light'] .filter-pill.active {
+  --filter-pill-active-bg: var(--cosmic-ink);
+  --filter-pill-active-color: var(--cosmic-bg);
+  --filter-pill-active-border: var(--cosmic-ink);
+  --filter-pill-active-shadow: rgba(23, 16, 31, 0.18);
+}
+
+[data-theme='light'] .gallery-name {
+  --gallery-name-color: var(--cosmic-bg);
+}
+
+[data-theme='light'] .gallery-file-meta {
+  --gallery-file-meta-color: var(--cosmic-bg);
+}
+
+[data-theme='light'] .loading-container,
+[data-theme='light'] .no-images {
+  border-color: rgba(23, 16, 31, 0.12);
+  background: rgba(23, 16, 31, 0.04);
 }

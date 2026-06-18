@@ -1,0 +1,66 @@
+---
+description: Socratic design refinement before writing code
+alwaysApply: false
+---
+
+# Brainstorming Skill
+
+Before writing any code, activate this skill to refine ideas through structured dialogue.
+
+## When to Use
+
+This skill activates when:
+- User asks for something new (feature, refactor, bug fix)
+- Requirements are vague or incomplete
+- Multiple approaches are possible
+
+## The Process
+
+### Step 1: Clarify the Goal
+Ask questions to understand the real intent:
+- "What problem are you trying to solve?"
+- "Who will use this and how?"
+- "What does success look like?"
+- "What are the constraints?"
+
+### Step 2: Explore Alternatives
+Consider:
+- Build vs. buy
+- Different architectural approaches
+- Edge cases and failure modes
+- Impact on existing systems
+
+### Step 3: Present in Chunks
+Show design in small sections:
+- One concept per message
+- Use diagrams or examples when helpful
+- Wait for validation before proceeding
+
+### Step 4: Capture Agreement
+Once validated, summarize:
+- The agreed approach
+- Key decisions made
+- Open questions or follow-ups
+
+## Example Questions
+
+```
+"What user need does this address?"
+
+"How should it behave if [edge case]?"
+
+"What happens when [error condition]?"
+
+"What does the simplest version look like?"
+
+"What's the minimum viable scope?"
+```
+
+## Output
+
+Create a design document that includes:
+- Problem statement
+- Proposed solution
+- Key decisions
+- Acceptance criteria
+- Out of scope items

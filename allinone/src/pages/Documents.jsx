@@ -150,6 +150,17 @@ const Documents = () => {
     return file.name?.split('.').pop()?.slice(0, 4).toUpperCase() || 'FILE';
   };
 
+  const getFileIcon = (file) => {
+    const mimeType = file.mimeType || '';
+    if (mimeType.includes('pdf')) return '📄';
+    if (mimeType.includes('spreadsheet') || mimeType.includes('excel')) return '📊';
+    if (mimeType.includes('presentation') || mimeType.includes('powerpoint')) return '📈';
+    if (mimeType.includes('document') || mimeType.includes('word')) return '📝';
+    if (mimeType.includes('text/plain')) return '📃';
+    if (mimeType.startsWith('image/')) return '🖼';
+    return '📁';
+  };
+
   // Reset tag filter when drive changes
   useEffect(() => {
     setSelectedTag(null);
@@ -263,7 +274,9 @@ const Documents = () => {
                   }}
                 >
                   <div className="document-card-top">
-                    <span className="document-ext">{getFileExt(file)}</span>
+                    <div className="document-icon-tile" data-ext={getFileExt(file)}>
+                      <span className="document-icon-glyph">{getFileIcon(file)}</span>
+                    </div>
                     <span className="document-size">{formatBytes(file.size)}</span>
                   </div>
                   <span className="document-name">{file.name}</span>
@@ -271,6 +284,9 @@ const Documents = () => {
                     <span>{formatDate(file.modifiedTime || file.createdTime)}</span>
                     <span className="card-tag">#{tag}</span>
                   </div>
+                  <span className="document-view-link">
+                    View <span className="document-view-arrow">&rsaquo;</span>
+                  </span>
                 </div>
               );
             })}

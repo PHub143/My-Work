@@ -1,0 +1,121 @@
+---
+description: Concurrent subagent workflow with two-stage review process
+alwaysApply: false
+---
+
+# Subagent-Driven Development Skill
+
+Dispatch fresh subagents to work through implementation tasks with systematic review.
+
+## When to Use
+
+This skill activates when:
+- Implementation plan has multiple independent tasks
+- Tasks can be executed in parallel
+- You want faster completion through concurrency
+
+## The Process
+
+### 1. Prepare the Context
+
+Before dispatching subagents, ensure:
+- Plan is approved and tasks are clearly defined
+- Each task has exact file paths and verification steps
+- All necessary context (rules, codebase overview) is available
+- Task ordering respects dependencies
+
+### 2. Dispatch Subagents
+
+For each task, spawn a subagent with:
+- **Exact task description** - What to do
+- **File paths** - Which files to modify
+- **Verification steps** - How to confirm success
+- **Review criteria** - What makes it acceptable
+
+### 3. Two-Stage Review
+
+After subagent completes, review in two stages:
+
+#### Stage 1: Spec Compliance
+- Does it implement what was asked?
+- Are all acceptance criteria met?
+- Are edge cases handled?
+- **BLOCK if not compliant**
+
+#### Stage 2: Code Quality
+- Is the code readable and maintainable?
+- Are there any anti-patterns?
+- Is it consistent with project style?
+- Any security concerns?
+
+### 4. Iteration Loop
+
+If review fails:
+```
+1. Report specific issues to subagent
+2. Subagent fixes and resubmits
+3. Re-review
+4. Repeat until passing
+```
+
+## Dispatch Format
+
+```
+## Task: [Task Name]
+### Context
+[Relevant background, constraints, patterns to follow]
+
+### Files
+- `path/to/file1.ext`
+- `path/to/file2.ext`
+
+### Implementation
+[Exact requirements]
+
+### Verification
+[How to confirm it works]
+
+### Review Criteria
+[What makes it acceptable]
+```
+
+## Coordination
+
+### Sequential Tasks
+When tasks have dependencies:
+1. Complete Task 1
+2. Review and merge
+3. Then dispatch Task 2
+4. Continue sequentially
+
+### Parallel Tasks
+When tasks are independent:
+1. Dispatch multiple subagents simultaneously
+2. Each works in isolation
+3. Merge results sequentially after all complete
+
+## Best Practices
+
+- **Small tasks** - 2-5 minutes each for fast iteration
+- **Clear boundaries** - Each task has one clear purpose
+- **Isolated context** - Subagents shouldn't need each other's output
+- **Atomic commits** - One task = one commit
+- **Wait for reviews** - Don't skip the review stage
+
+## Anti-Patterns
+
+```
+❌ BAD: Dispatching large tasks (>15 min)
+❌ BAD: Skipping the two-stage review
+❌ BAD: Letting subagents guess at context
+❌ BAD: Running all subagents without coordination
+❌ BAD: Accepting "good enough" instead of passing
+```
+
+## Checkpoint
+
+After every 5-10 tasks:
+- Pause for human review
+- Show progress against plan
+- Confirm direction is correct
+- Adjust plan if needed

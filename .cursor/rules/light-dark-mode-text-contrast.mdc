@@ -1,0 +1,73 @@
+---
+description: Light/dark mode text contrast — solid black on light, solid white on dark. Avoid the lightningcss attribute-selector stripping bug.
+globs: **/*.css
+alwaysApply: false
+---
+
+# Light / Dark Mode Text Contrast
+
+## Rules
+
+- **Light mode** → solid black text (`#17101f` or darker) on light card.
+- **Dark mode** → solid white/cream text (`#fef9f0` or lighter) on dark card.
+- Labels use `opacity: 0.72` for hierarchy — never `rgba()` with the same hue as the bg.
+- Never rely on inherited `color` for the number/heading — set it explicitly.
+
+## The lightningcss minifier bug
+
+`lightningcss` (Vite's default minifier) **strips `[data-theme='light']` /
+`[data-theme='dark']` from selectors that share a class with the base rule**.
+Example — these get merged into one `.stat { ... }` rule and the dark one
+wins for all themes:
+
+```css
+/* SOURCE — looks correct */
+.stat { background: var(--bg); color: var(--text); }
+[data-theme='light'] .stat { background: #fff; color: #000; }
+[data-theme='dark']  .stat { background: #000; color: #fff; }
+```
+
+```css
+/* BUILT — attribute selectors stripped, dark wins everywhere */
+.stat { background: #000; color: #fff; }
+```
+
+## The fix: scope theme variables to a parent
+
+Set theme-dependent colors as **CSS custom properties on a parent element**
+that does NOT share a class with the children. Children reference the
+variables. The minifier can't strip a `--var:` assignment.
+
+```css
+/* Parent — different class, minifier keeps the theme selectors */
+.stat-grid {
+  --stat-bg: var(--cosmic-ink);
+  --stat-text: var(--cosmic-bg);
+}
+
+[data-theme='light'] .stat-grid {
+  --stat-bg: #f7e6c8;   /* warm cream */
+  --stat-text: #17101f; /* solid black */
+}
+
+[data-theme='dark'] .stat-grid {
+  --stat-bg: #fef9f0;   /* cream */
+  --stat-text: #0a0612; /* near-black */
+}
+
+/* Children — use the variables, no theme selectors needed */
+.stat {
+  background: var(--stat-bg);
+  color: var(--stat-text);
+}
+.stat strong { color: var(--stat-text); }
+.stat span   { color: var(--stat-text); opacity: 0.72; }
+```
+
+## Why this works
+
+1. Theme selectors target `.stat-grid`, a different class from `.stat`, so
+   lightningcss can't dedupe them with the base rule.
+2. Children inherit the variables — no per-theme overrides needed on them.
+3. The base rule can still use `var(--cosmic-ink)` as a fallback for
+   components rendered before the theme attribute is set.

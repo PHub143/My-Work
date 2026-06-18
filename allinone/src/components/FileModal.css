@@ -679,6 +679,10 @@
   color: var(--cosmic-yellow);
 }
 
+[data-theme='light'] .modal-tags-header h4 {
+  color: #b45309;
+}
+
 .text-action-btn,
 .floating-panel .text-action-btn {
   color: var(--cosmic-cyan);

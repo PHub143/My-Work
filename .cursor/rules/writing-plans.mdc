@@ -1,0 +1,61 @@
+---
+description: Break work into bite-sized implementation tasks
+alwaysApply: false
+---
+
+# Writing Plans Skill
+
+After brainstorming approval, activate this skill to create actionable implementation plans.
+
+## Plan Structure
+
+Each task must include:
+1. **Exact file paths** - Which files to create/modify
+2. **Complete code** - The exact code to write
+3. **Verification steps** - How to confirm it works
+4. **Time estimate** - 2-5 minutes per task
+
+## Format
+
+```
+## Task N: [Short Description]
+### Files
+- `path/to/file1.ext`
+- `path/to/file2.ext`
+
+### Steps
+1. [Specific action]
+2. [Specific action]
+
+### Verification
+```bash
+[command to run]
+```
+Expected: [specific output or behavior]
+```
+
+## Principles
+
+- **Atomic tasks** - One logical change per task
+- **Ordered dependencies** - Later tasks build on earlier ones
+- **Verifiable** - Every task has a clear pass/fail
+- **Small batches** - 2-5 minutes max per task
+- **Human checkpoints** - Pause after every 5-10 tasks for review
+
+## Task Categories
+
+Typical breakdown:
+1. Setup tasks (dependencies, config)
+2. Core implementation
+3. Tests (TDD - write failing test first)
+4. Integration
+5. Edge cases
+6. Cleanup/refactor
+
+## Review Before Execution
+
+Before starting:
+- Present the full plan
+- Confirm task ordering makes sense
+- Verify no missing steps
+- Get user approval to proceed

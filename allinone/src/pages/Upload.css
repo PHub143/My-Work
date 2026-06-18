@@ -63,12 +63,38 @@
   width: 100%;
   max-width: 760px;
   padding: 40px;
-  background: var(--cosmic-ink);
+  background: rgba(254, 249, 240, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   color: var(--cosmic-bg);
   border-radius: 24px;
-  border: 4px dashed var(--cosmic-bg);
+  border: 1.5px solid rgba(254, 249, 240, 0.12);
   position: relative;
-  box-shadow: 8px 8px 0 var(--cosmic-pink);
+  box-shadow:
+    0 0 0 1px rgba(254, 249, 240, 0.04),
+    0 24px 64px rgba(0, 0, 0, 0.45),
+    0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.upload-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 25px;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(254, 249, 240, 0.25),
+    rgba(254, 249, 240, 0.05) 40%,
+    rgba(255, 77, 143, 0.15) 70%,
+    rgba(255, 77, 143, 0.25)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 .upload-drop-grid {
@@ -83,16 +109,16 @@
   font-family: var(--font-family-display);
   font-style: italic;
   margin: 0 0 8px;
-  font-weight: 500;
-  color: var(--cosmic-bg);
+  font-weight: 600;
+  color: #f5eed8;
   overflow-wrap: anywhere;
 }
 
 .upload-drop-copy {
   font-size: 13px;
-  opacity: 0.6;
+  opacity: 0.75;
   margin: 0 0 18px;
-  color: var(--cosmic-bg);
+  color: #e8dcc8;
 }
 
 .file-input-wrapper {
@@ -111,32 +137,56 @@
 .custom-file-upload {
   display: inline-flex;
   justify-content: center;
-  padding: 12px 22px;
+  align-items: center;
+  padding: 12px 24px;
   cursor: pointer;
-  background: var(--cosmic-pink);
-  color: var(--cosmic-ink);
+  background: linear-gradient(135deg, #ffe066 0%, #f59e0b 100%);
+  color: #1a0a00;
   border-radius: 999px;
   font-weight: 800;
   transition: all 0.2s ease;
   font-size: 14px;
   border: none;
-  box-shadow: 3px 3px 0 var(--cosmic-bg);
+  box-shadow:
+    0 4px 14px rgba(245, 158, 11, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .custom-file-upload:hover {
-  background: var(--cosmic-orange);
+  background: linear-gradient(135deg, #fff3a0 0%, #fbbf24 100%);
   transform: translateY(-2px);
+  box-shadow:
+    0 6px 20px rgba(245, 158, 11, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.custom-file-upload:active {
+  transform: scale(0.97);
 }
 
 .paste-button {
-  padding: 12px 22px;
+  padding: 12px 24px;
   border-radius: 999px;
-  border: 2px solid var(--cosmic-bg);
-  background: transparent;
+  border: 1.5px solid rgba(254, 249, 240, 0.3);
+  background: rgba(254, 249, 240, 0.07);
   color: var(--cosmic-bg);
   font-size: 14px;
   font-weight: 800;
   cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.paste-button:hover {
+  background: rgba(254, 249, 240, 0.14);
+  border-color: rgba(254, 249, 240, 0.5);
+  transform: translateY(-2px);
+}
+
+.paste-button:active {
+  transform: scale(0.97);
 }
 
 .tags-section {
@@ -239,21 +289,27 @@
   width: 140px;
   height: 140px;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, var(--cosmic-pink), var(--cosmic-yellow), var(--cosmic-cyan), var(--cosmic-purple), var(--cosmic-pink));
+  background: conic-gradient(from 0deg, #ff6b9d 0%, #ffe066 25%, #00e5ff 50%, #b388ff 75%, #ff6b9d 100%);
   display: grid;
   place-items: center;
   animation: spin-slow 24s linear infinite;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 24px rgba(255, 107, 157, 0.15),
+    0 0 24px rgba(0, 229, 255, 0.1);
 }
 
 .upload-orbit > div {
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  background: var(--cosmic-ink);
+  background: radial-gradient(circle at 35% 35%, rgba(254, 249, 240, 0.12) 0%, rgba(254, 249, 240, 0.06) 60%, rgba(254, 249, 240, 0.03) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: grid;
   place-items: center;
   color: var(--cosmic-bg);
+  border: 1px solid rgba(254, 249, 240, 0.12);
 }
 
 .tag-suggestions {
@@ -300,10 +356,10 @@
   width: 100%;
   height: 10px;
   border-radius: 999px;
-  background: rgba(10, 6, 18, 0.14);
+  background: var(--upload-track-bg, rgba(10, 6, 18, 0.14));
   overflow: hidden;
   position: relative;
-  border: 1px solid rgba(10, 6, 18, 0.24);
+  border: 1px solid var(--upload-track-border, rgba(10, 6, 18, 0.24));
 }
 
 .upload-progress-fill {
@@ -367,7 +423,7 @@
 }
 
 .upload-button:disabled {
-  background: rgba(10, 6, 18, 0.16);
+  background: var(--upload-disabled-bg, rgba(10, 6, 18, 0.16));
   opacity: 0.65;
   cursor: not-allowed;
   box-shadow: none;
@@ -437,4 +493,74 @@
   .upload-actions {
     flex-direction: column;
   }
+}
+
+/* ── Light mode ── */
+[data-theme='light'] .upload-card {
+  background: rgba(254, 249, 240, 0.85);
+  border-color: rgba(254, 249, 240, 0.7);
+  box-shadow:
+    0 0 0 1px rgba(23, 16, 31, 0.06),
+    0 24px 64px rgba(0, 0, 0, 0.12),
+    0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='light'] .upload-card::before {
+  background: linear-gradient(
+    135deg,
+    rgba(23, 16, 31, 0.15),
+    rgba(23, 16, 31, 0.04) 40%,
+    rgba(245, 158, 11, 0.1) 70%,
+    rgba(245, 158, 11, 0.2)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+[data-theme='light'] .custom-file-upload {
+  box-shadow:
+    0 4px 14px rgba(245, 158, 11, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+[data-theme='light'] .custom-file-upload:hover {
+  box-shadow:
+    0 6px 20px rgba(245, 158, 11, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+[data-theme='light'] .paste-button {
+  border-color: rgba(23, 16, 31, 0.25);
+  background: rgba(23, 16, 31, 0.06);
+  color: #17101f;
+}
+
+[data-theme='light'] .paste-button:hover {
+  background: rgba(23, 16, 31, 0.12);
+  border-color: rgba(23, 16, 31, 0.45);
+}
+
+[data-theme='light'] .upload-orbit > div {
+  background: rgba(23, 16, 31, 0.06);
+  border-color: rgba(23, 16, 31, 0.12);
+  color: #17101f;
+}
+
+[data-theme='light'] .upload-card h2 {
+  color: #17101f;
+}
+
+[data-theme='light'] .upload-drop-copy {
+  color: #17101f;
+  opacity: 0.65;
+}
+  --upload-track-bg: rgba(23, 16, 31, 0.12);
+  --upload-track-border: rgba(23, 16, 31, 0.2);
+}
+
+[data-theme='light'] .upload-button:disabled {
+  --upload-disabled-bg: rgba(23, 16, 31, 0.12);
 }

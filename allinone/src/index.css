@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
   /* Typography */
-  --font-family-apple: "Space Grotesk", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
-  --font-family-display: "Instrument Serif", Georgia, serif;
+  --font-family-apple: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+  --font-family-display: "Lora", Georgia, serif;
   --font-size-large-title: 34px;
   --font-size-title-1: 28px;
   --font-size-title-2: 22px;
@@ -47,6 +47,20 @@
   --cosmic-orange: #ff7849;
   --cosmic-blue: #4cc9f0;
   --cosmic-shadow: 6px 6px 0 rgba(0, 0, 0, 0.7);
+
+  /* Soft pastel for cards */
+  --card-pink: #ffdae4;
+  --card-cyan: #c8f7eb;
+  --card-yellow: #fff0c8;
+  --card-purple: #e8d4f7;
+  --card-text: #3d3252;
+  --card-text-light: rgba(255, 255, 255, 0.9);
+
+  /* Darker pastels for dark mode */
+  --card-pink-dark: #c91a5a;
+  --card-cyan-dark: #0a8a6e;
+  --card-yellow-dark: #c9920a;
+  --card-purple-dark: #7a2eb8;
 
   /* Semantic Colors */
   --color-label: var(--cosmic-ink);
@@ -93,6 +107,7 @@
   --cosmic-muted: rgba(23, 16, 31, 0.66);
   --cosmic-line: rgba(23, 16, 31, 0.16);
   --cosmic-shadow: 6px 6px 0 rgba(23, 16, 31, 0.18);
+  --card-text: #3d3252;
   --color-label: var(--cosmic-ink);
   --color-secondary-label: var(--cosmic-muted);
   --color-tertiary-label: rgba(23, 16, 31, 0.38);
@@ -125,6 +140,14 @@ body {
   overflow-x: hidden;
 }
 
+[data-theme='light'] body {
+  background:
+    radial-gradient(circle at 88% 8%, rgba(255, 77, 143, 0.22), transparent 14rem),
+    radial-gradient(circle at 12% 24%, rgba(255, 209, 102, 0.2), transparent 17rem),
+    radial-gradient(circle at 86% 88%, rgba(6, 214, 160, 0.14), transparent 18rem),
+    var(--color-system-background);
+}
+
 body::before,
 body::after {
   content: "";
@@ -152,6 +175,14 @@ body::after {
   border-radius: 50%;
   box-shadow: -28vw 10vh 0 -18px var(--cosmic-cyan);
   opacity: 0.9;
+}
+
+[data-theme='light'] body::before {
+  opacity: 0.5;
+}
+
+[data-theme='light'] body::after {
+  opacity: 0.6;
 }
 
 #root {
@@ -234,6 +265,10 @@ button:active {
   font-weight: 500;
 }
 
+[data-theme='light'] .text-btn {
+  color: #b45309;
+}
+
 .text-btn:hover {
   background: var(--color-quaternary-label);
 }
@@ -248,6 +283,11 @@ button:active {
   color: var(--cosmic-ink);
   font-weight: 700;
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+[data-theme='light'] .error-message {
+  background: rgba(255, 77, 143, 0.1);
+  box-shadow: 4px 4px 0 rgba(23, 16, 31, 0.18);
 }
 
 .cosmic-page {

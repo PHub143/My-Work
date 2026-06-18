@@ -1,0 +1,83 @@
+---
+description: Code review process that checks against plan and reports by severity
+alwaysApply: false
+---
+
+# Requesting Code Review Skill
+
+Before merging or finishing a task, review code systematically.
+
+## Pre-Review Checklist
+
+- [ ] All planned tasks completed?
+- [ ] Tests written and passing?
+- [ ] No debug code left behind?
+- [ ] Documentation updated?
+- [ ] No secrets or credentials leaked?
+
+## Review Categories
+
+### Critical Issues (BLOCK)
+
+These must be fixed before proceeding:
+- Security vulnerabilities
+- Data loss risks
+- Breaking existing functionality
+- Unhandled error paths
+- Missing input validation
+
+### Major Issues (FIX RECOMMENDED)
+
+Strongly recommended fixes:
+- Significant code duplication
+- Performance problems
+- Poor error messages
+- Missing logging
+- Inconsistent patterns
+
+### Minor Issues (CONSIDER)
+
+Nice to have improvements:
+- Naming improvements
+- Comment clarifications
+- Small refactoring opportunities
+- Formatting preferences
+
+## Review Format
+
+Present findings by severity:
+
+```
+## CRITICAL
+
+1. [File:Line] Issue description
+   - Impact: what could go wrong
+   - Fix: suggested solution
+
+## MAJOR
+
+1. [File:Line] Issue description
+   - Impact: why it matters
+   - Fix: suggested solution
+
+## MINOR
+
+1. [File:Line] Issue description
+   - Suggestion: optional improvement
+```
+
+## Principles
+
+- Review against the **plan**, not personal preferences
+- Focus on **correctness**, **safety**, **maintainability**
+- Distinguish facts from opinions
+- Suggest alternatives, don't dictate
+- Acknowledge good work
+
+## Self-Review First
+
+Before requesting review:
+1. Read your own diff line by line
+2. Ask "would I approve this?"
+3. Fix obvious issues yourself
+4. Then request review

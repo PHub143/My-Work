@@ -1,0 +1,94 @@
+---
+description: Systematic 4-phase debugging methodology
+alwaysApply: false
+---
+
+# Systematic Debugging Skill
+
+When something isn't working, follow this 4-phase process instead of guessing.
+
+## Phase 1: Gather Evidence
+
+Before making any changes:
+- Read error messages completely
+- Check logs and stack traces
+- Reproduce the issue consistently
+- Note what changed recently
+
+Questions to answer:
+- What is the actual behavior?
+- What is the expected behavior?
+- When did it start happening?
+- Is it consistent or intermittent?
+
+## Phase 2: Form Hypothesis
+
+Based on evidence, state your theory:
+- "I believe X is happening because Y"
+- "The symptom suggests Z is the root cause"
+
+If you have multiple hypotheses, rank by likelihood.
+
+## Phase 3: Test Hypothesis
+
+Validate your theory:
+- Make the smallest change possible to test
+- If hypothesis was correct → proceed to fix
+- If wrong → form new hypothesis, repeat
+
+### Testing Strategies
+
+```
+Isolation:
+- Can you reproduce in minimal case?
+- Does it work in isolation?
+
+Comparison:
+- Does it work on a different machine/environment?
+- Was it working before? What changed?
+
+Binary search:
+- Comment out half the code - does it change behavior?
+- Narrow down to exact location
+
+Instrumentation:
+- Add logging to trace execution
+- Check intermediate values
+```
+
+## Phase 4: Verify Fix
+
+After fixing:
+1. Run tests - all should pass
+2. Replicate original issue - should be gone
+3. Check for side effects - nothing else broke
+4. Document what was fixed
+
+## Defense in Depth
+
+If the bug was a symptom, look for root cause:
+- Why did this bug exist?
+- What prevents similar bugs?
+- Should a test be added?
+
+## Condition-Based Waiting
+
+When waiting for async issues:
+```
+❌ BAD: sleep(5000)  # Arbitrary wait
+❌ BAD: while(!done) { }  # Busy loop
+
+✅ GOOD: Wait for specific condition
+   Poll every 100ms, timeout after 30s
+   Check for actual state, not time
+```
+
+## Debugging Checklist
+
+- [ ] Error message fully read?
+- [ ] Stack trace examined?
+- [ ] Can reproduce consistently?
+- [ ] Hypothesis stated?
+- [ ] Tested with minimal change?
+- [ ] Fix verified?
+- [ ] Tests passing?

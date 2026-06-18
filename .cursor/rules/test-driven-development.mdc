@@ -1,0 +1,85 @@
+---
+description: Test-driven development with RED-GREEN-REFACTOR cycle
+alwaysApply: false
+---
+
+# Test-Driven Development Skill
+
+Enforce strict TDD discipline on every implementation task.
+
+## The Cycle
+
+### 1. RED - Write a Failing Test
+```bash
+# Run tests first to confirm they fail
+npm test  # or appropriate test command
+```
+
+Write test that:
+- Describes the expected behavior
+- Fails because the feature doesn't exist
+- Is specific and deterministic
+
+### 2. GREEN - Write Minimal Code
+Write only what's needed to pass:
+- No optimization
+- No "nice to have" features
+- Just make the test green
+
+### 3. REFACTOR
+Clean up without changing behavior:
+- Remove duplication
+- Improve naming
+- Enhance structure
+- Keep tests passing
+
+### 4. DELETE Pre-Test Code
+If code exists before tests, **delete it**:
+- It means you skipped TDD
+- Start fresh with tests first
+
+## Anti-Patterns to Avoid
+
+```
+❌ BAD: Write code, then tests after
+❌ BAD: "I'll write tests later"
+❌ BAD: Tests that don't fail first
+❌ BAD: Mocking everything
+❌ BAD: Testing implementation details
+❌ BAD: One giant test instead of many small ones
+```
+
+## Best Practices
+
+- **One assertion focus** - Each test has one reason to fail
+- **Descriptive names** - `should_return_empty_array_when_no_results`
+- **Fast feedback** - Tests should run in milliseconds
+- **Isolation** - Tests don't depend on each other
+- **Deterministic** - Same result every time
+
+## Test Structure
+
+```javascript
+describe('FeatureName', () => {
+  it('should do X when Y', () => {
+    // Arrange
+    const input = something;
+
+    // Act
+    const result = doSomething(input);
+
+    // Assert
+    expect(result).toEqual(expected);
+  });
+});
+```
+
+## Verification
+
+Always run tests after GREEN phase:
+```bash
+npm test
+# Should show: ✓ All tests passing
+```
+
+If tests fail, **stop and fix** - don't move on.
