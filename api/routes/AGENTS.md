@@ -6,7 +6,7 @@ URL declarations and middleware chains. Keep the route/controller/service layeri
 
 | File | Description |
 |---|---|
-| `index.js` | Mounts all route modules on the Express app |
+| `index.js` | Mounts all route modules on the Express app; defines public `GET /health` (uptime monitoring, no DB/Drive access) |
 | `authRoutes.js` | Authentication endpoints (login, register) |
 | `configRoutes.js` | Drive config CRUD, listing |
 | `fileRoutes.js` | File upload, listing, management |
