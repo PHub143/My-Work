@@ -1,0 +1,190 @@
+/* English vocabulary flashcards. Theme-dependent colors come only from
+   --cosmic-* variables (set on :root per theme) — no [data-theme] selectors,
+   per the light/dark contrast rule. */
+
+.english-deck-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.english-deck-card {
+  border: 2px solid var(--cosmic-line);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.english-deck-card h2 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--cosmic-ink);
+}
+
+.english-deck-card p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--cosmic-muted);
+}
+
+.english-deck-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 10px;
+}
+
+.english-deck-footer span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cosmic-muted);
+}
+
+.english-deck-footer span.due {
+  color: var(--page-accent, var(--cosmic-orange));
+}
+
+.english-deck-footer button {
+  border: 2px solid var(--page-accent, var(--cosmic-orange));
+  border-radius: 999px;
+  background: transparent;
+  color: var(--page-accent, var(--cosmic-orange));
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+
+.english-deck-footer button:disabled {
+  border-color: var(--cosmic-line);
+  color: var(--cosmic-muted);
+  cursor: default;
+}
+
+.english-session {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.english-session-meta {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cosmic-muted);
+}
+
+.english-flashcard {
+  width: 100%;
+  max-width: 560px;
+  min-height: 280px;
+  border: 3px solid var(--page-accent, var(--cosmic-orange));
+  border-radius: 20px;
+  background: transparent;
+  color: var(--cosmic-ink);
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: var(--cosmic-shadow);
+}
+
+.english-flashcard strong {
+  font-size: 34px;
+  line-height: 1.2;
+}
+
+.english-flashcard em {
+  font-size: 15px;
+  color: var(--cosmic-muted);
+}
+
+.english-flashcard small {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cosmic-muted);
+}
+
+.english-flashcard-definition {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.45;
+}
+
+.english-flashcard-example {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--cosmic-muted);
+}
+
+.english-flashcard-gloss {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--page-accent, var(--cosmic-orange));
+}
+
+.english-flashcard-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.english-flashcard-actions button {
+  border: 2px solid var(--cosmic-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--cosmic-ink);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 10px 24px;
+  cursor: pointer;
+}
+
+.english-flashcard-actions button.known {
+  border-color: var(--cosmic-cyan);
+  color: var(--cosmic-cyan);
+}
+
+.english-flashcard-actions button.unknown {
+  border-color: var(--cosmic-pink);
+  color: var(--cosmic-pink);
+}
+
+.english-session-end {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: center;
+}
+
+.english-session-end h2 {
+  margin: 0;
+  color: var(--cosmic-ink);
+}
+
+.english-session-end p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--cosmic-muted);
+}

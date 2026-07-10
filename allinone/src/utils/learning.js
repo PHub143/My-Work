@@ -1138,6 +1138,9 @@ export function createPracticeSession(questions, options = {}) {
   };
   const defaultQuestionCount = fullQuestionMode ? 65 : 20;
   const questionCount = options.questionCount || defaultQuestionCount;
+  const timeLimitMinutes = options.timeLimitMinutes !== undefined
+    ? options.timeLimitMinutes
+    : timeLimitMinutesByDifficulty[difficulty] || null;
   const random = typeof options.random === 'function'
     ? options.random
     : options.seed
@@ -1160,20 +1163,20 @@ export function createPracticeSession(questions, options = {}) {
 
   return {
     difficulty,
-    timeLimitMinutes: timeLimitMinutesByDifficulty[difficulty] || null,
+    timeLimitMinutes,
     answerAreaHintsEnabled: difficulty !== 'extra-hard',
     questions: selectedQuestions,
   };
 }
 
-export function getPracticeSessionResults(questions, selectionsByQuestionNumber) {
+export function getPracticeSessionResults(questions, selectionsByQuestionNumber, options = {}) {
+  const useStructuredControls = options.structuredControls !== false;
   const items = (questions || []).map((question) => {
     const parts = getPracticeQuestionDisplayParts(question);
-    const structuredSelected = normalizeStructuredSelection(
-      question.number,
-      selectionsByQuestionNumber?.[question.number],
-    );
-    const structuredCorrect = structuredCorrectSelection(question.number);
+    const structuredSelected = useStructuredControls
+      ? normalizeStructuredSelection(question.number, selectionsByQuestionNumber?.[question.number])
+      : null;
+    const structuredCorrect = useStructuredControls ? structuredCorrectSelection(question.number) : null;
     const selected = structuredSelected || normalizeSelection(selectionsByQuestionNumber?.[question.number] || []);
     const correct = structuredCorrect || normalizeSelection(parts.answerSelections);
     const isCorrect = correct.length > 0 && arraysEqual(selected, correct);
@@ -1211,6 +1214,493 @@ export function getPracticeResultSummary(results) {
     manualReviewTotal,
     title: `Score: ${results?.scorePercent || 0}%`,
     detail: `${results?.correctCount || 0} of ${autoScoredTotal} auto-scored answers correct. ${manualReviewTotal} ${visualQuestionLabel} manual review.`,
+  };
+}
+
+// --- TOEIC Reading (Parts 5-7) — English learning section ---
+
+const READING_PART_QUOTAS = { part5: 30, part6Sets: 4, part7: 54 };
+const READING_TEST_TIME_LIMIT_MINUTES = 75;
+const READING_FIRST_QUESTION_NUMBER = 101;
+
+// Approximate raw-to-scaled conversion anchors (real conversions vary by form).
+const SCALED_READING_SCORE_ANCHORS = [
+  [0, 5],
+  [10, 30],
+  [20, 70],
+  [30, 115],
+  [40, 160],
+  [50, 210],
+  [60, 260],
+  [70, 310],
+  [80, 365],
+  [90, 425],
+  [96, 465],
+  [100, 495],
+];
+
+function normalizeReadingOptions(options) {
+  return Object.entries(options || {}).map(([key, text]) => ({ key, text }));
+}
+
+function normalizeReadingQuestion(question, { part, set = null } = {}) {
+  const passages = set?.passages
+    || (set?.passage ? [{ type: set.passageType, text: set.passage }] : null);
+
+  return {
+    id: question.id,
+    part,
+    setId: set?.id || null,
+    passages,
+    blank: question.blank || null,
+    prompt: question.prompt,
+    options: normalizeReadingOptions(question.options),
+    answer: question.answer,
+    explanation: question.explanation || '',
+    tags: question.tags || [],
+  };
+}
+
+function getReadingBanks(content) {
+  const part5 = (content?.parts?.part5?.questions || [])
+    .map((question) => normalizeReadingQuestion(question, { part: 5 }));
+  const part6Sets = (content?.parts?.part6?.sets || []).map((set) => ({
+    id: set.id,
+    questions: (set.questions || []).map((question) => normalizeReadingQuestion(question, { part: 6, set })),
+  }));
+  const normalizePart7Set = (set, passageKind) => ({
+    id: set.id,
+    passageKind,
+    questions: (set.questions || []).map((question) => normalizeReadingQuestion(question, { part: 7, set })),
+  });
+  const part7SingleSets = (content?.parts?.part7?.singleSets || [])
+    .map((set) => normalizePart7Set(set, 'single'));
+  const part7MultiSets = (content?.parts?.part7?.multiSets || [])
+    .map((set) => normalizePart7Set(set, 'multi'));
+  const part7Sets = [...part7SingleSets, ...part7MultiSets];
+
+  return { part5, part6Sets, part7Sets, part7SingleSets, part7MultiSets };
+}
+
+export function flattenReadingBank(content) {
+  const banks = getReadingBanks(content);
+  const ordered = [
+    ...banks.part5,
+    ...banks.part6Sets.flatMap((set) => set.questions),
+    ...banks.part7Sets.flatMap((set) => set.questions),
+  ];
+
+  return ordered.map((question, index) => ({
+    ...question,
+    number: index + 1,
+    text: [
+      ...(question.passages || []).map((passage) => passage.text),
+      ...question.options.map((option) => option.text),
+    ].join('\n'),
+  }));
+}
+
+export function getReadingBankSummary(content) {
+  const banks = getReadingBanks(content);
+  const part6 = banks.part6Sets.reduce((count, set) => count + set.questions.length, 0);
+  const part7 = banks.part7Sets.reduce((count, set) => count + set.questions.length, 0);
+
+  return {
+    part5: banks.part5.length,
+    part6,
+    part6Sets: banks.part6Sets.length,
+    part7,
+    total: banks.part5.length + part6 + part7,
+    quotas: {
+      part5: READING_PART_QUOTAS.part5,
+      part6: READING_PART_QUOTAS.part6Sets * 4,
+      part7: READING_PART_QUOTAS.part7,
+      total: 100,
+    },
+  };
+}
+
+export function getMaxReadingFormScale(content) {
+  const banks = getReadingBanks(content);
+  const part7 = banks.part7Sets.reduce((count, set) => count + set.questions.length, 0);
+
+  return Math.min(
+    1,
+    banks.part5.length / READING_PART_QUOTAS.part5,
+    banks.part6Sets.length / READING_PART_QUOTAS.part6Sets,
+    part7 / READING_PART_QUOTAS.part7,
+  );
+}
+
+export function assembleReadingTest(content, options = {}) {
+  const banks = getReadingBanks(content);
+  const random = typeof options.random === 'function'
+    ? options.random
+    : options.seed
+      ? seededRandom(options.seed)
+      : Math.random;
+  let selected;
+  let timeLimitMinutes;
+
+  if (options.formNumber) {
+    const formIndex = Math.max(0, options.formNumber - 1);
+    const slice = (entries, count) => entries.slice(formIndex * count, (formIndex + 1) * count);
+    const singleSets = formIndex === 0
+      ? banks.part7SingleSets.slice(0, 11)
+      : banks.part7SingleSets.slice(11);
+    selected = [
+      ...slice(banks.part5, 30),
+      ...slice(banks.part6Sets, 4).flatMap((set) => set.questions),
+      ...singleSets.flatMap((set) => set.questions),
+      ...slice(banks.part7MultiSets, 5).flatMap((set) => set.questions),
+    ];
+    timeLimitMinutes = 75;
+  } else if (options.part) {
+    if (options.part === 5) {
+      selected = shuffleQuestions(banks.part5, random);
+    } else if (options.part === 6) {
+      selected = shuffleQuestions(banks.part6Sets, random).flatMap((set) => set.questions);
+    } else {
+      selected = shuffleQuestions(banks.part7Sets, random).flatMap((set) => set.questions);
+    }
+    timeLimitMinutes = null;
+  } else {
+    const scale = Math.min(options.scale || 1, getMaxReadingFormScale(content));
+    const part5Count = Math.min(banks.part5.length, Math.round(READING_PART_QUOTAS.part5 * scale));
+    const part6SetCount = Math.min(banks.part6Sets.length, Math.round(READING_PART_QUOTAS.part6Sets * scale));
+    const part7Target = Math.round(READING_PART_QUOTAS.part7 * scale);
+
+    const part5Questions = shuffleQuestions(banks.part5, random).slice(0, part5Count);
+    const part6Questions = shuffleQuestions(banks.part6Sets, random)
+      .slice(0, part6SetCount)
+      .flatMap((set) => set.questions);
+    const part7Questions = [];
+    shuffleQuestions(banks.part7Sets, random).forEach((set) => {
+      if (part7Questions.length >= part7Target) return;
+      part7Questions.push(...set.questions);
+    });
+
+    selected = [...part5Questions, ...part6Questions, ...part7Questions];
+    timeLimitMinutes = Math.max(
+      5,
+      Math.round((READING_TEST_TIME_LIMIT_MINUTES * selected.length) / 100),
+    );
+  }
+
+  const questions = selected.map((question, index) => ({
+    ...question,
+    number: READING_FIRST_QUESTION_NUMBER + index,
+  }));
+
+  return {
+    questions,
+    totalQuestions: questions.length,
+    timeLimitMinutes,
+    isFullForm: questions.length === 100,
+    formNumber: options.formNumber || null,
+    counts: {
+      5: questions.filter((question) => question.part === 5).length,
+      6: questions.filter((question) => question.part === 6).length,
+      7: questions.filter((question) => question.part === 7).length,
+    },
+  };
+}
+
+export function getScaledReadingScore(correctCount, totalQuestions = 100) {
+  if (!totalQuestions) return 5;
+
+  const rawEquivalent = Math.max(0, Math.min(100, (correctCount / totalQuestions) * 100));
+  let scaled = SCALED_READING_SCORE_ANCHORS[SCALED_READING_SCORE_ANCHORS.length - 1][1];
+
+  for (let index = 1; index < SCALED_READING_SCORE_ANCHORS.length; index += 1) {
+    const [x0, y0] = SCALED_READING_SCORE_ANCHORS[index - 1];
+    const [x1, y1] = SCALED_READING_SCORE_ANCHORS[index];
+
+    if (rawEquivalent <= x1) {
+      scaled = y0 + ((rawEquivalent - x0) / (x1 - x0)) * (y1 - y0);
+      break;
+    }
+  }
+
+  return Math.max(5, Math.min(495, Math.round(scaled / 5) * 5));
+}
+
+export function getReadingTestResults(questions, selectionsByNumber) {
+  const items = (questions || []).map((question) => {
+    const selected = selectionsByNumber?.[question.number] || null;
+    const isCorrect = Boolean(selected) && selected === question.answer;
+
+    return {
+      number: question.number,
+      part: question.part,
+      selected,
+      correct: question.answer,
+      isCorrect,
+      tags: question.tags || [],
+    };
+  });
+  const perPart = {};
+  const perTag = {};
+
+  items.forEach((item) => {
+    perPart[item.part] = perPart[item.part] || { correct: 0, total: 0 };
+    perPart[item.part].total += 1;
+    if (item.isCorrect) perPart[item.part].correct += 1;
+
+    item.tags.forEach((tag) => {
+      perTag[tag] = perTag[tag] || { correct: 0, total: 0 };
+      perTag[tag].total += 1;
+      if (item.isCorrect) perTag[tag].correct += 1;
+    });
+  });
+
+  const correctCount = items.filter((item) => item.isCorrect).length;
+  const totalQuestions = items.length;
+
+  return {
+    correctCount,
+    totalQuestions,
+    scorePercent: totalQuestions ? Math.round((correctCount / totalQuestions) * 100) : 0,
+    scaledScore: getScaledReadingScore(correctCount, totalQuestions),
+    perPart,
+    perTag,
+    items,
+  };
+}
+
+export function getWeakestReadingTags(results, { minTotal = 2, limit = 5 } = {}) {
+  return Object.entries(results?.perTag || {})
+    .filter(([, stats]) => stats.total >= minTotal)
+    .map(([tag, stats]) => ({
+      tag,
+      correct: stats.correct,
+      total: stats.total,
+      accuracy: stats.total ? stats.correct / stats.total : 0,
+    }))
+    .sort((left, right) => left.accuracy - right.accuracy || right.total - left.total)
+    .slice(0, limit);
+}
+
+// --- Grammar drills — untimed Part 5 practice by topic (tag) ---
+
+export function getDrillTopics(content) {
+  const banks = getReadingBanks(content);
+  const counts = {};
+
+  banks.part5.forEach((question) => {
+    (question.tags || []).forEach((tag) => {
+      counts[tag] = (counts[tag] || 0) + 1;
+    });
+  });
+
+  return Object.entries(counts)
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((left, right) => right.count - left.count || left.tag.localeCompare(right.tag));
+}
+
+export function assembleDrill(content, options = {}) {
+  const banks = getReadingBanks(content);
+  const random = typeof options.random === 'function'
+    ? options.random
+    : options.seed
+      ? seededRandom(options.seed)
+      : Math.random;
+  const tags = (options.tags || []).filter(Boolean);
+  const pool = tags.length
+    ? banks.part5.filter((question) => question.tags.some((tag) => tags.includes(tag)))
+    : banks.part5;
+  const questionCount = options.questionCount || 10;
+  const questions = shuffleQuestions(pool, random)
+    .slice(0, questionCount)
+    .map((question, index) => ({ ...question, number: index + 1 }));
+
+  return {
+    questions,
+    totalQuestions: questions.length,
+    poolSize: pool.length,
+    tags,
+  };
+}
+
+// --- TOEIC Listening (Parts 1-4) — English learning section ---
+
+const LISTENING_QUESTION_QUOTAS = { 1: 6, 2: 25, 3: 39, 4: 30 };
+// Approximate response window per question, mirroring the real exam's pauses.
+const LISTENING_RESPONSE_SECONDS = { 1: 5, 2: 5, 3: 8, 4: 8 };
+
+function listeningLetterOptions(count) {
+  return ['A', 'B', 'C', 'D'].slice(0, count).map((key) => ({ key, text: '' }));
+}
+
+function normalizeListeningGroup(entry, part) {
+  const questions = part === 1 || part === 2
+    ? [{
+      id: entry.id,
+      part,
+      groupId: entry.id,
+      prompt: part === 1
+        ? 'Select the statement that best describes the picture.'
+        : 'Listen and select the best response.',
+      options: listeningLetterOptions(part === 1 ? 4 : 3),
+      answer: entry.answer,
+      explanation: entry.explanation || '',
+      tags: entry.tags || [],
+    }]
+    : (entry.questions || []).map((question) => ({
+      id: question.id,
+      part,
+      groupId: entry.id,
+      prompt: question.prompt,
+      options: normalizeReadingOptions(question.options),
+      answer: question.answer,
+      explanation: question.explanation || '',
+      tags: question.tags || [],
+    }));
+
+  return {
+    id: entry.id,
+    part,
+    image: entry.image || null,
+    segments: entry.segments || [],
+    responseSeconds: LISTENING_RESPONSE_SECONDS[part] * questions.length,
+    questions,
+  };
+}
+
+function getListeningBanks(content) {
+  return {
+    1: (content?.parts?.part1?.items || []).map((entry) => normalizeListeningGroup(entry, 1)),
+    2: (content?.parts?.part2?.items || []).map((entry) => normalizeListeningGroup(entry, 2)),
+    3: (content?.parts?.part3?.sets || []).map((entry) => normalizeListeningGroup(entry, 3)),
+    4: (content?.parts?.part4?.sets || []).map((entry) => normalizeListeningGroup(entry, 4)),
+  };
+}
+
+function countGroupQuestions(groups) {
+  return groups.reduce((count, group) => count + group.questions.length, 0);
+}
+
+export function getListeningBankSummary(content) {
+  const banks = getListeningBanks(content);
+  const counts = {
+    part1: countGroupQuestions(banks[1]),
+    part2: countGroupQuestions(banks[2]),
+    part3: countGroupQuestions(banks[3]),
+    part4: countGroupQuestions(banks[4]),
+  };
+
+  return {
+    ...counts,
+    total: counts.part1 + counts.part2 + counts.part3 + counts.part4,
+    quotas: {
+      part1: LISTENING_QUESTION_QUOTAS[1],
+      part2: LISTENING_QUESTION_QUOTAS[2],
+      part3: LISTENING_QUESTION_QUOTAS[3],
+      part4: LISTENING_QUESTION_QUOTAS[4],
+      total: 100,
+    },
+  };
+}
+
+export function getMaxListeningFormScale(content) {
+  const banks = getListeningBanks(content);
+
+  return Math.min(
+    1,
+    countGroupQuestions(banks[1]) / LISTENING_QUESTION_QUOTAS[1],
+    countGroupQuestions(banks[2]) / LISTENING_QUESTION_QUOTAS[2],
+    countGroupQuestions(banks[3]) / LISTENING_QUESTION_QUOTAS[3],
+    countGroupQuestions(banks[4]) / LISTENING_QUESTION_QUOTAS[4],
+  );
+}
+
+export function assembleListeningTest(content, options = {}) {
+  const banks = getListeningBanks(content);
+  const random = typeof options.random === 'function'
+    ? options.random
+    : options.seed
+      ? seededRandom(options.seed)
+      : Math.random;
+  let selectedGroups;
+
+  if (options.formNumber) {
+    const formIndex = Math.max(0, options.formNumber - 1);
+    const groupQuotas = { 1: 6, 2: 25, 3: 13, 4: 10 };
+    selectedGroups = [1, 2, 3, 4].flatMap((part) => {
+      const start = formIndex * groupQuotas[part];
+      return banks[part].slice(start, start + groupQuotas[part]);
+    });
+  } else if (options.part) {
+    selectedGroups = shuffleQuestions(banks[options.part] || [], random);
+  } else {
+    const scale = Math.min(options.scale || 1, getMaxListeningFormScale(content));
+    const pickGroups = (part) => {
+      if (!banks[part].length) return [];
+      // Every part with content appears at least once, as on the real exam.
+      const target = Math.max(1, Math.round(LISTENING_QUESTION_QUOTAS[part] * scale));
+      const picked = [];
+      let total = 0;
+
+      shuffleQuestions(banks[part], random).forEach((group) => {
+        if (total >= target) return;
+        picked.push(group);
+        total += group.questions.length;
+      });
+
+      return picked;
+    };
+
+    selectedGroups = [...pickGroups(1), ...pickGroups(2), ...pickGroups(3), ...pickGroups(4)];
+  }
+
+  let nextNumber = 1; // real listening answer sheet numbering starts at 1
+  const groups = selectedGroups.map((group) => {
+    const questions = group.questions.map((question) => ({
+      ...question,
+      number: nextNumber++,
+    }));
+
+    return { ...group, questions, questionNumbers: questions.map((question) => question.number) };
+  });
+  const questions = groups.flatMap((group) => group.questions);
+
+  return {
+    groups,
+    questions,
+    totalQuestions: questions.length,
+    isFullForm: questions.length === 100,
+    formNumber: options.formNumber || null,
+    counts: {
+      1: questions.filter((question) => question.part === 1).length,
+      2: questions.filter((question) => question.part === 2).length,
+      3: questions.filter((question) => question.part === 3).length,
+      4: questions.filter((question) => question.part === 4).length,
+    },
+  };
+}
+
+export function getScaledListeningScore(correctCount, totalQuestions = 100) {
+  // Uses the same approximate anchor table as reading; tune separately later.
+  return getScaledReadingScore(correctCount, totalQuestions);
+}
+
+export function getListeningTestResults(questions, selectionsByNumber) {
+  const results = getReadingTestResults(questions, selectionsByNumber);
+
+  return {
+    ...results,
+    scaledScore: getScaledListeningScore(results.correctCount, results.totalQuestions),
+  };
+}
+
+export function getFullTestScore(listeningResults, readingResults) {
+  const listening = listeningResults?.scaledScore ?? null;
+  const reading = readingResults?.scaledScore ?? null;
+
+  return {
+    listening,
+    reading,
+    total: (listening || 0) + (reading || 0),
   };
 }
 

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "allinone-dev-prod",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "allinone", "run", "dev:prod"],
+      "port": 5173
+    }
+  ]
+}

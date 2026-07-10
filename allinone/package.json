@@ -7,6 +7,8 @@
     "dev": "vite",
     "dev:prod": "cross-env VITE_USE_PROD_API=true vite",
     "build": "vite build",
+    "content:validate": "node scripts/validate-english-content.mjs",
+    "content:export": "node scripts/validate-english-content.mjs --export",
     "lint": "eslint .",
     "preview": "vite preview"
   },

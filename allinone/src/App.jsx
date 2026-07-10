@@ -14,6 +14,12 @@ const Documents = lazy(() => import('./pages/Documents'));
 const Gallery = lazy(() => import('./pages/Gallery'));
 const AI103 = lazy(() => import('./pages/AI103'));
 const AI103Practice = lazy(() => import('./pages/AI103Practice'));
+const English = lazy(() => import('./pages/English'));
+const EnglishPractice = lazy(() => import('./pages/EnglishPractice'));
+const EnglishListeningPractice = lazy(() => import('./pages/EnglishListeningPractice'));
+const EnglishVocabulary = lazy(() => import('./pages/EnglishVocabulary'));
+const EnglishDrills = lazy(() => import('./pages/EnglishDrills'));
+const EnglishContentAdmin = lazy(() => import('./pages/EnglishContentAdmin'));
 const Users = lazy(() => import('./pages/Users'));
 const Upload = lazy(() => import('./pages/Upload'));
 const Settings = lazy(() => import('./pages/Settings'));
@@ -64,11 +70,17 @@ function App() {
                 </Route>
                 <Route element={<AdminRoute />}>
                   <Route path='/users' element={<Users />} />
+                  <Route path='/content' element={<EnglishContentAdmin />} />
                   <Route path='/settings' element={<Settings />} />
                 </Route>
                 <Route element={<LearningRoute />}>
                   <Route path='/learning/ai-103' element={<AI103 />} />
                   <Route path='/learning/ai-103/practice' element={<AI103Practice />} />
+                  <Route path='/learning/english' element={<English />} />
+                  <Route path='/learning/english/practice' element={<EnglishPractice />} />
+                  <Route path='/learning/english/listening' element={<EnglishListeningPractice />} />
+                  <Route path='/learning/english/vocabulary' element={<EnglishVocabulary />} />
+                  <Route path='/learning/english/drills' element={<EnglishDrills />} />
                 </Route>
                 <Route path='/login' element={<Login />} />
                 <Route path='/oauth/callback' element={<OAuthCallback />} />

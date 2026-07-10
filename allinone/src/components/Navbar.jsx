@@ -102,10 +102,15 @@ const Navbar = () => {
                         <span>AI</span>
                         <small>AI-103</small>
                       </NavLink>
-                      <button type="button" className="nav-dropdown-item disabled" disabled>
+                      <NavLink
+                        to="/learning/english"
+                        className="nav-dropdown-item"
+                        role="menuitem"
+                        onClick={() => setIsLearningOpen(false)}
+                      >
                         <span>English</span>
-                        <small>Coming soon</small>
-                      </button>
+                        <small>TOEIC practice</small>
+                      </NavLink>
                     </div>
                   )}
                 </>
@@ -117,6 +122,11 @@ const Navbar = () => {
               <li className="nav-item">
                 <NavLink to="/users" className="nav-links">
                   Users
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/content" className="nav-links">
+                  Content
                 </NavLink>
               </li>
               <li className="nav-item">

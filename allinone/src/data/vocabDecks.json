@@ -1,0 +1,2465 @@
+{
+  "title": "TOEIC Vocabulary",
+  "decks": [
+    {
+      "id": "office",
+      "label": "Office & Meetings",
+      "cards": [
+        {
+          "id": "office-01",
+          "word": "deadline",
+          "partOfSpeech": "noun",
+          "definition": "The latest time by which something must be finished.",
+          "example": "The report is due by Friday's deadline.",
+          "vi": "hạn chót"
+        },
+        {
+          "id": "office-02",
+          "word": "schedule",
+          "partOfSpeech": "verb / noun",
+          "definition": "To arrange for something to happen at a fixed time; a plan of times.",
+          "example": "The staff meeting is scheduled for 9 A.M.",
+          "vi": "sắp xếp lịch, lịch trình"
+        },
+        {
+          "id": "office-03",
+          "word": "postpone",
+          "partOfSpeech": "verb",
+          "definition": "To delay something until a later time.",
+          "example": "The seminar was postponed until next Thursday.",
+          "vi": "hoãn lại"
+        },
+        {
+          "id": "office-04",
+          "word": "agenda",
+          "partOfSpeech": "noun",
+          "definition": "A list of items to be discussed at a meeting.",
+          "example": "Please review the agenda before the conference call.",
+          "vi": "chương trình họp"
+        },
+        {
+          "id": "office-05",
+          "word": "minutes",
+          "partOfSpeech": "noun",
+          "definition": "The official written record of what was said at a meeting.",
+          "example": "She took the minutes during the board meeting.",
+          "vi": "biên bản cuộc họp"
+        },
+        {
+          "id": "office-06",
+          "word": "attach",
+          "partOfSpeech": "verb",
+          "definition": "To include a file with an e-mail or document.",
+          "example": "I have attached the revised proposal to this e-mail.",
+          "vi": "đính kèm"
+        },
+        {
+          "id": "office-07",
+          "word": "confirm",
+          "partOfSpeech": "verb",
+          "definition": "To state or verify that something is certain.",
+          "example": "Please confirm your attendance by Monday.",
+          "vi": "xác nhận"
+        },
+        {
+          "id": "office-08",
+          "word": "remind",
+          "partOfSpeech": "verb",
+          "definition": "To help someone remember something.",
+          "example": "Remind the team about the training session tomorrow.",
+          "vi": "nhắc nhở"
+        },
+        {
+          "id": "office-09",
+          "word": "colleague",
+          "partOfSpeech": "noun",
+          "definition": "A person you work with.",
+          "example": "My colleague will cover my shift on Saturday.",
+          "vi": "đồng nghiệp"
+        },
+        {
+          "id": "office-10",
+          "word": "supervisor",
+          "partOfSpeech": "noun",
+          "definition": "A person who oversees and directs the work of others.",
+          "example": "Report any equipment problems to your supervisor.",
+          "vi": "người giám sát"
+        },
+        {
+          "id": "office-11",
+          "word": "task",
+          "partOfSpeech": "noun",
+          "definition": "A piece of work that must be done.",
+          "example": "Each task must be completed before the deadline.",
+          "vi": "nhiệm vụ"
+        },
+        {
+          "id": "office-12",
+          "word": "efficient",
+          "partOfSpeech": "adjective",
+          "definition": "Working well without wasting time or resources.",
+          "example": "The new filing process is more efficient than the old one.",
+          "vi": "hiệu quả"
+        },
+        {
+          "id": "office-13",
+          "word": "approve",
+          "partOfSpeech": "verb",
+          "definition": "To officially agree to or accept something.",
+          "example": "The manager approved the budget request.",
+          "vi": "phê duyệt"
+        },
+        {
+          "id": "office-14",
+          "word": "submit",
+          "partOfSpeech": "verb",
+          "definition": "To hand in a document for review or a decision.",
+          "example": "Submit your expense report by the fifth of the month.",
+          "vi": "nộp"
+        },
+        {
+          "id": "office-15",
+          "word": "facilitate",
+          "partOfSpeech": "verb",
+          "definition": "To make a meeting or process easier to complete.",
+          "example": "The coordinator will facilitate the planning session.",
+          "vi": "tạo điều kiện"
+        },
+        {
+          "id": "office-16",
+          "word": "coordinate",
+          "partOfSpeech": "verb",
+          "definition": "To organize people or activities so they work together.",
+          "example": "Please coordinate the room setup with Facilities.",
+          "vi": "phối hợp"
+        },
+        {
+          "id": "office-17",
+          "word": "circulate",
+          "partOfSpeech": "verb",
+          "definition": "To send information to several people.",
+          "example": "The agenda was circulated before the meeting.",
+          "vi": "lưu hành, gửi đi"
+        },
+        {
+          "id": "office-18",
+          "word": "memo",
+          "partOfSpeech": "noun",
+          "definition": "A short written message used in a workplace.",
+          "example": "The memo explains the updated travel policy.",
+          "vi": "bản ghi nhớ"
+        },
+        {
+          "id": "office-19",
+          "word": "briefing",
+          "partOfSpeech": "noun",
+          "definition": "A short meeting that gives important information.",
+          "example": "The morning briefing starts at 8:30.",
+          "vi": "cuộc họp ngắn"
+        },
+        {
+          "id": "office-20",
+          "word": "delegate",
+          "partOfSpeech": "verb",
+          "definition": "To give a task or responsibility to another person.",
+          "example": "The manager delegated the inventory check to Kim.",
+          "vi": "giao phó"
+        },
+        {
+          "id": "office-21",
+          "word": "compile",
+          "partOfSpeech": "verb",
+          "definition": "To collect information into one document or list.",
+          "example": "She compiled the survey results into a report.",
+          "vi": "biên soạn, tổng hợp"
+        },
+        {
+          "id": "office-22",
+          "word": "draft",
+          "partOfSpeech": "noun / verb",
+          "definition": "An early version of a document; to write one.",
+          "example": "Send me the draft before it goes to Legal.",
+          "vi": "bản nháp"
+        },
+        {
+          "id": "office-23",
+          "word": "revise",
+          "partOfSpeech": "verb",
+          "definition": "To change and improve written work or a plan.",
+          "example": "The team revised the proposal after the client call.",
+          "vi": "sửa đổi"
+        },
+        {
+          "id": "office-24",
+          "word": "extension",
+          "partOfSpeech": "noun",
+          "definition": "A telephone number inside an organization.",
+          "example": "Call payroll at extension 2280.",
+          "vi": "số máy nhánh"
+        },
+        {
+          "id": "office-25",
+          "word": "workspace",
+          "partOfSpeech": "noun",
+          "definition": "An area where someone works.",
+          "example": "The new workspace has adjustable desks.",
+          "vi": "không gian làm việc"
+        },
+        {
+          "id": "office-26",
+          "word": "cubicle",
+          "partOfSpeech": "noun",
+          "definition": "A small separated work area in an office.",
+          "example": "Visitors should check in before entering the cubicle area.",
+          "vi": "ô làm việc"
+        },
+        {
+          "id": "office-27",
+          "word": "stationery",
+          "partOfSpeech": "noun",
+          "definition": "Paper, envelopes, and other office writing supplies.",
+          "example": "Order stationery through the purchasing portal.",
+          "vi": "văn phòng phẩm"
+        },
+        {
+          "id": "office-28",
+          "word": "photocopy",
+          "partOfSpeech": "noun / verb",
+          "definition": "A paper copy made with a copier; to make such a copy.",
+          "example": "Please photocopy the handout for all attendees.",
+          "vi": "bản sao, sao chụp"
+        },
+        {
+          "id": "office-29",
+          "word": "archive",
+          "partOfSpeech": "noun / verb",
+          "definition": "A place where old records are stored; to store records.",
+          "example": "The contract is kept in the digital archive.",
+          "vi": "kho lưu trữ"
+        },
+        {
+          "id": "office-30",
+          "word": "confidential",
+          "partOfSpeech": "adjective",
+          "definition": "Private and not meant to be shared widely.",
+          "example": "Confidential files must be stored securely.",
+          "vi": "bảo mật"
+        }
+      ]
+    },
+    {
+      "id": "finance",
+      "label": "Business & Finance",
+      "cards": [
+        {
+          "id": "finance-01",
+          "word": "invoice",
+          "partOfSpeech": "noun",
+          "definition": "A bill listing goods or services and the amount owed.",
+          "example": "The invoice must be paid within thirty days of receipt.",
+          "vi": "hóa đơn"
+        },
+        {
+          "id": "finance-02",
+          "word": "reimburse",
+          "partOfSpeech": "verb",
+          "definition": "To pay someone back for money they have spent or lost.",
+          "example": "The store will reimburse customers for damaged items.",
+          "vi": "hoàn tiền"
+        },
+        {
+          "id": "finance-03",
+          "word": "expense",
+          "partOfSpeech": "noun",
+          "definition": "Money spent on something, especially for business.",
+          "example": "Travel expenses are reviewed before payments are issued.",
+          "vi": "chi phí"
+        },
+        {
+          "id": "finance-04",
+          "word": "budget",
+          "partOfSpeech": "noun",
+          "definition": "A plan for how money will be spent.",
+          "example": "The marketing budget was increased this quarter.",
+          "vi": "ngân sách"
+        },
+        {
+          "id": "finance-05",
+          "word": "estimate",
+          "partOfSpeech": "noun / verb",
+          "definition": "An approximate calculation of cost or value.",
+          "example": "The repair total was lower than the original estimate.",
+          "vi": "ước tính, bản báo giá"
+        },
+        {
+          "id": "finance-06",
+          "word": "refund",
+          "partOfSpeech": "noun / verb",
+          "definition": "Money returned to a customer; to return that money.",
+          "example": "Cancellations made a week in advance receive a full refund.",
+          "vi": "tiền hoàn lại"
+        },
+        {
+          "id": "finance-07",
+          "word": "discount",
+          "partOfSpeech": "noun",
+          "definition": "A reduction in the usual price.",
+          "example": "Orders of ten bags or more receive a 10 percent discount.",
+          "vi": "giảm giá"
+        },
+        {
+          "id": "finance-08",
+          "word": "revenue",
+          "partOfSpeech": "noun",
+          "definition": "The income a business receives from its activities.",
+          "example": "Online sales now account for half of the company's revenue.",
+          "vi": "doanh thu"
+        },
+        {
+          "id": "finance-09",
+          "word": "profit",
+          "partOfSpeech": "noun",
+          "definition": "The money gained after all costs are paid.",
+          "example": "The company reported a record profit this year.",
+          "vi": "lợi nhuận"
+        },
+        {
+          "id": "finance-10",
+          "word": "quarterly",
+          "partOfSpeech": "adjective / adverb",
+          "definition": "Happening once every three months.",
+          "example": "The accounting team prepares quarterly reports.",
+          "vi": "hàng quý"
+        },
+        {
+          "id": "finance-11",
+          "word": "transaction",
+          "partOfSpeech": "noun",
+          "definition": "A single instance of buying or selling.",
+          "example": "Each transaction appears on your monthly statement.",
+          "vi": "giao dịch"
+        },
+        {
+          "id": "finance-12",
+          "word": "account",
+          "partOfSpeech": "noun",
+          "definition": "A record of money held or owed; a customer relationship.",
+          "example": "The coordinator responds to account inquiries.",
+          "vi": "tài khoản"
+        },
+        {
+          "id": "finance-13",
+          "word": "audit",
+          "partOfSpeech": "noun / verb",
+          "definition": "An official inspection of financial records.",
+          "example": "The audit team reviewed every inventory record.",
+          "vi": "kiểm toán"
+        },
+        {
+          "id": "finance-14",
+          "word": "installment",
+          "partOfSpeech": "noun",
+          "definition": "One of several scheduled partial payments.",
+          "example": "The equipment can be paid for in six monthly installments.",
+          "vi": "khoản trả góp"
+        },
+        {
+          "id": "finance-15",
+          "word": "balance",
+          "partOfSpeech": "noun",
+          "definition": "The amount of money remaining in an account or owed.",
+          "example": "The unpaid balance is due by Friday.",
+          "vi": "số dư"
+        },
+        {
+          "id": "finance-16",
+          "word": "deduct",
+          "partOfSpeech": "verb",
+          "definition": "To subtract an amount from a total.",
+          "example": "The coupon value will be deducted at checkout.",
+          "vi": "khấu trừ"
+        },
+        {
+          "id": "finance-17",
+          "word": "deposit",
+          "partOfSpeech": "noun / verb",
+          "definition": "Money paid in advance; to place money in an account.",
+          "example": "A 25 percent deposit is required to reserve the room.",
+          "vi": "tiền đặt cọc"
+        },
+        {
+          "id": "finance-18",
+          "word": "overdue",
+          "partOfSpeech": "adjective",
+          "definition": "Not paid or completed by the required date.",
+          "example": "Overdue invoices may include a service charge.",
+          "vi": "quá hạn"
+        },
+        {
+          "id": "finance-19",
+          "word": "receipt",
+          "partOfSpeech": "noun",
+          "definition": "Proof that money was paid or goods were received.",
+          "example": "Attach the receipt to your expense report.",
+          "vi": "biên lai"
+        },
+        {
+          "id": "finance-20",
+          "word": "statement",
+          "partOfSpeech": "noun",
+          "definition": "A document showing account activity.",
+          "example": "The monthly statement lists every transaction.",
+          "vi": "bảng sao kê"
+        },
+        {
+          "id": "finance-21",
+          "word": "allocate",
+          "partOfSpeech": "verb",
+          "definition": "To assign money or resources for a purpose.",
+          "example": "Funds were allocated for new safety equipment.",
+          "vi": "phân bổ"
+        },
+        {
+          "id": "finance-22",
+          "word": "surplus",
+          "partOfSpeech": "noun",
+          "definition": "An amount that is more than needed.",
+          "example": "The surplus will be used for staff training.",
+          "vi": "thặng dư"
+        },
+        {
+          "id": "finance-23",
+          "word": "deficit",
+          "partOfSpeech": "noun",
+          "definition": "An amount by which spending is greater than income.",
+          "example": "The department reduced its budget deficit.",
+          "vi": "thâm hụt"
+        },
+        {
+          "id": "finance-24",
+          "word": "forecast",
+          "partOfSpeech": "noun / verb",
+          "definition": "A prediction about future business results; to predict.",
+          "example": "The sales forecast was revised upward.",
+          "vi": "dự báo"
+        },
+        {
+          "id": "finance-25",
+          "word": "payroll",
+          "partOfSpeech": "noun",
+          "definition": "The system or department that pays employees.",
+          "example": "Payroll must receive timesheets by noon Friday.",
+          "vi": "bảng lương, bộ phận lương"
+        },
+        {
+          "id": "finance-26",
+          "word": "ledger",
+          "partOfSpeech": "noun",
+          "definition": "A record book or file of financial accounts.",
+          "example": "The accountant checked the ledger for errors.",
+          "vi": "sổ cái"
+        },
+        {
+          "id": "finance-27",
+          "word": "asset",
+          "partOfSpeech": "noun",
+          "definition": "Something valuable owned by a person or company.",
+          "example": "Company vehicles are listed as business assets.",
+          "vi": "tài sản"
+        },
+        {
+          "id": "finance-28",
+          "word": "liability",
+          "partOfSpeech": "noun",
+          "definition": "A debt or financial obligation.",
+          "example": "The loan appears as a liability on the report.",
+          "vi": "khoản nợ"
+        },
+        {
+          "id": "finance-29",
+          "word": "authorize",
+          "partOfSpeech": "verb",
+          "definition": "To give official permission for payment or action.",
+          "example": "Only managers can authorize refunds over $500.",
+          "vi": "ủy quyền, cho phép"
+        },
+        {
+          "id": "finance-30",
+          "word": "remittance",
+          "partOfSpeech": "noun",
+          "definition": "Money sent as payment.",
+          "example": "Please include the invoice number with your remittance.",
+          "vi": "tiền chuyển trả"
+        }
+      ]
+    },
+    {
+      "id": "travel",
+      "label": "Travel & Transportation",
+      "cards": [
+        {
+          "id": "travel-01",
+          "word": "itinerary",
+          "partOfSpeech": "noun",
+          "definition": "A detailed plan of a journey.",
+          "example": "The travel agency e-mailed her the full itinerary.",
+          "vi": "lịch trình chuyến đi"
+        },
+        {
+          "id": "travel-02",
+          "word": "reservation",
+          "partOfSpeech": "noun",
+          "definition": "An arrangement to keep a seat, room, or table for someone.",
+          "example": "I made a hotel reservation for three nights.",
+          "vi": "sự đặt chỗ"
+        },
+        {
+          "id": "travel-03",
+          "word": "accommodation",
+          "partOfSpeech": "noun",
+          "definition": "A place to stay, such as a hotel room.",
+          "example": "Conference accommodation is available at a reduced rate.",
+          "vi": "chỗ ở"
+        },
+        {
+          "id": "travel-04",
+          "word": "boarding pass",
+          "partOfSpeech": "noun",
+          "definition": "The document that allows a passenger to board a plane.",
+          "example": "Please have your boarding pass ready at the gate.",
+          "vi": "thẻ lên máy bay"
+        },
+        {
+          "id": "travel-05",
+          "word": "departure",
+          "partOfSpeech": "noun",
+          "definition": "The act of leaving, especially on a journey.",
+          "example": "The departure time was moved to 7:45 A.M.",
+          "vi": "sự khởi hành"
+        },
+        {
+          "id": "travel-06",
+          "word": "destination",
+          "partOfSpeech": "noun",
+          "definition": "The place someone is traveling to.",
+          "example": "Brookfield is a popular destination for business travelers.",
+          "vi": "điểm đến"
+        },
+        {
+          "id": "travel-07",
+          "word": "delay",
+          "partOfSpeech": "noun / verb",
+          "definition": "A period of waiting because something is late.",
+          "example": "The flight delay was caused by the storm.",
+          "vi": "sự chậm trễ"
+        },
+        {
+          "id": "travel-08",
+          "word": "luggage",
+          "partOfSpeech": "noun",
+          "definition": "The bags a traveler carries.",
+          "example": "Guests arriving early may store their luggage at the front desk.",
+          "vi": "hành lý"
+        },
+        {
+          "id": "travel-09",
+          "word": "round-trip",
+          "partOfSpeech": "adjective",
+          "definition": "Going to a place and returning.",
+          "example": "A round-trip ticket is cheaper than two one-way fares.",
+          "vi": "khứ hồi"
+        },
+        {
+          "id": "travel-10",
+          "word": "aisle",
+          "partOfSpeech": "noun",
+          "definition": "The passage between rows of seats or shelves.",
+          "example": "He prefers an aisle seat on long flights.",
+          "vi": "lối đi giữa"
+        },
+        {
+          "id": "travel-11",
+          "word": "shuttle",
+          "partOfSpeech": "noun",
+          "definition": "A vehicle that makes short, regular trips between two places.",
+          "example": "The hotel shuttle runs to the convention center every 30 minutes.",
+          "vi": "xe đưa đón"
+        },
+        {
+          "id": "travel-12",
+          "word": "fare",
+          "partOfSpeech": "noun",
+          "definition": "The price of a ticket for transportation.",
+          "example": "Train fares increase during the holiday season.",
+          "vi": "giá vé"
+        },
+        {
+          "id": "travel-13",
+          "word": "customs",
+          "partOfSpeech": "noun",
+          "definition": "The checkpoint where goods entering a country are inspected.",
+          "example": "Declare all purchases when you pass through customs.",
+          "vi": "hải quan"
+        },
+        {
+          "id": "travel-14",
+          "word": "layover",
+          "partOfSpeech": "noun",
+          "definition": "A short stop between connecting flights.",
+          "example": "The itinerary includes a two-hour layover in Singapore.",
+          "vi": "điểm quá cảnh"
+        },
+        {
+          "id": "travel-15",
+          "word": "accompany",
+          "partOfSpeech": "verb",
+          "definition": "To go somewhere with another person.",
+          "example": "A sales assistant will accompany the clients to the site.",
+          "vi": "đi cùng"
+        },
+        {
+          "id": "travel-16",
+          "word": "arrange",
+          "partOfSpeech": "verb",
+          "definition": "To plan or organize something.",
+          "example": "The hotel can arrange airport transportation.",
+          "vi": "sắp xếp"
+        },
+        {
+          "id": "travel-17",
+          "word": "check-in",
+          "partOfSpeech": "noun / verb",
+          "definition": "The process of registering at a hotel or airport.",
+          "example": "Hotel check-in begins at 3:00 P.M.",
+          "vi": "nhận phòng, làm thủ tục"
+        },
+        {
+          "id": "travel-18",
+          "word": "check-out",
+          "partOfSpeech": "noun / verb",
+          "definition": "The process of leaving a hotel after paying.",
+          "example": "Check-out is by 11:00 A.M.",
+          "vi": "trả phòng"
+        },
+        {
+          "id": "travel-19",
+          "word": "concierge",
+          "partOfSpeech": "noun",
+          "definition": "A hotel employee who helps guests with services and information.",
+          "example": "Ask the concierge to reserve a restaurant table.",
+          "vi": "nhân viên hỗ trợ khách"
+        },
+        {
+          "id": "travel-20",
+          "word": "convention",
+          "partOfSpeech": "noun",
+          "definition": "A large formal meeting or event.",
+          "example": "The shuttle runs to the convention center.",
+          "vi": "hội nghị lớn"
+        },
+        {
+          "id": "travel-21",
+          "word": "terminal",
+          "partOfSpeech": "noun",
+          "definition": "A building where passengers arrive or depart.",
+          "example": "The flight leaves from Terminal 2.",
+          "vi": "nhà ga"
+        },
+        {
+          "id": "travel-22",
+          "word": "transfer",
+          "partOfSpeech": "verb / noun",
+          "definition": "To move from one vehicle or place to another.",
+          "example": "Passengers must transfer to a bus at Central Station.",
+          "vi": "chuyển tiếp"
+        },
+        {
+          "id": "travel-23",
+          "word": "route",
+          "partOfSpeech": "noun",
+          "definition": "The path used to travel from one place to another.",
+          "example": "The downtown route is faster during the morning.",
+          "vi": "tuyến đường"
+        },
+        {
+          "id": "travel-24",
+          "word": "commute",
+          "partOfSpeech": "noun / verb",
+          "definition": "Regular travel between home and work.",
+          "example": "Her daily commute takes about forty minutes.",
+          "vi": "đi làm hằng ngày"
+        },
+        {
+          "id": "travel-25",
+          "word": "voucher",
+          "partOfSpeech": "noun",
+          "definition": "A document that can be exchanged for a service.",
+          "example": "The airline issued a meal voucher after the delay.",
+          "vi": "phiếu dịch vụ"
+        },
+        {
+          "id": "travel-26",
+          "word": "upgrade",
+          "partOfSpeech": "noun / verb",
+          "definition": "A move to a better seat, room, or service.",
+          "example": "The hotel offered a room upgrade at no extra charge.",
+          "vi": "nâng cấp"
+        },
+        {
+          "id": "travel-27",
+          "word": "amenity",
+          "partOfSpeech": "noun",
+          "definition": "A useful or pleasant feature of a hotel or place.",
+          "example": "The rate includes several amenities, including breakfast.",
+          "vi": "tiện nghi"
+        },
+        {
+          "id": "travel-28",
+          "word": "occupancy",
+          "partOfSpeech": "noun",
+          "definition": "The number or percentage of rooms being used.",
+          "example": "Hotel occupancy is highest during trade shows.",
+          "vi": "tỷ lệ lấp đầy"
+        },
+        {
+          "id": "travel-29",
+          "word": "sightseeing",
+          "partOfSpeech": "noun",
+          "definition": "Visiting interesting places as a tourist.",
+          "example": "The itinerary leaves one afternoon for sightseeing.",
+          "vi": "tham quan"
+        },
+        {
+          "id": "travel-30",
+          "word": "cancellation",
+          "partOfSpeech": "noun",
+          "definition": "The act of calling off a booking or event.",
+          "example": "Cancellations made seven days ahead receive a refund.",
+          "vi": "sự hủy bỏ"
+        }
+      ]
+    },
+    {
+      "id": "personnel",
+      "label": "Personnel & Hiring",
+      "cards": [
+        {
+          "id": "personnel-01",
+          "word": "applicant",
+          "partOfSpeech": "noun",
+          "definition": "A person who formally applies for a job or position.",
+          "example": "Applicants must submit two letters of recommendation.",
+          "vi": "ứng viên"
+        },
+        {
+          "id": "personnel-02",
+          "word": "resume",
+          "partOfSpeech": "noun",
+          "definition": "A document summarizing a person's work history and skills.",
+          "example": "Send a resume and cover letter by April 30.",
+          "vi": "sơ yếu lý lịch"
+        },
+        {
+          "id": "personnel-03",
+          "word": "interview",
+          "partOfSpeech": "noun / verb",
+          "definition": "A formal meeting to assess a job candidate.",
+          "example": "Interviews will be held in early May.",
+          "vi": "cuộc phỏng vấn"
+        },
+        {
+          "id": "personnel-04",
+          "word": "qualification",
+          "partOfSpeech": "noun",
+          "definition": "A skill, ability, or credential that makes someone suitable.",
+          "example": "List your qualifications at the top of the resume.",
+          "vi": "trình độ chuyên môn"
+        },
+        {
+          "id": "personnel-05",
+          "word": "requirement",
+          "partOfSpeech": "noun",
+          "definition": "Something that is needed or demanded.",
+          "example": "Two years of customer service experience is a requirement.",
+          "vi": "yêu cầu"
+        },
+        {
+          "id": "personnel-06",
+          "word": "experience",
+          "partOfSpeech": "noun",
+          "definition": "Knowledge or skill gained from doing a job.",
+          "example": "Insurance industry experience is preferred but not required.",
+          "vi": "kinh nghiệm"
+        },
+        {
+          "id": "personnel-07",
+          "word": "promote",
+          "partOfSpeech": "verb",
+          "definition": "To move someone to a higher position.",
+          "example": "Ms. Tran was promoted to regional manager.",
+          "vi": "thăng chức"
+        },
+        {
+          "id": "personnel-08",
+          "word": "retire",
+          "partOfSpeech": "verb",
+          "definition": "To stop working permanently, usually because of age.",
+          "example": "The mentoring tent is staffed by retired executives.",
+          "vi": "nghỉ hưu"
+        },
+        {
+          "id": "personnel-09",
+          "word": "salary",
+          "partOfSpeech": "noun",
+          "definition": "A fixed regular payment for work.",
+          "example": "The position offers a competitive salary.",
+          "vi": "lương"
+        },
+        {
+          "id": "personnel-10",
+          "word": "benefits",
+          "partOfSpeech": "noun",
+          "definition": "Extras an employer provides, such as insurance or vacation.",
+          "example": "Benefits include health coverage and fifteen vacation days.",
+          "vi": "phúc lợi"
+        },
+        {
+          "id": "personnel-11",
+          "word": "training",
+          "partOfSpeech": "noun",
+          "definition": "The process of learning job skills.",
+          "example": "All representatives must complete the online training module.",
+          "vi": "đào tạo"
+        },
+        {
+          "id": "personnel-12",
+          "word": "recommendation",
+          "partOfSpeech": "noun",
+          "definition": "A letter or statement supporting a candidate.",
+          "example": "Letters of recommendation must accompany the application.",
+          "vi": "thư giới thiệu"
+        },
+        {
+          "id": "personnel-13",
+          "word": "probation",
+          "partOfSpeech": "noun",
+          "definition": "A trial period for a new employee.",
+          "example": "New hires complete a three-month probation period.",
+          "vi": "thời gian thử việc"
+        },
+        {
+          "id": "personnel-14",
+          "word": "workforce",
+          "partOfSpeech": "noun",
+          "definition": "All the people who work for a company or in a region.",
+          "example": "The new facility will expand the local workforce.",
+          "vi": "lực lượng lao động"
+        },
+        {
+          "id": "personnel-15",
+          "word": "recruit",
+          "partOfSpeech": "verb / noun",
+          "definition": "To find people for jobs; a newly hired person.",
+          "example": "The company plans to recruit engineers this summer.",
+          "vi": "tuyển dụng"
+        },
+        {
+          "id": "personnel-16",
+          "word": "onboard",
+          "partOfSpeech": "verb",
+          "definition": "To introduce a new employee to a company and job.",
+          "example": "Human Resources will onboard the new assistants Monday.",
+          "vi": "hướng dẫn nhân viên mới"
+        },
+        {
+          "id": "personnel-17",
+          "word": "vacancy",
+          "partOfSpeech": "noun",
+          "definition": "An available job or empty position.",
+          "example": "The branch has a vacancy for an office coordinator.",
+          "vi": "vị trí trống"
+        },
+        {
+          "id": "personnel-18",
+          "word": "candidate",
+          "partOfSpeech": "noun",
+          "definition": "A person being considered for a job or role.",
+          "example": "Each candidate will meet two supervisors.",
+          "vi": "ứng viên"
+        },
+        {
+          "id": "personnel-19",
+          "word": "reference",
+          "partOfSpeech": "noun",
+          "definition": "A person who can describe a candidate's work or character.",
+          "example": "Applicants must provide two professional references.",
+          "vi": "người tham khảo"
+        },
+        {
+          "id": "personnel-20",
+          "word": "orientation",
+          "partOfSpeech": "noun",
+          "definition": "Training that introduces a person to a new workplace.",
+          "example": "Orientation for new hires begins at 9 A.M.",
+          "vi": "buổi định hướng"
+        },
+        {
+          "id": "personnel-21",
+          "word": "eligible",
+          "partOfSpeech": "adjective",
+          "definition": "Qualified or allowed to do or receive something.",
+          "example": "Part-time staff are eligible for the discount.",
+          "vi": "đủ điều kiện"
+        },
+        {
+          "id": "personnel-22",
+          "word": "evaluation",
+          "partOfSpeech": "noun",
+          "definition": "A formal review of performance or quality.",
+          "example": "Annual evaluations will be completed in May.",
+          "vi": "đánh giá"
+        },
+        {
+          "id": "personnel-23",
+          "word": "conduct",
+          "partOfSpeech": "verb",
+          "definition": "To organize and carry out an activity.",
+          "example": "The supervisor will conduct the interviews.",
+          "vi": "tiến hành"
+        },
+        {
+          "id": "personnel-24",
+          "word": "resign",
+          "partOfSpeech": "verb",
+          "definition": "To officially leave a job.",
+          "example": "She resigned after accepting a position abroad.",
+          "vi": "từ chức"
+        },
+        {
+          "id": "personnel-25",
+          "word": "assign",
+          "partOfSpeech": "verb",
+          "definition": "To give someone a task or responsibility.",
+          "example": "The manager assigned the report to Jason.",
+          "vi": "phân công"
+        },
+        {
+          "id": "personnel-26",
+          "word": "shift",
+          "partOfSpeech": "noun",
+          "definition": "A scheduled period of work.",
+          "example": "The evening shift begins at 4 P.M.",
+          "vi": "ca làm việc"
+        },
+        {
+          "id": "personnel-27",
+          "word": "overtime",
+          "partOfSpeech": "noun",
+          "definition": "Time worked beyond regular hours.",
+          "example": "Overtime must be approved in advance.",
+          "vi": "giờ làm thêm"
+        },
+        {
+          "id": "personnel-28",
+          "word": "mentor",
+          "partOfSpeech": "noun / verb",
+          "definition": "An experienced person who advises someone; to advise.",
+          "example": "Senior staff mentor new project leaders.",
+          "vi": "cố vấn"
+        },
+        {
+          "id": "personnel-29",
+          "word": "transfer",
+          "partOfSpeech": "verb / noun",
+          "definition": "To move to another position or location.",
+          "example": "Employees may request a transfer after one year.",
+          "vi": "chuyển công tác"
+        },
+        {
+          "id": "personnel-30",
+          "word": "compensation",
+          "partOfSpeech": "noun",
+          "definition": "Pay and benefits received for work.",
+          "example": "The compensation package includes health insurance.",
+          "vi": "thù lao, đãi ngộ"
+        }
+      ]
+    },
+    {
+      "id": "shopping",
+      "label": "Shopping & Services",
+      "cards": [
+        {
+          "id": "shopping-01",
+          "word": "warranty",
+          "partOfSpeech": "noun",
+          "definition": "A written promise to repair or replace a product if it fails.",
+          "example": "The vacuum comes with a two-year warranty.",
+          "vi": "bảo hành"
+        },
+        {
+          "id": "shopping-02",
+          "word": "receipt",
+          "partOfSpeech": "noun",
+          "definition": "A paper or digital proof of payment.",
+          "example": "Keep your receipt in case you need an exchange.",
+          "vi": "biên lai"
+        },
+        {
+          "id": "shopping-03",
+          "word": "purchase",
+          "partOfSpeech": "verb / noun",
+          "definition": "To buy something; the thing bought.",
+          "example": "Photograph receipts at the time of purchase.",
+          "vi": "mua, món hàng đã mua"
+        },
+        {
+          "id": "shopping-04",
+          "word": "merchandise",
+          "partOfSpeech": "noun",
+          "definition": "Goods that are bought and sold.",
+          "example": "Sale merchandise cannot be returned.",
+          "vi": "hàng hóa"
+        },
+        {
+          "id": "shopping-05",
+          "word": "inventory",
+          "partOfSpeech": "noun",
+          "definition": "The complete stock of goods a business holds.",
+          "example": "Two inventory records require clarification.",
+          "vi": "hàng tồn kho"
+        },
+        {
+          "id": "shopping-06",
+          "word": "shipment",
+          "partOfSpeech": "noun",
+          "definition": "A quantity of goods sent together.",
+          "example": "The tasting kit was not included in the shipment.",
+          "vi": "lô hàng"
+        },
+        {
+          "id": "shopping-07",
+          "word": "delivery",
+          "partOfSpeech": "noun",
+          "definition": "The act of bringing goods to a customer.",
+          "example": "Orders over $150 qualify for free next-day delivery.",
+          "vi": "sự giao hàng"
+        },
+        {
+          "id": "shopping-08",
+          "word": "exchange",
+          "partOfSpeech": "verb / noun",
+          "definition": "To return a product and receive another in its place.",
+          "example": "You may exchange the item within thirty days.",
+          "vi": "đổi hàng"
+        },
+        {
+          "id": "shopping-09",
+          "word": "complimentary",
+          "partOfSpeech": "adjective",
+          "definition": "Given free of charge.",
+          "example": "New wholesale customers receive a complimentary tasting kit.",
+          "vi": "miễn phí, tặng kèm"
+        },
+        {
+          "id": "shopping-10",
+          "word": "voucher",
+          "partOfSpeech": "noun",
+          "definition": "A ticket or document that can be exchanged for goods or a discount.",
+          "example": "Winners receive a gift voucher for the café.",
+          "vi": "phiếu mua hàng"
+        },
+        {
+          "id": "shopping-11",
+          "word": "bulk",
+          "partOfSpeech": "noun",
+          "definition": "A large quantity; buying in bulk means buying a lot at once.",
+          "example": "Offices save money by ordering supplies in bulk.",
+          "vi": "số lượng lớn"
+        },
+        {
+          "id": "shopping-12",
+          "word": "defective",
+          "partOfSpeech": "adjective",
+          "definition": "Having a fault; not working correctly.",
+          "example": "Defective products can be returned for a full refund.",
+          "vi": "bị lỗi"
+        },
+        {
+          "id": "shopping-13",
+          "word": "out of stock",
+          "partOfSpeech": "phrase",
+          "definition": "Not currently available for sale.",
+          "example": "The walnut bookcase is out of stock until May.",
+          "vi": "hết hàng"
+        },
+        {
+          "id": "shopping-14",
+          "word": "catalog",
+          "partOfSpeech": "noun",
+          "definition": "A list or book showing products for sale.",
+          "example": "The spring catalog features new office furniture.",
+          "vi": "danh mục sản phẩm"
+        },
+        {
+          "id": "shopping-15",
+          "word": "aisle",
+          "partOfSpeech": "noun",
+          "definition": "A passage between shelves or rows.",
+          "example": "Cleaning supplies are in aisle four.",
+          "vi": "lối đi"
+        },
+        {
+          "id": "shopping-16",
+          "word": "checkout",
+          "partOfSpeech": "noun",
+          "definition": "The place or process of paying for goods.",
+          "example": "The new checkout process is faster.",
+          "vi": "quầy thanh toán"
+        },
+        {
+          "id": "shopping-17",
+          "word": "retailer",
+          "partOfSpeech": "noun",
+          "definition": "A business that sells goods directly to customers.",
+          "example": "The retailer will open a larger store downtown.",
+          "vi": "nhà bán lẻ"
+        },
+        {
+          "id": "shopping-18",
+          "word": "wholesale",
+          "partOfSpeech": "adjective / noun",
+          "definition": "Selling goods in large quantities, often to businesses.",
+          "example": "Wholesale customers receive a lower price.",
+          "vi": "bán buôn"
+        },
+        {
+          "id": "shopping-19",
+          "word": "supplier",
+          "partOfSpeech": "noun",
+          "definition": "A company or person that provides goods.",
+          "example": "The supplier confirmed the shipping date.",
+          "vi": "nhà cung cấp"
+        },
+        {
+          "id": "shopping-20",
+          "word": "vendor",
+          "partOfSpeech": "noun",
+          "definition": "A person or company that sells goods or services.",
+          "example": "More than eighty vendors joined the fair.",
+          "vi": "người bán, nhà cung ứng"
+        },
+        {
+          "id": "shopping-21",
+          "word": "quote",
+          "partOfSpeech": "noun / verb",
+          "definition": "A stated price for goods or services; to state that price.",
+          "example": "Ask three vendors for a quote before ordering.",
+          "vi": "báo giá"
+        },
+        {
+          "id": "shopping-22",
+          "word": "defect",
+          "partOfSpeech": "noun",
+          "definition": "A fault or problem in a product.",
+          "example": "The warranty covers defects in materials.",
+          "vi": "lỗi sản phẩm"
+        },
+        {
+          "id": "shopping-23",
+          "word": "replacement",
+          "partOfSpeech": "noun",
+          "definition": "Something provided in place of another item.",
+          "example": "A replacement filter set is included with the order.",
+          "vi": "đồ thay thế"
+        },
+        {
+          "id": "shopping-24",
+          "word": "rebate",
+          "partOfSpeech": "noun",
+          "definition": "A partial refund after a purchase.",
+          "example": "Customers can request a rebate online.",
+          "vi": "tiền hoàn lại một phần"
+        },
+        {
+          "id": "shopping-25",
+          "word": "clearance",
+          "partOfSpeech": "noun",
+          "definition": "A sale of goods at reduced prices to empty inventory.",
+          "example": "The store advertised a clearance on winter coats.",
+          "vi": "xả hàng"
+        },
+        {
+          "id": "shopping-26",
+          "word": "outlet",
+          "partOfSpeech": "noun",
+          "definition": "A store or location where goods are sold.",
+          "example": "The company opened a new outlet near the station.",
+          "vi": "cửa hàng"
+        },
+        {
+          "id": "shopping-27",
+          "word": "restock",
+          "partOfSpeech": "verb",
+          "definition": "To fill shelves again with products.",
+          "example": "The store will restock the printer paper tomorrow.",
+          "vi": "bổ sung hàng"
+        },
+        {
+          "id": "shopping-28",
+          "word": "backorder",
+          "partOfSpeech": "noun / verb",
+          "definition": "An order for an item not currently in stock.",
+          "example": "The chairs are on backorder until June.",
+          "vi": "đặt hàng chờ"
+        },
+        {
+          "id": "shopping-29",
+          "word": "assemble",
+          "partOfSpeech": "verb",
+          "definition": "To put parts together.",
+          "example": "Delivery includes a fee to assemble the desk.",
+          "vi": "lắp ráp"
+        },
+        {
+          "id": "shopping-30",
+          "word": "durable",
+          "partOfSpeech": "adjective",
+          "definition": "Strong and able to last a long time.",
+          "example": "The bags are made from durable fabric.",
+          "vi": "bền"
+        }
+      ]
+    },
+    {
+      "id": "marketing",
+      "label": "Marketing & Events",
+      "cards": [
+        {
+          "id": "marketing-01",
+          "word": "advertisement",
+          "partOfSpeech": "noun",
+          "definition": "A public notice promoting a product or service.",
+          "example": "The advertisement promises free shipping on large orders.",
+          "vi": "quảng cáo"
+        },
+        {
+          "id": "marketing-02",
+          "word": "campaign",
+          "partOfSpeech": "noun",
+          "definition": "An organized series of activities to achieve a goal.",
+          "example": "The marketing team will review the new campaign proposal.",
+          "vi": "chiến dịch"
+        },
+        {
+          "id": "marketing-03",
+          "word": "launch",
+          "partOfSpeech": "verb / noun",
+          "definition": "To introduce a new product to the market.",
+          "example": "The company will launch the smartwatch in June.",
+          "vi": "ra mắt"
+        },
+        {
+          "id": "marketing-04",
+          "word": "promotion",
+          "partOfSpeech": "noun",
+          "definition": "A special offer to increase sales; also a job advancement.",
+          "example": "The anniversary promotion includes 20 percent off bakery items.",
+          "vi": "khuyến mãi; sự thăng chức"
+        },
+        {
+          "id": "marketing-05",
+          "word": "survey",
+          "partOfSpeech": "noun / verb",
+          "definition": "A set of questions used to gather opinions.",
+          "example": "Customers completed a satisfaction survey after delivery.",
+          "vi": "khảo sát"
+        },
+        {
+          "id": "marketing-06",
+          "word": "brochure",
+          "partOfSpeech": "noun",
+          "definition": "A small booklet with information or advertising.",
+          "example": "Pick up a brochure at the information desk.",
+          "vi": "tờ quảng cáo"
+        },
+        {
+          "id": "marketing-07",
+          "word": "exhibition",
+          "partOfSpeech": "noun",
+          "definition": "A public display of products or art.",
+          "example": "Ticket prices include admission to all exhibitions.",
+          "vi": "triển lãm"
+        },
+        {
+          "id": "marketing-08",
+          "word": "conference",
+          "partOfSpeech": "noun",
+          "definition": "A large formal meeting for discussion.",
+          "example": "Should we take the train or drive to the conference?",
+          "vi": "hội nghị"
+        },
+        {
+          "id": "marketing-09",
+          "word": "registration",
+          "partOfSpeech": "noun",
+          "definition": "The act of officially signing up for an event.",
+          "example": "Presenters receive complimentary registration.",
+          "vi": "sự đăng ký"
+        },
+        {
+          "id": "marketing-10",
+          "word": "attendee",
+          "partOfSpeech": "noun",
+          "definition": "A person who is present at an event.",
+          "example": "The keynote speech was warmly received by attendees.",
+          "vi": "người tham dự"
+        },
+        {
+          "id": "marketing-11",
+          "word": "keynote",
+          "partOfSpeech": "noun",
+          "definition": "The main speech at a conference.",
+          "example": "The keynote will open the summit on Friday morning.",
+          "vi": "bài phát biểu chính"
+        },
+        {
+          "id": "marketing-12",
+          "word": "venue",
+          "partOfSpeech": "noun",
+          "definition": "The place where an event is held.",
+          "example": "The downtown campus is the venue for all spring workshops.",
+          "vi": "địa điểm tổ chức"
+        },
+        {
+          "id": "marketing-13",
+          "word": "sponsor",
+          "partOfSpeech": "noun / verb",
+          "definition": "A company that supports an event in exchange for publicity.",
+          "example": "The museum relies on local sponsors to fund its programs.",
+          "vi": "nhà tài trợ"
+        },
+        {
+          "id": "marketing-14",
+          "word": "audience",
+          "partOfSpeech": "noun",
+          "definition": "The people watching or listening to something.",
+          "example": "The demonstration attracted a large audience.",
+          "vi": "khán giả"
+        },
+        {
+          "id": "marketing-15",
+          "word": "brand",
+          "partOfSpeech": "noun",
+          "definition": "The identity of a company or product.",
+          "example": "The new logo strengthens the brand.",
+          "vi": "thương hiệu"
+        },
+        {
+          "id": "marketing-16",
+          "word": "loyalty",
+          "partOfSpeech": "noun",
+          "definition": "A customer's continued support for a company.",
+          "example": "The survey measures brand loyalty.",
+          "vi": "lòng trung thành"
+        },
+        {
+          "id": "marketing-17",
+          "word": "target",
+          "partOfSpeech": "noun / verb",
+          "definition": "A group or goal aimed at; to aim at that group.",
+          "example": "The campaign targets young professionals.",
+          "vi": "mục tiêu, nhắm tới"
+        },
+        {
+          "id": "marketing-18",
+          "word": "exposure",
+          "partOfSpeech": "noun",
+          "definition": "Public attention or visibility.",
+          "example": "The sponsorship gave the company more exposure.",
+          "vi": "sự chú ý công chúng"
+        },
+        {
+          "id": "marketing-19",
+          "word": "publicity",
+          "partOfSpeech": "noun",
+          "definition": "Attention from the public or media.",
+          "example": "The event generated positive publicity.",
+          "vi": "sự quảng bá"
+        },
+        {
+          "id": "marketing-20",
+          "word": "demographic",
+          "partOfSpeech": "noun",
+          "definition": "A group of people with shared traits.",
+          "example": "The product appeals to a younger demographic.",
+          "vi": "nhóm nhân khẩu học"
+        },
+        {
+          "id": "marketing-21",
+          "word": "booth",
+          "partOfSpeech": "noun",
+          "definition": "A small area used by a vendor at an event.",
+          "example": "Vendor booths may be reserved online.",
+          "vi": "gian hàng"
+        },
+        {
+          "id": "marketing-22",
+          "word": "banner",
+          "partOfSpeech": "noun",
+          "definition": "A large sign used for advertising or information.",
+          "example": "The banner will hang above the registration desk.",
+          "vi": "biểu ngữ"
+        },
+        {
+          "id": "marketing-23",
+          "word": "display",
+          "partOfSpeech": "noun / verb",
+          "definition": "An arrangement that shows products; to show.",
+          "example": "The autumn display must be installed by Monday.",
+          "vi": "trưng bày"
+        },
+        {
+          "id": "marketing-24",
+          "word": "feedback",
+          "partOfSpeech": "noun",
+          "definition": "Comments about how good or useful something is.",
+          "example": "Customer feedback helped improve the brochure.",
+          "vi": "phản hồi"
+        },
+        {
+          "id": "marketing-25",
+          "word": "endorse",
+          "partOfSpeech": "verb",
+          "definition": "To publicly support or recommend something.",
+          "example": "A well-known chef endorsed the product.",
+          "vi": "chứng thực, ủng hộ"
+        },
+        {
+          "id": "marketing-26",
+          "word": "sample",
+          "partOfSpeech": "noun / verb",
+          "definition": "A small amount used to try something; to try.",
+          "example": "Visitors received a free product sample.",
+          "vi": "mẫu thử"
+        },
+        {
+          "id": "marketing-27",
+          "word": "subscribe",
+          "partOfSpeech": "verb",
+          "definition": "To agree to receive a service or publication regularly.",
+          "example": "Customers can subscribe to the online archive.",
+          "vi": "đăng ký theo dõi"
+        },
+        {
+          "id": "marketing-28",
+          "word": "circulation",
+          "partOfSpeech": "noun",
+          "definition": "The number of copies distributed.",
+          "example": "Magazine circulation increased after the campaign.",
+          "vi": "lượng phát hành"
+        },
+        {
+          "id": "marketing-29",
+          "word": "fundraiser",
+          "partOfSpeech": "noun",
+          "definition": "An event held to collect money for a cause.",
+          "example": "The museum will host a fundraiser next month.",
+          "vi": "sự kiện gây quỹ"
+        },
+        {
+          "id": "marketing-30",
+          "word": "networking",
+          "partOfSpeech": "noun",
+          "definition": "Meeting people to build professional relationships.",
+          "example": "The conference includes a networking breakfast.",
+          "vi": "xây dựng quan hệ"
+        }
+      ]
+    },
+    {
+      "id": "facilities",
+      "label": "Facilities & Maintenance",
+      "cards": [
+        {
+          "id": "facilities-01",
+          "word": "maintenance",
+          "partOfSpeech": "noun",
+          "definition": "Work done to keep equipment or buildings in good condition.",
+          "example": "Elevator maintenance is scheduled for Saturday.",
+          "vi": "bảo trì"
+        },
+        {
+          "id": "facilities-02",
+          "word": "renovation",
+          "partOfSpeech": "noun",
+          "definition": "Work that improves or repairs a building.",
+          "example": "The lobby renovation will begin in May.",
+          "vi": "cải tạo"
+        },
+        {
+          "id": "facilities-03",
+          "word": "fixture",
+          "partOfSpeech": "noun",
+          "definition": "A fixed item in a building, such as a light or sink.",
+          "example": "New lighting fixtures were installed in the lobby.",
+          "vi": "thiết bị cố định"
+        },
+        {
+          "id": "facilities-04",
+          "word": "inspection",
+          "partOfSpeech": "noun",
+          "definition": "A careful official check.",
+          "example": "The safety inspection takes place every quarter.",
+          "vi": "kiểm tra"
+        },
+        {
+          "id": "facilities-05",
+          "word": "contractor",
+          "partOfSpeech": "noun",
+          "definition": "A company or worker hired to complete a job.",
+          "example": "The contractor will replace the damaged valve.",
+          "vi": "nhà thầu"
+        },
+        {
+          "id": "facilities-06",
+          "word": "plumber",
+          "partOfSpeech": "noun",
+          "definition": "A worker who repairs water pipes and fixtures.",
+          "example": "A plumber fixed the leak in the restroom.",
+          "vi": "thợ sửa ống nước"
+        },
+        {
+          "id": "facilities-07",
+          "word": "outage",
+          "partOfSpeech": "noun",
+          "definition": "A period when power, water, or service is unavailable.",
+          "example": "The power outage lasted twenty minutes.",
+          "vi": "sự gián đoạn"
+        },
+        {
+          "id": "facilities-08",
+          "word": "repair",
+          "partOfSpeech": "noun / verb",
+          "definition": "Work to fix something; to fix it.",
+          "example": "Repairs to the loading dock start Monday.",
+          "vi": "sửa chữa"
+        },
+        {
+          "id": "facilities-09",
+          "word": "relocate",
+          "partOfSpeech": "verb",
+          "definition": "To move to a different place.",
+          "example": "The office will relocate to the fourth floor.",
+          "vi": "chuyển địa điểm"
+        },
+        {
+          "id": "facilities-10",
+          "word": "loading dock",
+          "partOfSpeech": "noun",
+          "definition": "An area where goods are loaded and unloaded.",
+          "example": "Deliveries should arrive at the loading dock.",
+          "vi": "khu bốc dỡ hàng"
+        },
+        {
+          "id": "facilities-11",
+          "word": "storage",
+          "partOfSpeech": "noun",
+          "definition": "A place or process for keeping items.",
+          "example": "Extra chairs are kept in storage.",
+          "vi": "kho lưu trữ"
+        },
+        {
+          "id": "facilities-12",
+          "word": "access",
+          "partOfSpeech": "noun / verb",
+          "definition": "The ability to enter or use something; to enter or use.",
+          "example": "Only staff have access to the equipment room.",
+          "vi": "quyền truy cập, lối vào"
+        },
+        {
+          "id": "facilities-13",
+          "word": "security",
+          "partOfSpeech": "noun",
+          "definition": "Protection of people, property, or information.",
+          "example": "Security staff will direct foot traffic.",
+          "vi": "an ninh"
+        },
+        {
+          "id": "facilities-14",
+          "word": "badge",
+          "partOfSpeech": "noun",
+          "definition": "An identification card worn at work.",
+          "example": "Employees must wear a badge in the building.",
+          "vi": "thẻ nhân viên"
+        },
+        {
+          "id": "facilities-15",
+          "word": "elevator",
+          "partOfSpeech": "noun",
+          "definition": "A machine that carries people between floors.",
+          "example": "Use the freight elevator during the repair.",
+          "vi": "thang máy"
+        },
+        {
+          "id": "facilities-16",
+          "word": "stairwell",
+          "partOfSpeech": "noun",
+          "definition": "The stairs and surrounding space in a building.",
+          "example": "The stairwell must remain clear.",
+          "vi": "cầu thang bộ"
+        },
+        {
+          "id": "facilities-17",
+          "word": "ventilation",
+          "partOfSpeech": "noun",
+          "definition": "The movement of fresh air through a room or building.",
+          "example": "The ventilation system will be cleaned tonight.",
+          "vi": "thông gió"
+        },
+        {
+          "id": "facilities-18",
+          "word": "utility",
+          "partOfSpeech": "noun",
+          "definition": "A service such as water, electricity, or gas.",
+          "example": "Utility service may be interrupted during repairs.",
+          "vi": "dịch vụ tiện ích"
+        },
+        {
+          "id": "facilities-19",
+          "word": "tenant",
+          "partOfSpeech": "noun",
+          "definition": "A person or business that rents space.",
+          "example": "Tenants received a notice about the lobby work.",
+          "vi": "người thuê"
+        },
+        {
+          "id": "facilities-20",
+          "word": "premises",
+          "partOfSpeech": "noun",
+          "definition": "The land and buildings owned or used by a business.",
+          "example": "Smoking is not allowed on the premises.",
+          "vi": "khuôn viên"
+        },
+        {
+          "id": "facilities-21",
+          "word": "reception",
+          "partOfSpeech": "noun",
+          "definition": "The area where visitors are welcomed.",
+          "example": "Please sign in at reception.",
+          "vi": "quầy lễ tân"
+        },
+        {
+          "id": "facilities-22",
+          "word": "cafeteria",
+          "partOfSpeech": "noun",
+          "definition": "A dining area in a workplace or school.",
+          "example": "The cafeteria menu changes weekly.",
+          "vi": "nhà ăn"
+        },
+        {
+          "id": "facilities-23",
+          "word": "conference room",
+          "partOfSpeech": "noun",
+          "definition": "A room used for meetings.",
+          "example": "Conference Room 4B has a projector.",
+          "vi": "phòng họp"
+        },
+        {
+          "id": "facilities-24",
+          "word": "auditorium",
+          "partOfSpeech": "noun",
+          "definition": "A large room for speeches or performances.",
+          "example": "The training moved from the auditorium to Room 4B.",
+          "vi": "hội trường"
+        },
+        {
+          "id": "facilities-25",
+          "word": "equipment",
+          "partOfSpeech": "noun",
+          "definition": "Tools or machines needed for work.",
+          "example": "Report damaged equipment to Facilities.",
+          "vi": "thiết bị"
+        },
+        {
+          "id": "facilities-26",
+          "word": "malfunction",
+          "partOfSpeech": "noun / verb",
+          "definition": "A failure to work correctly; to fail.",
+          "example": "The printer malfunction delayed the report.",
+          "vi": "trục trặc"
+        },
+        {
+          "id": "facilities-27",
+          "word": "install",
+          "partOfSpeech": "verb",
+          "definition": "To put equipment in place so it can be used.",
+          "example": "Technicians will install new monitors Friday.",
+          "vi": "lắp đặt"
+        },
+        {
+          "id": "facilities-28",
+          "word": "dispose",
+          "partOfSpeech": "verb",
+          "definition": "To throw something away safely.",
+          "example": "Dispose of old batteries in the marked container.",
+          "vi": "xử lý, vứt bỏ"
+        },
+        {
+          "id": "facilities-29",
+          "word": "accessible",
+          "partOfSpeech": "adjective",
+          "definition": "Easy to enter or use, including for people with disabilities.",
+          "example": "The tour route is fully accessible.",
+          "vi": "dễ tiếp cận"
+        },
+        {
+          "id": "facilities-30",
+          "word": "temporary",
+          "partOfSpeech": "adjective",
+          "definition": "Lasting for only a limited time.",
+          "example": "Follow the temporary signs near the elevators.",
+          "vi": "tạm thời"
+        }
+      ]
+    },
+    {
+      "id": "logistics",
+      "label": "Manufacturing & Logistics",
+      "cards": [
+        {
+          "id": "logistics-01",
+          "word": "shipment",
+          "partOfSpeech": "noun",
+          "definition": "Goods sent from one place to another.",
+          "example": "The shipment left the warehouse at 6:40 A.M.",
+          "vi": "lô hàng"
+        },
+        {
+          "id": "logistics-02",
+          "word": "warehouse",
+          "partOfSpeech": "noun",
+          "definition": "A large building used for storing goods.",
+          "example": "The warehouse closes at 6 P.M.",
+          "vi": "nhà kho"
+        },
+        {
+          "id": "logistics-03",
+          "word": "inventory",
+          "partOfSpeech": "noun",
+          "definition": "The goods a business has in stock.",
+          "example": "Inventory records are checked monthly.",
+          "vi": "hàng tồn kho"
+        },
+        {
+          "id": "logistics-04",
+          "word": "stockroom",
+          "partOfSpeech": "noun",
+          "definition": "A room where goods or supplies are stored.",
+          "example": "Extra signs are in the stockroom.",
+          "vi": "phòng kho"
+        },
+        {
+          "id": "logistics-05",
+          "word": "carrier",
+          "partOfSpeech": "noun",
+          "definition": "A company that transports goods or passengers.",
+          "example": "The carrier updated the delivery time.",
+          "vi": "hãng vận chuyển"
+        },
+        {
+          "id": "logistics-06",
+          "word": "freight",
+          "partOfSpeech": "noun",
+          "definition": "Goods transported in large quantities.",
+          "example": "Freight deliveries use the rear entrance.",
+          "vi": "hàng vận tải"
+        },
+        {
+          "id": "logistics-07",
+          "word": "dispatch",
+          "partOfSpeech": "verb",
+          "definition": "To send goods, vehicles, or workers somewhere.",
+          "example": "The dispatcher sent a truck to the branch.",
+          "vi": "điều phối, gửi đi"
+        },
+        {
+          "id": "logistics-08",
+          "word": "tracking",
+          "partOfSpeech": "noun",
+          "definition": "The process of following a shipment's status.",
+          "example": "Use the tracking number to check the package.",
+          "vi": "theo dõi"
+        },
+        {
+          "id": "logistics-09",
+          "word": "manifest",
+          "partOfSpeech": "noun",
+          "definition": "A list of goods being transported.",
+          "example": "The driver compared the boxes with the manifest.",
+          "vi": "bảng kê hàng"
+        },
+        {
+          "id": "logistics-10",
+          "word": "container",
+          "partOfSpeech": "noun",
+          "definition": "A large box or vessel used to hold goods.",
+          "example": "The container was sealed at the port.",
+          "vi": "thùng chứa"
+        },
+        {
+          "id": "logistics-11",
+          "word": "pallet",
+          "partOfSpeech": "noun",
+          "definition": "A flat platform used to move stacked goods.",
+          "example": "The cartons were loaded onto a pallet.",
+          "vi": "pallet, kệ kê hàng"
+        },
+        {
+          "id": "logistics-12",
+          "word": "forklift",
+          "partOfSpeech": "noun",
+          "definition": "A vehicle used to lift and move heavy goods.",
+          "example": "Only trained staff may operate the forklift.",
+          "vi": "xe nâng"
+        },
+        {
+          "id": "logistics-13",
+          "word": "assemble",
+          "partOfSpeech": "verb",
+          "definition": "To put parts together to make a product.",
+          "example": "Workers assemble the units on Line 2.",
+          "vi": "lắp ráp"
+        },
+        {
+          "id": "logistics-14",
+          "word": "component",
+          "partOfSpeech": "noun",
+          "definition": "One part of a machine or product.",
+          "example": "A missing component delayed production.",
+          "vi": "linh kiện"
+        },
+        {
+          "id": "logistics-15",
+          "word": "defective",
+          "partOfSpeech": "adjective",
+          "definition": "Not working correctly because of a fault.",
+          "example": "Defective chargers will be replaced.",
+          "vi": "bị lỗi"
+        },
+        {
+          "id": "logistics-16",
+          "word": "quality control",
+          "partOfSpeech": "noun",
+          "definition": "The process of checking that products meet standards.",
+          "example": "Quality control found two damaged parts.",
+          "vi": "kiểm soát chất lượng"
+        },
+        {
+          "id": "logistics-17",
+          "word": "supplier",
+          "partOfSpeech": "noun",
+          "definition": "A company that provides materials or products.",
+          "example": "The supplier confirmed next-day delivery.",
+          "vi": "nhà cung cấp"
+        },
+        {
+          "id": "logistics-18",
+          "word": "procure",
+          "partOfSpeech": "verb",
+          "definition": "To obtain goods or services, especially for business.",
+          "example": "The team procured new safety gloves.",
+          "vi": "mua sắm, thu mua"
+        },
+        {
+          "id": "logistics-19",
+          "word": "lead time",
+          "partOfSpeech": "noun",
+          "definition": "The time between ordering and receiving something.",
+          "example": "The lead time for custom desks is four weeks.",
+          "vi": "thời gian chờ"
+        },
+        {
+          "id": "logistics-20",
+          "word": "backlog",
+          "partOfSpeech": "noun",
+          "definition": "Work or orders waiting to be completed.",
+          "example": "The shipping backlog was cleared by Friday.",
+          "vi": "công việc tồn đọng"
+        },
+        {
+          "id": "logistics-21",
+          "word": "fulfill",
+          "partOfSpeech": "verb",
+          "definition": "To complete an order or requirement.",
+          "example": "The warehouse can fulfill the order today.",
+          "vi": "hoàn tất"
+        },
+        {
+          "id": "logistics-22",
+          "word": "shortage",
+          "partOfSpeech": "noun",
+          "definition": "A lack of enough supply.",
+          "example": "A parts shortage slowed production.",
+          "vi": "sự thiếu hụt"
+        },
+        {
+          "id": "logistics-23",
+          "word": "surplus",
+          "partOfSpeech": "noun",
+          "definition": "More supply than is needed.",
+          "example": "Surplus inventory will be sold at a discount.",
+          "vi": "hàng dư"
+        },
+        {
+          "id": "logistics-24",
+          "word": "fragile",
+          "partOfSpeech": "adjective",
+          "definition": "Easily broken or damaged.",
+          "example": "Mark fragile items before shipping.",
+          "vi": "dễ vỡ"
+        },
+        {
+          "id": "logistics-25",
+          "word": "perishable",
+          "partOfSpeech": "adjective",
+          "definition": "Likely to spoil quickly.",
+          "example": "Perishable goods require refrigerated trucks.",
+          "vi": "dễ hỏng"
+        },
+        {
+          "id": "logistics-26",
+          "word": "batch",
+          "partOfSpeech": "noun",
+          "definition": "A group of products made or handled together.",
+          "example": "The first batch passed inspection.",
+          "vi": "lô sản xuất"
+        },
+        {
+          "id": "logistics-27",
+          "word": "output",
+          "partOfSpeech": "noun",
+          "definition": "The amount produced by a worker, machine, or factory.",
+          "example": "Factory output increased in June.",
+          "vi": "sản lượng"
+        },
+        {
+          "id": "logistics-28",
+          "word": "downtime",
+          "partOfSpeech": "noun",
+          "definition": "Time when equipment is not operating.",
+          "example": "Regular service reduces machine downtime.",
+          "vi": "thời gian ngừng hoạt động"
+        },
+        {
+          "id": "logistics-29",
+          "word": "expedite",
+          "partOfSpeech": "verb",
+          "definition": "To make a process happen faster.",
+          "example": "The manager asked the carrier to expedite the shipment.",
+          "vi": "xúc tiến nhanh"
+        },
+        {
+          "id": "logistics-30",
+          "word": "consignment",
+          "partOfSpeech": "noun",
+          "definition": "A group of goods sent for sale or delivery.",
+          "example": "The consignment arrived at the port Monday.",
+          "vi": "lô hàng gửi bán/gửi đi"
+        }
+      ]
+    },
+    {
+      "id": "hospitality",
+      "label": "Travel & Hospitality",
+      "cards": [
+        {
+          "id": "hospitality-01",
+          "word": "reservation",
+          "partOfSpeech": "noun",
+          "definition": "An arrangement to keep a room, table, or seat.",
+          "example": "The reservation is under Chen.",
+          "vi": "sự đặt chỗ"
+        },
+        {
+          "id": "hospitality-02",
+          "word": "receptionist",
+          "partOfSpeech": "noun",
+          "definition": "A person who welcomes visitors or guests.",
+          "example": "The receptionist confirmed the room number.",
+          "vi": "nhân viên lễ tân"
+        },
+        {
+          "id": "hospitality-03",
+          "word": "vacancy",
+          "partOfSpeech": "noun",
+          "definition": "An available room or space.",
+          "example": "The hotel has no vacancies this weekend.",
+          "vi": "phòng trống"
+        },
+        {
+          "id": "hospitality-04",
+          "word": "suite",
+          "partOfSpeech": "noun",
+          "definition": "A set of connected hotel rooms.",
+          "example": "The executive suite includes a meeting area.",
+          "vi": "phòng suite"
+        },
+        {
+          "id": "hospitality-05",
+          "word": "lobby",
+          "partOfSpeech": "noun",
+          "definition": "The entrance area of a hotel or building.",
+          "example": "Guests waited in the lobby.",
+          "vi": "sảnh"
+        },
+        {
+          "id": "hospitality-06",
+          "word": "terrace",
+          "partOfSpeech": "noun",
+          "definition": "An outdoor flat area for sitting or dining.",
+          "example": "The rooftop terrace is closed for a reception.",
+          "vi": "sân thượng"
+        },
+        {
+          "id": "hospitality-07",
+          "word": "catering",
+          "partOfSpeech": "noun",
+          "definition": "Providing food and drink for an event.",
+          "example": "Catering setup requires a cleaning fee.",
+          "vi": "dịch vụ ăn uống"
+        },
+        {
+          "id": "hospitality-08",
+          "word": "buffet",
+          "partOfSpeech": "noun",
+          "definition": "A meal where people serve themselves from many dishes.",
+          "example": "Breakfast buffet ends at 9:30.",
+          "vi": "tiệc buffet"
+        },
+        {
+          "id": "hospitality-09",
+          "word": "beverage",
+          "partOfSpeech": "noun",
+          "definition": "A drink.",
+          "example": "Complimentary beverages are served in the lounge.",
+          "vi": "đồ uống"
+        },
+        {
+          "id": "hospitality-10",
+          "word": "voucher",
+          "partOfSpeech": "noun",
+          "definition": "A ticket that can be exchanged for a product or service.",
+          "example": "Guests received drink vouchers.",
+          "vi": "phiếu dịch vụ"
+        },
+        {
+          "id": "hospitality-11",
+          "word": "complimentary",
+          "partOfSpeech": "adjective",
+          "definition": "Provided free of charge.",
+          "example": "The room includes complimentary breakfast.",
+          "vi": "miễn phí"
+        },
+        {
+          "id": "hospitality-12",
+          "word": "amenity",
+          "partOfSpeech": "noun",
+          "definition": "A useful feature or service for guests.",
+          "example": "Hotel amenities include a fitness center.",
+          "vi": "tiện nghi"
+        },
+        {
+          "id": "hospitality-13",
+          "word": "housekeeping",
+          "partOfSpeech": "noun",
+          "definition": "The hotel department that cleans rooms.",
+          "example": "Call housekeeping for extra towels.",
+          "vi": "bộ phận dọn phòng"
+        },
+        {
+          "id": "hospitality-14",
+          "word": "concierge",
+          "partOfSpeech": "noun",
+          "definition": "A hotel employee who helps guests with arrangements.",
+          "example": "The concierge booked a city tour.",
+          "vi": "nhân viên hỗ trợ khách"
+        },
+        {
+          "id": "hospitality-15",
+          "word": "banquet",
+          "partOfSpeech": "noun",
+          "definition": "A formal large meal for many people.",
+          "example": "The awards banquet starts at 7 P.M.",
+          "vi": "tiệc lớn"
+        },
+        {
+          "id": "hospitality-16",
+          "word": "reception",
+          "partOfSpeech": "noun",
+          "definition": "A formal party or the place where guests check in.",
+          "example": "The private reception is on Thursday.",
+          "vi": "tiệc chiêu đãi, lễ tân"
+        },
+        {
+          "id": "hospitality-17",
+          "word": "occupancy",
+          "partOfSpeech": "noun",
+          "definition": "The number of rooms being used.",
+          "example": "Occupancy rises during conventions.",
+          "vi": "tỷ lệ lấp đầy"
+        },
+        {
+          "id": "hospitality-18",
+          "word": "house rate",
+          "partOfSpeech": "noun",
+          "definition": "The standard price charged by a hotel or venue.",
+          "example": "The house rate includes wireless Internet.",
+          "vi": "giá chuẩn"
+        },
+        {
+          "id": "hospitality-19",
+          "word": "front desk",
+          "partOfSpeech": "noun",
+          "definition": "The hotel desk where guests check in and ask questions.",
+          "example": "Leave your luggage at the front desk.",
+          "vi": "quầy lễ tân"
+        },
+        {
+          "id": "hospitality-20",
+          "word": "late checkout",
+          "partOfSpeech": "noun",
+          "definition": "Permission to leave a hotel room after the normal time.",
+          "example": "Late checkout is available on request.",
+          "vi": "trả phòng muộn"
+        },
+        {
+          "id": "hospitality-21",
+          "word": "early check-in",
+          "partOfSpeech": "noun",
+          "definition": "Permission to enter a hotel room before the normal time.",
+          "example": "Early check-in is subject to availability.",
+          "vi": "nhận phòng sớm"
+        },
+        {
+          "id": "hospitality-22",
+          "word": "room service",
+          "partOfSpeech": "noun",
+          "definition": "A hotel service that brings food to guest rooms.",
+          "example": "Room service is available until 10 P.M.",
+          "vi": "dịch vụ phòng"
+        },
+        {
+          "id": "hospitality-23",
+          "word": "linen",
+          "partOfSpeech": "noun",
+          "definition": "Sheets, towels, and similar cloth items.",
+          "example": "Fresh linens are delivered daily.",
+          "vi": "đồ vải khách sạn"
+        },
+        {
+          "id": "hospitality-24",
+          "word": "accommodate",
+          "partOfSpeech": "verb",
+          "definition": "To provide what someone needs or has requested.",
+          "example": "The restaurant can accommodate large groups.",
+          "vi": "đáp ứng, phục vụ"
+        },
+        {
+          "id": "hospitality-25",
+          "word": "venue",
+          "partOfSpeech": "noun",
+          "definition": "The place where an event is held.",
+          "example": "The hotel is a popular wedding venue.",
+          "vi": "địa điểm"
+        },
+        {
+          "id": "hospitality-26",
+          "word": "capacity",
+          "partOfSpeech": "noun",
+          "definition": "The maximum number that can fit in a place.",
+          "example": "The hall has a capacity of 180 people.",
+          "vi": "sức chứa"
+        },
+        {
+          "id": "hospitality-27",
+          "word": "menu",
+          "partOfSpeech": "noun",
+          "definition": "A list of food and drinks available.",
+          "example": "The menu changes every season.",
+          "vi": "thực đơn"
+        },
+        {
+          "id": "hospitality-28",
+          "word": "dietary",
+          "partOfSpeech": "adjective",
+          "definition": "Related to food needs or restrictions.",
+          "example": "Please tell us about dietary requests.",
+          "vi": "thuộc chế độ ăn"
+        },
+        {
+          "id": "hospitality-29",
+          "word": "gratuity",
+          "partOfSpeech": "noun",
+          "definition": "Extra money given for service.",
+          "example": "A 15 percent gratuity is added to large parties.",
+          "vi": "tiền tip"
+        },
+        {
+          "id": "hospitality-30",
+          "word": "host",
+          "partOfSpeech": "verb / noun",
+          "definition": "To provide a place for an event; a person who welcomes guests.",
+          "example": "The chamber will host the business fair.",
+          "vi": "tổ chức, chủ nhà"
+        }
+      ]
+    },
+    {
+      "id": "customer-service",
+      "label": "Customer Service",
+      "cards": [
+        {
+          "id": "customer-service-01",
+          "word": "inquiry",
+          "partOfSpeech": "noun",
+          "definition": "A request for information.",
+          "example": "Respond to every customer inquiry within one day.",
+          "vi": "câu hỏi, yêu cầu thông tin"
+        },
+        {
+          "id": "customer-service-02",
+          "word": "complaint",
+          "partOfSpeech": "noun",
+          "definition": "A statement that something is wrong or unsatisfactory.",
+          "example": "The manager handled the complaint professionally.",
+          "vi": "khiếu nại"
+        },
+        {
+          "id": "customer-service-03",
+          "word": "resolve",
+          "partOfSpeech": "verb",
+          "definition": "To find an answer or solution to a problem.",
+          "example": "Customer service resolved the issue quickly.",
+          "vi": "giải quyết"
+        },
+        {
+          "id": "customer-service-04",
+          "word": "escalate",
+          "partOfSpeech": "verb",
+          "definition": "To send a problem to someone with more authority.",
+          "example": "Escalate billing disputes to a supervisor.",
+          "vi": "chuyển cấp xử lý"
+        },
+        {
+          "id": "customer-service-05",
+          "word": "representative",
+          "partOfSpeech": "noun",
+          "definition": "A person who speaks or acts for a company.",
+          "example": "A representative will call you this afternoon.",
+          "vi": "đại diện"
+        },
+        {
+          "id": "customer-service-06",
+          "word": "courteous",
+          "partOfSpeech": "adjective",
+          "definition": "Polite and respectful.",
+          "example": "The front-desk staff were courteous.",
+          "vi": "lịch sự"
+        },
+        {
+          "id": "customer-service-07",
+          "word": "prompt",
+          "partOfSpeech": "adjective",
+          "definition": "Done quickly or on time.",
+          "example": "Customers expect prompt replies.",
+          "vi": "nhanh chóng"
+        },
+        {
+          "id": "customer-service-08",
+          "word": "assist",
+          "partOfSpeech": "verb",
+          "definition": "To help someone.",
+          "example": "Staff will assist visitors at the entrance.",
+          "vi": "hỗ trợ"
+        },
+        {
+          "id": "customer-service-09",
+          "word": "clarify",
+          "partOfSpeech": "verb",
+          "definition": "To make something easier to understand.",
+          "example": "Please clarify the return policy.",
+          "vi": "làm rõ"
+        },
+        {
+          "id": "customer-service-10",
+          "word": "apologize",
+          "partOfSpeech": "verb",
+          "definition": "To say sorry for a problem.",
+          "example": "We apologize for the inconvenience.",
+          "vi": "xin lỗi"
+        },
+        {
+          "id": "customer-service-11",
+          "word": "inconvenience",
+          "partOfSpeech": "noun",
+          "definition": "Trouble or difficulty caused to someone.",
+          "example": "The notice thanked tenants for their patience during the inconvenience.",
+          "vi": "sự bất tiện"
+        },
+        {
+          "id": "customer-service-12",
+          "word": "satisfaction",
+          "partOfSpeech": "noun",
+          "definition": "The feeling that expectations were met.",
+          "example": "The company tracks customer satisfaction.",
+          "vi": "sự hài lòng"
+        },
+        {
+          "id": "customer-service-13",
+          "word": "feedback",
+          "partOfSpeech": "noun",
+          "definition": "Comments about a product or service.",
+          "example": "Your feedback helps us improve.",
+          "vi": "phản hồi"
+        },
+        {
+          "id": "customer-service-14",
+          "word": "policy",
+          "partOfSpeech": "noun",
+          "definition": "An official rule or way of doing something.",
+          "example": "The refund policy changed last month.",
+          "vi": "chính sách"
+        },
+        {
+          "id": "customer-service-15",
+          "word": "procedure",
+          "partOfSpeech": "noun",
+          "definition": "An official series of steps.",
+          "example": "Follow the new refund procedure.",
+          "vi": "quy trình"
+        },
+        {
+          "id": "customer-service-16",
+          "word": "portal",
+          "partOfSpeech": "noun",
+          "definition": "A website used to access services or information.",
+          "example": "Refund requests must be entered in the portal.",
+          "vi": "cổng thông tin"
+        },
+        {
+          "id": "customer-service-17",
+          "word": "status",
+          "partOfSpeech": "noun",
+          "definition": "The current state of something.",
+          "example": "Check the portal for the request status.",
+          "vi": "trạng thái"
+        },
+        {
+          "id": "customer-service-18",
+          "word": "ticket",
+          "partOfSpeech": "noun",
+          "definition": "A recorded customer service request.",
+          "example": "Open a ticket for each technical issue.",
+          "vi": "phiếu yêu cầu"
+        },
+        {
+          "id": "customer-service-19",
+          "word": "response",
+          "partOfSpeech": "noun",
+          "definition": "An answer or reaction.",
+          "example": "The response was clear and helpful.",
+          "vi": "phản hồi, câu trả lời"
+        },
+        {
+          "id": "customer-service-20",
+          "word": "follow up",
+          "partOfSpeech": "verb",
+          "definition": "To contact someone again about a previous matter.",
+          "example": "Follow up with the client after delivery.",
+          "vi": "theo dõi tiếp"
+        },
+        {
+          "id": "customer-service-21",
+          "word": "replace",
+          "partOfSpeech": "verb",
+          "definition": "To provide a new item instead of a faulty one.",
+          "example": "The company will replace the damaged lamp.",
+          "vi": "thay thế"
+        },
+        {
+          "id": "customer-service-22",
+          "word": "repair",
+          "partOfSpeech": "verb / noun",
+          "definition": "To fix something; the act of fixing it.",
+          "example": "The warranty covers the repair.",
+          "vi": "sửa chữa"
+        },
+        {
+          "id": "customer-service-23",
+          "word": "prepaid",
+          "partOfSpeech": "adjective",
+          "definition": "Paid for before use.",
+          "example": "Use the prepaid label to mail the item.",
+          "vi": "đã trả trước"
+        },
+        {
+          "id": "customer-service-24",
+          "word": "label",
+          "partOfSpeech": "noun",
+          "definition": "A sticker or tag with information.",
+          "example": "Attach the return label to the box.",
+          "vi": "nhãn"
+        },
+        {
+          "id": "customer-service-25",
+          "word": "refund",
+          "partOfSpeech": "noun / verb",
+          "definition": "Money returned to a customer; to return money.",
+          "example": "The refund will appear within five business days.",
+          "vi": "hoàn tiền"
+        },
+        {
+          "id": "customer-service-26",
+          "word": "exchange",
+          "partOfSpeech": "noun / verb",
+          "definition": "A return of one item for another.",
+          "example": "The store allowed an exchange without a fee.",
+          "vi": "đổi hàng"
+        },
+        {
+          "id": "customer-service-27",
+          "word": "guarantee",
+          "partOfSpeech": "noun / verb",
+          "definition": "A promise that something will happen or work.",
+          "example": "The service guarantee covers late delivery.",
+          "vi": "bảo đảm"
+        },
+        {
+          "id": "customer-service-28",
+          "word": "availability",
+          "partOfSpeech": "noun",
+          "definition": "The state of being ready or possible to use.",
+          "example": "Early check-in depends on room availability.",
+          "vi": "tình trạng có sẵn"
+        },
+        {
+          "id": "customer-service-29",
+          "word": "notify",
+          "partOfSpeech": "verb",
+          "definition": "To tell someone officially.",
+          "example": "Notify your supervisor if you cannot attend.",
+          "vi": "thông báo"
+        },
+        {
+          "id": "customer-service-30",
+          "word": "retain",
+          "partOfSpeech": "verb",
+          "definition": "To keep a customer, employee, or document.",
+          "example": "Good service helps retain customers.",
+          "vi": "giữ lại"
+        }
+      ]
+    }
+  ]
+}

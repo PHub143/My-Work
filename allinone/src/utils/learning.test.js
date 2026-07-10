@@ -1,5 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import readingContent from '../data/englishContent.json' with { type: 'json' };
+import listeningContent from '../data/englishListeningContent.json' with { type: 'json' };
+import { test2ListeningContent, test2ReadingSingleSets } from '../data/englishTest2Content.js';
 import {
   filterLearningPages,
   filterLearningQuestions,
@@ -18,6 +21,20 @@ import {
   parsePracticeQuestionNumbers,
   getStudyMaterialPages,
   getVisualQuestionDisplayParts,
+  flattenReadingBank,
+  getReadingBankSummary,
+  getMaxReadingFormScale,
+  assembleReadingTest,
+  getScaledReadingScore,
+  getReadingTestResults,
+  getWeakestReadingTags,
+  getDrillTopics,
+  assembleDrill,
+  getListeningBankSummary,
+  getMaxListeningFormScale,
+  assembleListeningTest,
+  getListeningTestResults,
+  getFullTestScore,
 } from './learning.js';
 
 const pages = [
@@ -866,4 +883,382 @@ test('getVisualQuestionDisplayParts extracts drag-drop answer rows from explanat
       value: 'required',
     },
   ]);
+});
+
+test('createPracticeSession honors an explicit time limit override', () => {
+  const questions = [
+    { number: 1, prompt: 'Pick one.\nA. Yes\nB. No', answer: 'A', explanation: '' },
+    { number: 2, prompt: 'Pick one.\nA. Yes\nB. No', answer: 'B', explanation: '' },
+    { number: 3, prompt: 'Pick one.\nA. Yes\nB. No', answer: 'A', explanation: '' },
+  ];
+
+  const session = createPracticeSession(questions, {
+    difficulty: 'normal',
+    questionCount: 2,
+    timeLimitMinutes: 25,
+    seed: 'english-practice',
+  });
+
+  assert.equal(session.timeLimitMinutes, 25);
+  assert.equal(session.questions.length, 2);
+
+  const untimedSession = createPracticeSession(questions, {
+    difficulty: 'normal',
+    timeLimitMinutes: null,
+    seed: 'english-practice',
+  });
+
+  assert.equal(untimedSession.timeLimitMinutes, null);
+});
+
+test('getPracticeSessionResults can skip AI-103 structured control configs', () => {
+  const questions = [
+    { number: 4, prompt: 'Pick one.\nA. Yes\nB. No', answer: 'A', explanation: '' },
+  ];
+  const selections = { 4: ['A'] };
+
+  const structuredResults = getPracticeSessionResults(questions, selections);
+  assert.equal(structuredResults.correctCount, 0);
+
+  const plainResults = getPracticeSessionResults(questions, selections, { structuredControls: false });
+  assert.equal(plainResults.correctCount, 1);
+  assert.equal(plainResults.scorePercent, 100);
+});
+
+// --- TOEIC Reading (Parts 5-7) engine ---
+
+const readingBankFixture = {
+  parts: {
+    part5: {
+      questions: [
+        { id: 'p5-1', prompt: 'Blank one.', options: { A: 'a', B: 'b' }, answer: 'A', tags: ['verb-tense'] },
+        { id: 'p5-2', prompt: 'Blank two.', options: { A: 'a', B: 'b' }, answer: 'B', tags: ['preposition'] },
+        { id: 'p5-3', prompt: 'Blank three.', options: { A: 'a', B: 'b' }, answer: 'A', tags: ['verb-tense'] },
+      ],
+    },
+    part6: {
+      sets: [
+        {
+          id: 'p6-1',
+          passageType: 'e-mail',
+          passage: 'Dear team, [1] and [2].',
+          questions: [
+            { id: 'p6-1-q1', blank: 1, prompt: 'Blank [1].', options: { A: 'a', B: 'b' }, answer: 'A', tags: ['verb-form'] },
+            { id: 'p6-1-q2', blank: 2, prompt: 'Blank [2].', options: { A: 'a', B: 'b' }, answer: 'B', tags: ['sentence-insertion'] },
+          ],
+        },
+      ],
+    },
+    part7: {
+      singleSets: [
+        {
+          id: 'p7-s1',
+          passages: [{ type: 'notice', text: 'The elevator is closed.' }],
+          questions: [
+            { id: 'p7-s1-q1', prompt: 'Purpose?', options: { A: 'a', B: 'b' }, answer: 'A', tags: ['purpose'] },
+            { id: 'p7-s1-q2', prompt: 'Detail?', options: { A: 'a', B: 'b' }, answer: 'B', tags: ['detail'] },
+          ],
+        },
+      ],
+      multiSets: [
+        {
+          id: 'p7-m1',
+          passages: [
+            { type: 'e-mail', text: 'See the schedule.' },
+            { type: 'schedule', text: 'Salon C at 2:00.' },
+          ],
+          questions: [
+            { id: 'p7-m1-q1', prompt: 'Cross-reference?', options: { A: 'a', B: 'b' }, answer: 'B', tags: ['cross-reference'] },
+          ],
+        },
+      ],
+    },
+  },
+};
+
+test('flattenReadingBank numbers questions sequentially and builds searchable text', () => {
+  const items = flattenReadingBank(readingBankFixture);
+
+  assert.equal(items.length, 8);
+  assert.deepEqual(items.map((item) => item.number), [1, 2, 3, 4, 5, 6, 7, 8]);
+  assert.equal(items[0].part, 5);
+  assert.equal(items[3].part, 6);
+  assert.equal(items[3].passages[0].type, 'e-mail');
+  assert.ok(items[5].text.includes('The elevator is closed.'));
+  assert.equal(items[7].passages.length, 2);
+});
+
+test('getReadingBankSummary and getMaxReadingFormScale report bank coverage', () => {
+  const summary = getReadingBankSummary(readingBankFixture);
+
+  assert.equal(summary.part5, 3);
+  assert.equal(summary.part6, 2);
+  assert.equal(summary.part7, 3);
+  assert.equal(summary.total, 8);
+  assert.equal(summary.quotas.total, 100);
+
+  // part7 is the binding constraint: 3 of 54 questions
+  assert.ok(Math.abs(getMaxReadingFormScale(readingBankFixture) - 3 / 54) < 1e-9);
+});
+
+test('assembleReadingTest keeps sets whole, numbers from 101, and scales time to length', () => {
+  const form = assembleReadingTest(readingBankFixture, { seed: 'form-a' });
+
+  assert.equal(form.questions[0].number, 101);
+  assert.equal(form.totalQuestions, form.questions.length);
+  assert.equal(form.isFullForm, false);
+  assert.equal(
+    form.timeLimitMinutes,
+    Math.max(5, Math.round((75 * form.totalQuestions) / 100)),
+  );
+
+  // Questions from the same set stay adjacent
+  const setPositions = {};
+  form.questions.forEach((question, index) => {
+    if (!question.setId) return;
+    setPositions[question.setId] = setPositions[question.setId] || [];
+    setPositions[question.setId].push(index);
+  });
+  Object.values(setPositions).forEach((positions) => {
+    positions.forEach((position, index) => {
+      if (index > 0) assert.equal(position, positions[index - 1] + 1);
+    });
+  });
+
+  // Parts appear in exam order: 5 then 6 then 7
+  const partsInOrder = form.questions.map((question) => question.part);
+  assert.deepEqual([...partsInOrder].sort((a, b) => a - b), partsInOrder);
+});
+
+test('assembleReadingTest part practice returns the whole part bank untimed', () => {
+  const part5Form = assembleReadingTest(readingBankFixture, { part: 5, seed: 'p5' });
+  assert.equal(part5Form.totalQuestions, 3);
+  assert.equal(part5Form.timeLimitMinutes, null);
+  assert.ok(part5Form.questions.every((question) => question.part === 5));
+
+  const part7Form = assembleReadingTest(readingBankFixture, { part: 7, seed: 'p7' });
+  assert.equal(part7Form.totalQuestions, 3);
+  assert.ok(part7Form.questions.every((question) => question.part === 7));
+});
+
+test('getScaledReadingScore interpolates the anchor table', () => {
+  assert.equal(getScaledReadingScore(0, 100), 5);
+  assert.equal(getScaledReadingScore(50, 100), 210);
+  assert.equal(getScaledReadingScore(100, 100), 495);
+  assert.equal(getScaledReadingScore(25, 50), 210);
+  assert.equal(getScaledReadingScore(0, 0), 5);
+});
+
+test('getReadingTestResults scores per part and per tag', () => {
+  const form = assembleReadingTest(readingBankFixture, { seed: 'score' });
+  const selections = {};
+  form.questions.forEach((question) => {
+    selections[question.number] = question.part === 5 ? question.answer : 'Z';
+  });
+
+  const results = getReadingTestResults(form.questions, selections);
+  const part5Total = form.counts[5];
+
+  assert.equal(results.correctCount, part5Total);
+  assert.equal(results.perPart[5].correct, part5Total);
+  assert.equal(results.perPart[7].correct, 0);
+  assert.equal(results.totalQuestions, form.totalQuestions);
+  assert.ok(results.scaledScore >= 5 && results.scaledScore <= 495);
+
+  const weakest = getWeakestReadingTags(results, { minTotal: 1, limit: 3 });
+  assert.ok(weakest.length > 0);
+  assert.ok(weakest[0].accuracy <= weakest[weakest.length - 1].accuracy);
+});
+
+// --- Grammar drills (Part 5 by topic) ---
+
+test('getDrillTopics counts Part 5 questions per tag, largest first', () => {
+  const topics = getDrillTopics(readingBankFixture);
+
+  assert.deepEqual(topics, [
+    { tag: 'verb-tense', count: 2 },
+    { tag: 'preposition', count: 1 },
+  ]);
+});
+
+test('assembleDrill filters Part 5 questions by tag and numbers from 1', () => {
+  const drill = assembleDrill(readingBankFixture, { tags: ['verb-tense'], seed: 'drill' });
+
+  assert.equal(drill.totalQuestions, 2);
+  assert.equal(drill.poolSize, 2);
+  assert.deepEqual(drill.questions.map((question) => question.number), [1, 2]);
+  assert.ok(drill.questions.every((question) => question.tags.includes('verb-tense')));
+  assert.ok(drill.questions.every((question) => question.part === 5));
+});
+
+test('assembleDrill uses the whole Part 5 bank when no tags are given and caps the length', () => {
+  const drill = assembleDrill(readingBankFixture, { seed: 'drill-all' });
+  assert.equal(drill.totalQuestions, 3);
+  assert.equal(drill.poolSize, 3);
+
+  const capped = assembleDrill(readingBankFixture, { questionCount: 2, seed: 'drill-cap' });
+  assert.equal(capped.totalQuestions, 2);
+  assert.equal(capped.poolSize, 3);
+});
+
+// --- TOEIC Listening (Parts 1-4) engine ---
+
+const listeningBankFixture = {
+  parts: {
+    part1: {
+      items: [
+        {
+          id: 'l1-1',
+          image: 'l1-1.svg',
+          answer: 'A',
+          explanation: 'She is typing.',
+          tags: ['photograph'],
+          segments: [
+            { id: 'l1-1-n', voice: 'narrator', text: 'Look at the picture.' },
+            { id: 'l1-1-a', voice: 'man-us', text: 'A. She is typing.' },
+          ],
+        },
+      ],
+    },
+    part2: {
+      items: [
+        {
+          id: 'l2-1',
+          answer: 'B',
+          explanation: 'Time answer.',
+          tags: ['when-question'],
+          segments: [{ id: 'l2-1-q', voice: 'man-us', text: 'When does it begin?' }],
+        },
+        {
+          id: 'l2-2',
+          answer: 'C',
+          explanation: 'Place answer.',
+          tags: ['where-question'],
+          segments: [{ id: 'l2-2-q', voice: 'woman-us', text: 'Where is it?' }],
+        },
+      ],
+    },
+    part3: {
+      sets: [
+        {
+          id: 'l3-1',
+          segments: [{ id: 'l3-1-t1', voice: 'woman-us', text: 'Hi.' }],
+          questions: [
+            { id: 'l3-1-q1', prompt: 'Problem?', options: { A: 'a', B: 'b' }, answer: 'A', tags: ['problem'] },
+            { id: 'l3-1-q2', prompt: 'Next?', options: { A: 'a', B: 'b' }, answer: 'B', tags: ['next-action'] },
+          ],
+        },
+      ],
+    },
+    part4: {
+      sets: [
+        {
+          id: 'l4-1',
+          segments: [{ id: 'l4-1-s1', voice: 'man-uk', text: 'Announcement.' }],
+          questions: [
+            { id: 'l4-1-q1', prompt: 'Topic?', options: { A: 'a', B: 'b' }, answer: 'A', tags: ['purpose'] },
+          ],
+        },
+      ],
+    },
+  },
+};
+
+test('getListeningBankSummary and getMaxListeningFormScale report bank coverage', () => {
+  const summary = getListeningBankSummary(listeningBankFixture);
+
+  assert.equal(summary.part1, 1);
+  assert.equal(summary.part2, 2);
+  assert.equal(summary.part3, 2);
+  assert.equal(summary.part4, 1);
+  assert.equal(summary.total, 6);
+  assert.equal(summary.quotas.total, 100);
+
+  // part4 is the binding constraint: 1 of 30
+  assert.ok(Math.abs(getMaxListeningFormScale(listeningBankFixture) - 1 / 30) < 1e-9);
+});
+
+test('assembleListeningTest numbers from 1, keeps groups whole, and sets response windows', () => {
+  const form = assembleListeningTest(listeningBankFixture, { seed: 'listen' });
+
+  assert.equal(form.questions[0].number, 1);
+  assert.equal(form.totalQuestions, form.questions.length);
+  assert.equal(form.isFullForm, false);
+
+  // Parts appear in exam order
+  const parts = form.questions.map((question) => question.part);
+  assert.deepEqual([...parts].sort((a, b) => a - b), parts);
+
+  // Group question numbers are contiguous and match the flat list
+  form.groups.forEach((group) => {
+    group.questionNumbers.forEach((number, index) => {
+      if (index > 0) assert.equal(number, group.questionNumbers[index - 1] + 1);
+    });
+    assert.equal(group.responseSeconds > 0, true);
+  });
+
+  // Part 1 and 2 questions use letter-only options
+  const part1Question = form.questions.find((question) => question.part === 1);
+  assert.deepEqual(part1Question.options.map((option) => option.key), ['A', 'B', 'C', 'D']);
+  const part2Question = form.questions.find((question) => question.part === 2);
+  assert.deepEqual(part2Question.options.map((option) => option.key), ['A', 'B', 'C']);
+});
+
+test('assembleListeningTest part practice returns every group of that part', () => {
+  const part2Form = assembleListeningTest(listeningBankFixture, { part: 2, seed: 'p2' });
+
+  assert.equal(part2Form.totalQuestions, 2);
+  assert.ok(part2Form.questions.every((question) => question.part === 2));
+});
+
+test('getListeningTestResults scores and getFullTestScore combines sections', () => {
+  const form = assembleListeningTest(listeningBankFixture, { seed: 'score' });
+  const selections = {};
+  form.questions.forEach((question) => {
+    selections[question.number] = question.answer;
+  });
+
+  const listeningResults = getListeningTestResults(form.questions, selections);
+  assert.equal(listeningResults.correctCount, form.totalQuestions);
+  assert.equal(listeningResults.scaledScore, 495);
+
+  const combined = getFullTestScore(listeningResults, { scaledScore: 300 });
+  assert.equal(combined.listening, 495);
+  assert.equal(combined.reading, 300);
+  assert.equal(combined.total, 795);
+});
+
+test('fixed Test 1 and Test 2 forms contain 200 distinct questions each', () => {
+  const combinedReading = {
+    ...readingContent,
+    parts: {
+      ...readingContent.parts,
+      part7: {
+        ...readingContent.parts.part7,
+        singleSets: [...readingContent.parts.part7.singleSets, ...test2ReadingSingleSets],
+      },
+    },
+  };
+  const combinedListening = {
+    ...listeningContent,
+    parts: {
+      part1: { items: [...listeningContent.parts.part1.items, ...test2ListeningContent.parts.part1.items] },
+      part2: { items: [...listeningContent.parts.part2.items, ...test2ListeningContent.parts.part2.items] },
+      part3: { sets: [...listeningContent.parts.part3.sets, ...test2ListeningContent.parts.part3.sets] },
+      part4: { sets: [...listeningContent.parts.part4.sets, ...test2ListeningContent.parts.part4.sets] },
+    },
+  };
+
+  const reading1 = assembleReadingTest(combinedReading, { formNumber: 1 });
+  const reading2 = assembleReadingTest(combinedReading, { formNumber: 2 });
+  const listening1 = assembleListeningTest(combinedListening, { formNumber: 1 });
+  const listening2 = assembleListeningTest(combinedListening, { formNumber: 2 });
+
+  [reading1, reading2, listening1, listening2].forEach((form) => assert.equal(form.totalQuestions, 100));
+  assert.deepEqual(reading2.counts, { 5: 30, 6: 16, 7: 54 });
+  assert.deepEqual(listening2.counts, { 1: 6, 2: 25, 3: 39, 4: 30 });
+  const reading1Ids = new Set(reading1.questions.map(({ id }) => id));
+  const listening1Ids = new Set(listening1.questions.map(({ id }) => id));
+  assert.equal(reading2.questions.some(({ id }) => reading1Ids.has(id)), false);
+  assert.equal(listening2.questions.some(({ id }) => listening1Ids.has(id)), false);
 });

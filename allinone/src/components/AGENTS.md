@@ -14,7 +14,7 @@ Shared UI components, navigation, route guards, modals, and loading states.
 |---|---|---|
 | `ProtectedRoute.jsx` | Drive config check; admin redirects to `/settings`, non-admins see `AccessLocked` | Authenticated + Drive |
 | `AuthenticatedRoute.jsx` | Any logged-in user | Authenticated |
-| `AdminRoute.jsx` | Admin-only pages (`/users`, `/settings`) | ADMIN role |
+| `AdminRoute.jsx` | Admin-only pages (`/users`, `/content`, `/settings`) | ADMIN role |
 | `LearningRoute.jsx` | Student learning paths (`/learning/*`) | STUDENT role |
 
 ## Shared UI Components
@@ -27,6 +27,8 @@ Shared UI components, navigation, route guards, modals, and loading states.
 | `FileModal.jsx` | File preview/action modal |
 | `DriveSwitcher.jsx` | Google Drive configuration selector |
 | `AccessLocked.jsx` | Non-admin access denied screen |
+| `PassagePanel.jsx` | Reading passage renderer for English learning pages (blank markers, multi-passage sets) |
+| `ListeningPlayer.jsx` | Sequential audio-clip player for English listening; locked exam mode plays once, study mode allows replay |
 
 ## Theme
 

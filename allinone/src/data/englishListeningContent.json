@@ -1,0 +1,2731 @@
+{
+  "title": "English Listening",
+  "format": "TOEIC Listening (Parts 1–4)",
+  "partLabels": {
+    "1": {
+      "label": "Part 1",
+      "detail": "Photographs",
+      "quota": 6
+    },
+    "2": {
+      "label": "Part 2",
+      "detail": "Question–response",
+      "quota": 25
+    },
+    "3": {
+      "label": "Part 3",
+      "detail": "Conversations",
+      "quota": 39
+    },
+    "4": {
+      "label": "Part 4",
+      "detail": "Short talks",
+      "quota": 30
+    }
+  },
+  "parts": {
+    "part1": {
+      "items": [
+        {
+          "id": "l1-001",
+          "image": "l1-001-photo.jpg",
+          "answer": "A",
+          "explanation": "The picture shows a woman typing at her desk, so \"She is typing on a keyboard\" describes it best.",
+          "tags": [
+            "photograph"
+          ],
+          "segments": [
+            {
+              "id": "l1-001-n",
+              "voice": "narrator",
+              "text": "Look at the picture."
+            },
+            {
+              "id": "l1-001-a",
+              "voice": "man-us",
+              "text": "A. She is typing on a keyboard."
+            },
+            {
+              "id": "l1-001-b",
+              "voice": "man-us",
+              "text": "B. She is talking on the telephone."
+            },
+            {
+              "id": "l1-001-c",
+              "voice": "man-us",
+              "text": "C. She is opening a window."
+            },
+            {
+              "id": "l1-001-d",
+              "voice": "man-us",
+              "text": "D. She is filing some documents."
+            }
+          ]
+        },
+        {
+          "id": "l1-002",
+          "image": "l1-002-photo.jpg",
+          "answer": "B",
+          "explanation": "The picture shows a man pushing a cart loaded with boxes, so \"A man is pushing a cart\" describes it best.",
+          "tags": [
+            "photograph"
+          ],
+          "segments": [
+            {
+              "id": "l1-002-n",
+              "voice": "narrator",
+              "text": "Look at the picture."
+            },
+            {
+              "id": "l1-002-a",
+              "voice": "woman-au",
+              "text": "A. The shelves are empty."
+            },
+            {
+              "id": "l1-002-b",
+              "voice": "woman-au",
+              "text": "B. A man is pushing a cart."
+            },
+            {
+              "id": "l1-002-c",
+              "voice": "woman-au",
+              "text": "C. The boxes are being opened."
+            },
+            {
+              "id": "l1-002-d",
+              "voice": "woman-au",
+              "text": "D. A truck is being loaded."
+            }
+          ]
+        },
+        {
+          "id": "l1-003",
+          "image": "l1-003-photo.jpg",
+          "answer": "C",
+          "explanation": "The picture shows a woman pouring coffee at a cafe counter, so choice C describes it best.",
+          "tags": [
+            "photograph"
+          ],
+          "segments": [
+            {
+              "id": "l1-003-n",
+              "voice": "narrator",
+              "text": "Look at the picture."
+            },
+            {
+              "id": "l1-003-a",
+              "voice": "woman-us",
+              "text": "A. A man is planting flowers."
+            },
+            {
+              "id": "l1-003-b",
+              "voice": "woman-us",
+              "text": "B. Customers are boarding a bus."
+            },
+            {
+              "id": "l1-003-c",
+              "voice": "woman-us",
+              "text": "C. A woman is pouring coffee."
+            },
+            {
+              "id": "l1-003-d",
+              "voice": "woman-us",
+              "text": "D. Some shelves are being painted."
+            }
+          ]
+        },
+        {
+          "id": "l1-004",
+          "image": "l1-004-photo.jpg",
+          "answer": "D",
+          "explanation": "Several people are seated around a conference table reviewing charts together.",
+          "tags": [
+            "photograph"
+          ],
+          "segments": [
+            {
+              "id": "l1-004-n",
+              "voice": "narrator",
+              "text": "Look at the picture."
+            },
+            {
+              "id": "l1-004-a",
+              "voice": "man-uk",
+              "text": "A. A projector is being repaired."
+            },
+            {
+              "id": "l1-004-b",
+              "voice": "man-uk",
+              "text": "B. The chairs have been stacked against a wall."
+            },
+            {
+              "id": "l1-004-c",
+              "voice": "man-uk",
+              "text": "C. A man is sweeping the floor."
+            },
+            {
+              "id": "l1-004-d",
+              "voice": "man-uk",
+              "text": "D. People are reviewing charts at a table."
+            }
+          ]
+        },
+        {
+          "id": "l1-005",
+          "image": "l1-005-photo.jpg",
+          "answer": "A",
+          "explanation": "A traveler is standing with luggage at a service counter.",
+          "tags": [
+            "photograph"
+          ],
+          "segments": [
+            {
+              "id": "l1-005-n",
+              "voice": "narrator",
+              "text": "Look at the picture."
+            },
+            {
+              "id": "l1-005-a",
+              "voice": "woman-au",
+              "text": "A. A traveler is standing at a counter with luggage."
+            },
+            {
+              "id": "l1-005-b",
+              "voice": "woman-au",
+              "text": "B. A suitcase is being loaded into a taxi."
+            },
+            {
+              "id": "l1-005-c",
+              "voice": "woman-au",
+              "text": "C. Passengers are sitting in an airplane cabin."
+            },
+            {
+              "id": "l1-005-d",
+              "voice": "woman-au",
+              "text": "D. A ticket machine is being installed."
+            }
+          ]
+        },
+        {
+          "id": "l1-006",
+          "image": "l1-006-photo.jpg",
+          "answer": "B",
+          "explanation": "The worker is placing traffic cones near a maintenance vehicle.",
+          "tags": [
+            "photograph"
+          ],
+          "segments": [
+            {
+              "id": "l1-006-n",
+              "voice": "narrator",
+              "text": "Look at the picture."
+            },
+            {
+              "id": "l1-006-a",
+              "voice": "man-us",
+              "text": "A. A vehicle is parked inside a garage."
+            },
+            {
+              "id": "l1-006-b",
+              "voice": "man-us",
+              "text": "B. A worker is placing traffic cones on the road."
+            },
+            {
+              "id": "l1-006-c",
+              "voice": "man-us",
+              "text": "C. Several people are crossing a bridge."
+            },
+            {
+              "id": "l1-006-d",
+              "voice": "man-us",
+              "text": "D. A sign is being removed from a building."
+            }
+          ]
+        }
+      ]
+    },
+    "part2": {
+      "items": [
+        {
+          "id": "l2-001",
+          "answer": "B",
+          "explanation": "The question asks about time, so \"At ten thirty\" is the appropriate response.",
+          "tags": [
+            "when-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-001-q",
+              "voice": "man-us",
+              "text": "When does the staff meeting begin?"
+            },
+            {
+              "id": "l2-001-ra",
+              "voice": "woman-us",
+              "text": "In the large conference room."
+            },
+            {
+              "id": "l2-001-rb",
+              "voice": "woman-us",
+              "text": "At ten thirty."
+            },
+            {
+              "id": "l2-001-rc",
+              "voice": "woman-us",
+              "text": "Twice a month."
+            }
+          ]
+        },
+        {
+          "id": "l2-002",
+          "answer": "A",
+          "explanation": "The question asks who is preparing the report, so \"Ms. Alvarez is\" answers it.",
+          "tags": [
+            "who-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-002-q",
+              "voice": "woman-au",
+              "text": "Who's preparing the sales report?"
+            },
+            {
+              "id": "l2-002-ra",
+              "voice": "man-uk",
+              "text": "Ms. Alvarez is."
+            },
+            {
+              "id": "l2-002-rb",
+              "voice": "man-uk",
+              "text": "By Friday afternoon."
+            },
+            {
+              "id": "l2-002-rc",
+              "voice": "man-uk",
+              "text": "About twenty pages long."
+            }
+          ]
+        },
+        {
+          "id": "l2-003",
+          "answer": "C",
+          "explanation": "The question asks where supplies are, so \"In the cabinet next to the printer\" answers it.",
+          "tags": [
+            "where-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-003-q",
+              "voice": "man-uk",
+              "text": "Where can I find the office supplies?"
+            },
+            {
+              "id": "l2-003-ra",
+              "voice": "woman-us",
+              "text": "Every Monday morning."
+            },
+            {
+              "id": "l2-003-rb",
+              "voice": "woman-us",
+              "text": "About fifteen dollars."
+            },
+            {
+              "id": "l2-003-rc",
+              "voice": "woman-us",
+              "text": "In the cabinet next to the printer."
+            }
+          ]
+        },
+        {
+          "id": "l2-004",
+          "answer": "A",
+          "explanation": "The question asks for a reason, so \"Because of the storm\" answers it.",
+          "tags": [
+            "why-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-004-q",
+              "voice": "woman-us",
+              "text": "Why was the flight delayed?"
+            },
+            {
+              "id": "l2-004-ra",
+              "voice": "man-us",
+              "text": "Because of the storm."
+            },
+            {
+              "id": "l2-004-rb",
+              "voice": "man-us",
+              "text": "At gate twelve."
+            },
+            {
+              "id": "l2-004-rc",
+              "voice": "man-us",
+              "text": "A round-trip ticket."
+            }
+          ]
+        },
+        {
+          "id": "l2-005",
+          "answer": "B",
+          "explanation": "The speaker makes a request, so accepting it — \"Sure, I'll look at them after lunch\" — is the appropriate response.",
+          "tags": [
+            "request"
+          ],
+          "segments": [
+            {
+              "id": "l2-005-q",
+              "voice": "man-us",
+              "text": "Could you review my presentation slides?"
+            },
+            {
+              "id": "l2-005-ra",
+              "voice": "woman-au",
+              "text": "The projector in Room B."
+            },
+            {
+              "id": "l2-005-rb",
+              "voice": "woman-au",
+              "text": "Sure, I'll look at them after lunch."
+            },
+            {
+              "id": "l2-005-rc",
+              "voice": "woman-au",
+              "text": "About twenty minutes long."
+            }
+          ]
+        },
+        {
+          "id": "l2-006",
+          "answer": "C",
+          "explanation": "The question asks for a number of people, so \"About twenty-five\" answers it.",
+          "tags": [
+            "how-many-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-006-q",
+              "voice": "woman-au",
+              "text": "How many people are attending the workshop?"
+            },
+            {
+              "id": "l2-006-ra",
+              "voice": "man-uk",
+              "text": "Next Wednesday."
+            },
+            {
+              "id": "l2-006-rb",
+              "voice": "man-uk",
+              "text": "In the training center."
+            },
+            {
+              "id": "l2-006-rc",
+              "voice": "man-uk",
+              "text": "About twenty-five."
+            }
+          ]
+        },
+        {
+          "id": "l2-007",
+          "answer": "A",
+          "explanation": "The tag question asks for confirmation, so \"Yes, at last week's reception\" is the appropriate response.",
+          "tags": [
+            "tag-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-007-q",
+              "voice": "man-uk",
+              "text": "You've met the new director, haven't you?"
+            },
+            {
+              "id": "l2-007-ra",
+              "voice": "woman-us",
+              "text": "Yes, at last week's reception."
+            },
+            {
+              "id": "l2-007-rb",
+              "voice": "woman-us",
+              "text": "A corner office."
+            },
+            {
+              "id": "l2-007-rc",
+              "voice": "woman-us",
+              "text": "The directions are attached."
+            }
+          ]
+        },
+        {
+          "id": "l2-008",
+          "answer": "B",
+          "explanation": "The question offers a choice between two options, so \"The train would be faster\" selects one of them.",
+          "tags": [
+            "choice-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-008-q",
+              "voice": "woman-us",
+              "text": "Should we take the train or drive to the conference?"
+            },
+            {
+              "id": "l2-008-ra",
+              "voice": "man-us",
+              "text": "A keynote speaker."
+            },
+            {
+              "id": "l2-008-rb",
+              "voice": "man-us",
+              "text": "The train would be faster."
+            },
+            {
+              "id": "l2-008-rc",
+              "voice": "man-us",
+              "text": "Three nights at the hotel."
+            }
+          ]
+        },
+        {
+          "id": "l2-009",
+          "answer": "C",
+          "explanation": "The statement reports a problem, so offering to call the technician responds to it appropriately.",
+          "tags": [
+            "statement"
+          ],
+          "segments": [
+            {
+              "id": "l2-009-q",
+              "voice": "man-us",
+              "text": "The printer on the third floor is out of order again."
+            },
+            {
+              "id": "l2-009-ra",
+              "voice": "woman-au",
+              "text": "Fifty copies, please."
+            },
+            {
+              "id": "l2-009-rb",
+              "voice": "woman-au",
+              "text": "On heavier paper."
+            },
+            {
+              "id": "l2-009-rc",
+              "voice": "woman-au",
+              "text": "I'll call the technician."
+            }
+          ]
+        },
+        {
+          "id": "l2-010",
+          "answer": "A",
+          "explanation": "The speaker extends an invitation, so accepting it — \"I'd love to, thanks\" — is the appropriate response.",
+          "tags": [
+            "invitation"
+          ],
+          "segments": [
+            {
+              "id": "l2-010-q",
+              "voice": "woman-au",
+              "text": "Would you like to join us for dinner after work?"
+            },
+            {
+              "id": "l2-010-ra",
+              "voice": "man-uk",
+              "text": "I'd love to, thanks."
+            },
+            {
+              "id": "l2-010-rb",
+              "voice": "man-uk",
+              "text": "The kitchen is downstairs."
+            },
+            {
+              "id": "l2-010-rc",
+              "voice": "man-uk",
+              "text": "It opened last year."
+            }
+          ]
+        },
+        {
+          "id": "l2-011",
+          "answer": "B",
+          "explanation": "The question asks when the shipment will arrive, so a time response fits.",
+          "tags": [
+            "when-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-011-q",
+              "voice": "man-us",
+              "text": "When will the replacement parts arrive?"
+            },
+            {
+              "id": "l2-011-ra",
+              "voice": "woman-us",
+              "text": "Through the side entrance."
+            },
+            {
+              "id": "l2-011-rb",
+              "voice": "woman-us",
+              "text": "By tomorrow afternoon."
+            },
+            {
+              "id": "l2-011-rc",
+              "voice": "woman-us",
+              "text": "The parts manager did."
+            }
+          ]
+        },
+        {
+          "id": "l2-012",
+          "answer": "A",
+          "explanation": "The question asks who approved the budget, so naming a person is correct.",
+          "tags": [
+            "who-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-012-q",
+              "voice": "woman-au",
+              "text": "Who approved the revised advertising budget?"
+            },
+            {
+              "id": "l2-012-ra",
+              "voice": "man-uk",
+              "text": "The regional director did."
+            },
+            {
+              "id": "l2-012-rb",
+              "voice": "man-uk",
+              "text": "It was revised last week."
+            },
+            {
+              "id": "l2-012-rc",
+              "voice": "man-uk",
+              "text": "About fifteen thousand dollars."
+            }
+          ]
+        },
+        {
+          "id": "l2-013",
+          "answer": "C",
+          "explanation": "The question asks where the visitor badges are kept.",
+          "tags": [
+            "where-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-013-q",
+              "voice": "man-uk",
+              "text": "Where do we keep the visitor badges?"
+            },
+            {
+              "id": "l2-013-ra",
+              "voice": "woman-us",
+              "text": "Only for invited guests."
+            },
+            {
+              "id": "l2-013-rb",
+              "voice": "woman-us",
+              "text": "At three o clock."
+            },
+            {
+              "id": "l2-013-rc",
+              "voice": "woman-us",
+              "text": "In the top drawer at reception."
+            }
+          ]
+        },
+        {
+          "id": "l2-014",
+          "answer": "A",
+          "explanation": "The request asks someone to forward an e-mail, and the response accepts.",
+          "tags": [
+            "request"
+          ],
+          "segments": [
+            {
+              "id": "l2-014-q",
+              "voice": "woman-us",
+              "text": "Could you forward me the client e-mail?"
+            },
+            {
+              "id": "l2-014-ra",
+              "voice": "man-us",
+              "text": "Sure, I will send it now."
+            },
+            {
+              "id": "l2-014-rb",
+              "voice": "man-us",
+              "text": "The client arrived early."
+            },
+            {
+              "id": "l2-014-rc",
+              "voice": "man-us",
+              "text": "No, it was printed in color."
+            }
+          ]
+        },
+        {
+          "id": "l2-015",
+          "answer": "B",
+          "explanation": "The question asks for a reason why a cafe closed early.",
+          "tags": [
+            "why-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-015-q",
+              "voice": "man-us",
+              "text": "Why did the cafeteria close early today?"
+            },
+            {
+              "id": "l2-015-ra",
+              "voice": "woman-au",
+              "text": "On the ground floor."
+            },
+            {
+              "id": "l2-015-rb",
+              "voice": "woman-au",
+              "text": "Because the kitchen is being cleaned."
+            },
+            {
+              "id": "l2-015-rc",
+              "voice": "woman-au",
+              "text": "About thirty employees."
+            }
+          ]
+        },
+        {
+          "id": "l2-016",
+          "answer": "C",
+          "explanation": "The question asks how long the warranty lasts.",
+          "tags": [
+            "how-long-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-016-q",
+              "voice": "woman-au",
+              "text": "How long is the printer warranty?"
+            },
+            {
+              "id": "l2-016-ra",
+              "voice": "man-uk",
+              "text": "At the electronics counter."
+            },
+            {
+              "id": "l2-016-rb",
+              "voice": "man-uk",
+              "text": "It prints very quickly."
+            },
+            {
+              "id": "l2-016-rc",
+              "voice": "man-uk",
+              "text": "For two years."
+            }
+          ]
+        },
+        {
+          "id": "l2-017",
+          "answer": "A",
+          "explanation": "The speaker offers two choices, and the response selects one.",
+          "tags": [
+            "choice-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-017-q",
+              "voice": "man-uk",
+              "text": "Would you prefer a window seat or an aisle seat?"
+            },
+            {
+              "id": "l2-017-ra",
+              "voice": "woman-us",
+              "text": "An aisle seat, please."
+            },
+            {
+              "id": "l2-017-rb",
+              "voice": "woman-us",
+              "text": "The flight leaves at six."
+            },
+            {
+              "id": "l2-017-rc",
+              "voice": "woman-us",
+              "text": "Just one suitcase."
+            }
+          ]
+        },
+        {
+          "id": "l2-018",
+          "answer": "B",
+          "explanation": "The tag question asks for confirmation about invoice payment.",
+          "tags": [
+            "tag-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-018-q",
+              "voice": "woman-us",
+              "text": "The supplier invoice was paid yesterday, wasn't it?"
+            },
+            {
+              "id": "l2-018-ra",
+              "voice": "man-us",
+              "text": "The supplier is in Denver."
+            },
+            {
+              "id": "l2-018-rb",
+              "voice": "man-us",
+              "text": "Yes, accounting processed it."
+            },
+            {
+              "id": "l2-018-rc",
+              "voice": "man-us",
+              "text": "About two hundred units."
+            }
+          ]
+        },
+        {
+          "id": "l2-019",
+          "answer": "C",
+          "explanation": "The statement announces a problem, and the response offers a solution.",
+          "tags": [
+            "statement"
+          ],
+          "segments": [
+            {
+              "id": "l2-019-q",
+              "voice": "man-us",
+              "text": "I left my security card at home."
+            },
+            {
+              "id": "l2-019-ra",
+              "voice": "woman-au",
+              "text": "The card reader is new."
+            },
+            {
+              "id": "l2-019-rb",
+              "voice": "woman-au",
+              "text": "It closes at five thirty."
+            },
+            {
+              "id": "l2-019-rc",
+              "voice": "woman-au",
+              "text": "Reception can issue a temporary pass."
+            }
+          ]
+        },
+        {
+          "id": "l2-020",
+          "answer": "A",
+          "explanation": "The question asks how often reports are sent.",
+          "tags": [
+            "how-often-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-020-q",
+              "voice": "woman-au",
+              "text": "How often do we send inventory reports?"
+            },
+            {
+              "id": "l2-020-ra",
+              "voice": "man-uk",
+              "text": "Every Friday afternoon."
+            },
+            {
+              "id": "l2-020-rb",
+              "voice": "man-uk",
+              "text": "To the warehouse manager."
+            },
+            {
+              "id": "l2-020-rc",
+              "voice": "man-uk",
+              "text": "About the missing items."
+            }
+          ]
+        },
+        {
+          "id": "l2-021",
+          "answer": "B",
+          "explanation": "The question asks about the location of the new branch.",
+          "tags": [
+            "where-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-021-q",
+              "voice": "man-uk",
+              "text": "Where is the new branch office located?"
+            },
+            {
+              "id": "l2-021-ra",
+              "voice": "woman-us",
+              "text": "It opens next month."
+            },
+            {
+              "id": "l2-021-rb",
+              "voice": "woman-us",
+              "text": "Across from the central station."
+            },
+            {
+              "id": "l2-021-rc",
+              "voice": "woman-us",
+              "text": "About twelve employees."
+            }
+          ]
+        },
+        {
+          "id": "l2-022",
+          "answer": "C",
+          "explanation": "The speaker extends an invitation and the response politely declines with a reason.",
+          "tags": [
+            "invitation"
+          ],
+          "segments": [
+            {
+              "id": "l2-022-q",
+              "voice": "woman-us",
+              "text": "Can you join the product briefing at four?"
+            },
+            {
+              "id": "l2-022-ra",
+              "voice": "man-us",
+              "text": "The product ships tomorrow."
+            },
+            {
+              "id": "l2-022-rb",
+              "voice": "man-us",
+              "text": "In Conference Room C."
+            },
+            {
+              "id": "l2-022-rc",
+              "voice": "man-us",
+              "text": "I have a customer call then."
+            }
+          ]
+        },
+        {
+          "id": "l2-023",
+          "answer": "A",
+          "explanation": "The question asks what the listener thought of a proposal, and the response gives an opinion.",
+          "tags": [
+            "opinion-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-023-q",
+              "voice": "man-us",
+              "text": "What did you think of the consultant's proposal?"
+            },
+            {
+              "id": "l2-023-ra",
+              "voice": "woman-au",
+              "text": "It was clear but a little expensive."
+            },
+            {
+              "id": "l2-023-rb",
+              "voice": "woman-au",
+              "text": "The consultant arrived by train."
+            },
+            {
+              "id": "l2-023-rc",
+              "voice": "woman-au",
+              "text": "At the end of the quarter."
+            }
+          ]
+        },
+        {
+          "id": "l2-024",
+          "answer": "B",
+          "explanation": "The question asks how many brochures are needed.",
+          "tags": [
+            "how-many-question"
+          ],
+          "segments": [
+            {
+              "id": "l2-024-q",
+              "voice": "woman-au",
+              "text": "How many brochures should we print for the fair?"
+            },
+            {
+              "id": "l2-024-ra",
+              "voice": "man-uk",
+              "text": "At the convention center."
+            },
+            {
+              "id": "l2-024-rb",
+              "voice": "man-uk",
+              "text": "Five hundred should be enough."
+            },
+            {
+              "id": "l2-024-rc",
+              "voice": "man-uk",
+              "text": "The blue ones look best."
+            }
+          ]
+        },
+        {
+          "id": "l2-025",
+          "answer": "C",
+          "explanation": "The speaker asks for a confirmation about changing a reservation.",
+          "tags": [
+            "confirmation"
+          ],
+          "segments": [
+            {
+              "id": "l2-025-q",
+              "voice": "man-uk",
+              "text": "May I change my hotel reservation to two nights?"
+            },
+            {
+              "id": "l2-025-ra",
+              "voice": "woman-us",
+              "text": "The hotel is downtown."
+            },
+            {
+              "id": "l2-025-rb",
+              "voice": "woman-us",
+              "text": "Breakfast begins at seven."
+            },
+            {
+              "id": "l2-025-rc",
+              "voice": "woman-us",
+              "text": "Yes, I can update that for you."
+            }
+          ]
+        }
+      ]
+    },
+    "part3": {
+      "sets": [
+        {
+          "id": "l3-001",
+          "segments": [
+            {
+              "id": "l3-001-n",
+              "voice": "narrator",
+              "text": "Listen to the following conversation."
+            },
+            {
+              "id": "l3-001-t1",
+              "voice": "woman-us",
+              "text": "Hi Marcus, I reserved Room 4 for the client meeting tomorrow at two, but the calendar now shows a training session there."
+            },
+            {
+              "id": "l3-001-t2",
+              "voice": "man-us",
+              "text": "Oh, facilities moved the training at the last minute. Sorry, I should have told you. Rooms 6 and 7 are both free tomorrow afternoon."
+            },
+            {
+              "id": "l3-001-t3",
+              "voice": "woman-us",
+              "text": "Room 6 doesn't have a video screen, and we need to show the new product demo. I'll take Room 7."
+            },
+            {
+              "id": "l3-001-t4",
+              "voice": "man-us",
+              "text": "Good choice. I'll update the calendar right away and e-mail the client the new room number."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l3-001-q1",
+              "prompt": "What problem does the woman mention?",
+              "options": {
+                "A": "A meeting room is no longer available",
+                "B": "A client canceled an appointment",
+                "C": "A video screen is broken",
+                "D": "A training session was canceled"
+              },
+              "answer": "A",
+              "explanation": "She reserved Room 4, but the calendar now shows a training session there instead.",
+              "tags": [
+                "problem"
+              ]
+            },
+            {
+              "id": "l3-001-q2",
+              "prompt": "Why does the woman choose Room 7?",
+              "options": {
+                "A": "It is closer to her office",
+                "B": "It has a video screen",
+                "C": "It seats more people",
+                "D": "It is available all day"
+              },
+              "answer": "B",
+              "explanation": "She rejects Room 6 because it has no video screen and she needs to show a product demo.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-001-q3",
+              "prompt": "What will the man most likely do next?",
+              "options": {
+                "A": "Reserve a projector",
+                "B": "Call the facilities team",
+                "C": "Update the calendar and e-mail the client",
+                "D": "Reschedule the training session"
+              },
+              "answer": "C",
+              "explanation": "He says he will update the calendar right away and e-mail the client the new room number.",
+              "tags": [
+                "next-action"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l3-002",
+          "segments": [
+            {
+              "id": "l3-002-n",
+              "voice": "narrator",
+              "text": "Listen to the following conversation."
+            },
+            {
+              "id": "l3-002-t1",
+              "voice": "man-uk",
+              "text": "Thanks for calling Beacon Catering. How can I help you?"
+            },
+            {
+              "id": "l3-002-t2",
+              "voice": "woman-us",
+              "text": "Hi, this is Elena from Stratford Design. I'd like to order lunch for a client workshop on Thursday — sandwiches and salads for eighteen people."
+            },
+            {
+              "id": "l3-002-t3",
+              "voice": "man-uk",
+              "text": "Certainly. We have a lunch package at twelve dollars per person, and delivery is free for orders over two hundred dollars."
+            },
+            {
+              "id": "l3-002-t4",
+              "voice": "woman-us",
+              "text": "That works. Could you deliver at eleven thirty? The workshop starts at noon, and I'd like time to set up."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l3-002-q1",
+              "prompt": "Why is the woman calling?",
+              "options": {
+                "A": "To cancel a delivery",
+                "B": "To order food for a workshop",
+                "C": "To ask about job openings",
+                "D": "To complain about an invoice"
+              },
+              "answer": "B",
+              "explanation": "She wants to order sandwiches and salads for a client workshop on Thursday.",
+              "tags": [
+                "purpose"
+              ]
+            },
+            {
+              "id": "l3-002-q2",
+              "prompt": "What does the man say about delivery?",
+              "options": {
+                "A": "It is unavailable on Thursdays",
+                "B": "It takes two hours",
+                "C": "It is free for orders over two hundred dollars",
+                "D": "It costs twelve dollars"
+              },
+              "answer": "C",
+              "explanation": "He explains that delivery is free for orders over two hundred dollars.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-002-q3",
+              "prompt": "Why does the woman ask for an eleven thirty delivery?",
+              "options": {
+                "A": "She wants time to set up",
+                "B": "She wants a discount",
+                "C": "The workshop ends at noon",
+                "D": "The kitchen closes early"
+              },
+              "answer": "A",
+              "explanation": "The workshop starts at noon, and she would like time to set up beforehand.",
+              "tags": [
+                "detail"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l3-003",
+          "segments": [
+            {
+              "id": "l3-003-n",
+              "voice": "narrator",
+              "text": "Listen to the following conversation."
+            },
+            {
+              "id": "l3-003-t1",
+              "voice": "man-us",
+              "text": "Hi Priya, my laptop keeps disconnecting from the wireless network — it's the third time this morning, and I'm in the middle of a video call with the Osaka office."
+            },
+            {
+              "id": "l3-003-t2",
+              "voice": "woman-au",
+              "text": "We've had several reports from the fourth floor today. A network switch is failing, and the replacement part arrives this afternoon."
+            },
+            {
+              "id": "l3-003-t3",
+              "voice": "man-us",
+              "text": "Is there anything I can do in the meantime? My call resumes in twenty minutes."
+            },
+            {
+              "id": "l3-003-t4",
+              "voice": "woman-au",
+              "text": "Use the wired connection at the hot desks on the third floor — those ports are on a different switch. I'll send you a cable adapter."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l3-003-q1",
+              "prompt": "What problem does the man report?",
+              "options": {
+                "A": "His laptop will not start",
+                "B": "He keeps losing the wireless connection",
+                "C": "His password has expired",
+                "D": "His video camera is broken"
+              },
+              "answer": "B",
+              "explanation": "His laptop has disconnected from the wireless network three times in one morning.",
+              "tags": [
+                "problem"
+              ]
+            },
+            {
+              "id": "l3-003-q2",
+              "prompt": "According to the woman, what is causing the problem?",
+              "options": {
+                "A": "A failing network switch",
+                "B": "A software update",
+                "C": "Too many video calls",
+                "D": "A power outage"
+              },
+              "answer": "A",
+              "explanation": "She says a network switch is failing and the replacement part arrives that afternoon.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-003-q3",
+              "prompt": "What does the woman suggest the man do?",
+              "options": {
+                "A": "Restart his laptop",
+                "B": "Postpone his call",
+                "C": "Work from home",
+                "D": "Use a wired connection on the third floor"
+              },
+              "answer": "D",
+              "explanation": "She tells him to use the wired connection at the third-floor hot desks, which are on a different switch.",
+              "tags": [
+                "suggestion"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l3-004",
+          "segments": [
+            {
+              "id": "l3-004-n",
+              "voice": "narrator",
+              "text": "Listen to the following conversation."
+            },
+            {
+              "id": "l3-004-t1",
+              "voice": "woman-au",
+              "text": "Daniel, could you cover my Saturday shift this week? My cousin's wedding is that afternoon."
+            },
+            {
+              "id": "l3-004-t2",
+              "voice": "man-uk",
+              "text": "I'd like to help, but I'm driving to the trade show in Fairview on Saturday morning."
+            },
+            {
+              "id": "l3-004-t3",
+              "voice": "woman-au",
+              "text": "What about switching instead? I could take your Sunday shift."
+            },
+            {
+              "id": "l3-004-t4",
+              "voice": "man-uk",
+              "text": "Actually, that works — I'll be back Saturday night. Let's ask the manager to approve the change today."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l3-004-q1",
+              "prompt": "Why does the woman need Saturday off?",
+              "options": {
+                "A": "She is attending a wedding",
+                "B": "She has a medical appointment",
+                "C": "She is traveling to a trade show",
+                "D": "She is moving to a new apartment"
+              },
+              "answer": "A",
+              "explanation": "Her cousin's wedding is on Saturday afternoon.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-004-q2",
+              "prompt": "Why is the man unavailable on Saturday morning?",
+              "options": {
+                "A": "He is covering another shift",
+                "B": "He is driving to a trade show",
+                "C": "He has a family event",
+                "D": "He is meeting the manager"
+              },
+              "answer": "B",
+              "explanation": "He is driving to the trade show in Fairview on Saturday morning.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-004-q3",
+              "prompt": "What do the speakers agree to do?",
+              "options": {
+                "A": "Ask a colleague to help",
+                "B": "Close the store early",
+                "C": "Exchange shifts",
+                "D": "Postpone the trade show"
+              },
+              "answer": "C",
+              "explanation": "They agree to switch shifts — she takes his Sunday shift — and to ask the manager for approval.",
+              "tags": [
+                "inference"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l3-005",
+          "segments": [
+            {
+              "id": "l3-005-n",
+              "voice": "narrator",
+              "text": "Listen to the following conversation."
+            },
+            {
+              "id": "l3-005-t1",
+              "voice": "woman-us",
+              "text": "Hi, I ordered two display tables for our trade show booth, but only one arrived this morning."
+            },
+            {
+              "id": "l3-005-t2",
+              "voice": "man-us",
+              "text": "Let me check the shipment record. It looks like the second table was loaded on a separate truck by mistake."
+            },
+            {
+              "id": "l3-005-t3",
+              "voice": "woman-us",
+              "text": "The show opens tomorrow at nine, so we need it today if possible."
+            },
+            {
+              "id": "l3-005-t4",
+              "voice": "man-us",
+              "text": "I will contact the driver now and arrange delivery to the convention center before five."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l3-005-q1",
+              "prompt": "What problem does the woman mention?",
+              "options": {
+                "A": "A booth was assigned to another company",
+                "B": "Only one display table arrived",
+                "C": "A truck damaged some products",
+                "D": "The trade show was delayed"
+              },
+              "answer": "B",
+              "explanation": "She ordered two display tables, but only one arrived.",
+              "tags": [
+                "problem"
+              ]
+            },
+            {
+              "id": "l3-005-q2",
+              "prompt": "Why does the woman need the item today?",
+              "options": {
+                "A": "A client will inspect it tonight",
+                "B": "The show opens tomorrow morning",
+                "C": "The warehouse closes tomorrow",
+                "D": "She is leaving for another city"
+              },
+              "answer": "B",
+              "explanation": "She says the show opens tomorrow at nine.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-005-q3",
+              "prompt": "What will the man do next?",
+              "options": {
+                "A": "Cancel the order",
+                "B": "Contact a driver",
+                "C": "Visit the woman's office",
+                "D": "Send a refund"
+              },
+              "answer": "B",
+              "explanation": "He says he will contact the driver and arrange delivery.",
+              "tags": [
+                "next-action"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l3-006",
+          "segments": [
+            {
+              "id": "l3-006-n",
+              "voice": "narrator",
+              "text": "Listen to the following conversation."
+            },
+            {
+              "id": "l3-006-t1",
+              "voice": "man-uk",
+              "text": "Good morning. I am checking in for the software training seminar. My name is Victor Lee."
+            },
+            {
+              "id": "l3-006-t2",
+              "voice": "woman-au",
+              "text": "Welcome, Mr. Lee. I see your registration, but the seminar has moved from Room 205 to the auditorium because attendance is higher than expected."
+            },
+            {
+              "id": "l3-006-t3",
+              "voice": "man-uk",
+              "text": "Thanks. Will the printed workbook still be available there?"
+            },
+            {
+              "id": "l3-006-t4",
+              "voice": "woman-au",
+              "text": "Yes. Pick one up at the table by the auditorium entrance, and please wear this name badge."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l3-006-q1",
+              "prompt": "Why is the man at the desk?",
+              "options": {
+                "A": "To check in for a seminar",
+                "B": "To reserve an auditorium",
+                "C": "To ask for technical support",
+                "D": "To interview for a job"
+              },
+              "answer": "A",
+              "explanation": "He says he is checking in for the software training seminar.",
+              "tags": [
+                "purpose"
+              ]
+            },
+            {
+              "id": "l3-006-q2",
+              "prompt": "Why was the seminar moved?",
+              "options": {
+                "A": "The projector is broken",
+                "B": "Attendance is higher than expected",
+                "C": "The speaker arrived late",
+                "D": "The original room is being painted"
+              },
+              "answer": "B",
+              "explanation": "The woman says attendance is higher than expected.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-006-q3",
+              "prompt": "What does the woman give the man?",
+              "options": {
+                "A": "A workbook",
+                "B": "A parking pass",
+                "C": "A name badge",
+                "D": "A receipt"
+              },
+              "answer": "C",
+              "explanation": "She tells him to wear the name badge.",
+              "tags": [
+                "detail"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l3-007",
+          "segments": [
+            {
+              "id": "l3-007-n",
+              "voice": "narrator",
+              "text": "Listen to the following conversation."
+            },
+            {
+              "id": "l3-007-t1",
+              "voice": "woman-au",
+              "text": "Our customer satisfaction survey results came in, and several clients mentioned slow response times for support tickets."
+            },
+            {
+              "id": "l3-007-t2",
+              "voice": "man-uk",
+              "text": "I saw that. We have only two agents covering morning requests, and most tickets arrive before noon."
+            },
+            {
+              "id": "l3-007-t3",
+              "voice": "woman-au",
+              "text": "Could we move one afternoon agent to the morning shift for a month and compare the numbers?"
+            },
+            {
+              "id": "l3-007-t4",
+              "voice": "man-uk",
+              "text": "That is a good trial. I will update the schedule and tell the support team today."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l3-007-q1",
+              "prompt": "What issue did clients mention?",
+              "options": {
+                "A": "Confusing invoices",
+                "B": "Slow support responses",
+                "C": "Limited product choices",
+                "D": "Late deliveries"
+              },
+              "answer": "B",
+              "explanation": "Clients mentioned slow response times for support tickets.",
+              "tags": [
+                "problem"
+              ]
+            },
+            {
+              "id": "l3-007-q2",
+              "prompt": "When do most support tickets arrive?",
+              "options": {
+                "A": "Before noon",
+                "B": "During lunch",
+                "C": "Late in the evening",
+                "D": "On weekends"
+              },
+              "answer": "A",
+              "explanation": "The man says most tickets arrive before noon.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-007-q3",
+              "prompt": "What does the woman suggest?",
+              "options": {
+                "A": "Hiring a new manager",
+                "B": "Reducing survey questions",
+                "C": "Moving an agent to mornings temporarily",
+                "D": "Closing the support line"
+              },
+              "answer": "C",
+              "explanation": "She suggests moving one afternoon agent to the morning shift for a month.",
+              "tags": [
+                "suggestion"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l3-008",
+          "segments": [
+            {
+              "id": "l3-008-n",
+              "voice": "narrator",
+              "text": "Listen to the following conversation."
+            },
+            {
+              "id": "l3-008-t1",
+              "voice": "man-us",
+              "text": "I am picking up an online order for Park Dental Clinic. It should include six boxes of gloves and four cartons of disinfectant wipes."
+            },
+            {
+              "id": "l3-008-t2",
+              "voice": "woman-us",
+              "text": "I have the gloves here, but the wipes are back-ordered until Thursday."
+            },
+            {
+              "id": "l3-008-t3",
+              "voice": "man-us",
+              "text": "We need some wipes before then. Do you have a smaller package available today?"
+            },
+            {
+              "id": "l3-008-t4",
+              "voice": "woman-us",
+              "text": "Yes, we have single containers on aisle five. I can adjust your order and charge only the difference."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l3-008-q1",
+              "prompt": "What is unavailable?",
+              "options": {
+                "A": "Gloves",
+                "B": "Disinfectant wipes",
+                "C": "Dental tools",
+                "D": "Storage boxes"
+              },
+              "answer": "B",
+              "explanation": "The woman says the wipes are back-ordered until Thursday.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-008-q2",
+              "prompt": "What does the man ask about?",
+              "options": {
+                "A": "A smaller package available today",
+                "B": "A discount for bulk orders",
+                "C": "Delivery to the clinic",
+                "D": "A different payment method"
+              },
+              "answer": "A",
+              "explanation": "He asks whether a smaller package is available today.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-008-q3",
+              "prompt": "Where can the man find the alternate item?",
+              "options": {
+                "A": "Behind the register",
+                "B": "In the warehouse office",
+                "C": "On aisle five",
+                "D": "Near the front door"
+              },
+              "answer": "C",
+              "explanation": "The woman says single containers are on aisle five.",
+              "tags": [
+                "detail"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l3-009",
+          "segments": [
+            {
+              "id": "l3-009-n",
+              "voice": "narrator",
+              "text": "Listen to the following conversation."
+            },
+            {
+              "id": "l3-009-t1",
+              "voice": "woman-us",
+              "text": "The finance team needs the expense receipts from last week's client dinner before they can reimburse us."
+            },
+            {
+              "id": "l3-009-t2",
+              "voice": "man-us",
+              "text": "I uploaded mine to the travel portal, but I forgot to label the restaurant receipt."
+            },
+            {
+              "id": "l3-009-t3",
+              "voice": "woman-us",
+              "text": "Could you rename it by department and date? The auditors requested consistent file names."
+            },
+            {
+              "id": "l3-009-t4",
+              "voice": "man-us",
+              "text": "No problem. I will fix it after this call and send finance a note."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l3-009-q1",
+              "prompt": "Why does finance need the receipts?",
+              "options": {
+                "A": "To reimburse expenses",
+                "B": "To reserve a restaurant",
+                "C": "To plan a dinner",
+                "D": "To update a menu"
+              },
+              "answer": "A",
+              "explanation": "Finance needs the receipts before reimbursing the speakers.",
+              "tags": [
+                "purpose"
+              ]
+            },
+            {
+              "id": "l3-009-q2",
+              "prompt": "What did the man forget to do?",
+              "options": {
+                "A": "Pay the bill",
+                "B": "Label a receipt",
+                "C": "Invite a client",
+                "D": "Check the date"
+              },
+              "answer": "B",
+              "explanation": "He forgot to label the restaurant receipt.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-009-q3",
+              "prompt": "What will the man most likely do?",
+              "options": {
+                "A": "Call the restaurant",
+                "B": "Print a new receipt",
+                "C": "Correct a file name",
+                "D": "Meet with the auditors"
+              },
+              "answer": "C",
+              "explanation": "He says he will fix the file after the call.",
+              "tags": [
+                "next-action"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l3-010",
+          "segments": [
+            {
+              "id": "l3-010-n",
+              "voice": "narrator",
+              "text": "Listen to the following conversation."
+            },
+            {
+              "id": "l3-010-t1",
+              "voice": "man-uk",
+              "text": "I noticed the hotel reservation for our sales team lists five single rooms, but six people are traveling."
+            },
+            {
+              "id": "l3-010-t2",
+              "voice": "woman-au",
+              "text": "You are right. I added Alex after the reservation was made and forgot to update the room count."
+            },
+            {
+              "id": "l3-010-t3",
+              "voice": "man-uk",
+              "text": "The conference hotel is almost full, so we should call this morning."
+            },
+            {
+              "id": "l3-010-t4",
+              "voice": "woman-au",
+              "text": "I will call now. If no single rooms are left, I will ask for one double room instead."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l3-010-q1",
+              "prompt": "What is the problem with the reservation?",
+              "options": {
+                "A": "It lists the wrong hotel",
+                "B": "It has too few rooms",
+                "C": "It starts on the wrong date",
+                "D": "It was canceled"
+              },
+              "answer": "B",
+              "explanation": "Six people are traveling, but the reservation lists five single rooms.",
+              "tags": [
+                "problem"
+              ]
+            },
+            {
+              "id": "l3-010-q2",
+              "prompt": "Why does the man suggest calling this morning?",
+              "options": {
+                "A": "The hotel is almost full",
+                "B": "The team leaves tonight",
+                "C": "A discount ends at noon",
+                "D": "The manager requested it"
+              },
+              "answer": "A",
+              "explanation": "He says the conference hotel is almost full.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-010-q3",
+              "prompt": "What alternative does the woman mention?",
+              "options": {
+                "A": "Changing hotels",
+                "B": "Canceling one traveler",
+                "C": "Requesting a double room",
+                "D": "Driving instead of flying"
+              },
+              "answer": "C",
+              "explanation": "She will ask for one double room if no single rooms are left.",
+              "tags": [
+                "detail"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l3-011",
+          "segments": [
+            {
+              "id": "l3-011-n",
+              "voice": "narrator",
+              "text": "Listen to the following conversation."
+            },
+            {
+              "id": "l3-011-t1",
+              "voice": "woman-au",
+              "text": "The new product photos look good, but the labels on two packages are hard to read on mobile screens."
+            },
+            {
+              "id": "l3-011-t2",
+              "voice": "man-uk",
+              "text": "I can increase the contrast and crop the images closer. The web team needs final files by Wednesday."
+            },
+            {
+              "id": "l3-011-t3",
+              "voice": "woman-au",
+              "text": "Could you send a sample before changing the whole set?"
+            },
+            {
+              "id": "l3-011-t4",
+              "voice": "man-uk",
+              "text": "Sure. I will revise one photo this afternoon and share it for approval."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l3-011-q1",
+              "prompt": "What problem does the woman identify?",
+              "options": {
+                "A": "Some labels are difficult to read",
+                "B": "The photos are missing",
+                "C": "The website is offline",
+                "D": "The packages are damaged"
+              },
+              "answer": "A",
+              "explanation": "She says two package labels are hard to read on mobile screens.",
+              "tags": [
+                "problem"
+              ]
+            },
+            {
+              "id": "l3-011-q2",
+              "prompt": "When does the web team need the final files?",
+              "options": {
+                "A": "This afternoon",
+                "B": "By Wednesday",
+                "C": "Next month",
+                "D": "After approval from sales"
+              },
+              "answer": "B",
+              "explanation": "The man says the web team needs final files by Wednesday.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-011-q3",
+              "prompt": "What will the man send first?",
+              "options": {
+                "A": "A revised sample photo",
+                "B": "A new price list",
+                "C": "Printed labels",
+                "D": "A customer survey"
+              },
+              "answer": "A",
+              "explanation": "He will revise one photo and share it for approval.",
+              "tags": [
+                "next-action"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l3-012",
+          "segments": [
+            {
+              "id": "l3-012-n",
+              "voice": "narrator",
+              "text": "Listen to the following conversation."
+            },
+            {
+              "id": "l3-012-t1",
+              "voice": "man-us",
+              "text": "The museum tour group from Toronto has arrived early, but their guide is stuck in traffic."
+            },
+            {
+              "id": "l3-012-t2",
+              "voice": "woman-us",
+              "text": "Can they wait in the orientation room? There is a short introduction video we can play."
+            },
+            {
+              "id": "l3-012-t3",
+              "voice": "man-us",
+              "text": "Good idea. Their scheduled tour starts at ten fifteen, so that should cover the delay."
+            },
+            {
+              "id": "l3-012-t4",
+              "voice": "woman-us",
+              "text": "I will ask the front desk to direct them there and bring over the visitor badges."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l3-012-q1",
+              "prompt": "What has happened?",
+              "options": {
+                "A": "A tour group arrived early",
+                "B": "A video system stopped working",
+                "C": "A guide canceled a tour",
+                "D": "A museum exhibit closed"
+              },
+              "answer": "A",
+              "explanation": "The man says the tour group has arrived early.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-012-q2",
+              "prompt": "Where will the group wait?",
+              "options": {
+                "A": "At the front desk",
+                "B": "In the cafe",
+                "C": "In the orientation room",
+                "D": "Outside the museum"
+              },
+              "answer": "C",
+              "explanation": "The woman suggests that they wait in the orientation room.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-012-q3",
+              "prompt": "What will the woman arrange?",
+              "options": {
+                "A": "Visitor badges",
+                "B": "Bus tickets",
+                "C": "A refund",
+                "D": "A lunch order"
+              },
+              "answer": "A",
+              "explanation": "She will ask the front desk to bring over the visitor badges.",
+              "tags": [
+                "next-action"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l3-013",
+          "segments": [
+            {
+              "id": "l3-013-n",
+              "voice": "narrator",
+              "text": "Listen to the following conversation."
+            },
+            {
+              "id": "l3-013-t1",
+              "voice": "woman-us",
+              "text": "Our monthly newsletter is ready, but the article about the charity event still needs a photo."
+            },
+            {
+              "id": "l3-013-t2",
+              "voice": "man-us",
+              "text": "I took several pictures at the event. The group photo in front of the banner might work best."
+            },
+            {
+              "id": "l3-013-t3",
+              "voice": "woman-us",
+              "text": "Great. Could you upload it before three? I want to send the newsletter before the office closes."
+            },
+            {
+              "id": "l3-013-t4",
+              "voice": "man-us",
+              "text": "Yes, I will resize it and place it in the marketing folder within an hour."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l3-013-q1",
+              "prompt": "What is still needed for the newsletter?",
+              "options": {
+                "A": "A headline",
+                "B": "A photograph",
+                "C": "A sponsor list",
+                "D": "A mailing address"
+              },
+              "answer": "B",
+              "explanation": "The charity event article still needs a photo.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-013-q2",
+              "prompt": "Which photo does the man recommend?",
+              "options": {
+                "A": "A group photo in front of a banner",
+                "B": "A picture of the office building",
+                "C": "A close-up of the food table",
+                "D": "A photo from last year"
+              },
+              "answer": "A",
+              "explanation": "He says the group photo in front of the banner might work best.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l3-013-q3",
+              "prompt": "When will the man provide the file?",
+              "options": {
+                "A": "Before noon",
+                "B": "After the office closes",
+                "C": "Within an hour",
+                "D": "Next week"
+              },
+              "answer": "C",
+              "explanation": "He says he will place it in the marketing folder within an hour.",
+              "tags": [
+                "detail"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "part4": {
+      "sets": [
+        {
+          "id": "l4-001",
+          "segments": [
+            {
+              "id": "l4-001-n",
+              "voice": "narrator",
+              "text": "Listen to the following telephone message."
+            },
+            {
+              "id": "l4-001-s1",
+              "voice": "man-us",
+              "text": "Hello, this message is for Ms. Chen. This is Robert from Lakeside Auto Service. Your car is ready for pickup — we replaced the brake pads and rotated the tires, and everything checked out fine."
+            },
+            {
+              "id": "l4-001-s2",
+              "voice": "man-us",
+              "text": "The total comes to two hundred forty dollars, a bit less than the estimate, because the parts arrived on sale. We're open until six tonight and from eight to five on Saturday."
+            },
+            {
+              "id": "l4-001-s3",
+              "voice": "man-us",
+              "text": "If you'd like, we can also arrange a shuttle from your office — just call us back at five five five, zero one nine three. Thank you."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l4-001-q1",
+              "prompt": "Where does the speaker most likely work?",
+              "options": {
+                "A": "At a car repair shop",
+                "B": "At a tire store",
+                "C": "At a car rental agency",
+                "D": "At a delivery company"
+              },
+              "answer": "A",
+              "explanation": "He calls from Lakeside Auto Service about brake pads, tire rotation, and a repair total.",
+              "tags": [
+                "inference"
+              ]
+            },
+            {
+              "id": "l4-001-q2",
+              "prompt": "Why is the total lower than the estimate?",
+              "options": {
+                "A": "A coupon was applied",
+                "B": "The parts were on sale",
+                "C": "Some work was not needed",
+                "D": "The labor was free"
+              },
+              "answer": "B",
+              "explanation": "He says the total is a bit less than the estimate because the parts arrived on sale.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l4-001-q3",
+              "prompt": "What does the speaker offer to arrange?",
+              "options": {
+                "A": "A loaner car",
+                "B": "A weekend appointment",
+                "C": "A shuttle from the listener's office",
+                "D": "A free inspection"
+              },
+              "answer": "C",
+              "explanation": "He offers to arrange a shuttle from Ms. Chen's office if she calls back.",
+              "tags": [
+                "offer"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l4-002",
+          "segments": [
+            {
+              "id": "l4-002-n",
+              "voice": "narrator",
+              "text": "Listen to the following announcement."
+            },
+            {
+              "id": "l4-002-s1",
+              "voice": "woman-us",
+              "text": "Attention, Fairway Market shoppers. This weekend we're celebrating our twentieth anniversary with savings throughout the store. All bakery items are twenty percent off, and the first fifty customers each morning receive a free reusable shopping bag."
+            },
+            {
+              "id": "l4-002-s2",
+              "voice": "woman-us",
+              "text": "Don't forget to visit our new coffee corner near the main entrance, where you can sample our house blend for free until noon today."
+            },
+            {
+              "id": "l4-002-s3",
+              "voice": "woman-us",
+              "text": "And remember, the pharmacy counter now stays open until nine on weeknights. Thank you for shopping at Fairway Market."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l4-002-q1",
+              "prompt": "What is the store celebrating?",
+              "options": {
+                "A": "A grand reopening",
+                "B": "Its twentieth anniversary",
+                "C": "A holiday weekend",
+                "D": "A new location"
+              },
+              "answer": "B",
+              "explanation": "The announcement says the store is celebrating its twentieth anniversary this weekend.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l4-002-q2",
+              "prompt": "What will the first fifty customers receive each morning?",
+              "options": {
+                "A": "A free reusable bag",
+                "B": "A bakery discount",
+                "C": "A free coffee",
+                "D": "A gift card"
+              },
+              "answer": "A",
+              "explanation": "The first fifty customers each morning receive a free reusable shopping bag.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l4-002-q3",
+              "prompt": "What is located near the main entrance?",
+              "options": {
+                "A": "The pharmacy counter",
+                "B": "The bakery",
+                "C": "A new coffee corner",
+                "D": "The customer service desk"
+              },
+              "answer": "C",
+              "explanation": "Shoppers are invited to visit the new coffee corner near the main entrance.",
+              "tags": [
+                "detail"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l4-003",
+          "segments": [
+            {
+              "id": "l4-003-n",
+              "voice": "narrator",
+              "text": "Listen to the following excerpt from a meeting."
+            },
+            {
+              "id": "l4-003-s1",
+              "voice": "man-uk",
+              "text": "Before we wrap up, a quick update on the office renovation. Painting on the fifth floor begins next Monday, so everyone seated there will move to temporary desks on the second floor for about two weeks."
+            },
+            {
+              "id": "l4-003-s2",
+              "voice": "man-uk",
+              "text": "Please pack your personal items into the crates by Friday evening; the moving crew handles everything else over the weekend. Your phone extensions and computers will work as usual at the temporary desks."
+            },
+            {
+              "id": "l4-003-s3",
+              "voice": "man-uk",
+              "text": "If you have equipment that needs special handling, e-mail Facilities by Thursday so they can plan for it."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l4-003-q1",
+              "prompt": "What is the announcement mainly about?",
+              "options": {
+                "A": "A temporary office move",
+                "B": "A new hiring plan",
+                "C": "A change in work hours",
+                "D": "A holiday closure"
+              },
+              "answer": "A",
+              "explanation": "Fifth-floor staff will move to temporary desks on the second floor during the renovation.",
+              "tags": [
+                "purpose"
+              ]
+            },
+            {
+              "id": "l4-003-q2",
+              "prompt": "What should listeners do by Friday evening?",
+              "options": {
+                "A": "E-mail Facilities",
+                "B": "Pack personal items into crates",
+                "C": "Move their computers",
+                "D": "Clear the second floor"
+              },
+              "answer": "B",
+              "explanation": "Staff are asked to pack their personal items into the crates by Friday evening.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l4-003-q3",
+              "prompt": "Why should some listeners e-mail Facilities?",
+              "options": {
+                "A": "To reserve a temporary desk",
+                "B": "To get a new phone extension",
+                "C": "To report equipment that needs special handling",
+                "D": "To volunteer for the moving crew"
+              },
+              "answer": "C",
+              "explanation": "Anyone with equipment needing special handling should e-mail Facilities by Thursday.",
+              "tags": [
+                "detail"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l4-004",
+          "segments": [
+            {
+              "id": "l4-004-n",
+              "voice": "narrator",
+              "text": "Listen to the following announcement."
+            },
+            {
+              "id": "l4-004-s1",
+              "voice": "woman-us",
+              "text": "Good afternoon, employees. The main parking lot will be resurfaced this Thursday and Friday, so please use the north lot behind Building B during that time."
+            },
+            {
+              "id": "l4-004-s2",
+              "voice": "woman-us",
+              "text": "Security staff will direct traffic from seven to nine each morning, and shuttle vans will run every ten minutes between the north lot and the front entrance."
+            },
+            {
+              "id": "l4-004-s3",
+              "voice": "woman-us",
+              "text": "If you usually bike to work, the bicycle racks near the front gate will remain open. Thank you for your cooperation."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l4-004-q1",
+              "prompt": "What is the announcement mainly about?",
+              "options": {
+                "A": "A parking change",
+                "B": "A building inspection",
+                "C": "A security training session",
+                "D": "A bicycle race"
+              },
+              "answer": "A",
+              "explanation": "The main parking lot will be resurfaced, so employees must use another lot.",
+              "tags": [
+                "purpose"
+              ]
+            },
+            {
+              "id": "l4-004-q2",
+              "prompt": "Where should drivers park?",
+              "options": {
+                "A": "Near the front gate",
+                "B": "Behind Building B",
+                "C": "Across from the train station",
+                "D": "Inside the delivery area"
+              },
+              "answer": "B",
+              "explanation": "They should use the north lot behind Building B.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l4-004-q3",
+              "prompt": "How often will shuttle vans run?",
+              "options": {
+                "A": "Every five minutes",
+                "B": "Every ten minutes",
+                "C": "Every thirty minutes",
+                "D": "Once each morning"
+              },
+              "answer": "B",
+              "explanation": "Shuttle vans will run every ten minutes.",
+              "tags": [
+                "detail"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l4-005",
+          "segments": [
+            {
+              "id": "l4-005-n",
+              "voice": "narrator",
+              "text": "Listen to the following telephone message."
+            },
+            {
+              "id": "l4-005-s1",
+              "voice": "man-us",
+              "text": "Hello, this is Henry from Northstar Office Furniture calling about your order for twenty adjustable chairs."
+            },
+            {
+              "id": "l4-005-s2",
+              "voice": "man-us",
+              "text": "The chairs are ready, but our delivery schedule for Tuesday is full. We can deliver Wednesday morning between eight and ten, or Thursday afternoon after two."
+            },
+            {
+              "id": "l4-005-s3",
+              "voice": "man-us",
+              "text": "Please call me today to choose a delivery time. If we do not hear from you, we will hold the order at our warehouse."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l4-005-q1",
+              "prompt": "What is the message about?",
+              "options": {
+                "A": "An office furniture delivery",
+                "B": "A chair repair appointment",
+                "C": "A warehouse job opening",
+                "D": "A store relocation"
+              },
+              "answer": "A",
+              "explanation": "The speaker is calling about an order for adjustable chairs.",
+              "tags": [
+                "purpose"
+              ]
+            },
+            {
+              "id": "l4-005-q2",
+              "prompt": "Why can the company not deliver on Tuesday?",
+              "options": {
+                "A": "The chairs are not ready",
+                "B": "The delivery schedule is full",
+                "C": "The warehouse is closed",
+                "D": "The address is incorrect"
+              },
+              "answer": "B",
+              "explanation": "The Tuesday delivery schedule is full.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l4-005-q3",
+              "prompt": "What is the listener asked to do?",
+              "options": {
+                "A": "Pay an invoice",
+                "B": "Visit the warehouse",
+                "C": "Choose a delivery time",
+                "D": "Assemble the chairs"
+              },
+              "answer": "C",
+              "explanation": "The speaker asks the listener to call and choose a delivery time.",
+              "tags": [
+                "request"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l4-006",
+          "segments": [
+            {
+              "id": "l4-006-n",
+              "voice": "narrator",
+              "text": "Listen to the following report."
+            },
+            {
+              "id": "l4-006-s1",
+              "voice": "woman-au",
+              "text": "Here is your morning traffic update. A stalled truck is blocking the right lane of Highway 18 near the river bridge, causing delays of about twenty minutes."
+            },
+            {
+              "id": "l4-006-s2",
+              "voice": "woman-au",
+              "text": "Drivers heading downtown should use Lake Avenue or the express bus lane until the truck is removed."
+            },
+            {
+              "id": "l4-006-s3",
+              "voice": "woman-au",
+              "text": "City crews expect to reopen the lane before eight thirty. We will provide another update in fifteen minutes."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l4-006-q1",
+              "prompt": "What is causing the delay?",
+              "options": {
+                "A": "Road construction",
+                "B": "A stalled truck",
+                "C": "A parade",
+                "D": "Heavy rain"
+              },
+              "answer": "B",
+              "explanation": "A stalled truck is blocking the right lane.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l4-006-q2",
+              "prompt": "What alternate route is suggested?",
+              "options": {
+                "A": "Lake Avenue",
+                "B": "Pine Street",
+                "C": "Airport Road",
+                "D": "The west tunnel"
+              },
+              "answer": "A",
+              "explanation": "Drivers are advised to use Lake Avenue or the express bus lane.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l4-006-q3",
+              "prompt": "When is the lane expected to reopen?",
+              "options": {
+                "A": "Before eight thirty",
+                "B": "At noon",
+                "C": "This evening",
+                "D": "Tomorrow morning"
+              },
+              "answer": "A",
+              "explanation": "City crews expect to reopen the lane before eight thirty.",
+              "tags": [
+                "detail"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l4-007",
+          "segments": [
+            {
+              "id": "l4-007-n",
+              "voice": "narrator",
+              "text": "Listen to the following excerpt from a meeting."
+            },
+            {
+              "id": "l4-007-s1",
+              "voice": "man-uk",
+              "text": "The first item on today's agenda is our spring hiring plan. Customer service call volume has increased by eighteen percent since January."
+            },
+            {
+              "id": "l4-007-s2",
+              "voice": "man-uk",
+              "text": "I recommend adding four temporary representatives for the next three months, especially for the evening shift."
+            },
+            {
+              "id": "l4-007-s3",
+              "voice": "man-uk",
+              "text": "If everyone agrees, Human Resources can post the openings by Friday and begin interviews next week."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l4-007-q1",
+              "prompt": "What is being discussed?",
+              "options": {
+                "A": "A hiring plan",
+                "B": "A new product line",
+                "C": "A building repair",
+                "D": "A customer refund policy"
+              },
+              "answer": "A",
+              "explanation": "The speaker introduces the spring hiring plan.",
+              "tags": [
+                "purpose"
+              ]
+            },
+            {
+              "id": "l4-007-q2",
+              "prompt": "Why does the speaker recommend hiring temporary staff?",
+              "options": {
+                "A": "Sales have decreased",
+                "B": "Call volume has increased",
+                "C": "A manager is retiring",
+                "D": "A branch is closing"
+              },
+              "answer": "B",
+              "explanation": "Customer service call volume has increased by eighteen percent.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l4-007-q3",
+              "prompt": "What may happen by Friday?",
+              "options": {
+                "A": "Interviews will finish",
+                "B": "Training will begin",
+                "C": "Job openings will be posted",
+                "D": "Four employees will transfer"
+              },
+              "answer": "C",
+              "explanation": "Human Resources can post the openings by Friday.",
+              "tags": [
+                "next-action"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l4-008",
+          "segments": [
+            {
+              "id": "l4-008-n",
+              "voice": "narrator",
+              "text": "Listen to the following announcement."
+            },
+            {
+              "id": "l4-008-s1",
+              "voice": "woman-us",
+              "text": "Welcome aboard Bayline Ferry service to Harbor Island. The trip will take approximately forty minutes, and light refreshments are available from the cafe on Deck 2."
+            },
+            {
+              "id": "l4-008-s2",
+              "voice": "woman-us",
+              "text": "Passengers with bicycles should remain on the lower deck when we arrive so crew members can unload vehicles first."
+            },
+            {
+              "id": "l4-008-s3",
+              "voice": "woman-us",
+              "text": "Please keep your ticket until you leave the terminal, as it may be checked again at the exit gate."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l4-008-q1",
+              "prompt": "Where is this announcement most likely heard?",
+              "options": {
+                "A": "On a ferry",
+                "B": "At an airport gate",
+                "C": "In a hotel lobby",
+                "D": "On a city bus"
+              },
+              "answer": "A",
+              "explanation": "The speaker welcomes passengers aboard Bayline Ferry service.",
+              "tags": [
+                "inference"
+              ]
+            },
+            {
+              "id": "l4-008-q2",
+              "prompt": "How long will the trip take?",
+              "options": {
+                "A": "Twenty minutes",
+                "B": "Forty minutes",
+                "C": "One hour",
+                "D": "Two hours"
+              },
+              "answer": "B",
+              "explanation": "The trip will take approximately forty minutes.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l4-008-q3",
+              "prompt": "What are passengers told to keep?",
+              "options": {
+                "A": "Their bicycles",
+                "B": "A cafe receipt",
+                "C": "Their ticket",
+                "D": "A parking pass"
+              },
+              "answer": "C",
+              "explanation": "Passengers should keep their ticket until they leave the terminal.",
+              "tags": [
+                "detail"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l4-009",
+          "segments": [
+            {
+              "id": "l4-009-n",
+              "voice": "narrator",
+              "text": "Listen to the following advertisement."
+            },
+            {
+              "id": "l4-009-s1",
+              "voice": "man-us",
+              "text": "This month, Green Valley Garden Center is offering free soil testing for customers planning spring vegetable gardens."
+            },
+            {
+              "id": "l4-009-s2",
+              "voice": "man-us",
+              "text": "Bring a small soil sample to our information desk any Saturday before noon, and our staff will recommend fertilizer and planting schedules."
+            },
+            {
+              "id": "l4-009-s3",
+              "voice": "man-us",
+              "text": "Customers who purchase seeds on the same day receive ten percent off gardening tools. Visit us on Route 6 next to the post office."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l4-009-q1",
+              "prompt": "What free service is being offered?",
+              "options": {
+                "A": "Tool repair",
+                "B": "Soil testing",
+                "C": "Home delivery",
+                "D": "Landscape design"
+              },
+              "answer": "B",
+              "explanation": "The garden center is offering free soil testing.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l4-009-q2",
+              "prompt": "When should customers bring a sample?",
+              "options": {
+                "A": "Any Saturday before noon",
+                "B": "On Friday evening",
+                "C": "After five o clock",
+                "D": "During the winter sale"
+              },
+              "answer": "A",
+              "explanation": "Customers can bring a sample any Saturday before noon.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l4-009-q3",
+              "prompt": "Where is the business located?",
+              "options": {
+                "A": "Inside the mall",
+                "B": "Across from city hall",
+                "C": "Next to the post office",
+                "D": "At the airport"
+              },
+              "answer": "C",
+              "explanation": "The business is on Route 6 next to the post office.",
+              "tags": [
+                "detail"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l4-010",
+          "segments": [
+            {
+              "id": "l4-010-n",
+              "voice": "narrator",
+              "text": "Listen to the following telephone message."
+            },
+            {
+              "id": "l4-010-s1",
+              "voice": "woman-au",
+              "text": "Hello, Mr. Patel. This is Dr. Rivera's office calling to confirm your dental appointment for Monday at nine thirty."
+            },
+            {
+              "id": "l4-010-s2",
+              "voice": "woman-au",
+              "text": "Please arrive ten minutes early to update your insurance information, and remember to bring the referral form from your regular dentist."
+            },
+            {
+              "id": "l4-010-s3",
+              "voice": "woman-au",
+              "text": "If you need to reschedule, call us by four o clock on Friday to avoid a late cancellation fee."
+            }
+          ],
+          "questions": [
+            {
+              "id": "l4-010-q1",
+              "prompt": "What is the purpose of the message?",
+              "options": {
+                "A": "To confirm an appointment",
+                "B": "To explain a medical bill",
+                "C": "To advertise insurance",
+                "D": "To announce office hours"
+              },
+              "answer": "A",
+              "explanation": "The office is calling to confirm a dental appointment.",
+              "tags": [
+                "purpose"
+              ]
+            },
+            {
+              "id": "l4-010-q2",
+              "prompt": "What should the listener bring?",
+              "options": {
+                "A": "A payment receipt",
+                "B": "A referral form",
+                "C": "A list of medicines",
+                "D": "A parking ticket"
+              },
+              "answer": "B",
+              "explanation": "The listener should bring the referral form from his regular dentist.",
+              "tags": [
+                "detail"
+              ]
+            },
+            {
+              "id": "l4-010-q3",
+              "prompt": "By when should the listener call to reschedule?",
+              "options": {
+                "A": "Monday morning",
+                "B": "Noon today",
+                "C": "Four o clock on Friday",
+                "D": "After the appointment"
+              },
+              "answer": "C",
+              "explanation": "The message says to call by four o clock on Friday to avoid a fee.",
+              "tags": [
+                "detail"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

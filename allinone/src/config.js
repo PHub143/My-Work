@@ -1,4 +1,6 @@
-export const API_URL = import.meta.env.VITE_USE_PROD_API === 'true' || import.meta.env.PROD 
+const env = import.meta.env || {};
+
+export const API_URL = env.VITE_USE_PROD_API === 'true' || env.PROD
   ? 'https://my-work-9b66.onrender.com' 
   : 'http://localhost:3001';
 
