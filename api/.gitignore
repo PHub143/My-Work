@@ -3,3 +3,14 @@ node_modules
 .env
 
 /generated/prisma
+
+# Local Google credentials — never commit. Drive config in the running app is
+# managed via the Settings UI and stored encrypted in the DriveConfig table.
+/config/google.json
+/config/google-*.json
+/config/*.local.json
+
+# Runtime logs — these can contain OAuth URLs with client_id and one-time
+# auth codes. Never commit.
+/logs/
+*.log

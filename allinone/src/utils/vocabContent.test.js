@@ -12,10 +12,10 @@ function collectCards() {
 
 test('vocabulary decks meet the Phase 6 growth target', () => {
   assert.equal(content.decks.length, 10);
-  assert.equal(collectCards().length, 300);
+  assert.ok(collectCards().length >= 300, `expected at least 300 cards, got ${collectCards().length}`);
 
   content.decks.forEach((deck) => {
-    assert.equal(deck.cards.length, 30, `${deck.id} should contain 30 cards`);
+    assert.ok(deck.cards.length >= 30, `${deck.id} should contain at least 30 cards`);
   });
 });
 

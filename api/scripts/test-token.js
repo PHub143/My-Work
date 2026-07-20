@@ -1,5 +1,16 @@
 const { google } = require('googleapis');
-const googleConfig = require('../config/google.json');
+const fs = require('fs');
+const path = require('path');
+
+const configPath = path.resolve(__dirname, '../config/google.json');
+if (!fs.existsSync(configPath)) {
+  console.error(`Missing config file: ${configPath}`);
+  console.error('This file is gitignored. Copy the template from the repo and fill in OAuth credentials,');
+  console.error('or use the Settings UI in the app to configure Drive (recommended).');
+  console.error('See api/config/AGENTS.md for details.');
+  process.exit(1);
+}
+const googleConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 const oauth2Client = new google.auth.OAuth2(
   googleConfig.oauth.installed.client_id,

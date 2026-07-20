@@ -130,6 +130,64 @@ test('getMissedVocabCards mines wrong Part 5 answers into flashcards', () => {
   assert.equal(state.custom.length, 1);
 });
 
+test('getMissedVocabCards returns nothing when no Part 5 questions were missed', () => {
+  const questions = [
+    {
+      number: 200,
+      part: 7,
+      id: 'p7-s02-q1',
+      prompt: 'Why was the meeting rescheduled?',
+      options: [{ key: 'A', text: 'Travel delays' }],
+      answer: 'A',
+      explanation: 'Because of travel delays.',
+    },
+  ];
+  const results = { items: [{ number: 200, isCorrect: false }] };
+
+  assert.deepEqual(getMissedVocabCards(questions, results), []);
+});
+
+test('re-mining missed Part 5 words across submissions does not duplicate cards', () => {
+  const questions = [
+    {
+      number: 301,
+      part: 5,
+      id: 'p5-020',
+      prompt: 'The manager will ______ the new policy next week.',
+      options: [{ key: 'A', text: 'implement' }, { key: 'B', text: 'ignore' }],
+      answer: 'A',
+      explanation: 'Implement means to put into effect.',
+    },
+    {
+      number: 302,
+      part: 5,
+      id: 'p5-021',
+      prompt: 'Please ______ your signature at the bottom of the form.',
+      options: [{ key: 'A', text: 'inscribe' }, { key: 'B', text: 'erase' }],
+      answer: 'A',
+      explanation: 'Inscribe means to write or carve.',
+    },
+  ];
+
+  // Two finished tests that both miss the same Part 5 words.
+  const firstResults = { items: [{ number: 301, isCorrect: false }, { number: 302, isCorrect: false }] };
+  const secondResults = { items: [{ number: 301, isCorrect: false }, { number: 302, isCorrect: false }] };
+
+  const firstMining = getMissedVocabCards(questions, firstResults);
+  const secondMining = getMissedVocabCards(questions, secondResults);
+
+  assert.equal(firstMining.length, 2);
+  assert.equal(secondMining.length, 2);
+
+  let state = createEmptyVocabState();
+  state = addCustomCards(state, firstMining);
+  state = addCustomCards(state, secondMining); // simulating the auto-add effect re-running
+
+  assert.equal(state.custom.length, 2);
+  const ids = state.custom.map((card) => card.id).sort();
+  assert.deepEqual(ids, ['missed-p5-020', 'missed-p5-021']);
+});
+
 test('normalizeVocabState repairs malformed persisted data', () => {
   assert.deepEqual(normalizeVocabState(null), createEmptyVocabState());
   assert.deepEqual(normalizeVocabState('junk'), createEmptyVocabState());

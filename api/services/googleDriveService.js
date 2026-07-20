@@ -67,22 +67,6 @@ const uploadFile = async (req, driveConfigId) => {
     let fileProcessed = false;
     let tags = [];
 
-    const allowedTypes = [
-      // Images
-      'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml',
-      // Documents
-      'application/pdf', 'text/plain',
-      'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-      // Video
-      'video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/x-matroska', 'video/webm',
-      // Audio
-      'audio/mpeg', 'audio/wav', 'audio/aac', 'audio/ogg',
-      // Archives
-      'application/zip', 'application/x-rar-compressed', 'application/gzip',
-    ];
-
     bb.on('field', (name, val) => {
       if (name === 'tags') {
         try {
@@ -109,12 +93,6 @@ const uploadFile = async (req, driveConfigId) => {
         file.resume();
         reject(createServiceError(413, 'File size limit exceeded (max 10GB).'));
       });
-
-      if (!allowedTypes.includes(mimeType)) {
-        file.resume(); // Discard the file data
-        fileProcessed = true;
-        return reject(createServiceError(400, `Invalid file type: ${mimeType}. Supported: images, videos, audio, documents, and archives.`));
-      }
 
       fileProcessed = true;
 

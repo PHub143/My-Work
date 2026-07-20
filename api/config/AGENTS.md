@@ -1,12 +1,14 @@
 # AGENTS.md — `config/`
 
-Environment configuration and Google OAuth credentials.
+Local-only environment configuration. **No real secrets belong in this directory** —
+the production app loads credentials from the database (DriveConfig rows, encrypted with
+`utils/encryption.js`) and from `.env`.
 
 ## Files
 
 | File | Description |
 |---|---|
-| `google.json` | Google OAuth client credentials, refresh token, and Drive folder ID |
+| `google.json` | Local-only template used by the legacy token scripts (`scripts/get-token.js`, `scripts/get-token-fallback.js`, `scripts/test-token.js`). **Gitignored.** Contains placeholder values only — copy the template to `api/config/google.json` outside version control and fill in values from Google Cloud Console. The running app does not read this file; Drive config is stored encrypted in the `DriveConfig` table and managed via the Settings UI. |
 
 ## Environment Variables
 
@@ -27,4 +29,4 @@ CORS uses a dynamic origin check. It allows localhost origins and the configured
 
 ## Secrets
 
-Never commit real secrets, tokens, database URLs, `.env` files, refresh tokens, client secrets, or Google OAuth credentials.
+Never commit real secrets, tokens, database URLs, `.env` files, refresh tokens, client secrets, or Google OAuth credentials. The `config/` directory is gitignored for anything beyond this AGENTS.md file.

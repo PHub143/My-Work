@@ -79,7 +79,6 @@ const EnglishPractice = () => {
   const [flaggedNumbers, setFlaggedNumbers] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showResultsModal, setShowResultsModal] = useState(false);
-  const [missedWordsAdded, setMissedWordsAdded] = useState(false);
   const { user, token } = useAuth();
   const savedResultKeyRef = useRef(null);
   const currentQuestion = session.questions[currentIndex];
@@ -129,11 +128,25 @@ const EnglishPractice = () => {
     void saveLearningResult(payload, { token });
   }, [formNumber, listeningSummary, mode, remainingSeconds, results, session.timeLimitMinutes, token]);
 
-  const addMissedWordsToVocabulary = () => {
-    const vocabState = addCustomCards(loadVocabState(user?.id), missedVocabCards);
-    saveVocabState(user?.id, vocabState);
-    setMissedWordsAdded(true);
-  };
+  // Auto-mine missed Part 5 words into the custom vocab deck the moment
+  // results become available. The dedup-key makes the effect idempotent
+  // across React 19 strict-mode re-runs and across rapid modal toggles, and
+  // it scopes re-mining to a new session on Retry. This is a localStorage
+  // side effect (external system), so doing it inside the effect body is
+  // correct — no React state needs to change.
+  const missedAddedKeyRef = useRef(null);
+
+  useEffect(() => {
+    if (!missedVocabCards.length) return;
+    const addKey = JSON.stringify({
+      mode,
+      formNumber,
+      missedIds: missedVocabCards.map((card) => card.id).sort(),
+    });
+    if (missedAddedKeyRef.current === addKey) return;
+    missedAddedKeyRef.current = addKey;
+    saveVocabState(user?.id, addCustomCards(loadVocabState(user?.id), missedVocabCards));
+  }, [missedVocabCards, mode, formNumber, user?.id]);
 
   useEffect(() => {
     if (!session.timeLimitMinutes || isSubmitted) return undefined;
@@ -193,8 +206,8 @@ const EnglishPractice = () => {
     setCurrentIndex(0);
     setIsSubmitted(false);
     setShowResultsModal(false);
-    setMissedWordsAdded(false);
     savedResultKeyRef.current = null;
+    missedAddedKeyRef.current = null;
   };
 
   if (!currentQuestion) {
@@ -306,14 +319,8 @@ const EnglishPractice = () => {
               )}
               {missedVocabCards.length > 0 ? (
                 <div className="english-missed-words">
-                  <button
-                    type="button"
-                    onClick={addMissedWordsToVocabulary}
-                    disabled={missedWordsAdded}
-                  >
-                    {missedWordsAdded
-                      ? '✓ Added to your vocabulary deck'
-                      : `Add ${missedVocabCards.length} missed word${missedVocabCards.length === 1 ? '' : 's'} to Vocabulary`}
+                  <button type="button" disabled aria-live="polite">
+                    ✓ {missedVocabCards.length} missed Part 5 word{missedVocabCards.length === 1 ? '' : 's'} added to Vocabulary
                   </button>
                 </div>
               ) : null}

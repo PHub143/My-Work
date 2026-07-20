@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import './Upload.css';
-import { API_URL, ALLOWED_FILE_TYPES, MAX_FILE_SIZE } from '../config';
+import { API_URL, MAX_FILE_SIZE } from '../config';
 import Spinner from '../components/Spinner';
 import { useAuth } from '../AuthContext';
 import { useDrive } from '../DriveContext';
@@ -244,7 +244,6 @@ const Upload = () => {
                   onChange={handleFileChange}
                   disabled={isUploading}
                   ref={fileInputRef}
-                  accept={ALLOWED_FILE_TYPES.join(',')}
                 />
                 <button
                   type="button"
