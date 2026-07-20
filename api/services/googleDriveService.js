@@ -62,6 +62,9 @@ const uploadFile = async (req, driveConfigId) => {
   return new Promise((resolve, reject) => {
     const bb = busboy({ 
       headers: req.headers,
+      // Multipart filenames are UTF-8 in browser uploads. Without this,
+      // Busboy's latin1 default corrupts Vietnamese and other Unicode names.
+      defParamCharset: 'utf8',
       limits: { fileSize: 10 * 1024 * 1024 * 1024 } // 10GB limit
     });
     let fileProcessed = false;
