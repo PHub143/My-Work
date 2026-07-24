@@ -1,6 +1,43 @@
 const prisma = require('./prismaService');
 
 /**
+ * Builds a Prisma where-fragment that includes or excludes files by MIME type
+ * prefix. `includeType` takes precedence over `excludeType`; both accept a
+ * comma-separated list of prefixes (e.g. 'image' or 'image,video').
+ * @param {string} [includeType]
+ * @param {string} [excludeType]
+ * @returns {Object|null} `{ OR: [...] }`, `{ NOT: [...] }`, or null when neither applies.
+ */
+function buildMimeTypeFilter(includeType, excludeType) {
+  const toConditions = (value) =>
+    value
+      .split(',')
+      .map((t) => t.trim())
+      .filter((t) => t)
+      .map((t) => ({ mimeType: { startsWith: `${t}/` } }));
+
+  if (includeType) {
+    return { OR: toConditions(includeType) };
+  }
+  if (excludeType) {
+    return { NOT: toConditions(excludeType) };
+  }
+  return null;
+}
+
+/**
+ * Normalizes a raw size value (string or number) into an integer byte count.
+ * Preserves 0 and returns null for missing/invalid values.
+ * @param {string|number|null|undefined} value
+ * @returns {number|null}
+ */
+function normalizeSize(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const parsed = Number.parseInt(value, 10);
+  return Number.isNaN(parsed) ? null : parsed;
+}
+
+/**
  * File Service for database CRUD operations.
  */
 const fileService = {
@@ -16,18 +53,8 @@ const fileService = {
    */
   getAllFiles: async ({ limit, offset, includeType, excludeType, tag, driveConfigId } = {}) => {
     const where = {};
-    
-    if (includeType) {
-      const types = includeType.split(',').map(t => t.trim());
-      where.OR = types.map(t => ({
-        mimeType: { startsWith: `${t}/` }
-      }));
-    } else if (excludeType) {
-      const types = excludeType.split(',').map(t => t.trim());
-      where.NOT = types.map(t => ({
-        mimeType: { startsWith: `${t}/` }
-      }));
-    }
+
+    Object.assign(where, buildMimeTypeFilter(includeType, excludeType));
 
     if (tag) {
       where.tags = {
@@ -65,18 +92,8 @@ const fileService = {
    */
   countFiles: async ({ includeType, excludeType, tag, driveConfigId } = {}) => {
     const where = {};
-    
-    if (includeType) {
-      const types = includeType.split(',').map(t => t.trim());
-      where.OR = types.map(t => ({
-        mimeType: { startsWith: `${t}/` }
-      }));
-    } else if (excludeType) {
-      const types = excludeType.split(',').map(t => t.trim());
-      where.NOT = types.map(t => ({
-        mimeType: { startsWith: `${t}/` }
-      }));
-    }
+
+    Object.assign(where, buildMimeTypeFilter(includeType, excludeType));
 
     if (tag) {
       where.tags = {
@@ -128,7 +145,7 @@ const fileService = {
       mimeType: data.mimeType,
       webViewLink: data.webViewLink,
       thumbnailLink: data.thumbnailLink,
-      size: data.size ? parseInt(data.size) : null,
+      size: normalizeSize(data.size),
       tags: {
         connectOrCreate: tagData
       }
@@ -162,20 +179,9 @@ const fileService = {
 
     const fileFilters = [];
 
-    if (includeType) {
-      const types = includeType.split(',').map(t => t.trim());
-      fileFilters.push({
-        OR: types.map(t => ({
-          mimeType: { startsWith: `${t}/` }
-        }))
-      });
-    } else if (excludeType) {
-      const types = excludeType.split(',').map(t => t.trim());
-      fileFilters.push({
-        NOT: types.map(t => ({
-          mimeType: { startsWith: `${t}/` }
-        }))
-      });
+    const mimeFilter = buildMimeTypeFilter(includeType, excludeType);
+    if (mimeFilter) {
+      fileFilters.push(mimeFilter);
     }
 
     if (driveConfigId) {
@@ -209,7 +215,7 @@ const fileService = {
       mimeType: data.mimeType,
       webViewLink: data.webViewLink,
       thumbnailLink: data.thumbnailLink,
-      size: data.size ? parseInt(data.size) : null,
+      size: normalizeSize(data.size),
     };
 
     if (tags) {
@@ -259,7 +265,7 @@ const fileService = {
       mimeType: data.mimeType,
       webViewLink: data.webViewLink,
       thumbnailLink: data.thumbnailLink,
-      size: data.size ? parseInt(data.size) : null,
+      size: normalizeSize(data.size),
     };
 
     // Include driveConfigId in both create and update if provided

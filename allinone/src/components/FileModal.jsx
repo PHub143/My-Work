@@ -161,6 +161,13 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
     return url.replace(/\/view\?usp=drivesdk$/, '/preview');
   };
 
+  // Google Drive direct-download link. Forces a file download via
+  // Content-Disposition rather than opening the in-browser viewer.
+  const getDownloadUrl = (driveFileId) => {
+    if (!driveFileId) return null;
+    return `https://drive.google.com/uc?export=download&id=${driveFileId}`;
+  };
+
   if (!file) return null;
 
   const toggleInfo = () => setShowInfo(!showInfo);
@@ -209,9 +216,22 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
               </svg>
             </button>
           )}
+          <a
+            className="control-btn download-btn"
+            href={getDownloadUrl(file.driveFileId)}
+            download={file.name}
+            aria-label="Download file"
+            title="Download"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+          </a>
           {canAdmin && (
-            <button 
-              className={`control-btn delete-btn ${isDeleting ? 'loading' : ''} ${showDeleteConfirm ? 'active' : ''}`} 
+            <button
+              className={`control-btn delete-btn ${isDeleting ? 'loading' : ''} ${showDeleteConfirm ? 'active' : ''}`}
               onClick={() => setShowDeleteConfirm(!showDeleteConfirm)} 
               disabled={isDeleting}
               aria-label="Delete file" 
@@ -328,13 +348,25 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
           </div>
 
           <div className="modal-footer-actions">
-            <a 
-              href={file.webViewLink} 
-              target="_blank" 
+            <a
+              href={file.webViewLink}
+              target="_blank"
               rel="noopener noreferrer"
               className="primary-action-btn"
             >
               Open in Drive
+            </a>
+            <a
+              href={getDownloadUrl(file.driveFileId)}
+              download={file.name}
+              className="secondary-action-btn"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Download
             </a>
           </div>
         </div>

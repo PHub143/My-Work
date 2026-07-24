@@ -2,9 +2,9 @@ const bcrypt = require('bcryptjs');
 const prisma = require('./prismaService');
 const { ROLES } = require('../utils/roles');
 
-const DEFAULT_ADMIN_EMAIL = 'lieutienthinh@gmail.com';
-const DEFAULT_ADMIN_PASSWORD = 'admin123';
-const DEFAULT_ADMIN_NAME = 'Default Admin';
+const DEFAULT_ADMIN_EMAIL = process.env.DEFAULT_ADMIN_EMAIL || 'lieutienthinh@gmail.com';
+const DEFAULT_ADMIN_PASSWORD = process.env.DEFAULT_ADMIN_PASSWORD || 'admin123';
+const DEFAULT_ADMIN_NAME = process.env.DEFAULT_ADMIN_NAME || 'Default Admin';
 
 async function ensureDefaultAdmin() {
   const existingUser = await prisma.user.findUnique({
@@ -13,6 +13,13 @@ async function ensureDefaultAdmin() {
 
   if (existingUser) {
     return { created: false, user: existingUser };
+  }
+
+  if (!process.env.DEFAULT_ADMIN_PASSWORD) {
+    console.warn(
+      `Warning: creating default admin ${DEFAULT_ADMIN_EMAIL} with the built-in default password. ` +
+      'Set DEFAULT_ADMIN_PASSWORD (and change the password after first login) to secure this account.'
+    );
   }
 
   const hashedPassword = await bcrypt.hash(DEFAULT_ADMIN_PASSWORD, 10);

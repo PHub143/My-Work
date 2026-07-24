@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { ROLES, withNormalizedRoles } = require('../utils/roles');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-default-secret-key-change-this-in-production';
+const { JWT_SECRET } = require('../config/jwt');
 
 const createUserToken = (user) => jwt.sign(
   {

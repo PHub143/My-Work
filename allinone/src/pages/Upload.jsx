@@ -144,9 +144,20 @@ const Upload = () => {
     setUploadedBytes(0);
     setTotalBytes(file.size);
 
+    // Include a tag still typed in the input but not yet committed to a pill,
+    // so it isn't silently dropped when the user uploads without pressing Enter.
+    const pendingTag = tagInput.trim().toLowerCase();
+    const finalTags = pendingTag && !tags.includes(pendingTag)
+      ? [...tags, pendingTag]
+      : tags;
+    if (finalTags !== tags) {
+      setTags(finalTags);
+      setTagInput('');
+    }
+
     const formData = new FormData();
     // Important: Append fields before file for busboy sequential processing
-    formData.append('tags', JSON.stringify(tags));
+    formData.append('tags', JSON.stringify(finalTags));
     formData.append('file', file);
 
     const xhr = new XMLHttpRequest();
@@ -172,6 +183,7 @@ const Upload = () => {
           setStatus({ type: 'success', message: 'File uploaded successfully!' });
           setFile(null);
           setTags([]);
+          setTagInput('');
           setUploadProgress(0);
           if (fileInputRef.current) fileInputRef.current.value = '';
           fetchAvailableTags();

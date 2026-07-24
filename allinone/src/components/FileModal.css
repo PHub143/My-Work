@@ -520,11 +520,13 @@
 .modal-footer-actions {
   margin-top: auto;
   padding-top: 1rem;
+  display: flex;
+  gap: 0.75rem;
 }
 
 .primary-action-btn {
   display: block;
-  width: 100%;
+  flex: 1;
   text-align: center;
   background: var(--color-system-blue);
   color: white;
@@ -538,6 +540,40 @@
 .primary-action-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
+}
+
+.secondary-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  background: var(--color-quaternary-label);
+  color: var(--color-label);
+  padding: 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.secondary-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.floating-panel .secondary-action-btn {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.floating-panel .secondary-action-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Download control button (top-right controls) */
+.control-btn.download-btn {
+  text-decoration: none;
 }
 
 @keyframes fadeIn {
@@ -740,6 +776,22 @@
 }
 
 .primary-action-btn:hover {
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.78);
+}
+
+.secondary-action-btn,
+.floating-panel .secondary-action-btn {
+  background: var(--cosmic-cyan);
+  color: var(--cosmic-bg);
+  border: 2px solid var(--cosmic-ink);
+  border-radius: 999px;
+  font-weight: 800;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.72);
+}
+
+.secondary-action-btn:hover,
+.floating-panel .secondary-action-btn:hover {
+  background: var(--cosmic-cyan);
   box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.78);
 }
 

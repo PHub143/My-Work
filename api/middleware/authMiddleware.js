@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const userService = require('../services/userService');
 const { isAdminUser } = require('../utils/roles');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-default-secret-key-change-this-in-production';
+const { JWT_SECRET } = require('../config/jwt');
 
 /**
  * Middleware to authenticate JWT tokens from the Authorization header.

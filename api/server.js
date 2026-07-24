@@ -93,7 +93,8 @@ const server = app.listen(port, () => {
   syncDatabase()
     .then(() => console.log('Initial sync completed successfully.'))
     .catch(err => {
-      if (err.status === 500 && err.message.includes('not fully configured')) {
+      // getDriveClient throws status 412 when Drive credentials are incomplete.
+      if (err.status === 412 || (err.message && err.message.includes('not fully configured'))) {
         console.warn('Initial sync skipped: Google Drive is not fully configured. Use the Settings UI to complete setup.');
       } else {
         console.error('Initial sync failed during startup:', err);

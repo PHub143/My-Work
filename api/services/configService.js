@@ -102,10 +102,31 @@ const configService = {
         });
       }
 
-      return prisma.driveConfig.update({
+      const updated = await prisma.driveConfig.update({
         where: { id: data.id },
         data: updateData
       });
+
+      // If this update cleared the default flag, make sure some drive is still
+      // the default so getDriveConfig() has a deterministic fallback.
+      if (data.isDefault === false) {
+        const anyDefault = await prisma.driveConfig.findFirst({
+          where: { isDefault: true }
+        });
+        if (!anyDefault) {
+          const promote = await prisma.driveConfig.findFirst({
+            orderBy: { createdAt: 'asc' }
+          });
+          if (promote) {
+            await prisma.driveConfig.update({
+              where: { id: promote.id },
+              data: { isDefault: true }
+            });
+          }
+        }
+      }
+
+      return updated;
     }
 
     // Creating a new config
