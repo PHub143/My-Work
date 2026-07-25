@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './AI103.css';
 import ai102Content from '../data/ai102Content.json';
-import { answerKey, formatQuestionType, getPdfPageUrl, getQuestionParts } from '../utils/ai102';
+import { answerKey, formatQuestionType, getAnswerText, getPdfPageUrl, getQuestionParts } from '../utils/ai102';
 
 function shuffle(items) {
   return [...items].sort(() => Math.random() - 0.5);
@@ -133,7 +133,7 @@ const AI102Practice = () => {
             {submitted ? (
               <section className="ai103-practice-review">
                 <h2>Answer Review</h2>
-                {results?.items.find((item) => item.question.number === currentQuestion.number)?.expected ? <p>Correct answer: <strong>{answerKey(currentQuestion)}</strong></p> : <p>This answer-area question requires comparing the explanation and source preview.</p>}
+                <p>Correct answer: <strong style={{ whiteSpace: 'pre-wrap' }}>{getAnswerText(currentQuestion)}</strong></p>
                 {currentParts.explanationParagraphs.map((paragraph, index) => <p key={index} style={{ whiteSpace: 'pre-wrap' }}>{paragraph}</p>)}
               </section>
             ) : null}

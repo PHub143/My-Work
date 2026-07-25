@@ -6,6 +6,7 @@ import {
   formatQuestionType,
   getQuestionParts,
   getPdfPageUrl,
+  getAnswerText,
   matchesQuestion,
 } from '../utils/ai102';
 
@@ -48,7 +49,7 @@ function QuestionCard({ question, index, total }) {
   const parts = getQuestionParts(question);
   const imagePage = question.questionPage || question.sourcePages[0];
   const additionalPages = question.sourcePages.filter((page) => page !== imagePage);
-  const answerText = question.answer || 'The answer is represented in the answer area and explanation below.';
+  const answerText = getAnswerText(question);
 
   return (
     <article className="ai103-page-card" id={`ai102-question-${question.number}`}>
