@@ -293,8 +293,8 @@ const PRACTICE_CONTROL_CONFIGS = {
       },
     ],
     correct: {
-      pipeline1: 'Multi-file task in pro mode',
-      pipeline2: 'Single-file task in standard mode',
+      pipeline1: 'Single-file task in standard mode',
+      pipeline2: 'Multi-file task in pro mode',
     },
   },
   6: {

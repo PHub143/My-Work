@@ -106,10 +106,10 @@ const visualQuestionConfigs = {
     blankAlt:
       'Question 5 drag-and-drop answer area showing the four configuration choices and empty Pipeline1 and Pipeline2 targets.',
     solvedAlt:
-      'Question 5 answer area showing Pipeline1 set to Multi-file task in pro mode and Pipeline2 set to Single-file task in standard mode.',
+      'Question 5 answer area showing the corrected pipeline configuration in the answer summary below.',
     answerRows: [
-      { label: 'Pipeline1', value: 'Multi-file task in pro mode' },
-      { label: 'Pipeline2', value: 'Single-file task in standard mode' },
+      { label: 'Pipeline1', value: 'Single-file task in standard mode' },
+      { label: 'Pipeline2', value: 'Multi-file task in pro mode' },
     ],
   },
   6: {
