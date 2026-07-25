@@ -103,6 +103,15 @@ const Navbar = () => {
                         <small>AI-103</small>
                       </NavLink>
                       <NavLink
+                        to="/learning/ai-102"
+                        className="nav-dropdown-item"
+                        role="menuitem"
+                        onClick={() => setIsLearningOpen(false)}
+                      >
+                        <span>AI</span>
+                        <small>AI-102</small>
+                      </NavLink>
+                      <NavLink
                         to="/learning/english"
                         className="nav-dropdown-item"
                         role="menuitem"

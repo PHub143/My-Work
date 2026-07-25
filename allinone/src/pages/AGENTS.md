@@ -20,6 +20,8 @@ Route-level screens — each page has a matching `.jsx` file and (usually) a mat
 | `/settings` | `Settings.jsx` | Admin | Drive config, app settings |
 | `/learning/ai-103` | `AI103.jsx` | Student | AI-103 study material |
 | `/learning/ai-103/practice` | `AI103Practice.jsx` | Student | AI-103 practice questions |
+| `/learning/ai-102` | `AI102.jsx` | Student | AI-102 study material |
+| `/learning/ai-102/practice` | `AI102Practice.jsx` | Student | AI-102 practice questions |
 | `/learning/english` | `English.jsx` | Student | English (TOEIC-style) study material |
 | `/learning/english/practice` | `EnglishPractice.jsx` | Student | English reading tests (TOEIC Parts 5–7) |
 | `/learning/english/listening` | `EnglishListeningPractice.jsx` | Student | English listening tests (TOEIC Parts 1–4), audio-paced |

@@ -14,6 +14,8 @@ const Documents = lazy(() => import('./pages/Documents'));
 const Gallery = lazy(() => import('./pages/Gallery'));
 const AI103 = lazy(() => import('./pages/AI103'));
 const AI103Practice = lazy(() => import('./pages/AI103Practice'));
+const AI102 = lazy(() => import('./pages/AI102'));
+const AI102Practice = lazy(() => import('./pages/AI102Practice'));
 const English = lazy(() => import('./pages/English'));
 const EnglishPractice = lazy(() => import('./pages/EnglishPractice'));
 const EnglishListeningPractice = lazy(() => import('./pages/EnglishListeningPractice'));
@@ -76,6 +78,8 @@ function App() {
                 <Route element={<LearningRoute />}>
                   <Route path='/learning/ai-103' element={<AI103 />} />
                   <Route path='/learning/ai-103/practice' element={<AI103Practice />} />
+                  <Route path='/learning/ai-102' element={<AI102 />} />
+                  <Route path='/learning/ai-102/practice' element={<AI102Practice />} />
                   <Route path='/learning/english' element={<English />} />
                   <Route path='/learning/english/practice' element={<EnglishPractice />} />
                   <Route path='/learning/english/listening' element={<EnglishListeningPractice />} />
