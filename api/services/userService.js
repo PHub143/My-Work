@@ -5,6 +5,7 @@ const {
   primaryRole,
   withNormalizedRoles,
 } = require('../utils/roles');
+const { getUserIdFromEmail } = require('../utils/userId');
 
 function hasOwn(data, key) {
   return Object.prototype.hasOwnProperty.call(data, key);
@@ -15,14 +16,34 @@ function hasOwn(data, key) {
  */
 const userService = {
   /**
-   * Finds a user by their email.
-   * @param {string} email - The user's email address.
+   * Finds a user by their full email address or its local part (before `@`).
+   * A local-part login only succeeds when it identifies exactly one user.
+   * @param {string} email - The full email address or local part.
    * @returns {Promise<Object|null>}
    */
   findUserByEmail: async (email) => {
+    const loginId = typeof email === 'string' ? email.trim() : '';
+    if (!loginId) {
+      return null;
+    }
+
+    if (!loginId.includes('@')) {
+      const users = await prisma.user.findMany({
+        where: {
+          email: {
+            startsWith: `${getUserIdFromEmail(loginId)}@`,
+            mode: 'insensitive',
+          },
+        },
+        take: 2,
+      });
+
+      return users.length === 1 ? withNormalizedRoles(users[0]) : null;
+    }
+
     const user = await prisma.user.findUnique({
       where: {
-        email: email,
+        email: loginId,
       },
     });
 

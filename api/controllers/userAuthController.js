@@ -2,6 +2,7 @@ const userService = require('../services/userService');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { ROLES, withNormalizedRoles } = require('../utils/roles');
+const { getUserIdFromEmail } = require('../utils/userId');
 
 const { JWT_SECRET } = require('../config/jwt');
 
@@ -24,21 +25,22 @@ const createUserToken = (user) => jwt.sign(
  * @param {Function} next - Express next middleware function.
  */
 const loginHandler = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { userId, email, password } = req.body;
+  const loginId = typeof userId === 'string' ? userId.trim() : typeof email === 'string' ? email.trim() : '';
 
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required.' });
+  if (!loginId || !password) {
+    return res.status(400).json({ message: 'User ID and password are required.' });
   }
 
   try {
-    const user = await userService.findUserByEmail(email);
+    const user = await userService.findUserByEmail(loginId);
     if (!user) {
-      return res.status(401).json({ message: 'Invalid email or password.' });
+      return res.status(401).json({ message: 'Invalid user ID or password.' });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid email or password.' });
+      return res.status(401).json({ message: 'Invalid user ID or password.' });
     }
 
     const normalizedUser = withNormalizedRoles(user);
@@ -75,9 +77,9 @@ const registerHandler = async (req, res, next) => {
   }
 
   try {
-    const existingUser = await userService.findUserByEmail(email);
+    const existingUser = await userService.findUserByEmail(getUserIdFromEmail(email));
     if (existingUser) {
-      return res.status(400).json({ message: 'User with this email already exists.' });
+      return res.status(400).json({ message: 'User ID is already in use.' });
     }
 
     const newUser = await userService.createUser({
@@ -101,6 +103,9 @@ const registerHandler = async (req, res, next) => {
       }
     });
   } catch (error) {
+    if (error.code === 'P2002') {
+      return res.status(400).json({ message: 'User ID is already in use.' });
+    }
     next(error);
   }
 };

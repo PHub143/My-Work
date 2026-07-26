@@ -200,6 +200,26 @@ test('public student register emits token and normalized user response', async (
   });
 });
 
+test('public register rejects an email whose user ID is already in use', async () => {
+  let receivedLoginId;
+  const { registerHandler } = loadWithMockedUserService(controllerPath, {
+    findUserByEmail: async (loginId) => {
+      receivedLoginId = loginId;
+      return { id: 'user_1', email: 'student@gmail.com' };
+    },
+    createUser: assert.fail,
+  });
+  const res = makeResponse();
+
+  await registerHandler({
+    body: { email: 'student@company.com', password: 'password123' },
+  }, res, assert.fail);
+
+  assert.equal(receivedLoginId, 'student');
+  assert.equal(res.statusCode, 400);
+  assert.equal(res.body.message, 'User ID is already in use.');
+});
+
 test('login emits normalized role and roles in token and response', async () => {
   const bcrypt = require('bcryptjs');
   const jwt = require('jsonwebtoken');
@@ -240,6 +260,68 @@ test('login emits normalized role and roles in token and response', async () => 
     role: ROLES.ADMIN,
     roles: [ROLES.STUDENT, ROLES.ADMIN],
   });
+});
+
+test('login accepts userId and passes a domainless value to the user lookup', async () => {
+  const bcrypt = require('bcryptjs');
+  const password = 'password123';
+  const passwordHash = await bcrypt.hash(password, 10);
+  let receivedLoginId;
+  const { loginHandler } = loadWithMockedUserService(controllerPath, {
+    findUserByEmail: async (loginId) => {
+      receivedLoginId = loginId;
+      return {
+        id: 'admin_1',
+        email: 'lieutienthinh@gmail.com',
+        name: 'Admin User',
+        password: passwordHash,
+        role: ROLES.ADMIN,
+        roles: [ROLES.ADMIN],
+      };
+    },
+  });
+  const res = makeResponse();
+
+  await loginHandler({ body: { userId: ' lieutienthinh ', password } }, res, assert.fail);
+
+  assert.equal(res.statusCode, 200);
+  assert.equal(receivedLoginId, 'lieutienthinh');
+});
+
+test('findUserByEmail resolves a unique email local part and rejects ambiguous ones', async () => {
+  const calls = [];
+  const { userService, cleanup } = loadUserServiceWithMockedPrisma({
+    user: {
+      findMany: async (query) => {
+        calls.push(query);
+        if (query.where.email.startsWith === 'duplicate@') {
+          return [{ id: 'user_1' }, { id: 'user_2' }];
+        }
+        return [{
+          id: 'admin_1',
+          email: 'lieutienthinh@gmail.com',
+          role: ROLES.ADMIN,
+          roles: [ROLES.ADMIN],
+        }];
+      },
+      findUnique: assert.fail,
+    },
+  });
+
+  try {
+    const user = await userService.findUserByEmail('lieutienthinh');
+    assert.equal(user.email, 'lieutienthinh@gmail.com');
+    assert.equal(await userService.findUserByEmail('duplicate'), null);
+    assert.deepEqual(calls, [{
+      where: { email: { startsWith: 'lieutienthinh@', mode: 'insensitive' } },
+      take: 2,
+    }, {
+      where: { email: { startsWith: 'duplicate@', mode: 'insensitive' } },
+      take: 2,
+    }]);
+  } finally {
+    cleanup();
+  }
 });
 
 test('normalizeRoles maps legacy USER to STUDENT', () => {
@@ -681,8 +763,10 @@ test('ensureDefaultAdmin creates the default admin when missing', async () => {
   let createPayload;
   const { defaultAdminService, cleanup } = loadDefaultAdminServiceWithMockedPrisma({
     user: {
-      findUnique: async ({ where }) => {
-        assert.deepEqual(where, { email: 'lieutienthinh@gmail.com' });
+      findFirst: async ({ where }) => {
+        assert.deepEqual(where, {
+          email: { startsWith: 'lieutienthinh@', mode: 'insensitive' },
+        });
         return null;
       },
       create: async (payload) => {
@@ -721,7 +805,7 @@ test('ensureDefaultAdmin leaves an existing default admin untouched', async () =
   };
   const { defaultAdminService, cleanup } = loadDefaultAdminServiceWithMockedPrisma({
     user: {
-      findUnique: async () => existingAdmin,
+      findFirst: async () => existingAdmin,
       create: async () => {
         createCalled = true;
       },

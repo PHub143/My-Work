@@ -1,5 +1,6 @@
 const userService = require('../services/userService');
 const { normalizeRoles, withNormalizedRoles } = require('../utils/roles');
+const { getUserIdFromEmail } = require('../utils/userId');
 
 function hasOwn(data, key) {
   return Object.prototype.hasOwnProperty.call(data, key);
@@ -116,9 +117,9 @@ const userController = {
         return res.status(400).json(requestedRoles.error);
       }
 
-      const existingUser = await userService.findUserByEmail(email);
+      const existingUser = await userService.findUserByEmail(getUserIdFromEmail(email));
       if (existingUser) {
-        return res.status(409).json({ message: 'A user with this email already exists.' });
+        return res.status(409).json({ message: 'A user with this user ID already exists.' });
       }
 
       const user = await userService.createUser({ email, name, password, roles: requestedRoles.roles });
@@ -127,6 +128,9 @@ const userController = {
         user: safeUserResponse(user),
       });
     } catch (error) {
+      if (error.code === 'P2002') {
+        return res.status(409).json({ message: 'A user with this user ID already exists.' });
+      }
       next(error);
     }
   },

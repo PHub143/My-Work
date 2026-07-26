@@ -1,14 +1,20 @@
 const bcrypt = require('bcryptjs');
 const prisma = require('./prismaService');
 const { ROLES } = require('../utils/roles');
+const { getUserIdFromEmail } = require('../utils/userId');
 
 const DEFAULT_ADMIN_EMAIL = process.env.DEFAULT_ADMIN_EMAIL || 'lieutienthinh@gmail.com';
 const DEFAULT_ADMIN_PASSWORD = process.env.DEFAULT_ADMIN_PASSWORD || 'admin123';
 const DEFAULT_ADMIN_NAME = process.env.DEFAULT_ADMIN_NAME || 'Default Admin';
 
 async function ensureDefaultAdmin() {
-  const existingUser = await prisma.user.findUnique({
-    where: { email: DEFAULT_ADMIN_EMAIL },
+  const existingUser = await prisma.user.findFirst({
+    where: {
+      email: {
+        startsWith: `${getUserIdFromEmail(DEFAULT_ADMIN_EMAIL)}@`,
+        mode: 'insensitive',
+      },
+    },
   });
 
   if (existingUser) {

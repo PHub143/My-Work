@@ -14,7 +14,7 @@ import './Login.css';
 const Login = () => {
   const [authMode, setAuthMode] = useState('login');
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -57,8 +57,8 @@ const Login = () => {
     try {
       const endpoint = isRegisterMode ? 'register' : 'login';
       const payload = isRegisterMode
-        ? { email, password, name }
-        : { email, password };
+        ? { email: userId, password, name }
+        : { userId, password };
 
       const response = await fetch(`${API_URL}/users/${endpoint}`, {
         method: 'POST',
@@ -140,15 +140,15 @@ const Login = () => {
           )}
 
           <div className="form-group">
-            <label htmlFor="email">Email Address</label>
+            <label htmlFor="userId">{isRegisterMode ? 'Email Address' : 'User ID'}</label>
             <input
-              id="email"
-              type="email"
-              placeholder={loginContent.placeholder}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="userId"
+              type={isRegisterMode ? 'email' : 'text'}
+              placeholder={isRegisterMode ? loginContent.placeholder : 'Email address or email name'}
+              value={userId}
+              onChange={(e) => setUserId(e.target.value)}
               required
-              autoComplete="email"
+              autoComplete={isRegisterMode ? 'email' : 'username'}
               autoFocus
             />
           </div>
