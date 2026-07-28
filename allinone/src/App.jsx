@@ -1,7 +1,7 @@
-import { HashRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import React, { Suspense, lazy, useEffect } from 'react';
 import './App.css';
-import Navbar from './components/Navbar';
+import AppRail from './components/AppRail';
 import Spinner from './components/Spinner';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
@@ -40,11 +40,9 @@ const OAuthDetector = () => {
     const code = urlParams.get('code');
     const state = urlParams.get('state');
     if (code) {
-      // Clean the search params from the URL immediately
       const newUrl = window.location.pathname + window.location.hash;
       window.history.replaceState({}, document.title, newUrl);
-      
-      // Navigate to the React Router hash route, preserving state for drive-specific auth
+
       let callbackUrl = `/oauth/callback?code=${code}`;
       if (state) callbackUrl += `&state=${encodeURIComponent(state)}`;
       navigate(callbackUrl, { replace: true });
@@ -54,44 +52,59 @@ const OAuthDetector = () => {
   return null;
 };
 
+/* Routes that own the full viewport: no navbar, no content padding. */
+const CHROMELESS = ['/login', '/bossin', '/oauth/callback'];
+
+const AppShell = () => {
+  const { pathname } = useLocation();
+  const chromeless = CHROMELESS.some((p) => pathname.startsWith(p));
+
+  return (
+    <div className={chromeless ? 'app-shell is-chromeless' : 'app-shell'}>
+      <OAuthDetector />
+      {!chromeless && <AppRail />}
+      <main className={chromeless ? 'content-container is-chromeless' : 'content-container'}>
+        <Suspense fallback={<Spinner />}>
+          <Routes>
+            <Route element={<ProtectedRoute />}>
+              <Route path='/' element={<Documents />} />
+              <Route path='/gallery' element={<Gallery />} />
+              <Route path='/upload' element={<Upload />} />
+            </Route>
+            <Route element={<AdminRoute />}>
+              <Route path='/users' element={<Users />} />
+              <Route path='/content' element={<EnglishContentAdmin />} />
+              <Route path='/settings' element={<Settings />} />
+            </Route>
+            <Route element={<LearningRoute />}>
+              <Route path='/learning/ai-103' element={<AI103 />} />
+              <Route path='/learning/ai-103/practice' element={<AI103Practice />} />
+              <Route path='/learning/ai-102' element={<AI102 />} />
+              <Route path='/learning/ai-102/practice' element={<AI102Practice />} />
+              <Route path='/learning/english' element={<English />} />
+              <Route path='/learning/english/practice' element={<EnglishPractice />} />
+              <Route path='/learning/english/listening' element={<EnglishListeningPractice />} />
+              <Route path='/learning/english/vocabulary' element={<EnglishVocabulary />} />
+              <Route path='/learning/english/drills' element={<EnglishDrills />} />
+            </Route>
+            <Route path='/login' element={<Login />} />
+            <Route path='/bossin' element={<Login />} />
+            <Route path='/oauth/callback' element={<OAuthCallback />} />
+          </Routes>
+        </Suspense>
+      </main>
+    </div>
+  );
+};
+
 function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
         <DriveProvider>
-        <Router>
-          <OAuthDetector />
-          <Navbar />
-          <main className="content-container">
-            <Suspense fallback={<Spinner />}>
-              <Routes>
-                <Route element={<ProtectedRoute />}>
-                  <Route path='/' element={<Documents />} />
-                  <Route path='/gallery' element={<Gallery />} />
-                  <Route path='/upload' element={<Upload />} />
-                </Route>
-                <Route element={<AdminRoute />}>
-                  <Route path='/users' element={<Users />} />
-                  <Route path='/content' element={<EnglishContentAdmin />} />
-                  <Route path='/settings' element={<Settings />} />
-                </Route>
-                <Route element={<LearningRoute />}>
-                  <Route path='/learning/ai-103' element={<AI103 />} />
-                  <Route path='/learning/ai-103/practice' element={<AI103Practice />} />
-                  <Route path='/learning/ai-102' element={<AI102 />} />
-                  <Route path='/learning/ai-102/practice' element={<AI102Practice />} />
-                  <Route path='/learning/english' element={<English />} />
-                  <Route path='/learning/english/practice' element={<EnglishPractice />} />
-                  <Route path='/learning/english/listening' element={<EnglishListeningPractice />} />
-                  <Route path='/learning/english/vocabulary' element={<EnglishVocabulary />} />
-                  <Route path='/learning/english/drills' element={<EnglishDrills />} />
-                </Route>
-                <Route path='/login' element={<Login />} />
-                <Route path='/oauth/callback' element={<OAuthCallback />} />
-              </Routes>
-            </Suspense>
-          </main>
-        </Router>
+          <Router>
+            <AppShell />
+          </Router>
         </DriveProvider>
       </AuthProvider>
     </ThemeProvider>

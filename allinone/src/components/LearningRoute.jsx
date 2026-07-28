@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { isStudent } from '../utils/roles';
+import { STUDENT_LOGIN_ROUTE } from '../utils/routeAccess';
 import Spinner from './Spinner';
 
 const LearningRoute = () => {
@@ -22,11 +23,11 @@ const LearningRoute = () => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+    return <Navigate to={STUDENT_LOGIN_ROUTE} state={{ from: location.pathname }} replace />;
   }
 
   if (!isStudent(user)) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to={STUDENT_LOGIN_ROUTE} replace />;
   }
 
   return <Outlet />;

@@ -205,8 +205,8 @@ const EnglishListeningPractice = () => {
 
   if (!currentGroup) {
     return (
-      <main className="ai103-container cosmic-page">
-        <div className="ai103-content cosmic-content">
+      <main className="ai103-container">
+        <div className="ai103-content">
           <div className="ai103-empty-state">
             <strong>No listening questions found</strong>
           </div>
@@ -219,21 +219,8 @@ const EnglishListeningPractice = () => {
   const playerLocked = isTestMode && !isSubmitted;
 
   return (
-    <main
-      className="ai103-container ai103-practice-page cosmic-page"
-      style={{
-        '--page-accent': 'var(--cosmic-blue)',
-        '--cosmic-orb-top': '56px',
-        '--cosmic-orb-right': '72px',
-        '--cosmic-star-top': '168px',
-        '--cosmic-star-left': '48%',
-        '--cosmic-star-size': '38px',
-        '--cosmic-cube-top': '92px',
-        '--cosmic-cube-left': '210px',
-        '--cosmic-cube-size': '28px',
-      }}
-    >
-      <div className="ai103-content cosmic-content">
+    <main className="ai103-container ai103-practice-page">
+      <div className="ai103-content">
         {results && showResultsModal ? (
           <div className="ai103-practice-modal-backdrop" role="presentation">
             <section

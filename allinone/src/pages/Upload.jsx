@@ -222,13 +222,8 @@ const Upload = () => {
   );
 
   return (
-    <div className="upload-container cosmic-page" style={{ '--page-accent': 'var(--cosmic-orange)' }}>
-      <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
-        <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor"/>
-      </svg>
-      <div className="cosmic-cube" />
-
-      <div className="upload-content cosmic-content">
+    <div className="upload-container">
+      <div className="upload-content">
         <div className="upload-header">
           <span className="upload-badge">UP TO 10 GB</span>
           <h1>Send it <em>up.</em></h1>

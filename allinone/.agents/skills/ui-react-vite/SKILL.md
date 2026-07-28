@@ -77,7 +77,7 @@ Check `ThemeContext.jsx` and `src/index.css` before adding theme-dependent UI. P
 
 ## Repo-Specific Notes
 
-- Navigation lives in `src/components/Navbar.jsx`.
+- Navigation lives in `src/components/AppRail.jsx` (left icon rail), with `src/components/TopBar.jsx` for the per-page search/action bar and `src/components/LearningTabs.jsx` for the learning-area track switcher.
 - Route content is rendered inside `main.content-container`.
 - Current pages fetch and render remote data, so loading and error states matter.
 - Existing files often pair `Component.jsx` with `Component.css`; follow that convention.

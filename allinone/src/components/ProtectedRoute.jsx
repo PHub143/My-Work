@@ -4,6 +4,7 @@ import { API_URL } from '../config';
 import Spinner from './Spinner';
 import { useAuth } from '../AuthContext';
 import { isAdmin } from '../utils/roles';
+import { STUDENT_LOGIN_ROUTE } from '../utils/routeAccess';
 import AccessLocked from './AccessLocked';
 
 /**
@@ -55,7 +56,9 @@ const ProtectedRoute = () => {
   const canAdmin = isAdmin(user);
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+    // Always the student portal — the admin sign-in route is never surfaced
+    // by a redirect, only reachable by navigating to it directly.
+    return <Navigate to={STUDENT_LOGIN_ROUTE} state={{ from: location.pathname }} replace />;
   }
 
   if (!canAdmin) {

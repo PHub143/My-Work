@@ -102,20 +102,7 @@ const EnglishVocabulary = () => {
   const sessionFinished = session && !currentCard;
 
   return (
-    <div
-      className="ai103-container"
-      style={{
-        '--page-accent': 'var(--cosmic-orange)',
-        '--cosmic-orb-top': '56px',
-        '--cosmic-orb-right': '72px',
-        '--cosmic-star-top': '168px',
-        '--cosmic-star-left': '48%',
-        '--cosmic-star-size': '38px',
-        '--cosmic-cube-top': '92px',
-        '--cosmic-cube-left': '210px',
-        '--cosmic-cube-size': '28px',
-      }}
-    >
+    <div className="ai103-container">
       <div className="ai103-content">
         <header className="ai103-header">
           <div className="ai103-title-block">

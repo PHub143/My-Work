@@ -159,13 +159,8 @@ const Users = () => {
   };
 
   return (
-    <div className="users-page cosmic-page" style={{ '--page-accent': 'var(--cosmic-cyan)' }}>
-      <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
-        <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor"/>
-      </svg>
-      <div className="cosmic-cube" />
-
-      <div className="users-content cosmic-content">
+    <div className="users-page">
+      <div className="users-content">
         <div className="users-header">
           <div>
             <div className="users-kicker">

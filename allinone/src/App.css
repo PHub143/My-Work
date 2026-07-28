@@ -4,7 +4,82 @@
   padding: 0;
 }
 
+/* Focus shell: a 68px ink rail on the left, content to the right of it.
+   Two column widths only — 780px for reading/answering, 1180px for scanning.
+   Pages opt in with .page-read / .page-scan. */
+
+.app-shell {
+  min-height: 100vh;
+  padding-left: 68px;
+  background: var(--color-system-background);
+}
+
+.app-shell.is-chromeless { padding-left: 0; }
+
 .content-container {
   width: 100%;
   flex: 1;
+  min-height: 100vh;
+  background: var(--color-system-background);
+}
+
+.content-container.is-chromeless {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+@media (max-width: 760px) {
+  /* rail becomes a bottom bar */
+  .app-shell { padding-left: 0; padding-bottom: 56px; }
+  .app-shell.is-chromeless { padding-bottom: 0; }
+}
+
+.page-read,
+.page-scan {
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+.page-read { max-width: var(--col-read, 780px); }
+.page-scan { max-width: var(--col-scan, 1180px); }
+
+/* one shared page header for every screen */
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 18px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.page-head h1 {
+  font-size: var(--fs-h1, 26px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.page-head p {
+  margin: 6px 0 0;
+  font-size: var(--fs-meta, 12.5px);
+  color: var(--text-muted);
+}
+
+.page-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .page-read,
+  .page-scan { padding: 22px 16px 64px; }
+
+  .page-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
 }

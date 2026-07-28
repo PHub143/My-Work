@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
+import { STUDENT_LOGIN_ROUTE } from '../utils/routeAccess';
 import '../pages/Login.css';
 
 const AccessLocked = () => {
@@ -10,7 +11,9 @@ const AccessLocked = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login', { replace: true, state: { from: location.pathname } });
+    // Always the student portal — the admin sign-in route is never surfaced
+    // by a redirect, only reachable by navigating to it directly.
+    navigate(STUDENT_LOGIN_ROUTE, { replace: true, state: { from: location.pathname } });
   };
 
   return (

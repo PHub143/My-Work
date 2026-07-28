@@ -1,0 +1,52 @@
+.learn-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  height: 56px;
+  padding: 0 28px;
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.learn-tabs-list {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.learn-tab {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 7px;
+  color: var(--text-muted);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.learn-tab:hover {
+  background: var(--hover-bg);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.learn-tab.active {
+  background: var(--surface-sunken);
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.learn-tabs-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .learn-tabs { padding: 0 16px; }
+}

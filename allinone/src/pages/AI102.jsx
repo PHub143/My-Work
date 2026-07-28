@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AI103.css';
+import LearningTabs from '../components/LearningTabs';
 import ai102Content from '../data/ai102Content.json';
 import {
   formatQuestionType,
@@ -151,7 +152,8 @@ const AI102 = () => {
   };
 
   return (
-    <div className="ai103-container" style={{ '--page-accent': 'var(--cosmic-cyan)' }}>
+    <div className="ai103-container">
+      <LearningTabs />
       <div className="ai103-content">
         <header className="ai103-header">
           <div className="ai103-title-block">

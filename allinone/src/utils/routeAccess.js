@@ -1,11 +1,10 @@
 export const LEARNING_FALLBACK_ROUTE = '/learning/ai-103';
 export const ADMIN_FALLBACK_ROUTE = '/';
 
-export const isLearningPath = (path = '') => path.startsWith('/learning');
+export const STUDENT_LOGIN_ROUTE = '/login';
+export const ADMIN_LOGIN_ROUTE = '/bossin';
 
-export const getLoginModeForPath = (path = '') => (
-  isLearningPath(path) ? 'student' : 'admin'
-);
+export const isLearningPath = (path = '') => path.startsWith('/learning');
 
 export const canRoleAccessPath = (user, path, { isAdmin, isStudent }) => {
   if (isAdmin(user)) return true;

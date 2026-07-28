@@ -90,7 +90,7 @@ const AI102Practice = () => {
   if (!currentQuestion) return null;
 
   return (
-    <div className="ai103-container ai103-practice-page cosmic-page" style={{ '--page-accent': 'var(--cosmic-cyan)' }}>
+    <div className="ai103-container ai103-practice-page">
       <div className="ai103-content">
         <header className="ai103-practice-header">
           <div>

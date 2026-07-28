@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AI103.css';
 import './English.css';
+import LearningTabs from '../components/LearningTabs';
 import PassagePanel from '../components/PassagePanel';
 import { useAuth } from '../AuthContext';
 import {
@@ -274,20 +275,8 @@ const English = () => {
   };
 
   return (
-    <div
-      className="ai103-container"
-      style={{
-        '--page-accent': 'var(--cosmic-purple)',
-        '--cosmic-orb-top': '56px',
-        '--cosmic-orb-right': '72px',
-        '--cosmic-star-top': '168px',
-        '--cosmic-star-left': '48%',
-        '--cosmic-star-size': '38px',
-        '--cosmic-cube-top': '92px',
-        '--cosmic-cube-left': '210px',
-        '--cosmic-cube-size': '28px',
-      }}
-    >
+    <div className="ai103-container">
+      <LearningTabs />
       <div className="ai103-content">
         <header className="ai103-header">
           <div className="ai103-title-block">

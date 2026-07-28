@@ -21,8 +21,10 @@ Shared UI components, navigation, route guards, modals, and loading states.
 
 | Component | Description |
 |---|---|
-| `Navbar.jsx` | Top navigation bar |
-| `Logo.jsx` | App logo/branding |
+| `AppRail.jsx` | Left icon rail: primary nav, theme toggle, sign in/out. Replaces the old `Navbar`/`Logo`. |
+| `TopBar.jsx` | 56px bar above signed-in pages: search, `DriveSwitcher`, one primary action. |
+| `LearningTabs.jsx` | Track switcher (AI-103 / AI-102 / English) for the learning area. |
+| `LoginBrandPanel.jsx` | Left-side branding panel on the chromeless `/login` screen. |
 | `Spinner.jsx` | Loading spinner fallback for `Suspense` |
 | `FileModal.jsx` | File preview/action modal |
 | `DriveSwitcher.jsx` | Google Drive configuration selector |

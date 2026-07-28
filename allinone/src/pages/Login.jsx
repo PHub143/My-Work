@@ -5,10 +5,11 @@ import { API_URL } from '../config';
 import { isAdmin, isStudent } from '../utils/roles';
 import {
   ADMIN_FALLBACK_ROUTE,
+  ADMIN_LOGIN_ROUTE,
   LEARNING_FALLBACK_ROUTE,
-  canRoleAccessPath,
-  getLoginModeForPath
+  canRoleAccessPath
 } from '../utils/routeAccess';
+import LoginBrandPanel from '../components/LoginBrandPanel';
 import './Login.css';
 
 const Login = () => {
@@ -19,28 +20,31 @@ const Login = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  
-  const from = location.state?.from || ADMIN_FALLBACK_ROUTE;
-  const loginMode = getLoginModeForPath(from);
-  const isStudentMode = loginMode === 'student';
+
+  const from = location.state?.from || null;
+  // The route itself is the door: /login is the student portal,
+  // ADMIN_LOGIN_ROUTE is the admin portal. Mode no longer depends on referrer.
+  const isStudentMode = location.pathname !== ADMIN_LOGIN_ROUTE;
   const isRegisterMode = isStudentMode && authMode === 'register';
   const loginContent = isStudentMode
     ? {
-        title: isRegisterMode ? 'Student Register' : 'Student Login',
-        subtitle: isRegisterMode ? 'Create your learning account' : 'Sign in to continue learning',
+        title: isRegisterMode ? 'Create your account' : 'Sign in',
+        subtitle: isRegisterMode
+          ? 'Your practice history starts saving right away.'
+          : 'Continue your AI-103 and TOEIC practice.',
         placeholder: 'student@example.com',
-        button: isRegisterMode ? 'Create Student Account' : 'Sign in as Student',
+        button: isRegisterMode ? 'Create account' : 'Sign in',
         fallback: LEARNING_FALLBACK_ROUTE
       }
     : {
-        title: 'Admin Login',
-        subtitle: 'Sign in to manage the workspace',
+        title: 'Admin sign in',
+        subtitle: 'Manage banks, files and student accounts.',
         placeholder: 'admin@example.com',
-        button: 'Sign in as Admin',
+        button: 'Sign in as admin',
         fallback: ADMIN_FALLBACK_ROUTE
       };
 
@@ -58,7 +62,7 @@ const Login = () => {
       const endpoint = isRegisterMode ? 'register' : 'login';
       const payload = isRegisterMode
         ? { email: userId, password, name }
-        : { userId, password };
+        : { userId, password, portal: isStudentMode ? 'student' : 'admin' };
 
       const response = await fetch(`${API_URL}/users/${endpoint}`, {
         method: 'POST',
@@ -98,97 +102,107 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card glass">
-        <h2>{loginContent.title}</h2>
-        <p className="login-subtitle">{loginContent.subtitle}</p>
-        
-        {error && <div className="login-error-message">{error}</div>}
+    <div className="login-page">
+      <LoginBrandPanel mode={isStudentMode ? 'student' : 'admin'} />
 
-        {isStudentMode && (
-          <div className="login-mode-toggle" aria-label="Student account mode">
-            <button
-              type="button"
-              className={authMode === 'login' ? 'active' : ''}
-              onClick={() => switchAuthMode('login')}
-            >
-              Sign in
-            </button>
-            <button
-              type="button"
-              className={authMode === 'register' ? 'active' : ''}
-              onClick={() => switchAuthMode('register')}
-            >
-              Register
-            </button>
-          </div>
-        )}
-        
-        <form onSubmit={handleSubmit} className="login-form">
-          {isRegisterMode && (
-            <div className="form-group">
-              <label htmlFor="name">Full Name</label>
-              <input
-                id="name"
-                type="text"
-                placeholder="Student name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                autoComplete="name"
-              />
+      <div className="login-form-col">
+        <div className="login-card">
+          <h2>{loginContent.title}</h2>
+          <p className="login-subtitle">{loginContent.subtitle}</p>
+
+          {error && <div className="login-error-message" role="alert">{error}</div>}
+
+          {isStudentMode && (
+            <div className="login-mode-toggle" aria-label="Student account mode">
+              <button
+                type="button"
+                className={authMode === 'login' ? 'active' : ''}
+                onClick={() => switchAuthMode('login')}
+              >
+                Sign in
+              </button>
+              <button
+                type="button"
+                className={authMode === 'register' ? 'active' : ''}
+                onClick={() => switchAuthMode('register')}
+              >
+                Register
+              </button>
             </div>
           )}
 
-          <div className="form-group">
-            <label htmlFor="userId">{isRegisterMode ? 'Email Address' : 'User ID'}</label>
-            <input
-              id="userId"
-              type={isRegisterMode ? 'email' : 'text'}
-              placeholder={isRegisterMode ? loginContent.placeholder : 'Email address or email name'}
-              value={userId}
-              onChange={(e) => setUserId(e.target.value)}
-              required
-              autoComplete={isRegisterMode ? 'email' : 'username'}
-              autoFocus
-            />
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete={isRegisterMode ? 'new-password' : 'current-password'}
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="login-form">
+            {isRegisterMode && (
+              <div className="form-group">
+                <label htmlFor="name">Full name</label>
+                <input
+                  id="name"
+                  type="text"
+                  placeholder="Student name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  autoComplete="name"
+                />
+              </div>
+            )}
 
-          {isRegisterMode && (
             <div className="form-group">
-              <label htmlFor="confirmPassword">Confirm Password</label>
+              <label htmlFor="userId">{isRegisterMode ? 'Email address' : 'Email or user ID'}</label>
               <input
-                id="confirmPassword"
+                id="userId"
+                type={isRegisterMode ? 'email' : 'text'}
+                placeholder={isRegisterMode ? loginContent.placeholder : 'Email address or email name'}
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
+                required
+                autoComplete={isRegisterMode ? 'email' : 'username'}
+                autoFocus
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                id="password"
                 type="password"
                 placeholder="••••••••"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
-                autoComplete="new-password"
+                autoComplete={isRegisterMode ? 'new-password' : 'current-password'}
               />
             </div>
+
+            {isRegisterMode && (
+              <div className="form-group">
+                <label htmlFor="confirmPassword">Confirm password</label>
+                <input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="••••••••"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  autoComplete="new-password"
+                />
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="login-submit-btn"
+              disabled={isLoading}
+            >
+              {isLoading ? (isRegisterMode ? 'Creating account…' : 'Signing in…') : loginContent.button}
+            </button>
+          </form>
+
+          {isStudentMode && (
+            <p className="login-legal">
+              Trouble signing in? Ask your teacher to reset your account.
+            </p>
           )}
-          
-          <button 
-            type="submit" 
-            className="login-submit-btn primary-btn" 
-            disabled={isLoading}
-          >
-            {isLoading ? (isRegisterMode ? 'Creating account...' : 'Signing in...') : loginContent.button}
-          </button>
-        </form>
+        </div>
       </div>
     </div>
   );

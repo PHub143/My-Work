@@ -248,12 +248,8 @@ const Settings = () => {
 
   if (isLoading) {
     return (
-      <div className="settings-page cosmic-page" style={{ '--page-accent': 'var(--cosmic-purple)' }}>
-        <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
-          <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor"/>
-        </svg>
-        <div className="cosmic-cube" />
-        <div className="settings-content cosmic-content"><Spinner /></div>
+      <div className="settings-page">
+        <div className="settings-content"><Spinner /></div>
       </div>
     );
   }
@@ -262,12 +258,8 @@ const Settings = () => {
   if (isCreating || editingDrive) {
     const isEdit = !!editingDrive;
     return (
-      <div className="settings-page cosmic-page" style={{ '--page-accent': 'var(--cosmic-purple)' }}>
-        <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
-          <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor"/>
-        </svg>
-        <div className="cosmic-cube" />
-        <div className="settings-content cosmic-content">
+      <div className="settings-page">
+        <div className="settings-content">
           <div className="settings-form-card">
           <button className="settings-back-btn" onClick={closeForm}>
             <BackIcon /> Back
@@ -326,12 +318,8 @@ const Settings = () => {
   const totalFiles = drives.reduce((sum, d) => sum + (d.fileCount || 0), 0);
 
   return (
-    <div className="settings-page cosmic-page" style={{ '--page-accent': 'var(--cosmic-purple)' }}>
-      <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
-        <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor"/>
-      </svg>
-      <div className="cosmic-cube" />
-      <div className="settings-content cosmic-content">
+    <div className="settings-page">
+      <div className="settings-content">
       {/* Hero */}
       <div className="settings-hero">
         <div>
@@ -354,11 +342,10 @@ const Settings = () => {
 
       {/* Tab strip */}
       <div className="settings-tabs">
-        {TABS.map((tab, i) => (
+        {TABS.map((tab) => (
           <button
             key={tab}
             className={`settings-tab ${activeTab === tab ? 'settings-tab--active' : ''}`}
-            style={activeTab === tab ? { '--tab-color': ['var(--cosmic-pink)', 'var(--cosmic-cyan)', 'var(--cosmic-yellow)', 'var(--cosmic-orange)', 'var(--cosmic-purple)'][i] } : {}}
             onClick={() => setActiveTab(tab)}
           >
             {tab}
@@ -461,11 +448,10 @@ const Settings = () => {
             <div className="storage-section">
               <div className="storage-label">STORAGE · {totalFiles} FILES ACROSS {drives.length} DRIVE{drives.length !== 1 ? 'S' : ''}</div>
               <div className="storage-bar">
-                {drives.map((drive, i) => {
+                {drives.map((drive) => {
                   const pct = totalFiles > 0 ? Math.round((drive.fileCount / totalFiles) * 100) : Math.floor(100 / drives.length);
-                  const colors = ['var(--cosmic-pink)', 'var(--cosmic-cyan)', 'var(--cosmic-yellow)', 'var(--cosmic-orange)', 'var(--cosmic-purple)'];
                   return (
-                    <div key={drive.id} className="storage-bar-seg" style={{ width: `${pct}%`, background: colors[i % colors.length] }}>
+                    <div key={drive.id} className="storage-bar-seg" style={{ width: `${pct}%` }}>
                       {drive.name}
                     </div>
                   );

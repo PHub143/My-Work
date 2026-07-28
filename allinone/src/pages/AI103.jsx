@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AI103.css';
+import LearningTabs from '../components/LearningTabs';
 import q1AnswerArea from '../assets/ai103/q1-answer-area.png';
 import q1AnswerAreaBlank from '../assets/ai103/q1-answer-area-blank.png';
 import q4AnswerArea from '../assets/ai103/q4-answer-area.png';
@@ -705,20 +706,8 @@ const AI103 = () => {
   };
 
   return (
-    <div
-      className="ai103-container"
-      style={{
-        '--page-accent': 'var(--cosmic-cyan)',
-        '--cosmic-orb-top': '56px',
-        '--cosmic-orb-right': '72px',
-        '--cosmic-star-top': '168px',
-        '--cosmic-star-left': '48%',
-        '--cosmic-star-size': '38px',
-        '--cosmic-cube-top': '92px',
-        '--cosmic-cube-left': '210px',
-        '--cosmic-cube-size': '28px',
-      }}
-    >
+    <div className="ai103-container">
+      <LearningTabs />
       <div className="ai103-content">
         <header className="ai103-header">
           <div className="ai103-title-block">

@@ -1,7 +1,7 @@
 const userService = require('../services/userService');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { ROLES, withNormalizedRoles } = require('../utils/roles');
+const { ROLES, hasRole, withNormalizedRoles } = require('../utils/roles');
 const { getUserIdFromEmail } = require('../utils/userId');
 
 const { JWT_SECRET } = require('../config/jwt');
@@ -25,7 +25,7 @@ const createUserToken = (user) => jwt.sign(
  * @param {Function} next - Express next middleware function.
  */
 const loginHandler = async (req, res, next) => {
-  const { userId, email, password } = req.body;
+  const { userId, email, password, portal } = req.body;
   const loginId = typeof userId === 'string' ? userId.trim() : typeof email === 'string' ? email.trim() : '';
 
   if (!loginId || !password) {
@@ -44,6 +44,19 @@ const loginHandler = async (req, res, next) => {
     }
 
     const normalizedUser = withNormalizedRoles(user);
+
+    // A portal is which login form the request came from (student vs admin).
+    // An account must carry the matching role to sign in through that portal,
+    // even if the password is otherwise correct.
+    if (portal === 'admin' && !hasRole(normalizedUser, ROLES.ADMIN)) {
+      return res.status(403).json({ message: 'This account does not have admin access.' });
+    }
+    // The student portal is the public-facing one, so a role mismatch here
+    // gets the same generic message as a wrong password — it must not hint
+    // that an admin account, or a separate admin sign-in page, exists.
+    if (portal === 'student' && !hasRole(normalizedUser, ROLES.STUDENT)) {
+      return res.status(401).json({ message: 'Invalid user ID or password.' });
+    }
 
     const token = createUserToken(normalizedUser);
 

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './Gallery.css';
 import { API_URL } from '../config';
 import Spinner from '../components/Spinner';
 import FileModal from '../components/FileModal';
+import TopBar from '../components/TopBar';
 import { useAuth } from '../AuthContext';
 import { useDrive } from '../DriveContext';
 
@@ -14,9 +15,11 @@ function formatBytes(bytes = 0) {
 }
 
 function formatDate(value) {
-  if (!value) return 'Unknown';
+  if (!value) return '—';
   return new Date(value).toLocaleDateString([], { month: 'short', day: 'numeric' });
 }
+
+const isVideo = (file) => (file.mimeType || '').startsWith('video/');
 
 const Gallery = () => {
   const [images, setImages] = useState([]);
@@ -25,8 +28,21 @@ const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [tags, setTags] = useState([]);
   const [selectedTag, setSelectedTag] = useState(null);
+  const [query, setQuery] = useState('');
+  const [size, setSize] = useState('medium');
   const { token } = useAuth();
   const { activeDriveId, activeDrive } = useDrive();
+
+  const refreshTags = () => {
+    const headers = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    let url = `${API_URL}/tags?includeType=image,video`;
+    if (activeDriveId) url += `&driveConfigId=${activeDriveId}`;
+    fetch(url, { headers })
+      .then((res) => res.json())
+      .then((data) => setTags(data.tags || []))
+      .catch((err) => console.error('Error refreshing tags:', err));
+  };
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -55,18 +71,14 @@ const Gallery = () => {
       setError(null);
       try {
         let url = `${API_URL}/files?includeType=image,video`;
-        if (selectedTag) {
-          url += `&tag=${encodeURIComponent(selectedTag)}`;
-        }
-        if (activeDriveId) {
-          url += `&driveConfigId=${activeDriveId}`;
-        }
+        if (selectedTag) url += `&tag=${encodeURIComponent(selectedTag)}`;
+        if (activeDriveId) url += `&driveConfigId=${activeDriveId}`;
 
         const headers = {};
         if (token) headers['Authorization'] = `Bearer ${token}`;
 
         const response = await fetch(url, { headers });
-        
+
         if (response.status === 412) {
           window.location.hash = '/settings';
           return;
@@ -88,41 +100,19 @@ const Gallery = () => {
   }, [selectedTag, token, activeDriveId]);
 
   const handleUpdateSuccess = (updatedFile) => {
-    setImages(prevImages => prevImages.map(img => 
-      img.driveFileId === updatedFile.driveFileId ? updatedFile : img
-    ));
+    setImages((prev) => prev.map((img) => (img.driveFileId === updatedFile.driveFileId ? updatedFile : img)));
     setSelectedImage(updatedFile);
-    // Refresh tags list
-    const headers = {};
-    if (token) headers['Authorization'] = `Bearer ${token}`;
-
-    let url = `${API_URL}/tags?includeType=image,video`;
-    if (activeDriveId) url += `&driveConfigId=${activeDriveId}`;
-
-    fetch(url, { headers })
-      .then(res => res.json())
-      .then(data => setTags(data.tags))
-      .catch(err => console.error('Error refreshing tags:', err));
+    refreshTags();
   };
 
   const handleDeleteSuccess = (driveFileId) => {
-    setImages(prevImages => prevImages.filter(img => img.driveFileId !== driveFileId));
-    // Refresh tags list
-    const headers = {};
-    if (token) headers['Authorization'] = `Bearer ${token}`;
-
-    let url = `${API_URL}/tags?includeType=image,video`;
-    if (activeDriveId) url += `&driveConfigId=${activeDriveId}`;
-
-    fetch(url, { headers })
-      .then(res => res.json())
-      .then(data => setTags(data.tags))
-      .catch(err => console.error('Error refreshing tags:', err));
+    setImages((prev) => prev.filter((img) => img.driveFileId !== driveFileId));
+    refreshTags();
   };
 
-  const getHighResThumbnail = (url, size = 's1080') => {
+  const getHighResThumbnail = (url, thumbSize = 's1080') => {
     if (!url) return null;
-    return url.replace(/=s\d+.*$/, `=${size}`);
+    return url.replace(/=s\d+.*$/, `=${thumbSize}`);
   };
 
   const closeModal = () => setSelectedImage(null);
@@ -144,142 +134,131 @@ const Gallery = () => {
     };
   }, [selectedImage]);
 
-  // Reset tag filter when drive changes
-  useEffect(() => {
-    setSelectedTag(null);
-  }, [activeDriveId]);
+  useEffect(() => setSelectedTag(null), [activeDriveId]);
 
   const totalSize = images.reduce((sum, image) => sum + (image.size ? Number(image.size) : 0), 0);
 
-  return (
-    <div
-      className="gallery-container cosmic-page"
-      style={{
-        '--page-accent': 'var(--cosmic-pink)',
-        '--cosmic-orb-top': '4px',
-        '--cosmic-orb-right': '60px',
-        '--cosmic-star-top': '124px',
-        '--cosmic-star-left': '45%',
-        '--cosmic-star-size': '40px',
-        '--cosmic-cube-top': '44px',
-        '--cosmic-cube-left': '240px',
-        '--cosmic-cube-size': '24px',
-      }}
-    >
-      <svg className="cosmic-star" viewBox="0 0 40 40" aria-hidden="true">
-        <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="currentColor"/>
-      </svg>
-      <div className="cosmic-cube" />
+  const visible = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return images;
+    return images.filter((img) => (img.name || '').toLowerCase().includes(q));
+  }, [images, query]);
 
-      <div className="gallery-content cosmic-content">
-        <div className="gallery-header">
-          <div className="gallery-title-block">
-            <div className="gallery-kicker">
-              <span className="gallery-badge">VOL. 04</span>
-              <span className="gallery-meta">· {images.length} entries · {activeDrive?.name || 'summer 2026'}</span>
-            </div>
-            <h1>
-              The <span className="gallery-title-word">
-                gallery
-                <svg className="gallery-title-swoop" viewBox="0 0 200 16" preserveAspectRatio="none" aria-hidden="true">
-                  <path d="M2 12 Q 50 2, 100 8 T 198 6" />
-                </svg>
-              </span>
-              <span className="gallery-title-line">of <em>everything</em>.</span>
-            </h1>
+  return (
+    <>
+      <TopBar
+        value={query}
+        onChange={setQuery}
+        placeholder="Search images and videos…"
+        action={{ label: 'Upload', to: '/upload' }}
+      />
+
+      <div className="page-scan gallery-page">
+        <div className="page-head">
+          <div>
+            <h1>Gallery</h1>
             <p>
-              {activeDrive
-                ? `Images and videos on ${activeDrive.name}`
-                : 'Your uploaded images and videos on Google Drive'}
+              {images.length} item{images.length === 1 ? '' : 's'} · {formatBytes(totalSize)}
+              {activeDrive ? ` on ${activeDrive.name}` : ''}
             </p>
           </div>
-          <div className="gallery-storage-card">
-            <span>STORAGE</span>
-            <strong>{formatBytes(totalSize)}</strong>
-            <div className="gallery-storage-track">
-              <div style={{ width: `${Math.min(100, Math.max(12, images.length * 8))}%` }} />
+
+          <div className="page-head-actions">
+            <div className="seg">
+              <button type="button" className={size === 'medium' ? 'active' : ''} onClick={() => setSize('medium')}>
+                Medium
+              </button>
+              <button type="button" className={size === 'large' ? 'active' : ''} onClick={() => setSize('large')}>
+                Large
+              </button>
             </div>
           </div>
         </div>
 
-        <div className="filter-bar">
-          <button 
-            className={`filter-pill ${!selectedTag ? 'active' : ''}`}
+        <div className="tag-row">
+          <button
+            type="button"
+            className={`tag-chip${selectedTag === null ? ' active' : ''}`}
             onClick={() => setSelectedTag(null)}
           >
-            ★ All · {images.length}
+            All <b>{images.length}</b>
           </button>
-          {tags.map(tag => (
-            <button 
-              key={tag.id}
-              className={`filter-pill ${selectedTag === tag.name ? 'active' : ''}`}
+          {tags.map((tag) => (
+            <button
+              key={tag.id || tag.name}
+              type="button"
+              className={`tag-chip${selectedTag === tag.name ? ' active' : ''}`}
               onClick={() => setSelectedTag(tag.name)}
             >
-              #{tag.name}
+              {tag.name}
+              {tag.count ? <b>{tag.count}</b> : null}
             </button>
           ))}
         </div>
 
-        {error && (
-          <div className="error-message">
-            {error}
-          </div>
-        )}
+        {error && <div className="doc-error" role="alert">{error}</div>}
 
         {isLoading ? (
-          <div className="loading-container">
-            <Spinner />
+          <div className="doc-loading"><Spinner /></div>
+        ) : visible.length === 0 ? (
+          <div className="doc-empty">
+            <p>{query ? `Nothing matches “${query}”.` : 'No images or videos in this drive yet.'}</p>
+            {query && (
+              <button type="button" className="btn-quiet" onClick={() => setQuery('')}>
+                Clear search
+              </button>
+            )}
           </div>
-        ) : images.length > 0 ? (
-          <div className="gallery-grid">
-            {images.map((image) => (
-              <div 
-                key={image.id} 
-                className="gallery-card"
-                onClick={() => setSelectedImage(image)}
+        ) : (
+          <div className={`gal-grid is-${size}`}>
+            {visible.map((image) => (
+              <figure
+                key={image.id}
+                className="gal-item"
                 role="button"
                 tabIndex={0}
+                onClick={() => setSelectedImage(image)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
                     setSelectedImage(image);
                   }
                 }}
               >
-                {image.thumbnailLink ? (
-                  <div className="gallery-thumbnail-container">
-                    <img 
-                      src={getHighResThumbnail(image.thumbnailLink, 's1080')} 
-                      alt={image.name} 
-                      className="gallery-thumbnail" 
+                <div className="gal-frame">
+                  {image.thumbnailLink ? (
+                    <img
+                      src={getHighResThumbnail(image.thumbnailLink, size === 'large' ? 's1600' : 's1080')}
+                      alt={image.name}
                       loading="lazy"
                     />
-                  </div>
-                ) : (
-                  <div className="card-icon">🖼️</div>
-                )}
-                <span className="gallery-tag-chip">#{image.tags?.[0]?.name || 'misc'}</span>
-                <div className="gallery-info">
-                  <span className="gallery-name">{image.name}</span>
-                  <span className="gallery-file-meta">{formatBytes(image.size)} · {formatDate(image.modifiedTime || image.createdTime)}</span>
+                  ) : (
+                    <span className="gal-placeholder">No preview</span>
+                  )}
+                  {isVideo(image) && <span className="gal-badge">Video</span>}
                 </div>
-              </div>
+
+                <figcaption className="gal-caption">
+                  <span className="gal-name">{image.name}</span>
+                  <span className="gal-meta">
+                    {image.tags?.[0]?.name ? `${image.tags[0].name} · ` : ''}
+                    {formatBytes(image.size)} · {formatDate(image.modifiedTime || image.createdTime)}
+                  </span>
+                </figcaption>
+              </figure>
             ))}
-          </div>
-        ) : (
-          <div className="no-images">
-            <p>No images found in your Drive.</p>
           </div>
         )}
       </div>
 
-      <FileModal 
-        file={selectedImage} 
-        onClose={closeModal} 
+      <FileModal
+        file={selectedImage}
+        onClose={closeModal}
         onUpdateSuccess={handleUpdateSuccess}
         onDeleteSuccess={handleDeleteSuccess}
-        isImage={true}
+        isImage
       />
-    </div>
+    </>
   );
 };
 

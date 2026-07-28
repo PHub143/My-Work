@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { isAdmin } from '../utils/roles';
+import { STUDENT_LOGIN_ROUTE } from '../utils/routeAccess';
 import Spinner from './Spinner';
 import AccessLocked from './AccessLocked';
 
@@ -27,8 +28,9 @@ const AdminRoute = () => {
   }
 
   if (!isAuthenticated) {
-    // Redirect to login with the current location for redirection after login
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+    // Always the student portal — the admin sign-in route is never surfaced
+    // by a redirect, only reachable by navigating to it directly.
+    return <Navigate to={STUDENT_LOGIN_ROUTE} state={{ from: location.pathname }} replace />;
   }
 
   if (!isAdmin(user)) {
