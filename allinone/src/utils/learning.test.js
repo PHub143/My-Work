@@ -326,7 +326,7 @@ test('getPracticeControlConfig covers every visual answer-area question with str
   const expectedCorrectAnswers = {
     1: ['Standard', 'Opt out of automatic model version upgrades'],
     4: ['No', 'Yes', 'No'],
-    5: ['Multi-file task in pro mode', 'Single-file task in standard mode'],
+    5: ['Single-file task in standard mode', 'Multi-file task in pro mode'],
     6: ['DefaultAzureCredential', 'create'],
     7: ['Not(IsBlank(Local.Var01))', '{Upper(Local.Var01)}'],
     8: [

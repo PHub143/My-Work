@@ -694,9 +694,9 @@ const AI103 = () => {
     : 'No question';
   const difficulties = [
     { id: 'easy', label: 'Easy', detail: '20 random questions, no time limit', enabled: true },
-    { id: 'normal', label: 'Normal', detail: '65 random questions, 60 minute limit', enabled: true },
-    { id: 'hard', label: 'Hard', detail: '65 random questions, 30 minute limit', enabled: true },
-    { id: 'extra-hard', label: 'Extra Hard', detail: '65 random questions, 20 minute limit, no answer-area hints', enabled: true },
+    { id: 'normal', label: 'Normal', detail: `${questions.length} random questions, 60 minute limit`, enabled: true },
+    { id: 'hard', label: 'Hard', detail: `${questions.length} random questions, 30 minute limit`, enabled: true },
+    { id: 'extra-hard', label: 'Extra Hard', detail: `${questions.length} random questions, 20 minute limit, no answer-area hints`, enabled: true },
   ];
 
   const startPractice = () => {
@@ -817,7 +817,11 @@ const AI103 = () => {
                   <h2>Question {visibleQuestion.number}</h2>
                   <div className="ai103-page-card-tags">
                     <QuestionTypeTag question={visibleQuestion} />
-                    <span className="ai103-pill">PDF pages {visibleQuestion.sourcePages.join(', ')}</span>
+                    <span className="ai103-pill">
+                      {visibleQuestion.sourcePages.length > 0
+                        ? `PDF pages ${visibleQuestion.sourcePages.join(', ')}`
+                        : 'Custom question'}
+                    </span>
                   </div>
                 </div>
 
@@ -831,7 +835,7 @@ const AI103 = () => {
                   <QuestionTwentyOneContent question={visibleQuestion} />
                 ) : [4, 5, 6, 7, 8, 11, 15, 18, 20, 30, 32, 35, 37, 40, 49].includes(visibleQuestion.number) ? (
                   <VisualQuestionContent question={visibleQuestion} />
-                ) : [3, 9, 10, 12, 13, 14, 16, 17, 19, 22, 23, 24, 25, 26, 29, 31, 33, 34, 36, 38, 39, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 55, 57, 58, 59, 60, 63, 64, 65].includes(visibleQuestion.number) ? (
+                ) : [3, 9, 10, 12, 13, 14, 16, 17, 19, 22, 23, 24, 25, 26, 29, 31, 33, 34, 36, 38, 39, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 55, 57, 58, 59, 60, 63, 64, 65].includes(visibleQuestion.number) || visibleQuestion.number >= 66 ? (
                   <MultipleChoiceQuestionContent question={visibleQuestion} />
                 ) : (
                   <>
@@ -852,7 +856,9 @@ const AI103 = () => {
                   </div>
                   <div className="ai103-footer-stat">
                     <span className="ai103-footer-stat-label">Source Pages</span>
-                    <span className="ai103-footer-stat-value">{visibleQuestion.sourcePages.join(', ')}</span>
+                    <span className="ai103-footer-stat-value">
+                      {visibleQuestion.sourcePages.length > 0 ? visibleQuestion.sourcePages.join(', ') : 'Custom'}
+                    </span>
                   </div>
                   <div className="ai103-footer-stat">
                     <span className="ai103-footer-stat-label">Progress</span>

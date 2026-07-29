@@ -1136,7 +1136,7 @@ export function createPracticeSession(questions, options = {}) {
     hard: 30,
     'extra-hard': 20,
   };
-  const defaultQuestionCount = fullQuestionMode ? 65 : 20;
+  const defaultQuestionCount = fullQuestionMode ? (questions || []).length : 20;
   const questionCount = options.questionCount || defaultQuestionCount;
   const timeLimitMinutes = options.timeLimitMinutes !== undefined
     ? options.timeLimitMinutes

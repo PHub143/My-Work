@@ -446,7 +446,7 @@ const AI103Practice = () => {
             <h1>
               Practice Test
               <span>
-                {session.questions.length} random questions from the 65-question AI-103 learning set.{' '}
+                {session.questions.length} random questions from the {questions.length}-question AI-103 learning set.{' '}
                 {formatPracticeDuration(session.timeLimitMinutes)}.
                 {formatPracticeHintPolicy(session)}
               </span>
