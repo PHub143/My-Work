@@ -22,6 +22,15 @@ function QuestionTypeTag({ type }) {
   return <span className="ai103-pill ai103-pill--neutral">{formatQuestionType(type)}</span>;
 }
 
+function DeprecatedTag({ services }) {
+  if (!services?.length) return null;
+  return (
+    <span className="ai103-pill ai103-pill--warning" title={`References retired Azure service(s): ${services.join(', ')}`}>
+      Deprecated · {services.join(', ')}
+    </span>
+  );
+}
+
 function PromptSection({ question, parts }) {
   return (
     <section className="ai103-final-prompt">
@@ -59,6 +68,7 @@ function QuestionCard({ question, index, total }) {
         <div className="ai103-page-card-tags">
           <QuestionTypeTag type={question.type} />
           <span className="ai103-pill">PDF pages {question.sourcePages.join(', ')}</span>
+          <DeprecatedTag services={question.deprecatedServices} />
         </div>
       </div>
 
@@ -137,6 +147,8 @@ const AI102 = () => {
   const pageCount = Math.max(1, Math.ceil(filteredQuestions.length / PAGE_SIZE));
   const wordCount = questions.reduce((total, question) => total + (question.text || '').split(/\s+/).filter(Boolean).length, 0);
   const typeCount = new Set(questions.map((question) => question.type)).size;
+  const activeCount = questions.filter((question) => !question.deprecated).length;
+  const deprecatedCount = questions.length - activeCount;
 
   const selectQuestion = (number) => {
     setSelectedNumber(number);
@@ -176,13 +188,14 @@ const AI102 = () => {
               <button type="button" className="ai103-practice-button" onClick={() => navigate('/learning/ai-102/practice')}>
                 Practice 65 random
               </button>
-              <button type="button" className="ai103-practice-button" onClick={() => navigate('/learning/ai-102/practice?questions=329')}>
-                Practice all 329
+              <button type="button" className="ai103-practice-button" onClick={() => navigate(`/learning/ai-102/practice?questions=${activeCount}`)}>
+                Practice all {activeCount}
               </button>
             </div>
           </div>
           <div className="ai103-stat-grid" aria-label="AI-102 document stats">
             <div className="ai103-stat"><strong>{ai102Content.questionCount}</strong><span>Questions</span></div>
+            <div className="ai103-stat"><strong>{deprecatedCount}</strong><span>Deprecated</span></div>
             <div className="ai103-stat"><strong>{typeCount}</strong><span>Question Types</span></div>
             <div className="ai103-stat"><strong>{formatNumber(wordCount)}</strong><span>Words</span></div>
           </div>
@@ -214,7 +227,13 @@ const AI102 = () => {
         <div className="ai103-layout">
           <aside className="ai103-page-index" aria-label="AI-102 question index">
             {visibleQuestions.map((question) => (
-              <button key={question.number} type="button" className={question.number === visibleQuestion?.number ? 'active' : ''} onClick={() => selectQuestion(question.number)}>
+              <button
+                key={question.number}
+                type="button"
+                title={question.deprecated ? `Deprecated: references ${question.deprecatedServices.join(', ')}` : undefined}
+                className={[question.number === visibleQuestion?.number ? 'active' : '', question.deprecated ? 'deprecated' : ''].filter(Boolean).join(' ')}
+                onClick={() => selectQuestion(question.number)}
+              >
                 {question.number}
               </button>
             ))}

@@ -32,6 +32,7 @@
 /* with a preview: image/doc on the left, info column on the right */
 .modal-content.preview-mode {
   max-width: 1120px;
+  height: min(86vh, 860px);
   display: grid;
   grid-template-columns: minmax(0, 1fr) 340px;
   grid-template-rows: 1fr;

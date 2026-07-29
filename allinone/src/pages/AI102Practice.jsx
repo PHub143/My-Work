@@ -13,6 +13,8 @@ function getQuestionCount(location) {
   return Number.isFinite(requested) && requested > 0 ? requested : 65;
 }
 
+const activeQuestions = ai102Content.questions.filter((question) => !question.deprecated);
+
 function hasSelection(value) {
   return Array.isArray(value) ? value.length > 0 : Boolean(value?.trim?.() || value);
 }
@@ -57,7 +59,7 @@ const AI102Practice = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const requestedCount = getQuestionCount(location);
-  const [session, setSession] = useState(() => shuffle(ai102Content.questions).slice(0, Math.min(requestedCount, ai102Content.questions.length)));
+  const [session, setSession] = useState(() => shuffle(activeQuestions).slice(0, Math.min(requestedCount, activeQuestions.length)));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selections, setSelections] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -81,7 +83,7 @@ const AI102Practice = () => {
   }, [session, selections, submitted]);
 
   const startNewSession = (count = requestedCount) => {
-    setSession(shuffle(ai102Content.questions).slice(0, Math.min(count, ai102Content.questions.length)));
+    setSession(shuffle(activeQuestions).slice(0, Math.min(count, activeQuestions.length)));
     setCurrentIndex(0);
     setSelections({});
     setSubmitted(false);
@@ -96,7 +98,7 @@ const AI102Practice = () => {
           <div>
             <span className="ai103-badge">AI-102 Practice</span>
             <h1>Designing and Implementing an Azure AI Solution</h1>
-            <p>{session.length} random questions from the 329-question AI-102 learning set.</p>
+            <p>{session.length} random questions from the {activeQuestions.length}-question AI-102 learning set (deprecated-service questions excluded).</p>
           </div>
           <div className="ai103-practice-summary"><strong>{answeredCount}/{session.length}</strong><span>Answered</span><strong>{autoScored}</strong><span>Auto-scored</span></div>
         </header>

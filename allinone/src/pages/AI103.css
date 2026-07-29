@@ -284,6 +284,11 @@
   color: var(--surface);
 }
 
+.ai103-page-index button.deprecated {
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
 .ai103-page-list { min-width: 0; }
 
 .ai103-page-card,
@@ -335,6 +340,11 @@
   text-transform: uppercase;
   box-shadow: none;
   transform: none;
+}
+
+.ai103-pill--warning {
+  border-color: var(--warning);
+  color: var(--warning);
 }
 
 /* ── question body ── */
@@ -939,6 +949,10 @@
 .ai103-question-type-row span:last-child {
   font-family: var(--font-mono);
   font-size: 11px;
+  color: var(--text-muted);
+}
+
+.ai103-practice-card .ai103-question-type-row span:last-child {
   color: rgba(255, 255, 255, 0.45);
 }
 
@@ -948,6 +962,10 @@
   font-weight: 600;
   letter-spacing: 0.09em;
   text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.ai103-practice-card .ai103-final-prompt h2 {
   color: rgba(255, 255, 255, 0.5);
 }
 
@@ -955,6 +973,10 @@
   margin: 0 0 12px;
   font-size: 15.5px;
   line-height: 1.6;
+  color: var(--text);
+}
+
+.ai103-practice-card .ai103-final-prompt p {
   color: rgba(255, 255, 255, 0.92);
 }
 

@@ -18,7 +18,11 @@
       "answer": "",
       "explanation": "Box 1: AddPhraseListAsync -\nExample: Add phraselist feature -\nvar phraselistId = await client.Features.AddPhraseListAsync(appId, versionId, new PhraselistCreateObject\nEnabledForAllModels = false,\nIsExchangeable = true,\nName = \"QuantityPhraselist\",\nPhrases = \"few,more,extra\"\n);\nBox 2: PhraselistCreateObject .\nThe constructor new PhraselistCreateObject suggests that an object of type PhraselistCreateObject is being\ninstantiated.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/client-libraries-rest-api",
       "text": "DRAG DROP -\nYou have 100 chatbots that each has its own Language Understanding model.\nFrequently, you must add the same phrases to each model.\nYou need to programmatically update the Language Understanding models to include the new phrases.\nHow should you complete the code? To answer, drag the appropriate values to the correct targets. Each value may\nbe used once, more than once, or not at all.\nYou may need to drag the split bar between panes or scroll to view content.\nNOTE: Each correct selection is worth one point.\nSelect and Place:\nAnswer:\nExplanation:\nBox 1: AddPhraseListAsync -\nExample: Add phraselist feature -\nvar phraselistId = await client.Features.AddPhraseListAsync(appId, versionId, new PhraselistCreateObject\nEnabledForAllModels = false,\nIsExchangeable = true,\nName = \"QuantityPhraselist\",\nPhrases = \"few,more,extra\"\n);\nBox 2: PhraselistCreateObject .\nThe constructor new PhraselistCreateObject suggests that an object of type PhraselistCreateObject is being\ninstantiated.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/client-libraries-rest-api",
-      "questionPage": 4
+      "questionPage": 4,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 2,
@@ -32,7 +36,11 @@
       "answer": "",
       "explanation": "Step 1: Select v1.1 of app1.\nA trained or published app packaged as a mounted input to the container with its associated App ID.\nStep 2: Export the model using the Export for containers (GZIP) option.\nExport versioned app's package from LUIS portal\nThe versioned app's package is available from the Versions list page.\n1. Sign on to the LUIS portal.\n2. Select the app in the list.\n3. Select Manage in the app's navigation bar.\n4. Select Versions in the left navigation bar.\n5. Select the checkbox to the left of the version name in the list.\n6. Select the Export item from the contextual toolbar above the list.\n7. Select Export for container (GZIP).\n8. The package is downloaded from the browser.\nStep 3: Run a contain and mount the model file.\nRun the container, with the required input mount and billing settings.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-container-howto",
       "text": "DRAG DROP -\nYou plan to use a Language Understanding application named app1 that is deployed to a container.\nApp1 was developed by using a Language Understanding authoring resource named lu1.\nApp1 has the versions shown in the following table.\nYou need to create a container that uses the latest deployable version of app1.\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of\nactions to the answer area and arrange them in the correct order.\nSelect and Place:\nAnswer:\nExplanation:\nStep 1: Select v1.1 of app1.\nA trained or published app packaged as a mounted input to the container with its associated App ID.\nStep 2: Export the model using the Export for containers (GZIP) option.\nExport versioned app's package from LUIS portal\nThe versioned app's package is available from the Versions list page.\n1. Sign on to the LUIS portal.\n2. Select the app in the list.\n3. Select Manage in the app's navigation bar.\n4. Select Versions in the left navigation bar.\n5. Select the checkbox to the left of the version name in the list.\n6. Select the Export item from the contextual toolbar above the list.\n7. Select Export for container (GZIP).\n8. The package is downloaded from the browser.\nStep 3: Run a contain and mount the model file.\nRun the container, with the required input mount and billing settings.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-container-howto",
-      "questionPage": 5
+      "questionPage": 5,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 3,
@@ -45,7 +53,12 @@
       "answer": "C",
       "explanation": "Language Understanding: An AI service that allows users to interact with your applications, bots, and IoT\ndevices by using natural language.\nQnA Maker is a cloud-based Natural Language Processing (NLP) service that allows you to create a natural\nconversational layer over your data. It is used to find the most appropriate answer for any input from your\ncustom knowledge base (KB) of information.\nText Analytics: Mine insights in unstructured text using natural language processing (NLP)\"no machine\nlearning expertise required. Gain a deeper understanding of customer opinions with sentiment analysis. The\nLanguage Detection feature of the Azure Text Analytics REST API evaluates text input\nIncorrect Answers:\nA, B, D: Dispatch uses sample utterances for each of your bot's different tasks (LUIS, QnA Maker, or custom),\nand builds a model that can be used to properly route your user's request to the right task, even across\nmultiple bots.\nReference:\nhttps://azure.microsoft.com/en-us/services/cognitive-services/text-analytics/ https://docs.microsoft.com/en-u\ns/azure/cognitive-services/qnamaker/overview/overview",
       "text": "You need to build a chatbot that meets the following requirements:\n✑ Supports chit-chat, knowledge base, and multilingual models\n✑ Performs sentiment analysis on user messages\n✑ Selects the best language model automatically\nWhat should you integrate into the chatbot?\nA. QnA Maker, Language Understanding, and Dispatch\nB. Translator, Speech, and Dispatch\nC. Language Understanding, Text Analytics, and QnA Maker\nD. Text Analytics, Translator, and Dispatch\nAnswer: C\nExplanation:\nLanguage Understanding: An AI service that allows users to interact with your applications, bots, and IoT\ndevices by using natural language.\nQnA Maker is a cloud-based Natural Language Processing (NLP) service that allows you to create a natural\nconversational layer over your data. It is used to find the most appropriate answer for any input from your\ncustom knowledge base (KB) of information.\nText Analytics: Mine insights in unstructured text using natural language processing (NLP)\"no machine\nlearning expertise required. Gain a deeper understanding of customer opinions with sentiment analysis. The\nLanguage Detection feature of the Azure Text Analytics REST API evaluates text input\nIncorrect Answers:\nA, B, D: Dispatch uses sample utterances for each of your bot's different tasks (LUIS, QnA Maker, or custom),\nand builds a model that can be used to properly route your user's request to the right task, even across\nmultiple bots.\nReference:\nhttps://azure.microsoft.com/en-us/services/cognitive-services/text-analytics/ https://docs.microsoft.com/en-u\ns/azure/cognitive-services/qnamaker/overview/overview",
-      "questionPage": 7
+      "questionPage": 7,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS",
+        "QnA Maker"
+      ]
     },
     {
       "number": 4,
@@ -57,7 +70,11 @@
       "answer": "C",
       "explanation": "Azure Form Recognizer is a cognitive service that lets you build automated data processing software using\nmachine learning technology. Identify and extract text, key/value pairs, selection marks, tables, and structure\nfrom your documents\"the service outputs structured data that includes the relationships in the original file,\nbounding boxes, confidence and more.\nForm Recognizer is composed of custom document processing models, prebuilt models for invoices, receipts,\nIDs and business cards, and the layout model.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/form-recognizer",
       "text": "Your company wants to reduce how long it takes for employees to log receipts in expense reports. All the receipts\nare in English.\nYou need to extract top-level information from the receipts, such as the vendor and the transaction total. The\nsolution must minimize development effort.\nWhich Azure service should you use?\nA. Custom Vision\nB. Personalizer\nC. Form Recognizer\nD. Computer Vision\nAnswer: C\nExplanation:\nAzure Form Recognizer is a cognitive service that lets you build automated data processing software using\nmachine learning technology. Identify and extract text, key/value pairs, selection marks, tables, and structure\nfrom your documents\"the service outputs structured data that includes the relationships in the original file,\nbounding boxes, confidence and more.\nForm Recognizer is composed of custom document processing models, prebuilt models for invoices, receipts,\nIDs and business cards, and the layout model.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/form-recognizer",
-      "questionPage": 8
+      "questionPage": 8,
+      "deprecated": true,
+      "deprecatedServices": [
+        "Personalizer"
+      ]
     },
     {
       "number": 5,
@@ -97,7 +114,11 @@
       "answer": "",
       "explanation": "1. Create a custom Dockerfile.\nThis is the first step in containerization. The Dockerfile defines how the containerized application should be\nbuilt, including dependencies, configurations, and commands.\n2.Pull the Anomaly Detector container image.\nThe Anomaly Detector image is a pre-built container image that may be required as a base image. Pulling it\nensures that we have the necessary dependencies and configurations in place.\n3.Build the image.\nAfter creating the Dockerfile and pulling any necessary images, the next step is to build the final image. This\nprocess converts the Dockerfile and application code into a runnable container image.\n4.Push the image to an Azure container registry.\nOnce the image is built, it needs to be stored in a container registry for deployment. Azure Container Registry\n(ACR) is commonly used for cloud deployments.",
       "text": "DRAG DROP -\nYou plan to use containerized versions of the Anomaly Detector API on local devices for testing and in on-premises\ndatacenters.\nYou need to ensure that the containerized deployments meet the following requirements:\n✑ Prevent billing and API information from being stored in the command-line histories of the devices that run the\ncontainer.\n✑ Control access to the container images by using Azure role-based access control (Azure RBAC).\nWhich four actions should you perform in sequence? To answer, move the appropriate actions from the list of\nactions to the answer area and arrange them in the correct order.\nNOTE: More than one order of answer choices is correct. You will receive credit for any of the correct orders you\nselect.\nSelect and Place:\nAnswer:\nExplanation:\n1. Create a custom Dockerfile.\nThis is the first step in containerization. The Dockerfile defines how the containerized application should be\nbuilt, including dependencies, configurations, and commands.\n2.Pull the Anomaly Detector container image.\nThe Anomaly Detector image is a pre-built container image that may be required as a base image. Pulling it\nensures that we have the necessary dependencies and configurations in place.\n3.Build the image.\nAfter creating the Dockerfile and pulling any necessary images, the next step is to build the final image. This\nprocess converts the Dockerfile and application code into a runnable container image.\n4.Push the image to an Azure container registry.\nOnce the image is built, it needs to be stored in a container registry for deployment. Azure Container Registry\n(ACR) is commonly used for cloud deployments.",
-      "questionPage": 11
+      "questionPage": 11,
+      "deprecated": true,
+      "deprecatedServices": [
+        "Anomaly Detector"
+      ]
     },
     {
       "number": 8,
@@ -224,7 +245,11 @@
       "answer": "A",
       "explanation": "A. Anomaly Detector\nAzure Anomaly Detector is specifically designed to identify unusual patterns and anomalies in time series\ndata, which is essential for predictive maintenance and detecting potential machinery failures based on IoT\nsensor data.",
       "text": "You plan to perform predictive maintenance.\nYou collect IoT sensor data from 100 industrial machines for a year. Each machine has 50 different sensors that\ngenerate data at one-minute intervals. In total, you have 5,000 time series datasets.\nYou need to identify unusual values in each time series to help predict machinery failures.\nWhich Azure service should you use?\nA. Anomaly Detector\nB. Cognitive Search\nC. Form Recognizer\nD. Custom Vision\nAnswer: A\nExplanation:\nA. Anomaly Detector\nAzure Anomaly Detector is specifically designed to identify unusual patterns and anomalies in time series\ndata, which is essential for predictive maintenance and detecting potential machinery failures based on IoT\nsensor data.",
-      "questionPage": 18
+      "questionPage": 18,
+      "deprecated": true,
+      "deprecatedServices": [
+        "Anomaly Detector"
+      ]
     },
     {
       "number": 18,
@@ -263,7 +288,11 @@
       "answer": "DE",
       "explanation": "D.Azure Cognitive Search: This resource is created to facilitate the searching of your knowledge base. It\nallows the QnA Maker service to quickly search through the data to find the most relevant answers to user\nqueries.\nE.Azure App Service: This resource hosts the QnA Maker's runtime environment. It essentially serves as the\nweb app through which your QnA Maker service is deployed and accessed.",
       "text": "You plan to provision a QnA Maker service in a new resource group named RG1.\nIn RG1, you create an App Service plan named AP1.\nWhich two Azure resources are automatically created in RG1 when you provision the QnA Maker service? Each\ncorrect answer presents part of the solution.\nNOTE: Each correct selection is worth one point.\nA. Language Understanding\nB. Azure SQL Database\nC. Azure Storage\nD. Azure Cognitive Search\nE. Azure App Service\nAnswer: DE\nExplanation:\nD.Azure Cognitive Search: This resource is created to facilitate the searching of your knowledge base. It\nallows the QnA Maker service to quickly search through the data to find the most relevant answers to user\nqueries.\nE.Azure App Service: This resource hosts the QnA Maker's runtime environment. It essentially serves as the\nweb app through which your QnA Maker service is deployed and accessed.",
-      "questionPage": 22
+      "questionPage": 22,
+      "deprecated": true,
+      "deprecatedServices": [
+        "QnA Maker"
+      ]
     },
     {
       "number": 21,
@@ -276,7 +305,11 @@
       "answer": "B",
       "explanation": "In the Azure portal, find your Language Understanding (LUIS) authoring resource. It has the type\nLUIS.Authoring.\nIn the resource's Access Control (IAM) page, add the role of contributor for the user that you want to\ncontribute.\nFor detailed steps, see Assign Azure roles using the Azure portal.\"\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-collaborate",
       "text": "You are building a language model by using a Language Understanding (classic) service.\nYou create a new Language Understanding (classic) resource.\nYou need to add more contributors.\nWhat should you use?\nA. a conditional access policy in Azure Active Directory (Azure AD)\nB. the Access control (IAM) page for the authoring resources in the Azure portal\nC. the Access control (IAM) page for the prediction resources in the Azure portal\nAnswer: B\nExplanation:\nIn the Azure portal, find your Language Understanding (LUIS) authoring resource. It has the type\nLUIS.Authoring.\nIn the resource's Access Control (IAM) page, add the role of contributor for the user that you want to\ncontribute.\nFor detailed steps, see Assign Azure roles using the Azure portal.\"\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-collaborate",
-      "questionPage": 22
+      "questionPage": 22,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 22,
@@ -587,7 +620,12 @@
       "answer": "A",
       "explanation": "A. Azure Metrics Advisor.\nAzure Metrics Advisor is a service that provides an end-to-end anomaly detection platform, which includes\ndata ingestion, anomaly detection, root cause analysis, and alerting. It is designed to monitor and detect\nanomalies in time-series data, diagnose incidents, and provide insights.",
       "text": "You have an Azure IoT hub that receives sensor data from machinery.\nYou need to build an app that will perform the following actions:\n• Perform anomaly detection across multiple correlated sensors.\n• Identify the root cause of process stops.\n• Send incident alerts.\nThe solution must minimize development time.\nWhich Azure service should you use?\nA. Azure Metrics Advisor\nB. Form Recognizer\nC. Azure Machine Learning\nD. Anomaly Detector\nAnswer: A\nExplanation:\nA. Azure Metrics Advisor.\nAzure Metrics Advisor is a service that provides an end-to-end anomaly detection platform, which includes\ndata ingestion, anomaly detection, root cause analysis, and alerting. It is designed to monitor and detect\nanomalies in time-series data, diagnose incidents, and provide insights.",
-      "questionPage": 48
+      "questionPage": 48,
+      "deprecated": true,
+      "deprecatedServices": [
+        "Anomaly Detector",
+        "Metrics Advisor"
+      ]
     },
     {
       "number": 46,
@@ -727,7 +765,12 @@
       "answer": "B",
       "explanation": "The Eula, Billing, and ApiKey options must be specified to run the container; otherwise, the container won't\nstart. For more information, see Billing. The ApiKey value is the Key from the Keys and Endpoints page in the\nLUIS portal and is also available on the Azure Cognitive Services resource keys page.\nExample:\n$ docker run --rm -it -p 5000:5000 --memory 4g --cpus 2 --mount\ntype=bind,src=c:\\demo\\container,target=/input --mount type=bind,src=C:\\demo\\container,target=/output\nmcr.microsoft.com/azure-cognitive-services/luis Eula=accept\nBilling=https://westus.api.cognitive.microsoft.com/luis/v2.0 ApiKey= ___YOUR_API_KEY___\nhttps://learn.microsoft.com/en-us/azure/cognitive-services/luis/luis-container-configuration#example-\ndocker-run-commands",
       "text": "You have an Azure subscription that contains an Anomaly Detector resource.\nYou deploy a Docker host server named Server1 to the on-premises network.\nYou need to host an instance of the Anomaly Detector service on Server1.\nWhich parameter should you include in the docker run command?\nA.Fluentd\nB.Billing\nC.Http Proxy\nD.Mounts\nAnswer: B\nExplanation:\nThe Eula, Billing, and ApiKey options must be specified to run the container; otherwise, the container won't\nstart. For more information, see Billing. The ApiKey value is the Key from the Keys and Endpoints page in the\nLUIS portal and is also available on the Azure Cognitive Services resource keys page.\nExample:\n$ docker run --rm -it -p 5000:5000 --memory 4g --cpus 2 --mount\ntype=bind,src=c:\\demo\\container,target=/input --mount type=bind,src=C:\\demo\\container,target=/output\nmcr.microsoft.com/azure-cognitive-services/luis Eula=accept\nBilling=https://westus.api.cognitive.microsoft.com/luis/v2.0 ApiKey= ___YOUR_API_KEY___\nhttps://learn.microsoft.com/en-us/azure/cognitive-services/luis/luis-container-configuration#example-\ndocker-run-commands",
-      "questionPage": 56
+      "questionPage": 56,
+      "deprecated": true,
+      "deprecatedServices": [
+        "Anomaly Detector",
+        "LUIS"
+      ]
     },
     {
       "number": 57,
@@ -829,7 +872,11 @@
       "answer": "D",
       "explanation": "Azure AI Anomaly Detector is an AI service that enables you to monitor and detect anomalies in your time\nseries data with little machine learning knowledge, either batch validation or real-time inference.",
       "text": "You plan to perform predictive maintenance.\nYou collect IoT sensor data from 100 industrial machines for a year. Each machine has 50 different sensors that\ngenerate data at one-minute intervals. In total, you have 5,000 time series datasets.\nYou need to identify unusual values in each time series to help predict machinery failures.\nWhich Azure service should you use?\nA.Azure AI Computer Vision\nB.Cognitive Search\nC.Azure AI Document Intelligence\nD.Azure AI Anomaly Detector\nAnswer: D\nExplanation:\nAzure AI Anomaly Detector is an AI service that enables you to monitor and detect anomalies in your time\nseries data with little machine learning knowledge, either batch validation or real-time inference.",
-      "questionPage": 63
+      "questionPage": 63,
+      "deprecated": true,
+      "deprecatedServices": [
+        "Anomaly Detector"
+      ]
     },
     {
       "number": 65,
@@ -1280,7 +1327,11 @@
       "answer": "C",
       "explanation": "Computer Vision Image Analysis provides a comprehensive set of features for analyzing images, including\ngenerating tags. It supports multiple languages, including English, French, and Spanish, which meets the\nrequirement of generating tags in a user's preferred language. Additionally, it minimizes development effort\nby offering a ready-to-use endpoint for image analysis and tagging.",
       "text": "You plan to build an app that will generate a list of tags for uploaded images. The app must meet the following\nrequirements:\n•Generate tags in a user's preferred language.\n•Support English, French, and Spanish.\n•Minimize development effort.\nYou need to build a function that will generate the tags for the app.\nWhich Azure service endpoint should you use?\nA.Content Moderator Image Moderation\nB.Custom Vision image classification\nC.Computer Vision Image Analysis\nD.Custom Translator\nAnswer: C\nExplanation:\nComputer Vision Image Analysis provides a comprehensive set of features for analyzing images, including\ngenerating tags. It supports multiple languages, including English, French, and Spanish, which meets the\nrequirement of generating tags in a user's preferred language. Additionally, it minimizes development effort\nby offering a ready-to-use endpoint for image analysis and tagging.",
-      "questionPage": 99
+      "questionPage": 99,
+      "deprecated": true,
+      "deprecatedServices": [
+        "Content Moderator"
+      ]
     },
     {
       "number": 100,
@@ -1360,7 +1411,11 @@
       "answer": "",
       "explanation": "Azure AI Computer Vision.\nContent Moderator.",
       "text": "HOTSPOT\n-\nYou are building an app that will share user images.\nYou need to configure the app to meet the following requirements:\n•Uploaded images must be scanned and any text must be extracted from the images.\n•Extracted text must be analyzed for the presence of profane language.\n•The solution must minimize development effort.\nWhat should you use for each requirement? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\nAnswer:\nExplanation:\nAzure AI Computer Vision.\nContent Moderator.",
-      "questionPage": 105
+      "questionPage": 105,
+      "deprecated": true,
+      "deprecatedServices": [
+        "Content Moderator"
+      ]
     },
     {
       "number": 106,
@@ -1549,7 +1604,11 @@
       "answer": "A",
       "explanation": "Machine learned entity uses context to extract entities based on labeled examples. It is the preferred entity\nfor building LUIS applications. It relies on machine-learning algorithms and requires labeling to be tailored to\nyour application successfully. Use an ML entity to identify data that isn’t always well formatted but have the\nsame meaning.\nAn ML entity can be composed of smaller sub-entities, each of which can have its own properties. For\nexample, an Address entity could have the following structure:\nAddress: 4567 Main Street, NY, 98052, USA\nBuilding Number: 4567\nStreet Name: Main Street\nState: NY\nZip Code: 98052\nCountry: USA\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-concept-entity-types",
       "text": "You are building a Conversational Language Understanding model for an e-commerce chatbot. Users can speak or\ntype their billing address when prompted by the chatbot.\nYou need to construct an entity to capture billing addresses.\nWhich entity type should you use?\nA. machine learned\nB. Regex\nC. list\nD. Pattern.any\nAnswer: A\nExplanation:\nMachine learned entity uses context to extract entities based on labeled examples. It is the preferred entity\nfor building LUIS applications. It relies on machine-learning algorithms and requires labeling to be tailored to\nyour application successfully. Use an ML entity to identify data that isn’t always well formatted but have the\nsame meaning.\nAn ML entity can be composed of smaller sub-entities, each of which can have its own properties. For\nexample, an Address entity could have the following structure:\nAddress: 4567 Main Street, NY, 98052, USA\nBuilding Number: 4567\nStreet Name: Main Street\nState: NY\nZip Code: 98052\nCountry: USA\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-concept-entity-types",
-      "questionPage": 118
+      "questionPage": 118,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 121,
@@ -1587,7 +1646,11 @@
       "answer": "C",
       "explanation": "C is the correct answer.\n\"To enable active learning, you must log user queries. This is accomplished by calling the endpoint query with\nthe log=true query string parameter and value.\"\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/how-to/improve-application#log-user-\nqueries-to-enable-active-learning\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-review-endpoint-utterances#log-\nuser-queries-to-enable-active-learning",
       "text": "You are building a conversational language understanding model.\nYou need to enable active learning.\nWhat should you do?\nA. Add show-all-intents=true to the prediction endpoint query.\nB. Enable speech priming.\nC. Add log=true to the prediction endpoint query.\nD. Enable sentiment analysis.\nAnswer: C\nExplanation:\nC is the correct answer.\n\"To enable active learning, you must log user queries. This is accomplished by calling the endpoint query with\nthe log=true query string parameter and value.\"\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/how-to/improve-application#log-user-\nqueries-to-enable-active-learning\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-review-endpoint-utterances#log-\nuser-queries-to-enable-active-learning",
-      "questionPage": 121
+      "questionPage": 121,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 124,
@@ -1600,7 +1663,11 @@
       "answer": "",
       "explanation": "Box 1: No.\n\"http://localhost:5000/status : Also requested with GET, this verifies if the api-key used to start the container\nis valid WITHOUT causing an endpoint query.\" - so #No# endpoint querying\nBox 2: No\nIf you run the container with an output mount and logging enabled, the container generates log files\nfor example\ndocker run --rm -it -p 5000:5000 \\\n--memory 2g --cpus 1 \\\n--mount type=bind,src=/home/azureuser/output,target=/output \\\n<registry-location>/<image-name> \\\nEula=accept \\\nBilling=<endpoint> \\\nApiKey=<api-key> \\\nLogging:Disk:Format=json \\\nMounts:Output=/output\nBox 3: Yes.\nhttp://localhost:5000/swagger The container provides a full set of documentation for the endpoints and a Try\nit out feature. With this feature, you can enter your settings into a web-based HTML form and make the query\nwithout having to write any code.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-container-howto?tabs=v3#validate-that-\na-container-is-running\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/language-service/sentiment-opinion-mining/how-\nto/use-containers#troubleshooting",
       "text": "HOTSPOT -\nYou run the following command.\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nHot Area:\nAnswer:\nExplanation:\nBox 1: No.\n\"http://localhost:5000/status : Also requested with GET, this verifies if the api-key used to start the container\nis valid WITHOUT causing an endpoint query.\" - so #No# endpoint querying\nBox 2: No\nIf you run the container with an output mount and logging enabled, the container generates log files\nfor example\ndocker run --rm -it -p 5000:5000 \\\n--memory 2g --cpus 1 \\\n--mount type=bind,src=/home/azureuser/output,target=/output \\\n<registry-location>/<image-name> \\\nEula=accept \\\nBilling=<endpoint> \\\nApiKey=<api-key> \\\nLogging:Disk:Format=json \\\nMounts:Output=/output\nBox 3: Yes.\nhttp://localhost:5000/swagger The container provides a full set of documentation for the endpoints and a Try\nit out feature. With this feature, you can enter your settings into a web-based HTML form and make the query\nwithout having to write any code.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-container-howto?tabs=v3#validate-that-\na-container-is-running\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/language-service/sentiment-opinion-mining/how-\nto/use-containers#troubleshooting",
-      "questionPage": 122
+      "questionPage": 122,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 125,
@@ -1664,7 +1731,11 @@
       "answer": "",
       "explanation": "Step 1: Add alternative phrasing to the question and answer (QnA) pair.\nAdd alternate questions to an existing QnA pair to improve the likelihood of a match to a user query.\nStep 2: Retrain the model.\nPeriodically select Save and train after making edits to avoid losing changes.\nStep 3: Republish the model -\nNote: A knowledge base consists of question and answer (QnA) pairs. Each pair has one answer and a pair\ncontains all the information associated with that answer.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/edit-knowledge-base",
       "text": "DRAG DROP -\nYou are building a retail chatbot that will use a QnA Maker service.\nYou upload an internal support document to train the model. The document contains the following question: \"What\nis your warranty period?\"\nUsers report that the chatbot returns the default QnA Maker answer when they ask the following question: \"How\nlong is the warranty coverage?\"\nThe chatbot returns the correct answer when the users ask the following question: 'What is your warranty period?\"\nBoth questions should return the same answer.\nYou need to increase the accuracy of the chatbot responses.\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of\nactions to the answer area and arrange them in the correct order.\nSelect and Place:\nAnswer:\nExplanation:\nStep 1: Add alternative phrasing to the question and answer (QnA) pair.\nAdd alternate questions to an existing QnA pair to improve the likelihood of a match to a user query.\nStep 2: Retrain the model.\nPeriodically select Save and train after making edits to avoid losing changes.\nStep 3: Republish the model -\nNote: A knowledge base consists of question and answer (QnA) pairs. Each pair has one answer and a pair\ncontains all the information associated with that answer.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/edit-knowledge-base",
-      "questionPage": 126
+      "questionPage": 126,
+      "deprecated": true,
+      "deprecatedServices": [
+        "QnA Maker"
+      ]
     },
     {
       "number": 130,
@@ -1677,7 +1748,11 @@
       "answer": "A",
       "explanation": "Text Analytics Cognitive Service could be used to quickly determine the public perception for a specific topic,\nevent or brand.\nExample: A NodeJS app which pulls Tweets from Twitter using the Twitter API based on a specified search\nterm. Then pass these onto Text Analytics for sentiment scoring before storing the data and building a\nvisualisation in PowerBI. The Architecture looked something like this:\nReference:\nhttps://www.linkedin.com/pulse/measuring-public-perception-azure-cognitive-services-steve-dalai https://do\ncs.microsoft.com/en-us/azure/cognitive-services/text-analytics/overview",
       "text": "You need to measure the public perception of your brand on social media by using natural language processing.\nWhich Azure service should you use?\nA. Text Analytics\nB. Content Moderator\nC. Computer Vision\nD. Form Recognizer\nAnswer: A\nExplanation:\nText Analytics Cognitive Service could be used to quickly determine the public perception for a specific topic,\nevent or brand.\nExample: A NodeJS app which pulls Tweets from Twitter using the Twitter API based on a specified search\nterm. Then pass these onto Text Analytics for sentiment scoring before storing the data and building a\nvisualisation in PowerBI. The Architecture looked something like this:\nReference:\nhttps://www.linkedin.com/pulse/measuring-public-perception-azure-cognitive-services-steve-dalai https://do\ncs.microsoft.com/en-us/azure/cognitive-services/text-analytics/overview",
-      "questionPage": 127
+      "questionPage": 127,
+      "deprecated": true,
+      "deprecatedServices": [
+        "Content Moderator"
+      ]
     },
     {
       "number": 131,
@@ -1702,7 +1777,11 @@
       "answer": "A",
       "explanation": "A is the answer.\nWe create a new location entity for domain to keep the location of FindContact intent.\nhttps://learn.microsoft.com/en-us/azure/cognitive-services/luis/how-to/entities\nCreate entities to extract key data from user utterances in Language Understanding (LUIS) apps. Extracted\nentity data is used by your client application to fulfill customer requests.\nThe entity represents a word or phrase inside the utterance that you want extracted. Entities describe\ninformation relevant to the intent, and sometimes they are essential for your app to perform its task.",
       "text": "Note: This question is part of a series of questions that present the same scenario. Each question in the series\ncontains a unique solution that might meet the stated goals. Some question sets might have more than one correct\nsolution, while others might not have a correct solution.\nAfter you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not\nappear in the review screen.\nYou build a language model by using a Language Understanding service. The language model is used to search for\ninformation on a contact list by using an intent named FindContact.\nA conversational expert provides you with the following list of phrases to use for training.\n✑ Find contacts in London.\n✑ Who do I know in Seattle?\nSearch for contacts in Ukraine.\nYou need to implement the phrase list in Language Understanding.\nSolution: You create a new entity for the domain.\nDoes this meet the goal?\nA. Yes\nB. No\nAnswer: A\nExplanation:\nA is the answer.\nWe create a new location entity for domain to keep the location of FindContact intent.\nhttps://learn.microsoft.com/en-us/azure/cognitive-services/luis/how-to/entities\nCreate entities to extract key data from user utterances in Language Understanding (LUIS) apps. Extracted\nentity data is used by your client application to fulfill customer requests.\nThe entity represents a word or phrase inside the utterance that you want extracted. Entities describe\ninformation relevant to the intent, and sometimes they are essential for your app to perform its task.",
-      "questionPage": 128
+      "questionPage": 128,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 133,
@@ -1728,7 +1807,11 @@
       "answer": "",
       "explanation": "Box 1: GeographyV2 -\nThe prebuilt geographyV2 entity detects places. Because this entity is already trained, you do not need to add\nexample utterances containing GeographyV2 to the application intents.\nBox 2: Email -\nEmail prebuilt entity for a LUIS app: Email extraction includes the entire email address from an utterance.\nBecause this entity is already trained, you do not need to add example utterances containing email to the\napplication intents.\nBox 3: Machine learned -\nThe machine-learning entity is the preferred entity for building LUIS applications.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-prebuilt-geographyv2 https://d\nocs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-prebuilt-email https://docs.microsoft.co\nm/en-us/azure/cognitive-services/luis/reference-entity-machine-learned-entity",
       "text": "DRAG DROP -\nYou are building a Language Understanding model for purchasing tickets.\nYou have the following utterance for an intent named PurchaseAndSendTickets.\nPurchase [2 audit business] tickets to [Paris] [next Monday] and send tickets to [[email protected]]\nYou need to select the entity types. The solution must use built-in entity types to minimize training data whenever\npossible.\nWhich entity type should you use for each label? To answer, drag the appropriate entity types to the correct labels.\nEach entity type may be used once, more than once, or not at all.\nYou may need to drag the split bar between panes or scroll to view content.\nSelect and Place:\nAnswer:\nExplanation:\nBox 1: GeographyV2 -\nThe prebuilt geographyV2 entity detects places. Because this entity is already trained, you do not need to add\nexample utterances containing GeographyV2 to the application intents.\nBox 2: Email -\nEmail prebuilt entity for a LUIS app: Email extraction includes the entire email address from an utterance.\nBecause this entity is already trained, you do not need to add example utterances containing email to the\napplication intents.\nBox 3: Machine learned -\nThe machine-learning entity is the preferred entity for building LUIS applications.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-prebuilt-geographyv2 https://d\nocs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-prebuilt-email https://docs.microsoft.co\nm/en-us/azure/cognitive-services/luis/reference-entity-machine-learned-entity",
-      "questionPage": 129
+      "questionPage": 129,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 135,
@@ -1780,7 +1863,11 @@
       "answer": "See explanation below.",
       "explanation": "Step 1: Open Microsoft Bot Framework Composer\nStep 2: Select the bot bot12345678\nStep 3: Select Configure.\nStep 4: Select the Azure Language Understanding tab\nStep 5: Select the Set up Language Understanding button. The Set up Language Understanding window will\nappear, shown below:\nStep 6: Select Use existing resources and then select Next at the bottom of the window.\nStep 7: Now select the Azure directory, Azure subscription, and Language Understanding resource name\n(French).\nStep 8: Select Next on the bottom. Your Key and Region will appear on the next on the next window, shown\nbelow:\nStep 9. Select Done -\nReference:\nhttps://docs.microsoft.com/en-us/composer/concept-language-understanding https://docs.microsoft.com/en-\nus/composer/how-to-add-luis",
       "text": "SIMULATION -\nYou need to configure bot12345678 support the French (FR-FR) language.\nExport the bot to C:\\Resources\\Bot\\Bot1.zip.\nTo complete this task, use the Microsoft Bot Framework Composer.\nAnswer:\nSee explanation below.\nExplanation:\nStep 1: Open Microsoft Bot Framework Composer\nStep 2: Select the bot bot12345678\nStep 3: Select Configure.\nStep 4: Select the Azure Language Understanding tab\nStep 5: Select the Set up Language Understanding button. The Set up Language Understanding window will\nappear, shown below:\nStep 6: Select Use existing resources and then select Next at the bottom of the window.\nStep 7: Now select the Azure directory, Azure subscription, and Language Understanding resource name\n(French).\nStep 8: Select Next on the bottom. Your Key and Region will appear on the next on the next window, shown\nbelow:\nStep 9. Select Done -\nReference:\nhttps://docs.microsoft.com/en-us/composer/concept-language-understanding https://docs.microsoft.com/en-\nus/composer/how-to-add-luis",
-      "questionPage": 133
+      "questionPage": 133,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 139,
@@ -1794,7 +1881,11 @@
       "answer": "See explanation below.",
       "explanation": "Step 1: Open Microsoft Bot Framework Composer\nStep 2: Select the bot bot12345678\nStep 3: Select Configure.\nStep 4: Select the Azure Language Understanding tab\nStep 5: Select the Set up Language Understanding button. The Set up Language Understanding window will\nappear, shown below:\nStep 6: Select Use existing resources and then select Next at the bottom of the window.\nStep 7: Now select the Azure directory, Azure subscription, and Language Understanding resource name\n(French).\nStep 8: Select Next on the bottom. Your Key and Region will appear on the next on the next window, shown\nbelow:\nStep 9. Select Done -\nReference:\nhttps://docs.microsoft.com/en-us/composer/concept-language-understanding https://docs.microsoft.com/en-\nus/composer/how-to-add-luis",
       "text": "SIMULATION -\nYou need to configure bot12345678 support the French (FR-FR) language.\nExport the bot to C:\\Resources\\Bot\\Bot1.zip.\nTo complete this task, use the Microsoft Bot Framework Composer.\nAnswer:\nSee explanation below.\nExplanation:\nStep 1: Open Microsoft Bot Framework Composer\nStep 2: Select the bot bot12345678\nStep 3: Select Configure.\nStep 4: Select the Azure Language Understanding tab\nStep 5: Select the Set up Language Understanding button. The Set up Language Understanding window will\nappear, shown below:\nStep 6: Select Use existing resources and then select Next at the bottom of the window.\nStep 7: Now select the Azure directory, Azure subscription, and Language Understanding resource name\n(French).\nStep 8: Select Next on the bottom. Your Key and Region will appear on the next on the next window, shown\nbelow:\nStep 9. Select Done -\nReference:\nhttps://docs.microsoft.com/en-us/composer/concept-language-understanding https://docs.microsoft.com/en-\nus/composer/how-to-add-luis",
-      "questionPage": 135
+      "questionPage": 135,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 140,
@@ -1807,7 +1898,11 @@
       "answer": "A",
       "explanation": "Azure Cognitive Service for Language is a cloud-based service that provides Natural Language Processing\n(NLP) features for understanding and analyzing text.\nUse this service to help build intelligent applications using the web-based Language Studio, REST APIs, and\nclient libraries.\nNote: Natural language processing (NLP) has many uses: sentiment analysis, topic detection, language\ndetection, key phrase extraction, and document categorization.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/language-service/overview",
       "text": "You need to measure the public perception of your brand on social media by using natural language processing.\nWhich Azure service should you use?\nA. Language service\nB. Content Moderator\nC. Computer Vision\nD. Form Recognizer\nAnswer: A\nExplanation:\nAzure Cognitive Service for Language is a cloud-based service that provides Natural Language Processing\n(NLP) features for understanding and analyzing text.\nUse this service to help build intelligent applications using the web-based Language Studio, REST APIs, and\nclient libraries.\nNote: Natural language processing (NLP) has many uses: sentiment analysis, topic detection, language\ndetection, key phrase extraction, and document categorization.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/language-service/overview",
-      "questionPage": 137
+      "questionPage": 137,
+      "deprecated": true,
+      "deprecatedServices": [
+        "Content Moderator"
+      ]
     },
     {
       "number": 141,
@@ -1819,7 +1914,11 @@
       "answer": "A",
       "explanation": "Azure Cognitive Service for Language is a cloud-based service that provides Natural Language Processing\n(NLP) features for understanding and analyzing text.\nUse this service to help build intelligent applications using the web-based Language Studio, REST APIs, and\nclient libraries.\nNote: Natural language processing (NLP) has many uses: sentiment analysis, topic detection, language\ndetection, key phrase extraction, and document categorization.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/language-service/overview",
       "text": "You need to measure the public perception of your brand on social media by using natural language processing.\nWhich Azure service should you use?\nA. Language service\nB. Content Moderator\nC. Computer Vision\nD. Form Recognizer\nAnswer: A\nExplanation:\nAzure Cognitive Service for Language is a cloud-based service that provides Natural Language Processing\n(NLP) features for understanding and analyzing text.\nUse this service to help build intelligent applications using the web-based Language Studio, REST APIs, and\nclient libraries.\nNote: Natural language processing (NLP) has many uses: sentiment analysis, topic detection, language\ndetection, key phrase extraction, and document categorization.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/language-service/overview",
-      "questionPage": 138
+      "questionPage": 138,
+      "deprecated": true,
+      "deprecatedServices": [
+        "Content Moderator"
+      ]
     },
     {
       "number": 142,
@@ -1859,7 +1958,11 @@
       "answer": "See explanation below.",
       "explanation": "[email protected] = admin@abc.com\nCreate your LUIS model -\n1. You should navigate to your LUIS.ai management portal and create a new application. In the portal create a\nmodel.\nModel name: 1u12345678 -\n2. Define one intent as Travel and add an example utterances of Boat.\n3. Publish the model\nIn order to use your model, you have to publish it. This is as easy as hitting the Publish tab, selecting between\nthe production or staging environments, and hitting\nPublish. As you can see from this page, you can also choose to enable sentiment analysis, speech priming to\nimprove speech recognition, or the spell checker.\nFor now, you can leave those unchecked.\nReference:\nhttps://docs.microsoft.com/en-us/azure/health-bot/language_model_howto\nhttps://www.codemag.com/article/1809021/Natural-Language-Understanding-with-LUIS",
       "text": "SIMULATION -\nUse the following login credentials as needed:\nTo enter your username, place your cursor in the Sign in box and click on the username below.\nTo enter your password, place your cursor in the Enter password box and click on the password below.\nAzure Username: [email protected] -\nAzure Password: XXXXXXXXXXXX -\nThe following information is for technical support purposes only:\nLab Instance: 12345678 -\nTask -\nYou need to create and publish a Language Understanding (classic) model named 1u12345678. The model will\ncontain an intent of Travel that has an utterance of\nBoat.\nTo complete this task, sign in to the Language Understanding portal at httptc//www.luis-ai/.\nAnswer:\nSee explanation below.\nExplanation:\n[email protected] = admin@abc.com\nCreate your LUIS model -\n1. You should navigate to your LUIS.ai management portal and create a new application. In the portal create a\nmodel.\nModel name: 1u12345678 -\n2. Define one intent as Travel and add an example utterances of Boat.\n3. Publish the model\nIn order to use your model, you have to publish it. This is as easy as hitting the Publish tab, selecting between\nthe production or staging environments, and hitting\nPublish. As you can see from this page, you can also choose to enable sentiment analysis, speech priming to\nimprove speech recognition, or the spell checker.\nFor now, you can leave those unchecked.\nReference:\nhttps://docs.microsoft.com/en-us/azure/health-bot/language_model_howto\nhttps://www.codemag.com/article/1809021/Natural-Language-Understanding-with-LUIS",
-      "questionPage": 141
+      "questionPage": 141,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 145,
@@ -1872,7 +1975,11 @@
       "answer": "See explanation below.",
       "explanation": "[email protected] = admin@abc.com\nStep 1: Clone a version -\n1. Select the version you want to clone (1u12345678) then select Clone from the toolbar.\n2. In the Clone version dialog box, type a name for the new version. Type 1.0\nStep 2: Set active version -\nSelect a version from the list, then select Activate from the toolbar.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-manage-versions",
       "text": "SIMULATION -\nUse the following login credentials as needed:\nTo enter your username, place your cursor in the Sign in box and click on the username below.\nTo enter your password, place your cursor in the Enter password box and click on the password below.\nAzure Username: [email protected] -\nAzure Password: XXXXXXXXXXXX -\nThe following information is for technical support purposes only:\nLab Instance: 12345678 -\nTask -\nYou need to create a version of the 1u12345678 Language Understanding (classic) model. The new version must\nhave a version name of 1.0 and must be active.\nTo complete this task, sign in to the Language Understanding portal at https://www.luis.ai/.\nAnswer:\nSee explanation below.\nExplanation:\n[email protected] = admin@abc.com\nStep 1: Clone a version -\n1. Select the version you want to clone (1u12345678) then select Clone from the toolbar.\n2. In the Clone version dialog box, type a name for the new version. Type 1.0\nStep 2: Set active version -\nSelect a version from the list, then select Activate from the toolbar.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-manage-versions",
-      "questionPage": 142
+      "questionPage": 142,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 146,
@@ -2027,7 +2134,11 @@
       "answer": "",
       "explanation": "1. From portal, export solution as package file.\n2. From host computer, move package file to Docker input directory.\n3. From host computer, run container and specify input directory.\nhttps://learn.microsoft.com/en-us/azure/cognitive-services/luis/luis-container-howto?tabs=v3#how-to-use-\nthe-container\n- Export package for container from LUIS portal or LUIS APIs.\n- Move package file into the required input directory on the host computer. Do not rename, alter, overwrite, or\ndecompress the LUIS package file.\n- Run the container, with the required input mount and billing settings.",
       "text": "DRAG DROP\n-\nYou have a Language Understanding solution that runs in a Docker container.\nYou download the Language Understanding container image from the Microsoft Container Registry (MCR).\nYou need to deploy the container image to a host computer.\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of\nactions to the answer area and arrange them in the correct order.\nAnswer:\nExplanation:\n1. From portal, export solution as package file.\n2. From host computer, move package file to Docker input directory.\n3. From host computer, run container and specify input directory.\nhttps://learn.microsoft.com/en-us/azure/cognitive-services/luis/luis-container-howto?tabs=v3#how-to-use-\nthe-container\n- Export package for container from LUIS portal or LUIS APIs.\n- Move package file into the required input directory on the host computer. Do not rename, alter, overwrite, or\ndecompress the LUIS package file.\n- Run the container, with the required input mount and billing settings.",
-      "questionPage": 153
+      "questionPage": 153,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 158,
@@ -2066,7 +2177,11 @@
       "answer": "AC",
       "explanation": "AC is the answer.\nhttps://learn.microsoft.com/en-us/azure/cognitive-services/content-moderator/text-moderation-api\nUse Content Moderator's text moderation models to analyze text content, such as chat rooms, discussion\nboards, chatbots, e-commerce catalogs, and documents.\nThe service response includes the following information:\n- Profanity: term-based matching with built-in list of profane terms in various languages\n- Classification: machine-assisted classification into three categories\n- Personal data\n- Auto-corrected text\n- Original text\n- Language",
       "text": "You have a text-based chatbot.\nYou need to enable content moderation by using the Text Moderation API of Content Moderator.\nWhich two service responses should you use? Each correct answer presents part of the solution.\nNOTE: Each correct selection is worth one point.\nA.personal data\nB.the adult classification score\nC.text classification\nD.optical character recognition (OCR)\nE.the racy classification score\nAnswer: AC\nExplanation:\nAC is the answer.\nhttps://learn.microsoft.com/en-us/azure/cognitive-services/content-moderator/text-moderation-api\nUse Content Moderator's text moderation models to analyze text content, such as chat rooms, discussion\nboards, chatbots, e-commerce catalogs, and documents.\nThe service response includes the following information:\n- Profanity: term-based matching with built-in list of profane terms in various languages\n- Classification: machine-assisted classification into three categories\n- Personal data\n- Auto-corrected text\n- Original text\n- Language",
-      "questionPage": 158
+      "questionPage": 158,
+      "deprecated": true,
+      "deprecatedServices": [
+        "Content Moderator"
+      ]
     },
     {
       "number": 161,
@@ -2234,7 +2349,11 @@
       "answer": "",
       "explanation": "",
       "text": "HOTSPOT\n-\nYou are building a chatbot.\nYou need to use the Content Moderator API to identify aggressive and sexually explicit language.\nWhich three settings should you configure? To answer, select the appropriate settings in the answer area.\nNOTE: Each correct selection is worth one point.\nAnswer:",
-      "questionPage": 169
+      "questionPage": 169,
+      "deprecated": true,
+      "deprecatedServices": [
+        "Content Moderator"
+      ]
     },
     {
       "number": 174,
@@ -2247,7 +2366,11 @@
       "answer": "C",
       "explanation": "Correct answer is C:Azure Cognitive Services.",
       "text": "You are developing an app that will use the Decision and Language APIs.\nYou need to provision resources for the app. The solution must ensure that each service is accessed by using a\nsingle endpoint and credential.\nWhich type of resource should you create?\nA.Language\nB.Speech\nC.Azure Cognitive Services\nD.Content Moderator\nAnswer: C\nExplanation:\nCorrect answer is C:Azure Cognitive Services.",
-      "questionPage": 171
+      "questionPage": 171,
+      "deprecated": true,
+      "deprecatedServices": [
+        "Content Moderator"
+      ]
     },
     {
       "number": 175,
@@ -2473,7 +2596,11 @@
       "answer": "A",
       "explanation": "A. Pattern AnyFrom: https://learn.microsoft.com/en-us/azure/ai-services/luis/concepts/patterns-\nfeatures#patternany-entityFor Airports this means:You can exrpess the Airport Name in Full as \"John F.\nKennedy International Airport\"or in short with the code as\"JFK\"LUIS will have to get both as the same.",
       "text": "You are building an Azure AI Language Understanding solution.\nYou discover that many intents have similar utterances containing airport names or airport codes.\nYou need to minimize the number of utterances used to train the model.\nWhich type of custom entity should you use?\nA.Pattern.any\nB.machine-learning\nC.regular expression\nD.list\nAnswer: A\nExplanation:\nA. Pattern AnyFrom: https://learn.microsoft.com/en-us/azure/ai-services/luis/concepts/patterns-\nfeatures#patternany-entityFor Airports this means:You can exrpess the Airport Name in Full as \"John F.\nKennedy International Airport\"or in short with the code as\"JFK\"LUIS will have to get both as the same.",
-      "questionPage": 184
+      "questionPage": 184,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 193,
@@ -2968,7 +3095,11 @@
       "answer": "",
       "explanation": "Step 1: Add a new application -\nCreate a new app -\n1. Sign in to the LUIS portal with the URL of https://www.luis.ai.\n2. Select Create new app.\n3. Etc.\nStep 2: Add example utterances.\nIn order to classify an utterance, the intent needs examples of user utterances that should be classified with\nthis intent.\nStep 3: Train the application -\nStep 4: Publish the application -\nIn order to receive a LUIS prediction in a chat bot or other client application, you need to publish the app to the\nprediction endpoint.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/tutorial-intents-only",
       "text": "DRAG DROP -\nYou plan to build a chatbot to support task tracking.\nYou create a Language Understanding service named lu1.\nYou need to build a Language Understanding model to integrate into the chatbot. The solution must minimize\ndevelopment time to build the model.\nWhich four actions should you perform in sequence? To answer, move the appropriate actions from the list of\nactions to the answer area and arrange them in the correct order.\nSelect and Place:\nAnswer:\nExplanation:\nStep 1: Add a new application -\nCreate a new app -\n1. Sign in to the LUIS portal with the URL of https://www.luis.ai.\n2. Select Create new app.\n3. Etc.\nStep 2: Add example utterances.\nIn order to classify an utterance, the intent needs examples of user utterances that should be classified with\nthis intent.\nStep 3: Train the application -\nStep 4: Publish the application -\nIn order to receive a LUIS prediction in a chat bot or other client application, you need to publish the app to the\nprediction endpoint.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/luis/tutorial-intents-only",
-      "questionPage": 220
+      "questionPage": 220,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 232,
@@ -2980,7 +3111,11 @@
       "answer": "B",
       "explanation": "You might want to manage the translation and localization for the language understanding content for your\nbot independently.\nTranslate command in the @microsoft/bf-lu library takes advantage of the Microsoft text translation API to\nautomatically machine translate .lu files to one or more than 60+ languages supported by the Microsoft text\ntranslation cognitive service.\nWhat is translated?\nAn .lu file and optionally translate\nComments in the lu file -\nLU reference link texts -\nList of .lu files under a specific path.\nReference:\nhttps://github.com/microsoft/botframework-cli/blob/main/packages/luis/docs/translate-command.md",
       "text": "You are building a bot on a local computer by using the Microsoft Bot Framework. The bot will use an existing\nLanguage Understanding model.\nYou need to translate the Language Understanding model locally by using the Bot Framework CLI.\nWhat should you do first?\nA. From the Language Understanding portal, clone the model.\nB. Export the model as an .lu file.\nC. Create a new Speech service.\nD. Create a new Language Understanding service.\nAnswer: B\nExplanation:\nYou might want to manage the translation and localization for the language understanding content for your\nbot independently.\nTranslate command in the @microsoft/bf-lu library takes advantage of the Microsoft text translation API to\nautomatically machine translate .lu files to one or more than 60+ languages supported by the Microsoft text\ntranslation cognitive service.\nWhat is translated?\nAn .lu file and optionally translate\nComments in the lu file -\nLU reference link texts -\nList of .lu files under a specific path.\nReference:\nhttps://github.com/microsoft/botframework-cli/blob/main/packages/luis/docs/translate-command.md",
-      "questionPage": 221
+      "questionPage": 221,
+      "deprecated": true,
+      "deprecatedServices": [
+        "LUIS"
+      ]
     },
     {
       "number": 233,
@@ -3006,7 +3141,11 @@
       "answer": "C",
       "explanation": "Obtain values to connect your bot to the knowledge base\n1. In the QnA Maker site, select your knowledge base.\n2. With your knowledge base open, select the SETTINGS tab. Record the value shown for service name. This\nvalue is useful for finding your knowledge base of interest when using the QnA Maker portal interface. It's not\nused to connect your bot app to this knowledge base.\n3. Scroll down to find Deployment details and record the following values from the Postman sample HTTP\nrequest:\n4. POST /knowledgebases/<knowledge-base-id>/generateAnswer\n5. Host: <your-host-url>\n6. Authorization: EndpointKey <your-endpoint-key>\nReference:\nhttps://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-qna",
       "text": "You build a conversational bot named bot1.\nYou need to configure the bot to use a QnA Maker application.\nFrom the Azure Portal, where can you find the information required by bot1 to connect to the QnA Maker\napplication?\nA.Access control (IAM)\nB.Properties\nC.Keys and Endpoint\nD.Identity\nAnswer: C\nExplanation:\nObtain values to connect your bot to the knowledge base\n1. In the QnA Maker site, select your knowledge base.\n2. With your knowledge base open, select the SETTINGS tab. Record the value shown for service name. This\nvalue is useful for finding your knowledge base of interest when using the QnA Maker portal interface. It's not\nused to connect your bot app to this knowledge base.\n3. Scroll down to find Deployment details and record the following values from the Postman sample HTTP\nrequest:\n4. POST /knowledgebases/<knowledge-base-id>/generateAnswer\n5. Host: <your-host-url>\n6. Authorization: EndpointKey <your-endpoint-key>\nReference:\nhttps://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-qna",
-      "questionPage": 222
+      "questionPage": 222,
+      "deprecated": true,
+      "deprecatedServices": [
+        "QnA Maker"
+      ]
     },
     {
       "number": 235,
@@ -3114,7 +3253,11 @@
       "answer": "",
       "explanation": "Step 1: For the knowledge base, select Show active learning suggestions.\nIn order to see the suggested questions, on the Edit knowledge base page, select View Options, then select\nShow active learning suggestions.\nStep 2: Approve and reject suggestions.\nEach QnA pair suggests the new question alternatives with a check mark, , to accept the question or an x to\nreject the suggestions. Select the check mark to\nג\"\nadd the question.\nStep 3: Save and train the knowledge base.\nSelect Save and Train to save the changes to the knowledge base.\nStep 4: Publish the knowledge base.\nSelect Publish to allow the changes to be available from the GenerateAnswer API.\nWhen 5 or more similar queries are clustered, every 30 minutes, QnA Maker suggests the alternate questions\nfor you to accept or reject.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/improve-knowledge-base",
       "text": "DRAG DROP -\nYou have a chatbot that uses a QnA Maker application.\nYou enable active learning for the knowledge base used by the QnA Maker application.\nYou need to integrate user input into the model.\nWhich four actions should you perform in sequence? To answer, move the appropriate actions from the list of\nactions to the answer area and arrange them in the correct order.\nSelect and Place:\nAnswer:\nExplanation:\nStep 1: For the knowledge base, select Show active learning suggestions.\nIn order to see the suggested questions, on the Edit knowledge base page, select View Options, then select\nShow active learning suggestions.\nStep 2: Approve and reject suggestions.\nEach QnA pair suggests the new question alternatives with a check mark, , to accept the question or an x to\nreject the suggestions. Select the check mark to\nג\"\nadd the question.\nStep 3: Save and train the knowledge base.\nSelect Save and Train to save the changes to the knowledge base.\nStep 4: Publish the knowledge base.\nSelect Publish to allow the changes to be available from the GenerateAnswer API.\nWhen 5 or more similar queries are clustered, every 30 minutes, QnA Maker suggests the alternate questions\nfor you to accept or reject.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/improve-knowledge-base",
-      "questionPage": 234
+      "questionPage": 234,
+      "deprecated": true,
+      "deprecatedServices": [
+        "QnA Maker"
+      ]
     },
     {
       "number": 243,
@@ -3152,7 +3295,11 @@
       "answer": "See explanation below.",
       "explanation": "[email protected] = admin@abc.com\nStep 1: Sign in to the QnAMaker.ai portal with your Azure credentials. Use the [email protected] account\nStep 2: Publish the knowledge base. In the QnA Maker portal, select Publish. Then to confirm, select Publish\non the page.\nThe QnA Maker service is now successfully published. You can use the endpoint in your application or bot\ncode.\nStep 3: In the QnA Maker portal, on the Publish page, select Create bot.\nThis button appears only after you've published the knowledge base.\nAfter publishing the knowledge base, you can create a bot from the Publish page.\nStep 4: A new browser tab opens for the Azure portal, with the Azure Bot Service's creation page. Configure\nthe Azure bot service.\nBot name: bot12345678 -\nThe bot will be created.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-\nbase",
       "text": "SIMULATION -\nYou need to create and publish a bot that will use Language Understanding and QnA Maker. The bot must be\nnamed bot12345678. You must publish the bot by using the [email protected] account.\nNOTE: Complete this task first. It may take several minutes to complete the required deployment steps. While this\nis taking place, you can complete tasks 2-6 in this lab during the deployment.\nTo complete this task, use the Microsoft Bot Framework Composer.\nAnswer:\nSee explanation below.\nExplanation:\n[email protected] = admin@abc.com\nStep 1: Sign in to the QnAMaker.ai portal with your Azure credentials. Use the [email protected] account\nStep 2: Publish the knowledge base. In the QnA Maker portal, select Publish. Then to confirm, select Publish\non the page.\nThe QnA Maker service is now successfully published. You can use the endpoint in your application or bot\ncode.\nStep 3: In the QnA Maker portal, on the Publish page, select Create bot.\nThis button appears only after you've published the knowledge base.\nAfter publishing the knowledge base, you can create a bot from the Publish page.\nStep 4: A new browser tab opens for the Azure portal, with the Azure Bot Service's creation page. Configure\nthe Azure bot service.\nBot name: bot12345678 -\nThe bot will be created.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-\nbase",
-      "questionPage": 237
+      "questionPage": 237,
+      "deprecated": true,
+      "deprecatedServices": [
+        "QnA Maker"
+      ]
     },
     {
       "number": 246,
@@ -3169,7 +3316,11 @@
       "answer": "See explanation below.",
       "explanation": "Step 1: Sign in to the Azure portal create and a QnA Maker resource.\nStep 2: Select Create after you read the terms and conditions:\nStep 3: In QnA Maker, select the appropriate tiers and regions.\nName: QNA12345678 -\nIn the Name field, enter a unique name to identify this QnA Maker service. This name also identifies the QnA\nMaker endpoint that your knowledge bases will be associated with.\nResource Group Location: East US Azure\nStep 4: After all the fields are validated, select Create. The process can take a few minutes to complete.\nAfter deployment is completed, you'll see the following resources created in your subscription:\nRemember your Azure Active Directory ID, Subscription, QnA resource name you selected when you created\nthe resource.\nStep 5: When you are done creating the resource in the Azure portal, return to the QnA Maker portal, refresh\nthe browser page.\nStep 6: In the QnA Maker portal, select Create a knowledge base.\nStep 7: Skip Step 1 as you already have your QnA Maker resource.\nStep 8: In Step 2, select your Active directory, subscription, service (resource), and the language for all\nknowledge bases created in the service.\nAzure QnA service: QNA12345678 -\nStep 9: In Step 3, name your knowledge base\nStep 10: In Step 4, configure the following setting:\n+ Add URL: https://support.microsoft.com/en-us/help/12435/windows-10-upgrade-faq\nStep 11: In Step 5, Select Create your KB.\nThe extraction process takes a few moments to read the document and identify questions and answers.\nAfter QnA Maker successfully creates the knowledge base, the Knowledge base page opens.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-\nbase",
       "text": "SIMULATION -\nYou need to create a QnA Maker service named QNA12345678 in the East US Azure region. QNA12345678 must\ncontain a knowledge base that uses the questions and answers available at https://support.microsoft.com/en-\nus/help/12435/windows-10-upgrade-faq.\nTo complete this task, sign in to the Azure portal and the QnA Maker portal.\nAnswer:\nSee explanation below.\nExplanation:\nStep 1: Sign in to the Azure portal create and a QnA Maker resource.\nStep 2: Select Create after you read the terms and conditions:\nStep 3: In QnA Maker, select the appropriate tiers and regions.\nName: QNA12345678 -\nIn the Name field, enter a unique name to identify this QnA Maker service. This name also identifies the QnA\nMaker endpoint that your knowledge bases will be associated with.\nResource Group Location: East US Azure\nStep 4: After all the fields are validated, select Create. The process can take a few minutes to complete.\nAfter deployment is completed, you'll see the following resources created in your subscription:\nRemember your Azure Active Directory ID, Subscription, QnA resource name you selected when you created\nthe resource.\nStep 5: When you are done creating the resource in the Azure portal, return to the QnA Maker portal, refresh\nthe browser page.\nStep 6: In the QnA Maker portal, select Create a knowledge base.\nStep 7: Skip Step 1 as you already have your QnA Maker resource.\nStep 8: In Step 2, select your Active directory, subscription, service (resource), and the language for all\nknowledge bases created in the service.\nAzure QnA service: QNA12345678 -\nStep 9: In Step 3, name your knowledge base\nStep 10: In Step 4, configure the following setting:\n+ Add URL: https://support.microsoft.com/en-us/help/12435/windows-10-upgrade-faq\nStep 11: In Step 5, Select Create your KB.\nThe extraction process takes a few moments to read the document and identify questions and answers.\nAfter QnA Maker successfully creates the knowledge base, the Knowledge base page opens.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-\nbase",
-      "questionPage": 238
+      "questionPage": 238,
+      "deprecated": true,
+      "deprecatedServices": [
+        "QnA Maker"
+      ]
     },
     {
       "number": 247,
@@ -3181,7 +3332,11 @@
       "answer": "Answer: Windows 11",
       "explanation": "Step 1: Sign in to the QnA portal, then select the knowledge base to add the QnA pair to.\nStep 2: On the EDIT page of the knowledge base, select Add QnA pair to add a new QnA pair.\nStep 3: In the new QnA pair row, add the required question and answer fields. The other fields are optional. All\nfields can be changed at any time.\nQuestion: What will be the next version of Windows?\nStep 4: Select Save and train to see predictions including the new QnA pair.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/edit-knowledge-base",
       "text": "SIMULATION -\nYou need to add a question pair to the published knowledge base used by a QnA Maker service named\nQNA12345678. The question must be: `What will be the next version of Windows?`\nThe answer must be: `Windows 11`.\nTo complete this task, sign in to the QnA Maker portal.\nAnswer:\nAnswer: Windows 11\nExplanation:\nStep 1: Sign in to the QnA portal, then select the knowledge base to add the QnA pair to.\nStep 2: On the EDIT page of the knowledge base, select Add QnA pair to add a new QnA pair.\nStep 3: In the new QnA pair row, add the required question and answer fields. The other fields are optional. All\nfields can be changed at any time.\nQuestion: What will be the next version of Windows?\nStep 4: Select Save and train to see predictions including the new QnA pair.\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/edit-knowledge-base",
-      "questionPage": 243
+      "questionPage": 243,
+      "deprecated": true,
+      "deprecatedServices": [
+        "QnA Maker"
+      ]
     },
     {
       "number": 248,
@@ -3425,7 +3580,11 @@
       "answer": "",
       "explanation": "1. Classification\n2. 1\nhttps://learn.microsoft.com/en-us/azure/cognitive-services/content-moderator/text-moderation-\napi#classification\nContent Moderator's machine-assisted text classification feature supports English only, and helps detect\npotentially undesired content. The flagged content may be assessed as inappropriate depending on context.\nIt conveys the likelihood of each category. The feature uses a trained model to identify possible abusive,\nderogatory or discriminatory language. This includes slang, abbreviated words, offensive, and intentionally\nmisspelled words.\nCategory1 refers to potential presence of language that may be considered sexually explicit or adult in\ncertain situations.\nhttps://learn.microsoft.com/en-us/azure/cognitive-services/content-moderator/text-moderation-\napi#classification",
       "text": "HOTSPOT\n-\nYou are building a chatbot.\nYou need to use the Content Moderator service to identify messages that contain sexually explicit language.\nWhich section in the response from the service will contain the category score, and which category will be\nassigned to the message? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\nAnswer:\nExplanation:\n1. Classification\n2. 1\nhttps://learn.microsoft.com/en-us/azure/cognitive-services/content-moderator/text-moderation-\napi#classification\nContent Moderator's machine-assisted text classification feature supports English only, and helps detect\npotentially undesired content. The flagged content may be assessed as inappropriate depending on context.\nIt conveys the likelihood of each category. The feature uses a trained model to identify possible abusive,\nderogatory or discriminatory language. This includes slang, abbreviated words, offensive, and intentionally\nmisspelled words.\nCategory1 refers to potential presence of language that may be considered sexually explicit or adult in\ncertain situations.\nhttps://learn.microsoft.com/en-us/azure/cognitive-services/content-moderator/text-moderation-\napi#classification",
-      "questionPage": 257
+      "questionPage": 257,
+      "deprecated": true,
+      "deprecatedServices": [
+        "Content Moderator"
+      ]
     },
     {
       "number": 267,
@@ -3437,7 +3596,11 @@
       "answer": "A",
       "explanation": "A is the answer.\nhttps://learn.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-\n4.0#dialog-types\nThe dialogs library provides a few types of dialogs to make your bot's conversations easier to manage.\n- prompt dialogs\nAsk the user for input and return the result. A prompt will repeat until it gets valid input or it's canceled.\nThey're designed to work with waterfall dialogs.",
       "text": "You are building a chatbot for a travel agent. The bot will ask users for a destination and must repeat the question\nuntil a valid input is received, or the user closes the conversation.\nWhich type of dialog should you use?\nA.prompt\nB.input\nC.adaptive\nD.QnA Maker\nAnswer: A\nExplanation:\nA is the answer.\nhttps://learn.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-\n4.0#dialog-types\nThe dialogs library provides a few types of dialogs to make your bot's conversations easier to manage.\n- prompt dialogs\nAsk the user for input and return the result. A prompt will repeat until it gets valid input or it's canceled.\nThey're designed to work with waterfall dialogs.",
-      "questionPage": 259
+      "questionPage": 259,
+      "deprecated": true,
+      "deprecatedServices": [
+        "QnA Maker"
+      ]
     },
     {
       "number": 268,
@@ -3450,7 +3613,11 @@
       "answer": "A",
       "explanation": "https://learn.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-\n4.0#dialog-types\nThe dialogs library provides a few types of dialogs to make your bot's conversations easier to manage.\n- QnA Maker dialog\nAutomates access to a QnA Maker knowledge base. This dialog is designed to also work as an action within\nComposer.",
       "text": "You are building a chatbot.\nYou need to configure the chatbot to query a knowledge base.\nWhich dialog class should you use?\nA.QnAMakerDialog\nB.AdaptiveDialog\nC.SkillDialog\nD.ComponentDialog\nAnswer: A\nExplanation:\nhttps://learn.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-\n4.0#dialog-types\nThe dialogs library provides a few types of dialogs to make your bot's conversations easier to manage.\n- QnA Maker dialog\nAutomates access to a QnA Maker knowledge base. This dialog is designed to also work as an action within\nComposer.",
-      "questionPage": 259
+      "questionPage": 259,
+      "deprecated": true,
+      "deprecatedServices": [
+        "QnA Maker"
+      ]
     },
     {
       "number": 269,
@@ -3616,7 +3783,11 @@
       "answer": "D",
       "explanation": "QnAMakerOptions.ScoreThreshold\nTechnical Requirements says \"AI solution responses must have a confidence score that is equal to or greater\nthan 70 percent\" and \"When the response confidence score is low, ensure that the chatbot can provide other\nresponse options to the customers\"\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/confidence-score#set-\nthreshold",
       "text": "You are developing the chatbot.\nYou create the following components:\n✑ A QnA Maker resource\n✑ A chatbot by using the Azure Bot Framework SDK\nYou need to integrate the components to meet the chatbot requirements.\nWhich property should you use?\nA. QnAMakerOptions.StrictFilters\nB. QnADialogResponseOptions.CardNoMatchText\nC. QnAMakerOptions.RankerType\nD. QnAMakerOptions.ScoreThreshold\nAnswer: D\nExplanation:\nQnAMakerOptions.ScoreThreshold\nTechnical Requirements says \"AI solution responses must have a confidence score that is equal to or greater\nthan 70 percent\" and \"When the response confidence score is low, ensure that the chatbot can provide other\nresponse options to the customers\"\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/confidence-score#set-\nthreshold",
-      "questionPage": 272
+      "questionPage": 272,
+      "deprecated": true,
+      "deprecatedServices": [
+        "QnA Maker"
+      ]
     },
     {
       "number": 282,
@@ -3629,7 +3800,11 @@
       "answer": "A",
       "explanation": "If you need to support a knowledge base system, which includes several languages, you can:\n1) Use the Translator service to translate a question into a single language before sending the question to your\nknowledge base. This allows you to focus on the quality of a single language and the quality of the alternate\nquestions and answers.\n2) Create a QnA Maker resource, and a knowledge base inside that resource, for every language. This allows\nyou to manage separate alternate questions and answer text that is more nuanced for each language. This\ngives you much more flexibility but requires a much higher maintenance cost when the questions or answers\nchange across all languages.\"\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/overview/language-\nsupport#supporting-multiple-languages-in-one-knowledge-base",
       "text": "You are developing the chatbot.\nYou create the following components:\n✑ A QnA Maker resource\n✑ A chatbot by using the Azure Bot Framework SDK\nYou need to add an additional component to meet the technical requirements and the chatbot requirements.\nWhat should you add?\nA. Microsoft Translator\nB. Language Understanding\nC. Orchestrator\nD. chatdown\nAnswer: A\nExplanation:\nIf you need to support a knowledge base system, which includes several languages, you can:\n1) Use the Translator service to translate a question into a single language before sending the question to your\nknowledge base. This allows you to focus on the quality of a single language and the quality of the alternate\nquestions and answers.\n2) Create a QnA Maker resource, and a knowledge base inside that resource, for every language. This allows\nyou to manage separate alternate questions and answer text that is more nuanced for each language. This\ngives you much more flexibility but requires a much higher maintenance cost when the questions or answers\nchange across all languages.\"\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/overview/language-\nsupport#supporting-multiple-languages-in-one-knowledge-base",
-      "questionPage": 272
+      "questionPage": 272,
+      "deprecated": true,
+      "deprecatedServices": [
+        "QnA Maker"
+      ]
     },
     {
       "number": 283,
@@ -3914,7 +4089,11 @@
       "answer": "",
       "explanation": "Box 1: Cognitive Service User -\nEnsure that the members of a group named Management-Accountants can approve the FAQs.\nApprove=publish.\nCognitive Service User (read/write/publish): API permissions: All access to Cognitive Services resource except\nfor ability to:\n1. Add new members to roles.\n2. Create new resources.\nBox 2: Cognitive Services QnA Maker Editor\nEnsure that the members of a group named Consultant-Accountants can create and amend the FAQs.\nQnA Maker Editor: API permissions:\n1. Create KB API\n2. Update KB API\n3. Replace KB API\n4. Replace Alterations\n5. \"Train API\" [in new service model v5]\nBox 3: Cognitive Services QnA Maker Read\nEnsure that the members of a group named the Agent-CustomerServices can browse the FAQs.\nQnA Maker Read: API Permissions:\n1. Download KB API\n2. List KBs for user API\n3. Get Knowledge base details\n4. Download Alterations\n1. Cognitive Service User\n2. QnA Maker Editor\n3. QnA Maker Read\nhttps://learn.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/role-based-access-\ncontrol#access-is-provided-by-a-defined-role\n- Cognitive Service User (read/write/publish)\n- QnA Maker Editor (read/write)\n- QnA Maker Read (read)\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/role-based-access-control",
       "text": "Introductory Info Case study -\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to\ncomplete each case. However, there may be additional case studies and sections on this exam. You must manage\nyour time to ensure that you are able to complete all questions included on this exam in the time provided.\nTo answer the questions included in a case study, you will need to reference information that is provided in the\ncase study. Case studies might contain exhibits and other resources that provide more information about the\nscenario that is described in the case study. Each question is independent of the other questions in this case study.\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to\nmake changes before you move to the next section of the exam. After you begin a new section, you cannot return\nto this section.\nTo start the case study -\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore\nthe content of the case study before you answer the questions. Clicking these buttons displays information such\nas business requirements, existing environment, and problem statements. If the case study has an All Information\ntab, note that the information displayed is identical to the information displayed on the subsequent tabs. When you\nare ready to answer a question, click the Question button to return to the question.\nOverview -\nGeneral Overview -\nContoso, Ltd. is an international accounting company that has offices in France, Portugal, and the United Kingdom.\nContoso has a professional services department that contains the roles shown in the following table.\nExisting environment -\nInfrastructure -\nContoso has the following subscriptions:\nAzure\nMicrosoft 365\nMicrosoft Dynamics 365\nAzure Active (Azure AD) Directory\nContoso has Azure Active Directory groups for securing role-based access. The company uses the following group\nnaming conventions:\n[Country]-[Level]-[Role]\n[Level]-[Role]\nIntellectual Property -\nContoso has the intellectual property shown in the following table.\nText-based content is provided only in one language and is not translated.\nRequirements -\nPlanned Projects -\nContoso plans to develop the following:\nA document processing workflow to extract information automatically from PDFs and images of financial\ndocuments\nA customer-support chatbot that will answer questions by using FAQs\nA searchable knowledgebase of all the intellectual property\nTechnical Requirements -\nContoso identifies the following technical requirements:\nAll content must be approved before being published.\nAll planned projects must support English, French, and Portuguese.\nAll content must be secured by using role-based access control (RBAC).\nRBAC role assignments must use the principle of least privilege.\nRBAC roles must be assigned only to Azure Active Directory groups.\nAI solution responses must have a confidence score that is equal to or greater than 70 percent.\nWhen the response confidence score of an AI response is lower than 70 percent, the response must be improved\nby human input.\nChatbot Requirements -\nContoso identifies the following requirements for the chatbot:\nProvide customers with answers to the FAQs.\nEnsure that the customers can chat to a customer service agent.\nEnsure that the members of a group named Management-Accountants can approve the FAQs.\nEnsure that the members of a group named Consultant-Accountants can create and amend the FAQs.\nEnsure that the members of a group named the Agent-CustomerServices can browse the FAQs.\nEnsure that access to the customer service agents is managed by using Omnichannel for Customer Service.\nWhen the response confidence score is low, ensure that the chatbot can provide other response options to the\ncustomers.\nDocument Processing Requirements\nContoso identifies the following requirements for document processing:\nThe document processing solution must be able to process standardized financial documents that have the\nfollowing characteristics:\n- Contain fewer than 20 pages.\n- Be formatted as PDF or JPEG files.\n- Have a distinct standard for each office.\nThe document processing solution must be able to extract tables and text from the financial documents.\nThe document processing solution must be able to extract information from receipt images.\nMembers of a group named Management-Bookkeeper must define how to extract tables from the financial\ndocuments.\nMembers of a group named Consultant-Bookkeeper must be able to process the financial documents.\nKnowledgebase Requirements -\nContoso identifies the following requirements for the knowledgebase:\nSupports searches for equivalent terms\nCan transcribe jargon with high accuracy\nCan search content in different formats, including video\nProvides relevant links to external resources for further research Question HOTSPOT -\nYou build a QnA Maker resource to meet the chatbot requirements.\nWhich RBAC role should you assign to each group? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\nHot Area:\nAnswer:\nExplanation:\nBox 1: Cognitive Service User -\nEnsure that the members of a group named Management-Accountants can approve the FAQs.\nApprove=publish.\nCognitive Service User (read/write/publish): API permissions: All access to Cognitive Services resource except\nfor ability to:\n1. Add new members to roles.\n2. Create new resources.\nBox 2: Cognitive Services QnA Maker Editor\nEnsure that the members of a group named Consultant-Accountants can create and amend the FAQs.\nQnA Maker Editor: API permissions:\n1. Create KB API\n2. Update KB API\n3. Replace KB API\n4. Replace Alterations\n5. \"Train API\" [in new service model v5]\nBox 3: Cognitive Services QnA Maker Read\nEnsure that the members of a group named the Agent-CustomerServices can browse the FAQs.\nQnA Maker Read: API Permissions:\n1. Download KB API\n2. List KBs for user API\n3. Get Knowledge base details\n4. Download Alterations\n1. Cognitive Service User\n2. QnA Maker Editor\n3. QnA Maker Read\nhttps://learn.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/role-based-access-\ncontrol#access-is-provided-by-a-defined-role\n- Cognitive Service User (read/write/publish)\n- QnA Maker Editor (read/write)\n- QnA Maker Read (read)\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/role-based-access-control",
-      "questionPage": 297
+      "questionPage": 297,
+      "deprecated": true,
+      "deprecatedServices": [
+        "QnA Maker"
+      ]
     },
     {
       "number": 305,
@@ -4253,7 +4432,11 @@
       "answer": "",
       "explanation": "Box 1: QnA Maker Editor -\nScenario: Provide all employees with the ability to edit Q&As.\nThe QnA Maker Editor (read/write) has the following permissions:\n✑ Create KB API\n✑ Update KB API\n✑ Replace KB API\n✑ Replace Alterations\n✑ \"Train API\" [in new service model v5]\nBox 2: Contributor -\nScenario: Only senior managers must be able to publish updates.\nContributor permission: All except ability to add new members to roles\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/reference-role-based-access-control",
       "text": "Introductory Info Case study -\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to\ncomplete each case. However, there may be additional case studies and sections on this exam. You must manage\nyour time to ensure that you are able to complete all questions included on this exam in the time provided.\nTo answer the questions included in a case study, you will need to reference information that is provided in the\ncase study. Case studies might contain exhibits and other resources that provide more information about the\nscenario that is described in the case study. Each question is independent of the other questions in this case study.\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to\nmake changes before you move to the next section of the exam. After you begin a new section, you cannot return\nto this section.\nTo start the case study -\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore\nthe content of the case study before you answer the questions. Clicking these buttons displays information such\nas business requirements, existing environment, and problem statements. If the case study has an All Information\ntab, note that the information displayed is identical to the information displayed on the subsequent tabs. When you\nare ready to answer a question, click the Question button to return to the question.\nOverview -\nA company named Wide World Importers is developing an e-commerce platform.\nYou are working with a solutions architect to design and implement the features of the e-commerce platform. The\nplatform will use microservices and a serverless environment built on Azure.\nWide World Importers has a customer base that includes English, Spanish, and Portuguese speakers.\nExisting Environment -\nApplications -\nWide World Importers has an App Service plan that contains the web apps shown in the following table.\nAzure Resources -\nYou have the following resources:\nAn Azure Active Directory (Azure AD) tenant\n- The tenant supports internal authentication.\n- All employees belong to a group named AllUsers.\n- Senior managers belong to a group named LeadershipTeam.\nAn Azure Functions resource\n- A function app posts to Azure Event Grid when stock levels of a product change between OK, Low Stock, and Out\nof Stock. The function app uses the -\nAzure Cosmos DB change feed.\nAn Azure Cosmos DB account\n- The account uses the Core (SQL) API.\n- The account stores data for the Product Management app and the Inventory Tracking app.\nAn Azure Storage account\n- The account contains blob containers for assets related to products.\n- The assets include images, videos, and PDFs.\nAn Azure Cognitive Services resource named wwics\nAn Azure Video Analyzer for Media (previously Video Indexer) resource named wwivi\nRequirements -\nBusiness Goals -\nWide World Importers wants to leverage AI technologies to differentiate itself from its competitors.\nPlanned Changes -\nWide World Importers plans to start the following projects:\nA product creation project: Help employees create accessible and multilingual product entries, while expediting\nproduct entry creation.\nA smart e-commerce project: Implement an Azure Cognitive Search solution to display products for customers to\nbrowse.\nA shopping on-the-go project: Build a chatbot that can be integrated into smart speakers to support customers.\nBusiness Requirements -\nWide World Importers identifies the following business requirements for all the projects:\nProvide a multilingual customer experience that supports English, Spanish, and Portuguese.\nWhenever possible, scale based on transaction volumes to ensure consistent performance.\nMinimize costs.\nGovernance and Security Requirements\nWide World Importers identifies the following governance and security requirements:\nData storage and processing must occur in datacenters located in the United States.\nAzure Cognitive Services must be inaccessible directly from the internet.\nAccessibility Requirements -\nWide World Importers identifies the following accessibility requirements:\nAll images must have relevant alt text.\nAll videos must have transcripts that are associated to the video and included in product descriptions.\nProduct descriptions, transcripts, and alt text must be available in English, Spanish, and Portuguese.\nProduct Creation Requirements -\nWide World Importers identifies the following requirements for improving the Product Management app:\nMinimize how long it takes for employees to create products and add assets.\nRemove the need for manual translations.\nSmart E-Commerce Requirements -\nWide World Importers identifies the following requirements for the smart e-commerce project:\nEnsure that the Cognitive Search solution meets a Service Level Agreement (SLA) of 99.9% availability for\nsearches and index writes.\nProvide users with the ability to search insight gained from the images, manuals, and videos associated with the\nproducts.\nSupport autocompletion and suggestion based on all product name variants.\nStore all raw insight data that was generated, so the data can be processed later.\nUpdate the stock level field in the product index immediately upon changes.\nUpdate the product index hourly.\nShopping On-the-Go Requirements -\nWide World Importers identifies the following requirements for the shopping on-the-go chatbot:\nAnswer common questions.\nSupport interactions in English, Spanish, and Portuguese.\nReplace an existing FAQ process so that all Q&A is managed from a central location.\nProvide all employees with the ability to edit Q&As. Only senior managers must be able to publish updates.\nSupport purchases by providing information about relevant products to customers. Product displays must include\nimages and warnings when stock levels are low or out of stock.\nProduct JSON Sample -\nYou have the following JSON sample for a product.\nQuestion HOTSPOT -\nYou are developing the shopping on-the-go project.\nYou are configuring access to the QnA Maker (classic) resources.\nWhich role should you assign to AllUsers and LeadershipTeam? To answer, select the appropriate options in the\nanswer area.\nNOTE: Each correct selection is worth one point.\nHot Area:\nAnswer:\nExplanation:\nBox 1: QnA Maker Editor -\nScenario: Provide all employees with the ability to edit Q&As.\nThe QnA Maker Editor (read/write) has the following permissions:\n✑ Create KB API\n✑ Update KB API\n✑ Replace KB API\n✑ Replace Alterations\n✑ \"Train API\" [in new service model v5]\nBox 2: Contributor -\nScenario: Only senior managers must be able to publish updates.\nContributor permission: All except ability to add new members to roles\nReference:\nhttps://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/reference-role-based-access-control",
-      "questionPage": 351
+      "questionPage": 351,
+      "deprecated": true,
+      "deprecatedServices": [
+        "QnA Maker"
+      ]
     },
     {
       "number": 329,

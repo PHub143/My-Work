@@ -1,6 +1,6 @@
 /* DriveSwitcher — Focus. Quiet select-looking control instead of a colour pill. */
 
-.drive-switcher { position: relative; display: flex; }
+.drive-switcher { position: relative; display: flex; min-width: 0; }
 
 .drive-switcher-toggle,
 [data-theme='light'] .drive-switcher-toggle,
