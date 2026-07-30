@@ -681,7 +681,7 @@ const AI103 = () => {
     () => getQuestionPagination(filteredQuestions, effectiveSelectedQuestionNumber),
     [filteredQuestions, effectiveSelectedQuestionNumber],
   );
-  const questionCount = ai103Content.questionCount || 65;
+  const questionCount = ai103Content.questionCount || questions.length;
 
   const visibleQuestion = pagination.currentQuestion;
   const promptParagraphs = visibleQuestion ? splitPageText(visibleQuestion.prompt) : [];
@@ -747,10 +747,6 @@ const AI103 = () => {
             <div className="ai103-stat">
               <strong>{questionCount}</strong>
               <span>Questions</span>
-            </div>
-            <div className="ai103-stat">
-              <strong>{questions.length}</strong>
-              <span>Question Cards</span>
             </div>
             <div className="ai103-stat">
               <strong>{formatNumber(stats.wordCount)}</strong>
