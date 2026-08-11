@@ -1,0 +1,607 @@
+/* YBM exam runner. Theme colors are custom properties on .ybm-exam so the
+   lightningcss minifier keeps the [data-theme] selectors — see
+   .cursor/rules/light-dark-mode-text-contrast.mdc */
+
+.ybm-exam {
+  --exam-text: #17101f;
+  --exam-bg: #ffffff;
+  --exam-panel: #f6f4fb;
+  /* the sticky bar needs an opaque fill so the answer sheet cannot show
+     through it while the page scrolls */
+  --exam-bar-bg: #f6f4fb;
+  --exam-border: rgba(23, 16, 31, 0.14);
+  --exam-accent: #4c3ad6;
+  --exam-accent-text: #ffffff;
+  --exam-warn: #c02626;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--exam-text);
+}
+
+[data-theme='light'] .ybm-exam {
+  --exam-text: #17101f;
+  --exam-bg: #ffffff;
+  --exam-panel: #f6f4fb;
+  --exam-bar-bg: #f6f4fb;
+  --exam-border: rgba(23, 16, 31, 0.14);
+}
+
+[data-theme='dark'] .ybm-exam {
+  --exam-text: #fef9f0;
+  --exam-bg: #0a0612;
+  --exam-panel: rgba(254, 249, 240, 0.06);
+  --exam-bar-bg: #1c2023;
+  --exam-border: rgba(254, 249, 240, 0.18);
+  --exam-accent: #9d8bff;
+  --exam-accent-text: #0a0612;
+  --exam-warn: #ff7a7a;
+}
+
+.ybm-exam--empty {
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.ybm-exam--empty h1 {
+  color: var(--exam-text);
+  margin-bottom: 0.5rem;
+}
+
+.ybm-exam--empty p {
+  color: var(--exam-text);
+  opacity: 0.72;
+}
+
+/* --- top bar --- */
+
+.ybm-exam-bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--exam-bar-bg);
+  border: 1px solid var(--exam-border);
+  border-radius: 10px;
+  flex-wrap: wrap;
+}
+
+.ybm-exam-id {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ybm-exam-id strong {
+  color: var(--exam-text);
+}
+
+.ybm-exit,
+.ybm-start,
+.ybm-submit {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid var(--exam-border);
+  background: transparent;
+  color: var(--exam-text);
+  padding: 0.35rem 0.7rem;
+}
+
+.ybm-start,
+.ybm-submit {
+  background: var(--exam-accent);
+  color: var(--exam-accent-text);
+  border-color: transparent;
+  font-weight: 600;
+}
+
+.ybm-exam-sections {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.ybm-exam-sections button {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--exam-border);
+  background: transparent;
+  color: var(--exam-text);
+  opacity: 0.7;
+}
+
+.ybm-exam-sections button.is-active {
+  opacity: 1;
+  background: var(--exam-accent);
+  color: var(--exam-accent-text);
+  border-color: transparent;
+}
+
+.ybm-clock {
+  font-variant-numeric: tabular-nums;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--exam-text);
+}
+
+.ybm-clock.is-low {
+  color: var(--exam-warn);
+}
+
+.ybm-clock-done {
+  color: var(--exam-text);
+  opacity: 0.72;
+}
+
+/* --- result --- */
+
+.ybm-result {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.1rem;
+  background: var(--exam-panel);
+  border: 1px solid var(--exam-border);
+  border-radius: 10px;
+}
+
+.ybm-result div {
+  display: flex;
+  flex-direction: column;
+}
+
+.ybm-result span {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--exam-text);
+  opacity: 0.72;
+}
+
+.ybm-result strong {
+  font-size: 1.7rem;
+  line-height: 1.1;
+  color: var(--exam-text);
+}
+
+.ybm-result em {
+  font-style: normal;
+  font-size: 0.8rem;
+  color: var(--exam-text);
+  opacity: 0.72;
+}
+
+.ybm-result-total strong {
+  color: var(--exam-accent);
+}
+
+.ybm-result button {
+  margin-left: auto;
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--exam-border);
+  background: transparent;
+  color: var(--exam-text);
+}
+
+/* --- body: booklet + answer sheet --- */
+
+.ybm-exam-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 1rem;
+  align-items: start;
+}
+
+.ybm-booklet {
+  border: 1px solid var(--exam-border);
+  border-radius: 10px;
+  background: var(--exam-bg);
+  overflow: hidden;
+}
+
+.ybm-booklet-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--exam-border);
+  background: var(--exam-panel);
+  flex-wrap: wrap;
+}
+
+.ybm-booklet-controls button {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--exam-border);
+  background: transparent;
+  color: var(--exam-text);
+}
+
+.ybm-booklet-controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ybm-booklet-controls > span {
+  color: var(--exam-text);
+  font-size: 0.85rem;
+}
+
+.ybm-zoom {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.ybm-booklet-viewport {
+  max-height: 78vh;
+  overflow: auto;
+  padding: 0.75rem;
+  text-align: center;
+  background: #ffffff;
+}
+
+.ybm-booklet-viewport img {
+  max-width: 100%;
+  height: auto;
+  display: inline-block;
+}
+
+.ybm-audio {
+  padding: 0.6rem 0.8rem;
+  border-top: 1px solid var(--exam-border);
+  background: var(--exam-panel);
+}
+
+.ybm-audio audio {
+  width: 100%;
+}
+
+/* --- answer sheet --- */
+
+.ybm-answers {
+  position: sticky;
+  top: 4.5rem;
+  border: 1px solid var(--exam-border);
+  border-radius: 10px;
+  background: var(--exam-panel);
+  display: flex;
+  flex-direction: column;
+  max-height: 82vh;
+}
+
+.ybm-answers-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--exam-border);
+}
+
+.ybm-answers-head strong {
+  color: var(--exam-text);
+}
+
+.ybm-answers-head span {
+  font-size: 0.8rem;
+  color: var(--exam-text);
+  opacity: 0.72;
+}
+
+.ybm-sheet {
+  overflow-y: auto;
+  padding: 0.5rem 0.9rem;
+  flex: 1;
+}
+
+.ybm-sheet-part h3 {
+  margin: 0.8rem 0 0.4rem;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--exam-text);
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.ybm-sheet-part h3 span {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  opacity: 0.65;
+}
+
+.ybm-sheet-part ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ybm-sheet-part li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.12rem 0;
+}
+
+.ybm-sheet-number {
+  width: 2.2rem;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--exam-text);
+  opacity: 0.72;
+  text-align: right;
+}
+
+.ybm-sheet-bubbles {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.ybm-sheet-bubbles button {
+  appearance: none;
+  cursor: pointer;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 50%;
+  border: 1px solid var(--exam-border);
+  background: transparent;
+  color: var(--exam-text);
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 0;
+}
+
+.ybm-sheet-bubbles button.is-picked {
+  background: var(--exam-accent);
+  color: var(--exam-accent-text);
+  border-color: transparent;
+  font-weight: 700;
+}
+
+.ybm-sheet-bubbles button:disabled {
+  cursor: not-allowed;
+}
+
+.ybm-submit {
+  margin: 0.7rem 0.9rem 0.9rem;
+}
+
+/* --- compact answer pad (below 900px, replaces the side answer sheet) --- */
+
+.ybm-focus {
+  position: sticky;
+  bottom: 0;
+  /* above .ybm-exam-bar so the review panel is never clipped by it */
+  z-index: 6;
+  border: 1px solid var(--exam-border);
+  border-radius: 10px;
+  background: var(--exam-bar-bg);
+  padding: 0.6rem 0.7rem 0.7rem;
+}
+
+.ybm-focus-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.ybm-focus-head strong {
+  color: var(--exam-text);
+  font-size: 0.95rem;
+}
+
+.ybm-focus-head span {
+  color: var(--exam-text);
+  opacity: 0.72;
+  font-size: 0.78rem;
+  text-align: right;
+}
+
+.ybm-focus-options {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ybm-focus-options button {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  flex: 1;
+  min-height: 52px;
+  border-radius: 8px;
+  border: 1px solid var(--exam-border);
+  background: transparent;
+  color: var(--exam-text);
+  font-size: 1rem;
+}
+
+.ybm-focus-options button.is-picked {
+  background: var(--exam-accent);
+  color: var(--exam-accent-text);
+  border-color: transparent;
+  font-weight: 700;
+}
+
+.ybm-focus-nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.ybm-focus-nav button {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  flex: 1;
+  min-height: 44px;
+  border-radius: 8px;
+  border: 1px solid var(--exam-border);
+  background: transparent;
+  color: var(--exam-text);
+  font-size: 0.85rem;
+}
+
+.ybm-focus-nav button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ybm-focus .ybm-submit {
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0 0;
+  min-height: 44px;
+}
+
+/* review grid — the whole section, five per row, tap to jump */
+
+.ybm-review {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
+  /* short enough that the countdown in the sticky bar stays visible */
+  max-height: 45vh;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--exam-border);
+  border-radius: 10px;
+  background: var(--exam-bar-bg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+.ybm-review-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.6rem 0.7rem;
+  border-bottom: 1px solid var(--exam-border);
+}
+
+.ybm-review-head strong {
+  color: var(--exam-text);
+  font-size: 0.85rem;
+}
+
+.ybm-review-head button {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  min-height: 36px;
+  padding: 0 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--exam-border);
+  background: transparent;
+  color: var(--exam-text);
+  font-size: 0.8rem;
+}
+
+.ybm-review-scroll {
+  overflow-y: auto;
+  padding: 0.5rem 0.7rem 0.7rem;
+}
+
+.ybm-review-scroll h3 {
+  margin: 0.7rem 0 0.4rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--exam-text);
+}
+
+.ybm-review-scroll h3 span {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  opacity: 0.65;
+}
+
+.ybm-review-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.ybm-review-grid button {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+  border-radius: 8px;
+  border: 1px solid var(--exam-border);
+  background: transparent;
+  color: var(--exam-text);
+  line-height: 1.1;
+}
+
+.ybm-review-grid button span {
+  font-size: 0.72rem;
+  opacity: 0.72;
+  font-variant-numeric: tabular-nums;
+}
+
+.ybm-review-grid button em {
+  font-style: normal;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.ybm-review-grid button.is-done {
+  border-color: var(--exam-accent);
+}
+
+.ybm-review-grid button[aria-current='true'] {
+  border-width: 2px;
+  border-color: var(--exam-accent);
+}
+
+@media (max-width: 900px) {
+  .ybm-exam-body {
+    grid-template-columns: minmax(0, 1fr);
+    position: relative;
+  }
+
+  .ybm-answers {
+    position: static;
+    max-height: none;
+  }
+
+  .ybm-booklet-viewport {
+    max-height: 60vh;
+  }
+}
+
+/* clear the fixed bottom app rail so the pad is not hidden behind it */
+@media (max-width: 760px) {
+  .ybm-focus {
+    bottom: 56px;
+  }
+}

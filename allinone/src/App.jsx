@@ -17,11 +17,7 @@ const AI103Practice = lazy(() => import('./pages/AI103Practice'));
 const AI102 = lazy(() => import('./pages/AI102'));
 const AI102Practice = lazy(() => import('./pages/AI102Practice'));
 const English = lazy(() => import('./pages/English'));
-const EnglishPractice = lazy(() => import('./pages/EnglishPractice'));
-const EnglishListeningPractice = lazy(() => import('./pages/EnglishListeningPractice'));
-const EnglishVocabulary = lazy(() => import('./pages/EnglishVocabulary'));
-const EnglishDrills = lazy(() => import('./pages/EnglishDrills'));
-const EnglishContentAdmin = lazy(() => import('./pages/EnglishContentAdmin'));
+const YbmExam = lazy(() => import('./pages/YbmExam'));
 const Users = lazy(() => import('./pages/Users'));
 const Upload = lazy(() => import('./pages/Upload'));
 const Settings = lazy(() => import('./pages/Settings'));
@@ -73,7 +69,6 @@ const AppShell = () => {
             </Route>
             <Route element={<AdminRoute />}>
               <Route path='/users' element={<Users />} />
-              <Route path='/content' element={<EnglishContentAdmin />} />
               <Route path='/settings' element={<Settings />} />
             </Route>
             <Route element={<LearningRoute />}>
@@ -82,10 +77,11 @@ const AppShell = () => {
               <Route path='/learning/ai-102' element={<AI102 />} />
               <Route path='/learning/ai-102/practice' element={<AI102Practice />} />
               <Route path='/learning/english' element={<English />} />
-              <Route path='/learning/english/practice' element={<EnglishPractice />} />
-              <Route path='/learning/english/listening' element={<EnglishListeningPractice />} />
-              <Route path='/learning/english/vocabulary' element={<EnglishVocabulary />} />
-              <Route path='/learning/english/drills' element={<EnglishDrills />} />
+              <Route path='/learning/english/toeic/ybm/:volumeId' element={<English />} />
+              <Route
+                path='/learning/english/toeic/ybm/:volumeId/test/:testNumber'
+                element={<YbmExam />}
+              />
             </Route>
             <Route path='/login' element={<Login />} />
             <Route path='/bossin' element={<Login />} />
