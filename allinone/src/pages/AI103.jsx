@@ -665,6 +665,7 @@ const AI103 = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isPracticeChooserOpen, setIsPracticeChooserOpen] = useState(false);
   const [selectedDifficulty, setSelectedDifficulty] = useState('easy');
+  const [selectedScope, setSelectedScope] = useState('all');
   const questions = useMemo(() => ai103Content.questions || [], []);
   const [selectedQuestionNumber, setSelectedQuestionNumber] = useState(questions[0]?.number || 1);
   const stats = useMemo(() => getLearningStats(questions), [questions]);
@@ -692,17 +693,25 @@ const AI103 = () => {
       ? `Question ${visibleQuestion.number} / ${questions.length}`
       : `Question ${visibleQuestion.number} (${pagination.currentIndex + 1} / ${pagination.total})`
     : 'No question';
+  const originalQuestionCount = questions.filter((question) => question.number <= 65).length;
+  const scopes = [
+    { id: 'all', label: `All ${questions.length}`, detail: `Full bank, including ${questions.length - originalQuestionCount} newer Skills Measured questions` },
+    { id: 'original', label: `Original ${originalQuestionCount}`, detail: 'Only the original 65 exam-guide questions' },
+  ];
+  const questionPool = selectedScope === 'original'
+    ? questions.filter((question) => question.number <= 65)
+    : questions;
   const difficulties = [
-    { id: 'easy', label: 'Easy', detail: '20 random questions, no time limit', enabled: true },
-    { id: 'normal', label: 'Normal', detail: `${questions.length} random questions, 60 minute limit`, enabled: true },
-    { id: 'hard', label: 'Hard', detail: `${questions.length} random questions, 30 minute limit`, enabled: true },
-    { id: 'extra-hard', label: 'Extra Hard', detail: `${questions.length} random questions, 20 minute limit, no answer-area hints`, enabled: true },
+    { id: 'easy', label: 'Easy', detail: `${Math.min(20, questionPool.length)} random questions, no time limit`, enabled: true },
+    { id: 'normal', label: 'Normal', detail: `${questionPool.length} random questions, 60 minute limit`, enabled: true },
+    { id: 'hard', label: 'Hard', detail: `${questionPool.length} random questions, 30 minute limit`, enabled: true },
+    { id: 'extra-hard', label: 'Extra Hard', detail: `${questionPool.length} random questions, 20 minute limit, no answer-area hints`, enabled: true },
   ];
 
   const startPractice = () => {
     const selectedMode = difficulties.find((difficulty) => difficulty.id === selectedDifficulty);
     if (!selectedMode?.enabled) return;
-    navigate('/learning/ai-103/practice', { state: { difficulty: selectedDifficulty } });
+    navigate('/learning/ai-103/practice', { state: { difficulty: selectedDifficulty, scope: selectedScope } });
   };
 
   return (
@@ -908,7 +917,27 @@ const AI103 = () => {
                 ×
               </button>
             </div>
-            <h2 id="ai103-practice-title">Choose Difficulty</h2>
+            <h2 id="ai103-practice-title">Choose Question Set</h2>
+            <div className="ai103-difficulty-grid" role="radiogroup" aria-label="Practice question set">
+              {scopes.map((scope) => (
+                <button
+                  key={scope.id}
+                  type="button"
+                  className={[
+                    'ai103-difficulty-option',
+                    `scope-${scope.id}`,
+                    selectedScope === scope.id ? 'active' : '',
+                  ].filter(Boolean).join(' ')}
+                  onClick={() => setSelectedScope(scope.id)}
+                  role="radio"
+                  aria-checked={selectedScope === scope.id}
+                >
+                  <strong>{scope.label}</strong>
+                  <span>{scope.detail}</span>
+                </button>
+              ))}
+            </div>
+            <h2 id="ai103-practice-difficulty-title">Choose Difficulty</h2>
             <div className="ai103-difficulty-grid" role="radiogroup" aria-label="Practice difficulty">
               {difficulties.map((difficulty) => (
                 <button
