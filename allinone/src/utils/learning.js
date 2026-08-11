@@ -1217,8 +1217,6 @@ export function getPracticeResultSummary(results) {
   };
 }
 
-// --- TOEIC Reading (Parts 5-7) — English learning section ---
-
 export function getStudyMaterialPages(pages) {
   return pages.filter((page) => {
     const text = (page.text || '').trim();

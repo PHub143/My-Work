@@ -16,16 +16,14 @@ Route-level screens — each page has a matching `.jsx` file and (usually) a mat
 | `/gallery` | `Gallery.jsx` | Protected (Drive) | Image/media gallery |
 | `/upload` | `Upload.jsx` | Protected (Drive) | File upload |
 | `/users` | `Users.jsx` | Admin | User management |
-| `/content` | `EnglishContentAdmin.jsx` | Admin | English content snapshot inventory, filters, and preview |
 | `/settings` | `Settings.jsx` | Admin | Drive config, app settings |
 | `/learning/ai-103` | `AI103.jsx` | Student | AI-103 study material |
 | `/learning/ai-103/practice` | `AI103Practice.jsx` | Student | AI-103 practice questions |
 | `/learning/ai-102` | `AI102.jsx` | Student | AI-102 study material |
 | `/learning/ai-102/practice` | `AI102Practice.jsx` | Student | AI-102 practice questions |
-| `/learning/english` | `English.jsx` | Student | English (TOEIC-style) study material |
-| `/learning/english/practice` | `EnglishPractice.jsx` | Student | English reading tests (TOEIC Parts 5–7) |
-| `/learning/english/listening` | `EnglishListeningPractice.jsx` | Student | English listening tests (TOEIC Parts 1–4), audio-paced |
-| `/learning/english/vocabulary` | `EnglishVocabulary.jsx` | Student | Vocabulary flashcards with Leitner spaced repetition (localStorage per user) |
-| `/learning/english/drills` | `EnglishDrills.jsx` | Student | Grammar drills by topic (Part 5 tags), untimed with instant feedback; feeds the weakest-topics report |
-| `/login` | `Login.jsx` | Public | Login/sign-in |
+| `/learning/english` | `English.jsx` | Student | YBM TOEIC hub: volume tabs and per-test readiness |
+| `/learning/english/toeic/ybm/:volumeId` | `English.jsx` | Student | One volume's test list |
+| `/learning/english/toeic/ybm/:volumeId/test/:testNumber` | `YbmExam.jsx` | Student | Exam runner: booklet scans, timer, answer entry, scoring, saved attempts |
+| `/login` | `Login.jsx` | Public | Student login/sign-in |
+| `/bossin` | `Login.jsx` | Public | Admin login/sign-in |
 | `/oauth/callback` | `OAuthCallback.jsx` | Public | OAuth redirect handler |
