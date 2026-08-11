@@ -271,8 +271,12 @@ const AI103Practice = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const difficulty = location.state?.difficulty || 'easy';
+  const scope = location.state?.scope || 'all';
   const questionNumbers = location.state?.questionNumbers || parsePracticeQuestionNumbers(location.search);
-  const questions = useMemo(() => ai103Content.questions || [], []);
+  const questions = useMemo(() => {
+    const allQuestions = ai103Content.questions || [];
+    return scope === 'original' ? allQuestions.filter((question) => question.number <= 65) : allQuestions;
+  }, [scope]);
   const buildPracticeSession = () => createPracticeSession(questions, {
     difficulty,
     questionNumbers,
@@ -446,7 +450,8 @@ const AI103Practice = () => {
             <h1>
               Practice Test
               <span>
-                {session.questions.length} random questions from the {questions.length}-question AI-103 learning set.{' '}
+                {session.questions.length} random questions from the {questions.length}-question AI-103{' '}
+                {scope === 'original' ? 'original' : 'full'} learning set.{' '}
                 {formatPracticeDuration(session.timeLimitMinutes)}.
                 {formatPracticeHintPolicy(session)}
               </span>
@@ -579,6 +584,11 @@ const AI103Practice = () => {
               <button type="button" onClick={() => navigate('/learning/ai-103')}>
                 Back to Learning
               </button>
+              {isSubmitted ? (
+                <button type="button" onClick={retryPracticeTest}>
+                  Retry Test
+                </button>
+              ) : null}
               <button type="button" onClick={() => goToQuestion(currentIndex - 1)} disabled={currentIndex === 0}>
                 Previous
               </button>

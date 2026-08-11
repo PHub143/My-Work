@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# YBM booklet scans and audio are served from Drive, not the repo
+public/ybm/

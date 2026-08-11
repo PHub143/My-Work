@@ -1,510 +1,234 @@
-/* English hub + reading/listening/drill views — Focus.
-   Layered on top of AI103.css (which every English page also imports), so this
-   file only carries English-specific pieces. */
+/* YBM test hub. Theme-dependent colors are declared as custom properties on
+   .ybm-page (a parent that shares no class with its children) so the
+   lightningcss minifier cannot strip the [data-theme] selectors — see
+   .cursor/rules/light-dark-mode-text-contrast.mdc */
 
-/* ── reading passages ── */
+.ybm-page {
+  --ybm-text: #17101f;
+  --ybm-muted: #17101f;
+  --ybm-card-bg: #ffffff;
+  --ybm-card-border: rgba(23, 16, 31, 0.14);
+  --ybm-card-hover: rgba(23, 16, 31, 0.05);
+  --ybm-accent: #4c3ad6;
+  --ybm-accent-text: #ffffff;
+  --ybm-badge-bg: rgba(23, 16, 31, 0.08);
+  --ybm-done-bg: #1c7a4a;
+  --ybm-active-bg: #b4590c;
 
-.english-passage-panel {
-  padding: 18px;
-  border: 1px solid var(--line-soft);
-  border-radius: 11px;
-  background: var(--surface-sunken);
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+  color: var(--ybm-text);
 }
 
-.english-passage-panel + .english-passage-panel { margin-top: 12px; }
-
-.english-passage-label {
-  display: block;
-  margin-bottom: 10px;
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
+[data-theme='light'] .ybm-page {
+  --ybm-text: #17101f;
+  --ybm-muted: #17101f;
+  --ybm-card-bg: #ffffff;
+  --ybm-card-border: rgba(23, 16, 31, 0.14);
+  --ybm-card-hover: rgba(23, 16, 31, 0.05);
+  --ybm-badge-bg: rgba(23, 16, 31, 0.08);
 }
 
-.english-passage-panel p {
-  margin: 0 0 12px;
-  font-size: 15px;
-  line-height: 1.68;
-  color: var(--text);
-  text-wrap: pretty;
+[data-theme='dark'] .ybm-page {
+  --ybm-text: #fef9f0;
+  --ybm-muted: #fef9f0;
+  --ybm-card-bg: rgba(254, 249, 240, 0.06);
+  --ybm-card-border: rgba(254, 249, 240, 0.18);
+  --ybm-card-hover: rgba(254, 249, 240, 0.12);
+  --ybm-accent: #9d8bff;
+  --ybm-accent-text: #0a0612;
+  --ybm-badge-bg: rgba(254, 249, 240, 0.14);
+  --ybm-done-bg: #3ecf8e;
+  --ybm-active-bg: #ffb765;
 }
 
-.english-passage-panel p:last-child { margin-bottom: 0; }
+/* --- breadcrumb + volume tabs --- */
 
-.english-blank {
-  display: inline-block;
-  min-width: 46px;
-  padding: 0 6px;
-  border-bottom: 1.5px solid var(--accent);
-  font-family: var(--font-mono);
-  font-size: 13.5px;
-  color: var(--accent-ink);
-  text-align: center;
-}
-
-/* on the dark runner the passage inverts */
-.ai103-practice-page .english-passage-panel {
-  border-color: rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.ai103-practice-page .english-passage-panel p { color: rgba(255, 255, 255, 0.88); }
-.ai103-practice-page .english-passage-label { color: rgba(255, 255, 255, 0.5); }
-
-.ai103-practice-page .english-blank {
-  border-bottom-color: #5b9bff;
-  color: #9dbcff;
-}
-
-.english-directions {
-  margin: 0 0 16px;
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: var(--text-muted);
-}
-
-.english-directions strong { color: var(--ink); font-weight: 600; }
-
-.ai103-practice-page .english-directions { color: rgba(255, 255, 255, 0.6); }
-.ai103-practice-page .english-directions strong { color: #ffffff; }
-
-/* ── flagging (English runner) ── */
-
-.english-flag-toggle {
-  padding: 8px 13px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 8px;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.8);
-  font: inherit;
-  font-size: 12.5px;
-}
-
-.english-flag-toggle[aria-pressed='true'] {
-  border-color: rgba(224, 169, 74, 0.7);
-  background: rgba(224, 169, 74, 0.14);
-  color: #e0a94a;
-}
-
-.ai103-practice-rail button.english-flagged {
-  border-color: rgba(224, 169, 74, 0.7);
-  color: #e0a94a;
-}
-
-.ai103-practice-rail button.english-flagged::after { content: none; }
-
-/* ── results by part ── */
-
-.english-result-parts {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.english-result-parts > div {
+.ybm-crumbs {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 12px 14px;
-  border: 1px solid var(--line-soft);
-  border-radius: 10px;
-  background: var(--surface);
-}
-
-.english-result-parts span:first-child {
-  font-size: 10.5px;
-  font-weight: 600;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.25rem 0 0.75rem;
+  font-size: 0.85rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-muted);
 }
 
-.english-result-parts span:last-child {
-  font-family: var(--font-mono);
-  font-size: 19px;
-  color: var(--ink);
+.ybm-crumb {
+  color: var(--ybm-text);
+  font-weight: 600;
 }
 
-.ai103-practice-page .english-result-parts > div {
-  border-color: rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.03);
+.ybm-crumb-sep {
+  color: var(--ybm-muted);
+  opacity: 0.45;
 }
 
-.ai103-practice-page .english-result-parts span:first-child { color: rgba(255, 255, 255, 0.5); }
-.ai103-practice-page .english-result-parts span:last-child { color: #ffffff; }
-
-/* ── tag list ── */
-
-.english-tag-list { display: flex; flex-wrap: wrap; gap: 7px; }
-
-.english-tag-list span {
-  padding: 5px 10px;
-  border: 1px solid var(--line-soft);
-  border-radius: 999px;
-  background: var(--surface);
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-/* ── hub intro + secondary actions ── */
-
-.english-intro-shell {
+.ybm-volumes {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-  max-width: var(--col-read, 780px);
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--ybm-card-border);
 }
 
-.english-secondary-button {
-  padding: 10px 16px;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  background: var(--surface);
-  color: var(--text);
+.ybm-volume-tab {
+  appearance: none;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.6rem 1.1rem;
   font: inherit;
-  font-size: 13.5px;
-  font-weight: 500;
-  box-shadow: none;
-}
-
-.english-secondary-button:hover { background: var(--hover-bg); color: var(--ink); transform: none; }
-
-.english-mode-heading {
-  margin: 0 0 12px;
-  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--ybm-text);
+  opacity: 0.6;
+  cursor: pointer;
 }
 
-/* ── missed words ── */
-
-.english-missed-words { display: flex; flex-wrap: wrap; gap: 7px; }
-
-.english-missed-words button {
-  padding: 6px 11px;
-  border: 1px solid var(--line-soft);
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--text);
-  font: inherit;
-  font-size: 12.5px;
-  box-shadow: none;
+.ybm-volume-tab:hover {
+  opacity: 0.9;
 }
 
-.english-missed-words button:hover { background: var(--hover-bg); transform: none; }
-.english-missed-words button:disabled { opacity: 0.45; }
-
-.english-drill-summary-title {
-  margin: 0 0 10px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--ink);
+.ybm-volume-tab.is-active {
+  opacity: 1;
+  border-bottom-color: var(--ybm-accent);
+  color: var(--ybm-accent);
 }
 
-/* ── weak areas: the point of the hub ── */
+/* --- header --- */
 
-.english-weakness-panel {
-  padding: 20px;
-  border: 1px solid var(--line-soft);
-  border-radius: 12px;
-  background: var(--surface);
-}
-
-.english-weakness-panel h2 {
-  margin: 0 0 6px;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.english-weakness-panel p {
-  margin: 0 0 16px;
-  font-size: 13.5px;
-  color: var(--text-muted);
-}
-
-.english-weakness-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 64px 92px;
-  align-items: center;
-  gap: 14px;
-  padding: 11px 0;
-  border-top: 1px solid var(--line-soft);
-  font-size: 13.5px;
-  color: var(--text);
-}
-
-.english-weakness-row:first-of-type { border-top: none; }
-
-.english-weakness-row > :nth-child(2) {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--text-muted);
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-/* the third cell is a bar: any inner div is the fill */
-.english-weakness-row > :nth-child(3) {
-  height: 4px;
-  border-radius: 2px;
-  background: var(--surface-sunken);
-  overflow: hidden;
-}
-
-.english-weakness-row > :nth-child(3) > * {
-  display: block;
-  height: 100%;
-  border-radius: 2px;
-  background: var(--accent);
-}
-
-/* ── listening player ── */
-
-.english-player {
+.ybm-header {
   display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 16px 18px;
-  border: 1px solid var(--line-soft);
-  border-radius: 12px;
-  background: var(--surface-sunken);
-}
-
-.ai103-practice-page .english-player {
-  border-color: rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.english-player-status {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-muted);
-  font-variant-numeric: tabular-nums;
-}
-
-.ai103-practice-page .english-player-status { color: rgba(255, 255, 255, 0.6); }
-
-.english-player button {
-  padding: 9px 15px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-  color: var(--text);
-  font: inherit;
-  font-size: 13px;
-  font-weight: 500;
-  box-shadow: none;
-}
-
-.ai103-practice-page .english-player button {
-  border-color: rgba(255, 255, 255, 0.18);
-  background: transparent;
-  color: #ffffff;
-}
-
-.english-player-note {
-  margin: 10px 0 0;
-  font-size: 12.5px;
-  color: var(--text-muted);
-}
-
-.ai103-practice-page .english-player-note { color: rgba(255, 255, 255, 0.5); }
-
-/* ── photo prompts (Part 1) ── */
-
-.english-photo {
-  margin: 0 0 16px;
-  border: 1px solid var(--line-soft);
-  border-radius: 11px;
-  overflow: hidden;
-  background: var(--surface-sunken);
-}
-
-.english-photo img { display: block; width: 100%; height: auto; }
-
-/* ── grouped questions + lettered options ── */
-
-.english-group-question {
-  margin: 0 0 10px;
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--text);
-}
-
-.ai103-practice-page .english-group-question { color: rgba(255, 255, 255, 0.9); }
-
-.english-letter-options { display: flex; flex-direction: column; gap: 8px; }
-
-.english-letter-options .ai103-practice-option { grid-template-columns: 26px minmax(0, 1fr); }
-
-/* ── transcript ── */
-
-.english-transcript {
-  margin-top: 16px;
-  padding: 16px 18px;
-  border: 1px solid var(--line-soft);
-  border-radius: 11px;
-  background: var(--surface-sunken);
-}
-
-.ai103-practice-page .english-transcript {
-  border-color: rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.english-transcript h2 {
-  margin: 0 0 10px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.ai103-practice-page .english-transcript h2 { color: rgba(255, 255, 255, 0.5); }
-
-.english-transcript p {
-  margin: 0 0 10px;
-  font-size: 14px;
-  line-height: 1.62;
-  color: var(--text);
-}
-
-.ai103-practice-page .english-transcript p { color: rgba(255, 255, 255, 0.82); }
-
-.english-transcript p:last-child { margin-bottom: 0; }
-
-/* ── dashboard (progress) ── */
-
-.english-dashboard {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 20px;
-  border: 1px solid var(--line-soft);
-  border-radius: 12px;
-  background: var(--surface);
-}
-
-.english-dashboard-header {
-  display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
+  gap: 1.5rem;
+  margin-bottom: 1.75rem;
   flex-wrap: wrap;
 }
 
-.english-dashboard h2 {
+.ybm-header h1 {
+  margin: 0 0 0.35rem;
+  font-size: 1.6rem;
+  color: var(--ybm-text);
+}
+
+.ybm-header p {
   margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--ink);
+  color: var(--ybm-muted);
+  opacity: 0.72;
+  max-width: 46ch;
 }
 
-.english-dashboard p {
-  margin: 0;
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-.english-dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
-}
-
-.english-dashboard-grid--compact {
-  grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
-}
-
-.english-dashboard article {
+.ybm-header-stat {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 14px 16px;
-  border: 1px solid var(--line-soft);
-  border-radius: 10px;
-  background: var(--surface-sunken);
+  align-items: flex-end;
 }
 
-.english-dashboard article > span {
-  order: 1;
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
+.ybm-header-stat strong {
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--ybm-text);
 }
 
-.english-dashboard article strong {
-  order: 2;
-  font-family: var(--font-mono);
-  font-size: 23px;
-  font-weight: 500;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
+.ybm-header-stat span {
+  color: var(--ybm-muted);
+  opacity: 0.72;
+  font-size: 0.85rem;
 }
 
-/* ── target score input ── */
+/* --- test grid --- */
 
-.english-target-input {
+.ybm-test-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.9rem;
+}
+
+.ybm-test-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1rem 1.1rem;
+  text-align: left;
+  font: inherit;
+  background: var(--ybm-card-bg);
+  border: 1px solid var(--ybm-card-border);
+  border-radius: 12px;
+  color: var(--ybm-text);
+  cursor: pointer;
+}
+
+.ybm-test-card:hover:not(.is-disabled) {
+  background: var(--ybm-card-hover);
+  border-color: var(--ybm-accent);
+}
+
+.ybm-test-card.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.ybm-card-top {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 13px;
-  color: var(--text-muted);
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
-.english-target-input input {
-  width: 88px;
-  padding: 9px 10px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: 13px;
+.ybm-card-top strong {
+  font-size: 1.05rem;
+  color: var(--ybm-text);
 }
 
-.english-target-input input:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-wash);
+.ybm-card-meta {
+  font-size: 0.85rem;
+  color: var(--ybm-muted);
+  opacity: 0.72;
 }
 
-/* ── score trend ── */
-
-.english-score-trend {
-  display: flex;
-  align-items: flex-end;
-  gap: 4px;
-  height: 56px;
+.ybm-card-note {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--ybm-muted);
+  opacity: 0.62;
 }
 
-.english-score-trend i {
-  flex: 1;
-  min-width: 6px;
-  border-radius: 2px 2px 0 0;
-  background: var(--accent);
-  opacity: 0.85;
+.ybm-badge {
+  display: inline-block;
+  padding: 0.18rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: var(--ybm-badge-bg);
+  color: var(--ybm-text);
+  white-space: nowrap;
 }
 
-.english-score-trend em {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-style: normal;
-  color: var(--text-muted);
+.ybm-badge--done {
+  background: var(--ybm-done-bg);
+  color: var(--ybm-accent-text);
+}
+
+.ybm-badge--active {
+  background: var(--ybm-active-bg);
+  color: var(--ybm-accent-text);
+}
+
+.ybm-badge--muted {
+  opacity: 0.7;
 }
 
 @media (max-width: 640px) {
-  .english-weakness-row { grid-template-columns: minmax(0, 1fr) 52px; }
-  .english-weakness-row > :nth-child(3) { display: none; }
-  .english-player { flex-wrap: wrap; }
+  .ybm-header {
+    flex-direction: column;
+  }
+
+  .ybm-header-stat {
+    align-items: flex-start;
+  }
 }

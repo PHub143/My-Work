@@ -63,22 +63,6 @@ model PracticeResult {
   @@index([userId, kind])
 }
 
-model ContentSnapshot {
-  id        String   @id @default(cuid())
-  kind      String   @default("english")
-  version   Int      @default(1)
-  status    String   @default("published")
-  checksum  String
-  source    Json?
-  summary   Json
-  payload   Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([kind, checksum])
-  @@index([kind, status, createdAt])
-}
-
 model Tag {
   id    String @id @default(cuid())
   name  String @unique

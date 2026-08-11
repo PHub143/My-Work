@@ -5,7 +5,8 @@
       "name": "allinone-dev-prod",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["--prefix", "allinone", "run", "dev:prod"],
-      "port": 5173
+      "port": 5173,
+      "autoPort": true
     }
   ]
 }

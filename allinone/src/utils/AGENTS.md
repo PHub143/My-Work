@@ -8,15 +8,15 @@ Helper utilities, role logic, and learning module functions.
 |---|---|
 | `roles.js` | Role normalization (`ADMIN`, `STUDENT`), `isAdmin()`, `isStudent()`, `primaryRole()`, `getUserRoles()` |
 | `routeAccess.js` | Path-based access helpers: `isLearningPath()`, `getLoginModeForPath()`, `canRoleAccessPath()` |
-| `learning.js` | Learning module: stats, filtering, practice sessions, question rendering helpers, TOEIC reading/listening test assembly and scoring, grammar drill assembly (`getDrillTopics`, `assembleDrill`) |
+| `learning.js` | Learning module: stats, filtering, practice sessions, question rendering helpers |
 | `learning.test.js` | Tests for `learning.js` using Node's built-in `node:test` and `node:assert/strict` |
-| `vocab.js` | English vocabulary spaced repetition: Leitner boxes, due-card queue, streaks, missed-word mining, localStorage persistence |
-| `vocab.test.js` | Tests for `vocab.js` (injected `now` timestamps) |
-| `progress.js` | English per-tag practice history: accumulates test/drill accuracy per topic, weakest-topics report, localStorage persistence (`english.progress.<userId>`) |
-| `progress.test.js` | Tests for `progress.js` |
+| `ai102.js` | AI-102 content helpers |
+| `ybm.js` | YBM TOEIC: booklet page and audio URLs, option keys, test readiness, attempt persistence (localStorage), scoring |
+| `ybm.test.js` | Tests for `ybm.js`, the manifest, and the answer keys |
+| `toeicScore.js` | Raw-to-scaled TOEIC conversion (5–495 per section, 990 cap) |
 
 ## Test Patterns
 
 - Tests use `node:test` and `node:assert/strict` (Vitest was not introduced).
-- Run tests from `allinone/` with: `node src/utils/learning.test.js`, `node src/utils/vocab.test.js`, and `node src/utils/progress.test.js`
+- Run the whole suite from `allinone/` with `npm test`, or a single file with `node src/utils/learning.test.js`.
 - Follow existing pattern when adding new test suites.
