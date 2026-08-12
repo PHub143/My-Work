@@ -28,8 +28,6 @@ import q32AnswerArea from '../assets/ai103/q32-answer-area.png';
 import q32AnswerAreaBlank from '../assets/ai103/q32-answer-area-blank.png';
 import q37AnswerArea from '../assets/ai103/q37-answer-area.png';
 import q37AnswerAreaBlank from '../assets/ai103/q37-answer-area-blank.png';
-import q40AnswerArea from '../assets/ai103/q40-answer-area.png';
-import q40AnswerAreaBlank from '../assets/ai103/q40-answer-area-blank.png';
 import q49AnswerAreaBlank from '../assets/ai103/q49-answer-area-blank.png';
 import ai103Content from '../data/ai103Content.json';
 import {
@@ -252,13 +250,23 @@ const visualQuestionConfigs = {
     ],
   },
   40: {
-    blankImage: q40AnswerAreaBlank,
-    solvedImage: q40AnswerArea,
     imagePageLabel: 'PDF pages 44, 45',
-    blankAlt:
-      'Question 40 answer area showing dropdown choices for the GitHub Actions authentication method and the outcome when evaluation thresholds are not met.',
-    solvedAlt:
-      'Question 40 answer area showing Azure Login with OpenID Connect and Fail highlighted in the workflow configuration.',
+    hotspotFields: [
+      {
+        label: 'Authentication method:',
+        options: [
+          'A personal access token (PAT)',
+          'A user-assigned managed identity',
+          'An Azure Login action that uses OpenID Connect (OIDC)',
+        ],
+        answer: 'An Azure Login action that uses OpenID Connect (OIDC)',
+      },
+      {
+        label: 'If the evaluation results are NOT met, configure the workflow to:',
+        options: ['Lock the target branch', 'Send an alert', 'Fail'],
+        answer: 'Fail',
+      },
+    ],
     answerRows: [
       { label: 'Authentication method', value: 'An Azure Login action that uses OpenID Connect (OIDC)' },
       { label: 'If the evaluation results are NOT met, configure the workflow to', value: 'Fail' },
@@ -668,10 +676,10 @@ function CaseStudyChoiceQuestionContent({ question }) {
   );
 }
 
-function CodeBlank({ options, answer, revealAnswer }) {
+function OptionSelect({ options, answer, revealAnswer, className }) {
   return (
     <select
-      className={`ai103-code-blank${revealAnswer ? ' is-correct' : ''}`}
+      className={`${className}${revealAnswer ? ' is-correct' : ''}`}
       disabled={revealAnswer}
       defaultValue={revealAnswer ? answer : ''}
       aria-label={revealAnswer ? `Correct value: ${answer}` : `Choose a value: ${options.join(', ')}`}
@@ -703,7 +711,13 @@ function CodeWithBlanks({ template, blanks, revealAnswer }) {
           }
           const blank = blanks[match[1]];
           return (
-            <CodeBlank key={index} options={blank.options} answer={blank.answer} revealAnswer={revealAnswer} />
+            <OptionSelect
+              key={index}
+              options={blank.options}
+              answer={blank.answer}
+              revealAnswer={revealAnswer}
+              className="ai103-code-blank"
+            />
           );
         })}
       </code>
@@ -711,10 +725,50 @@ function CodeWithBlanks({ template, blanks, revealAnswer }) {
   );
 }
 
+function HotspotFields({ fields, revealAnswer }) {
+  return (
+    <dl className="ai103-hotspot-fields">
+      {fields.map((field) => (
+        <div className="ai103-hotspot-field" key={field.label}>
+          <dt>{field.label}</dt>
+          <dd>
+            <OptionSelect
+              options={field.options}
+              answer={field.answer}
+              revealAnswer={revealAnswer}
+              className="ai103-hotspot-blank"
+            />
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+function AnswerAreaContent({ questionConfig, revealAnswer }) {
+  if (questionConfig.codeTemplate) {
+    return (
+      <CodeWithBlanks template={questionConfig.codeTemplate} blanks={questionConfig.codeBlanks} revealAnswer={revealAnswer} />
+    );
+  }
+  if (questionConfig.hotspotFields) {
+    return <HotspotFields fields={questionConfig.hotspotFields} revealAnswer={revealAnswer} />;
+  }
+  return (
+    <img
+      src={revealAnswer ? questionConfig.solvedImage : questionConfig.blankImage}
+      alt={revealAnswer ? questionConfig.solvedAlt : questionConfig.blankAlt}
+      className="ai103-answer-image"
+      style={{ maxWidth: 640 }}
+    />
+  );
+}
+
 function VisualQuestionContent({ question }) {
   const questionParts = getVisualQuestionDisplayParts(question);
   const questionConfig = visualQuestionConfigs[question.number];
   const answerRows = questionParts.answerRows.length > 0 ? questionParts.answerRows : questionConfig.answerRows;
+  const hasInteractiveAnswerArea = Boolean(questionConfig.codeTemplate || questionConfig.hotspotFields);
 
   return (
     <>
@@ -723,34 +777,16 @@ function VisualQuestionContent({ question }) {
       </SectionBlock>
 
       <SectionBlock title={`Answer Area · ${questionConfig.imagePageLabel}`} ariaLabelledBy={`ai103-q${question.number}-answer-area`}>
-        {questionConfig.codeTemplate ? (
-          <CodeWithBlanks template={questionConfig.codeTemplate} blanks={questionConfig.codeBlanks} revealAnswer={false} />
-        ) : (
-          <img
-            src={questionConfig.blankImage}
-            alt={questionConfig.blankAlt}
-            className="ai103-answer-image"
-            style={{ maxWidth: 640 }}
-          />
-        )}
+        <AnswerAreaContent questionConfig={questionConfig} revealAnswer={false} />
       </SectionBlock>
 
-      {questionConfig.codeTemplate || questionConfig.solvedImage ? (
+      {hasInteractiveAnswerArea || questionConfig.solvedImage ? (
         <SectionBlock
           title={`Correct Answer Area · ${questionConfig.imagePageLabel}`}
           ariaLabelledBy={`ai103-q${question.number}-solved-answer-area`}
           className="ai103-section-block--success"
         >
-          {questionConfig.codeTemplate ? (
-            <CodeWithBlanks template={questionConfig.codeTemplate} blanks={questionConfig.codeBlanks} revealAnswer />
-          ) : (
-            <img
-              src={questionConfig.solvedImage}
-              alt={questionConfig.solvedAlt}
-              className="ai103-answer-image"
-              style={{ maxWidth: 640 }}
-            />
-          )}
+          <AnswerAreaContent questionConfig={questionConfig} revealAnswer />
         </SectionBlock>
       ) : null}
 

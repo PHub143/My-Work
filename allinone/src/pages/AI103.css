@@ -594,6 +594,52 @@
   font-weight: 600;
 }
 
+/* ── hotspot label + dropdown fields (real markup, not screenshots) ── */
+
+.ai103-hotspot-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--line-soft);
+  border-radius: 9px;
+  background: var(--surface-sunken);
+}
+
+.ai103-hotspot-field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.ai103-hotspot-field dt {
+  font-size: 14px;
+  color: var(--text);
+}
+
+.ai103-hotspot-field dd {
+  margin: 0;
+  margin-left: auto;
+}
+
+.ai103-hotspot-blank {
+  font-size: 13.5px;
+  padding: 5px 24px 5px 10px;
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text-muted);
+  min-width: 220px;
+}
+
+.ai103-hotspot-blank.is-correct {
+  border: 1px solid var(--positive);
+  color: var(--text);
+  font-weight: 600;
+}
+
 /* ── section blocks (case studies) ── */
 
 .ai103-section-block {
