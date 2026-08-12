@@ -14,7 +14,6 @@ import q7AnswerArea from '../assets/ai103/q7-answer-area.png';
 import q7AnswerAreaBlank from '../assets/ai103/q7-answer-area-blank.png';
 import q8AnswerArea from '../assets/ai103/q8-answer-area.png';
 import q8AnswerAreaBlank from '../assets/ai103/q8-answer-area-blank.png';
-import q9Exhibit from '../assets/ai103/q9-exhibit.png';
 import q11AnswerArea from '../assets/ai103/q11-answer-area.png';
 import q11AnswerAreaBlank from '../assets/ai103/q11-answer-area-blank.png';
 import q14Exhibit from '../assets/ai103/q14-exhibit.png';
@@ -280,11 +279,17 @@ const multipleChoiceQuestionConfigs = {
       'Question 14 code snippet showing the create_and_process run call where the tool_choice parameter must be added.',
   },
   9: {
-    exhibitImage: q9Exhibit,
     exhibitTitle: 'Exhibit',
     exhibitPageLabel: 'PDF page 16',
-    exhibitAlt:
-      'Question 9 exhibit showing a table with the TriageAgent, PolicyAgent, and ActionAgent roles and descriptions.',
+    exhibitInsertAfterParagraph: 1,
+    exhibitTable: {
+      headers: ['Name', 'Description'],
+      rows: [
+        ['TriageAgent', 'Classifies incoming customer requests'],
+        ['PolicyAgent', 'Answers policy questions by searching internal content'],
+        ['ActionAgent', 'Creates or updates tickets by calling an HTTP API'],
+      ],
+    },
   },
 };
 
@@ -490,14 +495,55 @@ function QuestionTwoContent({ question }) {
   );
 }
 
+function ExhibitTable({ headers, rows, caption }) {
+  return (
+    <div className="ai103-exhibit-table-wrap">
+      <table className="ai103-exhibit-table">
+        {caption ? <caption>{caption}</caption> : null}
+        <thead>
+          <tr>
+            {headers.map((header) => (
+              <th key={header} scope="col">
+                {header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row[0]}>
+              {row.map((cell, cellIndex) => (
+                <td key={cellIndex}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function MultipleChoiceQuestionContent({ question }) {
   const questionParts = getChoiceQuestionDisplayParts(question);
   const questionConfig = multipleChoiceQuestionConfigs[question.number];
+  const exhibitTableSplitIndex = questionConfig?.exhibitTable
+    ? Math.min(questionConfig.exhibitInsertAfterParagraph ?? 0, questionParts.promptParagraphs.length)
+    : questionParts.promptParagraphs.length;
+  const promptBeforeExhibit = questionParts.promptParagraphs.slice(0, exhibitTableSplitIndex);
+  const promptAfterExhibit = questionParts.promptParagraphs.slice(exhibitTableSplitIndex);
 
   return (
     <>
       <SectionBlock title="Question" ariaLabelledBy={`ai103-q${question.number}-question`}>
-        <PromptBlock paragraphs={questionParts.promptParagraphs} />
+        <PromptBlock paragraphs={promptBeforeExhibit} />
+        {questionConfig?.exhibitTable ? (
+          <ExhibitTable
+            headers={questionConfig.exhibitTable.headers}
+            rows={questionConfig.exhibitTable.rows}
+            caption={`${questionConfig.exhibitTitle} · ${questionConfig.exhibitPageLabel}`}
+          />
+        ) : null}
+        <PromptBlock paragraphs={promptAfterExhibit} />
       </SectionBlock>
 
       {questionConfig?.exhibitImage ? (
