@@ -545,6 +545,55 @@
   white-space: nowrap;
 }
 
+/* ── exhibit code snippets (real markup, not screenshots) ── */
+
+.ai103-exhibit-code-wrap {
+  margin: 4px 0 14px;
+}
+
+.ai103-exhibit-code-wrap figcaption {
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.ai103-exhibit-code {
+  margin: 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  border: 1px solid var(--line-soft);
+  border-radius: 9px;
+  background: var(--surface-sunken);
+}
+
+.ai103-exhibit-code code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+  white-space: pre;
+}
+
+.ai103-code-blank {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 1px 22px 1px 8px;
+  border: 1px dashed var(--line);
+  border-radius: 5px;
+  background: var(--surface);
+  color: var(--text-muted);
+  vertical-align: baseline;
+}
+
+.ai103-code-blank.is-correct {
+  border: 1px solid var(--positive);
+  color: var(--text);
+  font-weight: 600;
+}
+
 /* ── section blocks (case studies) ── */
 
 .ai103-section-block {

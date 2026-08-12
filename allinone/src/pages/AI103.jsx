@@ -16,7 +16,6 @@ import q8AnswerArea from '../assets/ai103/q8-answer-area.png';
 import q8AnswerAreaBlank from '../assets/ai103/q8-answer-area-blank.png';
 import q11AnswerArea from '../assets/ai103/q11-answer-area.png';
 import q11AnswerAreaBlank from '../assets/ai103/q11-answer-area-blank.png';
-import q14Exhibit from '../assets/ai103/q14-exhibit.png';
 import q15AnswerArea from '../assets/ai103/q15-answer-area.png';
 import q15AnswerAreaBlank from '../assets/ai103/q15-answer-area-blank.png';
 import q18AnswerArea from '../assets/ai103/q18-answer-area.png';
@@ -27,8 +26,6 @@ import q30AnswerArea from '../assets/ai103/q30-answer-area.png';
 import q30AnswerAreaBlank from '../assets/ai103/q30-answer-area-blank.png';
 import q32AnswerArea from '../assets/ai103/q32-answer-area.png';
 import q32AnswerAreaBlank from '../assets/ai103/q32-answer-area-blank.png';
-import q35AnswerArea from '../assets/ai103/q35-answer-area.png';
-import q35AnswerAreaBlank from '../assets/ai103/q35-answer-area-blank.png';
 import q37AnswerArea from '../assets/ai103/q37-answer-area.png';
 import q37AnswerAreaBlank from '../assets/ai103/q37-answer-area-blank.png';
 import q40AnswerArea from '../assets/ai103/q40-answer-area.png';
@@ -220,13 +217,22 @@ const visualQuestionConfigs = {
     ],
   },
   35: {
-    blankImage: q35AnswerAreaBlank,
-    solvedImage: q35AnswerArea,
     imagePageLabel: 'PDF page 40',
-    blankAlt:
-      'Question 35 Python code answer area showing dropdown choices for the temperature value and the output_config effort value before the correct answers are highlighted.',
-    solvedAlt:
-      'Question 35 answer area showing temperature set to 0 and output_config effort set to low.',
+    codeTemplate:
+      'message = client.messages.create(\n' +
+      '    model="deployment-name",\n' +
+      '    messages=[\n' +
+      '        {"role": "user", "content": "Summarize the release notes in 3 bullet points."}\n' +
+      '    ],\n' +
+      '    max_tokens=800,\n' +
+      '    temperature={{temperature}},\n' +
+      '    thinking={"type": "enabled"},\n' +
+      '    output_config={"effort": {{effort}}}\n' +
+      ')',
+    codeBlanks: {
+      temperature: { options: ['0', '1', '2'], answer: '0' },
+      effort: { options: ['"high"', '"low"', '"medium"'], answer: '"low"' },
+    },
     answerRows: [
       { label: 'temperature', value: '0' },
       { label: 'output_config.effort', value: '"low"' },
@@ -272,11 +278,10 @@ const visualQuestionConfigs = {
 
 const multipleChoiceQuestionConfigs = {
   14: {
-    exhibitImage: q14Exhibit,
     exhibitTitle: 'Code Snippet',
     exhibitPageLabel: 'PDF page 21',
-    exhibitAlt:
-      'Question 14 code snippet showing the create_and_process run call where the tool_choice parameter must be added.',
+    exhibitInsertAfterParagraph: 3,
+    exhibitCode: 'run = project_client.agents.runs.create_and_process(\n    thread_id=thread.id,\n    agent_id=agent.id\n)',
   },
   9: {
     exhibitTitle: 'Exhibit',
@@ -523,14 +528,27 @@ function ExhibitTable({ headers, rows, caption }) {
   );
 }
 
+function ExhibitCode({ code, caption }) {
+  return (
+    <figure className="ai103-exhibit-code-wrap">
+      {caption ? <figcaption>{caption}</figcaption> : null}
+      <pre className="ai103-exhibit-code">
+        <code>{code}</code>
+      </pre>
+    </figure>
+  );
+}
+
 function MultipleChoiceQuestionContent({ question }) {
   const questionParts = getChoiceQuestionDisplayParts(question);
   const questionConfig = multipleChoiceQuestionConfigs[question.number];
-  const exhibitTableSplitIndex = questionConfig?.exhibitTable
+  const hasInlineExhibit = Boolean(questionConfig?.exhibitTable || questionConfig?.exhibitCode);
+  const exhibitSplitIndex = hasInlineExhibit
     ? Math.min(questionConfig.exhibitInsertAfterParagraph ?? 0, questionParts.promptParagraphs.length)
     : questionParts.promptParagraphs.length;
-  const promptBeforeExhibit = questionParts.promptParagraphs.slice(0, exhibitTableSplitIndex);
-  const promptAfterExhibit = questionParts.promptParagraphs.slice(exhibitTableSplitIndex);
+  const promptBeforeExhibit = questionParts.promptParagraphs.slice(0, exhibitSplitIndex);
+  const promptAfterExhibit = questionParts.promptParagraphs.slice(exhibitSplitIndex);
+  const exhibitCaption = questionConfig ? `${questionConfig.exhibitTitle} · ${questionConfig.exhibitPageLabel}` : '';
 
   return (
     <>
@@ -540,8 +558,11 @@ function MultipleChoiceQuestionContent({ question }) {
           <ExhibitTable
             headers={questionConfig.exhibitTable.headers}
             rows={questionConfig.exhibitTable.rows}
-            caption={`${questionConfig.exhibitTitle} · ${questionConfig.exhibitPageLabel}`}
+            caption={exhibitCaption}
           />
+        ) : null}
+        {questionConfig?.exhibitCode ? (
+          <ExhibitCode code={questionConfig.exhibitCode} caption={exhibitCaption} />
         ) : null}
         <PromptBlock paragraphs={promptAfterExhibit} />
       </SectionBlock>
@@ -647,6 +668,49 @@ function CaseStudyChoiceQuestionContent({ question }) {
   );
 }
 
+function CodeBlank({ options, answer, revealAnswer }) {
+  return (
+    <select
+      className={`ai103-code-blank${revealAnswer ? ' is-correct' : ''}`}
+      disabled={revealAnswer}
+      defaultValue={revealAnswer ? answer : ''}
+      aria-label={revealAnswer ? `Correct value: ${answer}` : `Choose a value: ${options.join(', ')}`}
+    >
+      {!revealAnswer ? (
+        <option value="" disabled>
+          Select…
+        </option>
+      ) : null}
+      {options.map((option) => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+  );
+}
+
+function CodeWithBlanks({ template, blanks, revealAnswer }) {
+  const parts = template.split(/(\{\{\w+\}\})/g);
+
+  return (
+    <pre className="ai103-exhibit-code">
+      <code>
+        {parts.map((part, index) => {
+          const match = part.match(/^\{\{(\w+)\}\}$/);
+          if (!match) {
+            return part;
+          }
+          const blank = blanks[match[1]];
+          return (
+            <CodeBlank key={index} options={blank.options} answer={blank.answer} revealAnswer={revealAnswer} />
+          );
+        })}
+      </code>
+    </pre>
+  );
+}
+
 function VisualQuestionContent({ question }) {
   const questionParts = getVisualQuestionDisplayParts(question);
   const questionConfig = visualQuestionConfigs[question.number];
@@ -659,26 +723,34 @@ function VisualQuestionContent({ question }) {
       </SectionBlock>
 
       <SectionBlock title={`Answer Area · ${questionConfig.imagePageLabel}`} ariaLabelledBy={`ai103-q${question.number}-answer-area`}>
-        <img
-          src={questionConfig.blankImage}
-          alt={questionConfig.blankAlt}
-          className="ai103-answer-image"
-          style={{ maxWidth: 640 }}
-        />
+        {questionConfig.codeTemplate ? (
+          <CodeWithBlanks template={questionConfig.codeTemplate} blanks={questionConfig.codeBlanks} revealAnswer={false} />
+        ) : (
+          <img
+            src={questionConfig.blankImage}
+            alt={questionConfig.blankAlt}
+            className="ai103-answer-image"
+            style={{ maxWidth: 640 }}
+          />
+        )}
       </SectionBlock>
 
-      {questionConfig.solvedImage ? (
+      {questionConfig.codeTemplate || questionConfig.solvedImage ? (
         <SectionBlock
           title={`Correct Answer Area · ${questionConfig.imagePageLabel}`}
           ariaLabelledBy={`ai103-q${question.number}-solved-answer-area`}
           className="ai103-section-block--success"
         >
-          <img
-            src={questionConfig.solvedImage}
-            alt={questionConfig.solvedAlt}
-            className="ai103-answer-image"
-            style={{ maxWidth: 640 }}
-          />
+          {questionConfig.codeTemplate ? (
+            <CodeWithBlanks template={questionConfig.codeTemplate} blanks={questionConfig.codeBlanks} revealAnswer />
+          ) : (
+            <img
+              src={questionConfig.solvedImage}
+              alt={questionConfig.solvedAlt}
+              className="ai103-answer-image"
+              style={{ maxWidth: 640 }}
+            />
+          )}
         </SectionBlock>
       ) : null}
 
