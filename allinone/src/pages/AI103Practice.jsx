@@ -13,10 +13,8 @@ import q7AnswerArea from '../assets/ai103/q7-answer-area.png';
 import q7AnswerAreaBlank from '../assets/ai103/q7-answer-area-blank.png';
 import q8AnswerArea from '../assets/ai103/q8-answer-area.png';
 import q8AnswerAreaBlank from '../assets/ai103/q8-answer-area-blank.png';
-import q9Exhibit from '../assets/ai103/q9-exhibit.png';
 import q11AnswerArea from '../assets/ai103/q11-answer-area.png';
 import q11AnswerAreaBlank from '../assets/ai103/q11-answer-area-blank.png';
-import q14Exhibit from '../assets/ai103/q14-exhibit.png';
 import q15AnswerArea from '../assets/ai103/q15-answer-area.png';
 import q15AnswerAreaBlank from '../assets/ai103/q15-answer-area-blank.png';
 import q18AnswerArea from '../assets/ai103/q18-answer-area.png';
@@ -27,14 +25,12 @@ import q30AnswerArea from '../assets/ai103/q30-answer-area.png';
 import q30AnswerAreaBlank from '../assets/ai103/q30-answer-area-blank.png';
 import q32AnswerArea from '../assets/ai103/q32-answer-area.png';
 import q32AnswerAreaBlank from '../assets/ai103/q32-answer-area-blank.png';
-import q35AnswerArea from '../assets/ai103/q35-answer-area.png';
-import q35AnswerAreaBlank from '../assets/ai103/q35-answer-area-blank.png';
 import q37AnswerArea from '../assets/ai103/q37-answer-area.png';
 import q37AnswerAreaBlank from '../assets/ai103/q37-answer-area-blank.png';
-import q40AnswerArea from '../assets/ai103/q40-answer-area.png';
-import q40AnswerAreaBlank from '../assets/ai103/q40-answer-area-blank.png';
 import q49AnswerAreaBlank from '../assets/ai103/q49-answer-area-blank.png';
 import ai103Content from '../data/ai103Content.json';
+import { multipleChoiceExhibitConfigs, visualCodeHotspotConfigs } from '../data/ai103ExhibitConfigs';
+import { ExhibitTable, ExhibitCode, CodeWithBlanks, HotspotFields } from './ai103Exhibits';
 import {
   createPracticeSession,
   getPracticeControlConfig,
@@ -57,15 +53,10 @@ const practiceVisualConfigs = {
   20: { blankImage: q20AnswerAreaBlank, solvedImage: q20AnswerArea, label: 'Answer Area' },
   30: { blankImage: q30AnswerAreaBlank, solvedImage: q30AnswerArea, label: 'Answer Area' },
   32: { blankImage: q32AnswerAreaBlank, solvedImage: q32AnswerArea, label: 'Answer Area' },
-  35: { blankImage: q35AnswerAreaBlank, solvedImage: q35AnswerArea, label: 'Answer Area' },
+  35: { label: 'Answer Area' },
   37: { blankImage: q37AnswerAreaBlank, solvedImage: q37AnswerArea, label: 'Answer Area' },
-  40: { blankImage: q40AnswerAreaBlank, solvedImage: q40AnswerArea, label: 'Answer Area' },
+  40: { label: 'Answer Area' },
   49: { blankImage: q49AnswerAreaBlank, solvedImage: null, label: 'Answer Area' },
-};
-
-const practiceExhibitConfigs = {
-  9: { image: q9Exhibit, label: 'Exhibit' },
-  14: { image: q14Exhibit, label: 'Code Snippet' },
 };
 
 function formatDifficulty(difficulty) {
@@ -293,7 +284,8 @@ const AI103Practice = () => {
   const currentParts = currentQuestion ? getPracticeQuestionDisplayParts(currentQuestion) : null;
   const controlConfig = currentQuestion ? getPracticeControlConfig(currentQuestion.number) : null;
   const visualConfig = currentQuestion ? practiceVisualConfigs[currentQuestion.number] : null;
-  const exhibitConfig = currentQuestion ? practiceExhibitConfigs[currentQuestion.number] : null;
+  const exhibitConfig = currentQuestion ? multipleChoiceExhibitConfigs[currentQuestion.number] : null;
+  const codeHotspotConfig = currentQuestion ? visualCodeHotspotConfigs[currentQuestion.number] : null;
   const showAnswerAreaHint = Boolean(visualConfig && session.answerAreaHintsEnabled);
   const answeredCount = session.questions.filter((question) => hasSelection(selections[question.number])).length;
   const results = isSubmitted ? getPracticeSessionResults(session.questions, selections) : null;
@@ -521,9 +513,13 @@ const AI103Practice = () => {
             {exhibitConfig ? (
               <section className="ai103-answer-visual ai103-exhibit-panel">
                 <div className="ai103-answer-visual-header">
-                  <h2>{exhibitConfig.label}</h2>
+                  <h2>{exhibitConfig.exhibitTitle}</h2>
                 </div>
-                <img src={exhibitConfig.image} alt={`Question ${currentQuestion.number} ${exhibitConfig.label}`} />
+                {exhibitConfig.exhibitTable ? (
+                  <ExhibitTable headers={exhibitConfig.exhibitTable.headers} rows={exhibitConfig.exhibitTable.rows} />
+                ) : (
+                  <ExhibitCode code={exhibitConfig.exhibitCode} />
+                )}
               </section>
             ) : null}
 
@@ -532,7 +528,15 @@ const AI103Practice = () => {
                 <div className="ai103-answer-visual-header">
                   <h2>{visualConfig.label}</h2>
                 </div>
-                <img src={visualConfig.blankImage} alt={`Question ${currentQuestion.number} answer area`} />
+                {codeHotspotConfig ? (
+                  codeHotspotConfig.codeTemplate ? (
+                    <CodeWithBlanks template={codeHotspotConfig.codeTemplate} blanks={codeHotspotConfig.codeBlanks} revealAnswer={false} />
+                  ) : (
+                    <HotspotFields fields={codeHotspotConfig.hotspotFields} revealAnswer={false} />
+                  )
+                ) : (
+                  <img src={visualConfig.blankImage} alt={`Question ${currentQuestion.number} answer area`} />
+                )}
               </section>
             ) : null}
 
@@ -559,12 +563,20 @@ const AI103Practice = () => {
                 ) : (
                   <p>This question uses a visual answer area. Compare your written response with the correct answer area and explanation.</p>
                 )}
-                {visualConfig?.solvedImage ? (
+                {visualConfig?.solvedImage || codeHotspotConfig ? (
                   <div className="ai103-answer-visual ai103-answer-visual-solved">
                     <div className="ai103-answer-visual-header">
                       <h2>Correct Answer Area</h2>
                     </div>
-                    <img src={visualConfig.solvedImage} alt={`Question ${currentQuestion.number} correct answer area`} />
+                    {codeHotspotConfig ? (
+                      codeHotspotConfig.codeTemplate ? (
+                        <CodeWithBlanks template={codeHotspotConfig.codeTemplate} blanks={codeHotspotConfig.codeBlanks} revealAnswer />
+                      ) : (
+                        <HotspotFields fields={codeHotspotConfig.hotspotFields} revealAnswer />
+                      )
+                    ) : (
+                      <img src={visualConfig.solvedImage} alt={`Question ${currentQuestion.number} correct answer area`} />
+                    )}
                   </div>
                 ) : null}
                 {currentParts.explanationParagraphs.map((paragraph, index) => (

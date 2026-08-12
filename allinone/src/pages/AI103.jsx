@@ -30,6 +30,8 @@ import q37AnswerArea from '../assets/ai103/q37-answer-area.png';
 import q37AnswerAreaBlank from '../assets/ai103/q37-answer-area-blank.png';
 import q49AnswerAreaBlank from '../assets/ai103/q49-answer-area-blank.png';
 import ai103Content from '../data/ai103Content.json';
+import { multipleChoiceExhibitConfigs, visualCodeHotspotConfigs } from '../data/ai103ExhibitConfigs';
+import { ExhibitTable, ExhibitCode, CodeWithBlanks, HotspotFields } from './ai103Exhibits';
 import {
   getCaseStudyChoiceQuestionDisplayParts,
   getChoiceQuestionDisplayParts,
@@ -216,21 +218,7 @@ const visualQuestionConfigs = {
   },
   35: {
     imagePageLabel: 'PDF page 40',
-    codeTemplate:
-      'message = client.messages.create(\n' +
-      '    model="deployment-name",\n' +
-      '    messages=[\n' +
-      '        {"role": "user", "content": "Summarize the release notes in 3 bullet points."}\n' +
-      '    ],\n' +
-      '    max_tokens=800,\n' +
-      '    temperature={{temperature}},\n' +
-      '    thinking={"type": "enabled"},\n' +
-      '    output_config={"effort": {{effort}}}\n' +
-      ')',
-    codeBlanks: {
-      temperature: { options: ['0', '1', '2'], answer: '0' },
-      effort: { options: ['"high"', '"low"', '"medium"'], answer: '"low"' },
-    },
+    ...visualCodeHotspotConfigs[35],
     answerRows: [
       { label: 'temperature', value: '0' },
       { label: 'output_config.effort', value: '"low"' },
@@ -251,22 +239,7 @@ const visualQuestionConfigs = {
   },
   40: {
     imagePageLabel: 'PDF pages 44, 45',
-    hotspotFields: [
-      {
-        label: 'Authentication method:',
-        options: [
-          'A personal access token (PAT)',
-          'A user-assigned managed identity',
-          'An Azure Login action that uses OpenID Connect (OIDC)',
-        ],
-        answer: 'An Azure Login action that uses OpenID Connect (OIDC)',
-      },
-      {
-        label: 'If the evaluation results are NOT met, configure the workflow to:',
-        options: ['Lock the target branch', 'Send an alert', 'Fail'],
-        answer: 'Fail',
-      },
-    ],
+    ...visualCodeHotspotConfigs[40],
     answerRows: [
       { label: 'Authentication method', value: 'An Azure Login action that uses OpenID Connect (OIDC)' },
       { label: 'If the evaluation results are NOT met, configure the workflow to', value: 'Fail' },
@@ -284,27 +257,7 @@ const visualQuestionConfigs = {
   },
 };
 
-const multipleChoiceQuestionConfigs = {
-  14: {
-    exhibitTitle: 'Code Snippet',
-    exhibitPageLabel: 'PDF page 21',
-    exhibitInsertAfterParagraph: 3,
-    exhibitCode: 'run = project_client.agents.runs.create_and_process(\n    thread_id=thread.id,\n    agent_id=agent.id\n)',
-  },
-  9: {
-    exhibitTitle: 'Exhibit',
-    exhibitPageLabel: 'PDF page 16',
-    exhibitInsertAfterParagraph: 1,
-    exhibitTable: {
-      headers: ['Name', 'Description'],
-      rows: [
-        ['TriageAgent', 'Classifies incoming customer requests'],
-        ['PolicyAgent', 'Answers policy questions by searching internal content'],
-        ['ActionAgent', 'Creates or updates tickets by calling an HTTP API'],
-      ],
-    },
-  },
-};
+const multipleChoiceQuestionConfigs = multipleChoiceExhibitConfigs;
 
 function AnswerSummaryRows({ rows }) {
   if (!rows?.length) {
@@ -508,45 +461,6 @@ function QuestionTwoContent({ question }) {
   );
 }
 
-function ExhibitTable({ headers, rows, caption }) {
-  return (
-    <div className="ai103-exhibit-table-wrap">
-      <table className="ai103-exhibit-table">
-        {caption ? <caption>{caption}</caption> : null}
-        <thead>
-          <tr>
-            {headers.map((header) => (
-              <th key={header} scope="col">
-                {header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr key={row[0]}>
-              {row.map((cell, cellIndex) => (
-                <td key={cellIndex}>{cell}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-function ExhibitCode({ code, caption }) {
-  return (
-    <figure className="ai103-exhibit-code-wrap">
-      {caption ? <figcaption>{caption}</figcaption> : null}
-      <pre className="ai103-exhibit-code">
-        <code>{code}</code>
-      </pre>
-    </figure>
-  );
-}
-
 function MultipleChoiceQuestionContent({ question }) {
   const questionParts = getChoiceQuestionDisplayParts(question);
   const questionConfig = multipleChoiceQuestionConfigs[question.number];
@@ -673,75 +587,6 @@ function CaseStudyChoiceQuestionContent({ question }) {
       <AnswerBlock selections={questionParts.answerSelections} />
       <ExplanationBlock paragraphs={questionParts.explanationParagraphs} />
     </>
-  );
-}
-
-function OptionSelect({ options, answer, revealAnswer, className }) {
-  return (
-    <select
-      className={`${className}${revealAnswer ? ' is-correct' : ''}`}
-      disabled={revealAnswer}
-      defaultValue={revealAnswer ? answer : ''}
-      aria-label={revealAnswer ? `Correct value: ${answer}` : `Choose a value: ${options.join(', ')}`}
-    >
-      {!revealAnswer ? (
-        <option value="" disabled>
-          Select…
-        </option>
-      ) : null}
-      {options.map((option) => (
-        <option key={option} value={option}>
-          {option}
-        </option>
-      ))}
-    </select>
-  );
-}
-
-function CodeWithBlanks({ template, blanks, revealAnswer }) {
-  const parts = template.split(/(\{\{\w+\}\})/g);
-
-  return (
-    <pre className="ai103-exhibit-code">
-      <code>
-        {parts.map((part, index) => {
-          const match = part.match(/^\{\{(\w+)\}\}$/);
-          if (!match) {
-            return part;
-          }
-          const blank = blanks[match[1]];
-          return (
-            <OptionSelect
-              key={index}
-              options={blank.options}
-              answer={blank.answer}
-              revealAnswer={revealAnswer}
-              className="ai103-code-blank"
-            />
-          );
-        })}
-      </code>
-    </pre>
-  );
-}
-
-function HotspotFields({ fields, revealAnswer }) {
-  return (
-    <dl className="ai103-hotspot-fields">
-      {fields.map((field) => (
-        <div className="ai103-hotspot-field" key={field.label}>
-          <dt>{field.label}</dt>
-          <dd>
-            <OptionSelect
-              options={field.options}
-              answer={field.answer}
-              revealAnswer={revealAnswer}
-              className="ai103-hotspot-blank"
-            />
-          </dd>
-        </div>
-      ))}
-    </dl>
   );
 }
 
