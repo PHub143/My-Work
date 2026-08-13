@@ -231,68 +231,49 @@
 
 .ai103-pagination-controls button:disabled { opacity: 0.4; }
 
-.ai103-pagination-controls span {
+.ai103-pagination-count {
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--text-muted);
   white-space: nowrap;
 }
 
-/* ── layout: index rail + question column ── */
-
-.ai103-layout {
-  display: grid;
-  grid-template-columns: 64px minmax(0, 1fr);
-  gap: 24px;
-  align-items: start;
-}
-
-.ai103-page-index {
-  position: sticky;
-  top: 16px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 4px;
-  max-height: calc(100vh - 48px);
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.ai103-page-index button {
-  padding: 0;
-  height: 28px;
-  border: 1px solid var(--line-soft);
-  border-radius: 6px;
+.ai103-question-select {
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
   background: var(--surface);
-  color: var(--text-muted);
+  color: var(--text);
+  font: inherit;
+  font-size: 12.5px;
   font-family: var(--font-mono);
-  font-size: 11.5px;
   box-shadow: none;
+  max-width: 180px;
 }
 
-.ai103-page-index button:hover,
-.ai103-page-index button:focus-visible {
+.ai103-question-select:hover,
+.ai103-question-select:focus-visible {
   background: var(--hover-bg);
   color: var(--ink);
-  transform: none;
 }
 
-.ai103-page-index button.active {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--surface);
+.ai103-question-select optgroup,
+.ai103-question-select option {
+  background: var(--surface);
+  color: var(--text);
 }
 
-.ai103-page-index button.deprecated {
-  border-color: var(--warning);
-  color: var(--warning);
+/* ── layout: question column ── */
+
+.ai103-layout {
+  display: block;
 }
 
 .ai103-page-list { min-width: 0; }
 
 .ai103-page-card,
 [data-theme='light'] .ai103-page-card {
-  max-width: var(--col-read, 780px);
+  max-width: 1040px;
   padding: 26px 28px 22px;
   border: 1px solid var(--line-soft);
   border-radius: 14px;
@@ -745,6 +726,19 @@
 .ai103-page-footer-links { display: flex; gap: 14px; }
 .ai103-page-footer a { color: var(--accent-ink); }
 
+.ai103-link-button {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: var(--accent-ink);
+  cursor: pointer;
+  box-shadow: none;
+  transform: none;
+}
+
+.ai103-link-button:hover { text-decoration: underline; }
+
 .ai103-empty-state {
   display: flex;
   flex-direction: column;
@@ -1067,7 +1061,7 @@
 .ai103-practice-card,
 .ai103-practice-page .ai103-page-card,
 [data-theme='light'] .ai103-practice-page .ai103-page-card {
-  max-width: var(--col-read, 780px);
+  max-width: 1040px;
   padding: 26px 28px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 14px;
@@ -1667,14 +1661,6 @@
 /* ──────────────────────────── responsive ──────────────────────────── */
 
 @media (max-width: 1000px) {
-  .ai103-layout { grid-template-columns: 1fr; }
-
-  .ai103-page-index {
-    position: static;
-    grid-template-columns: repeat(auto-fill, minmax(34px, 1fr));
-    max-height: none;
-  }
-
   .ai103-practice-shell { grid-template-columns: 1fr; }
 
   .ai103-practice-rail {

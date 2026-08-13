@@ -252,7 +252,12 @@ const AI102 = () => {
           </section>
         </div>
 
-        <footer className="ai103-page-footer"><span>© 2026 · AI-102 study material</span><a href="#top">Back to top</a></footer>
+        <footer className="ai103-page-footer">
+          <span>© 2026 · AI-102 study material</span>
+          <button type="button" className="ai103-link-button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            Back to top
+          </button>
+        </footer>
       </div>
     </div>
   );

@@ -1045,12 +1045,24 @@ const AI103 = () => {
   const questionCount = ai103Content.questionCount || questions.length;
 
   const visibleQuestion = pagination.currentQuestion;
+  const indexGroups = useMemo(() => {
+    const groups = new Map();
+    questions.forEach((question) => {
+      const start = Math.floor((question.number - 1) / 10) * 10 + 1;
+      if (!groups.has(start)) groups.set(start, []);
+      groups.get(start).push(question);
+    });
+    return Array.from(groups.entries())
+      .sort(([a], [b]) => a - b)
+      .map(([start, groupQuestions]) => ({ start, end: start + 9, questions: groupQuestions }));
+  }, [questions]);
+  const goToQuestion = (number) => {
+    if (!number) return;
+    setSelectedQuestionNumber(number);
+  };
   const promptParagraphs = visibleQuestion ? splitPageText(visibleQuestion.prompt) : [];
   const answerParagraphs = visibleQuestion ? splitPageText(visibleQuestion.answer) : [];
   const explanationParagraphs = visibleQuestion ? splitPageText(visibleQuestion.explanation) : [];
-  const paginationLabel = visibleQuestion
-    ? `Question ${visibleQuestion.number} (${pagination.currentIndex + 1} / ${pagination.total})`
-    : 'No question';
   const originalQuestionCount = questions.filter((question) => question.number <= 65).length;
   const scopes = [
     { id: 'all', label: `All ${questions.length}`, detail: `Full bank, including ${questions.length - originalQuestionCount} newer Skills Measured questions` },
@@ -1140,15 +1152,31 @@ const AI103 = () => {
             <div className="ai103-pagination-controls" aria-label="Question pagination">
               <button
                 type="button"
-                onClick={() => setSelectedQuestionNumber(pagination.previousNumber)}
+                onClick={() => goToQuestion(pagination.previousNumber)}
                 disabled={!pagination.previousNumber}
               >
                 ← Previous
               </button>
-              <span>{paginationLabel}</span>
+              <select
+                className="ai103-question-select"
+                value={visibleQuestion?.number || ''}
+                onChange={(event) => goToQuestion(Number(event.target.value))}
+                aria-label="Jump to question"
+              >
+                {indexGroups.map((group) => (
+                  <optgroup label={`${group.start}–${group.end}`} key={group.start}>
+                    {group.questions.map((question) => (
+                      <option key={question.number} value={question.number}>
+                        Question {question.number}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+              <span className="ai103-pagination-count">{pagination.currentIndex + 1} / {pagination.total}</span>
               <button
                 type="button"
-                onClick={() => setSelectedQuestionNumber(pagination.nextNumber)}
+                onClick={() => goToQuestion(pagination.nextNumber)}
                 disabled={!pagination.nextNumber}
               >
                 Next →
@@ -1158,21 +1186,6 @@ const AI103 = () => {
         </section>
 
         <div className="ai103-layout">
-          <aside className="ai103-page-index" aria-label="AI-103 question index">
-            {filteredQuestions.map((question) => (
-              <button
-                key={question.number}
-                type="button"
-                className={question.number === visibleQuestion?.number ? 'active' : ''}
-                onClick={() => setSelectedQuestionNumber(question.number)}
-                aria-current={question.number === visibleQuestion?.number ? 'page' : undefined}
-                aria-label={`Go to question ${question.number}`}
-              >
-                {question.number}
-              </button>
-            ))}
-          </aside>
-
           <section className="ai103-page-list" aria-label="AI-103 question content">
             {visibleQuestion ? (
               <article className="ai103-page-card" id={`ai103-question-${visibleQuestion.number}`} key={visibleQuestion.number}>
@@ -1245,7 +1258,9 @@ const AI103 = () => {
           <span>© 2026 · AI-103 study material</span>
           <div className="ai103-page-footer-links">
             <a href={ai103Content.sourceUrl} target="_blank" rel="noreferrer">Source</a>
-            <a href="#top">Back to top</a>
+            <button type="button" className="ai103-link-button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              Back to top
+            </button>
           </div>
         </footer>
       </div>
