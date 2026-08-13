@@ -908,6 +908,11 @@ export function getCaseStudyChoiceQuestionDisplayParts(question) {
       continue;
     }
 
+    if (optionLines.length > 0) {
+      optionLines[optionLines.length - 1] += ` ${line}`;
+      continue;
+    }
+
     if (line.startsWith('You need to') || line.startsWith('What should') || line.startsWith('Which ')) {
       flushSection();
       isFinalPrompt = true;
@@ -968,6 +973,8 @@ export function getChoiceQuestionDisplayParts(question) {
     }
     if (optionLines.length === 0) {
       promptLines.push(line);
+    } else {
+      optionLines[optionLines.length - 1] += ` ${line}`;
     }
   }
 
@@ -1000,6 +1007,11 @@ export function getQuestionTwentyOneDisplayParts(question) {
     if (OPTION_LINE_PATTERN.test(line)) {
       optionLines.push(line);
       section = 'options';
+      return;
+    }
+
+    if (section === 'options') {
+      optionLines[optionLines.length - 1] += ` ${line}`;
       return;
     }
 
@@ -1088,6 +1100,11 @@ export function getPracticeQuestionDisplayParts(question) {
   extracted.lines.forEach((line) => {
     if (OPTION_LINE_PATTERN.test(line)) {
       optionLines.push(line);
+      return;
+    }
+
+    if (optionLines.length > 0) {
+      optionLines[optionLines.length - 1] += ` ${line}`;
       return;
     }
 

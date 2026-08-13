@@ -14,10 +14,8 @@ import q7AnswerArea from '../assets/ai103/q7-answer-area.png';
 import q7AnswerAreaBlank from '../assets/ai103/q7-answer-area-blank.png';
 import q8AnswerArea from '../assets/ai103/q8-answer-area.png';
 import q8AnswerAreaBlank from '../assets/ai103/q8-answer-area-blank.png';
-import q9Exhibit from '../assets/ai103/q9-exhibit.png';
 import q11AnswerArea from '../assets/ai103/q11-answer-area.png';
 import q11AnswerAreaBlank from '../assets/ai103/q11-answer-area-blank.png';
-import q14Exhibit from '../assets/ai103/q14-exhibit.png';
 import q15AnswerArea from '../assets/ai103/q15-answer-area.png';
 import q15AnswerAreaBlank from '../assets/ai103/q15-answer-area-blank.png';
 import q18AnswerArea from '../assets/ai103/q18-answer-area.png';
@@ -28,14 +26,12 @@ import q30AnswerArea from '../assets/ai103/q30-answer-area.png';
 import q30AnswerAreaBlank from '../assets/ai103/q30-answer-area-blank.png';
 import q32AnswerArea from '../assets/ai103/q32-answer-area.png';
 import q32AnswerAreaBlank from '../assets/ai103/q32-answer-area-blank.png';
-import q35AnswerArea from '../assets/ai103/q35-answer-area.png';
-import q35AnswerAreaBlank from '../assets/ai103/q35-answer-area-blank.png';
 import q37AnswerArea from '../assets/ai103/q37-answer-area.png';
 import q37AnswerAreaBlank from '../assets/ai103/q37-answer-area-blank.png';
-import q40AnswerArea from '../assets/ai103/q40-answer-area.png';
-import q40AnswerAreaBlank from '../assets/ai103/q40-answer-area-blank.png';
 import q49AnswerAreaBlank from '../assets/ai103/q49-answer-area-blank.png';
 import ai103Content from '../data/ai103Content.json';
+import { multipleChoiceExhibitConfigs, visualCodeHotspotConfigs } from '../data/ai103ExhibitConfigs';
+import { ExhibitTable, ExhibitCode, CodeWithBlanks, HotspotFields } from './ai103Exhibits';
 import {
   getCaseStudyChoiceQuestionDisplayParts,
   getChoiceQuestionDisplayParts,
@@ -221,13 +217,8 @@ const visualQuestionConfigs = {
     ],
   },
   35: {
-    blankImage: q35AnswerAreaBlank,
-    solvedImage: q35AnswerArea,
     imagePageLabel: 'PDF page 40',
-    blankAlt:
-      'Question 35 Python code answer area showing dropdown choices for the temperature value and the output_config effort value before the correct answers are highlighted.',
-    solvedAlt:
-      'Question 35 answer area showing temperature set to 0 and output_config effort set to low.',
+    ...visualCodeHotspotConfigs[35],
     answerRows: [
       { label: 'temperature', value: '0' },
       { label: 'output_config.effort', value: '"low"' },
@@ -247,13 +238,8 @@ const visualQuestionConfigs = {
     ],
   },
   40: {
-    blankImage: q40AnswerAreaBlank,
-    solvedImage: q40AnswerArea,
     imagePageLabel: 'PDF pages 44, 45',
-    blankAlt:
-      'Question 40 answer area showing dropdown choices for the GitHub Actions authentication method and the outcome when evaluation thresholds are not met.',
-    solvedAlt:
-      'Question 40 answer area showing Azure Login with OpenID Connect and Fail highlighted in the workflow configuration.',
+    ...visualCodeHotspotConfigs[40],
     answerRows: [
       { label: 'Authentication method', value: 'An Azure Login action that uses OpenID Connect (OIDC)' },
       { label: 'If the evaluation results are NOT met, configure the workflow to', value: 'Fail' },
@@ -271,22 +257,7 @@ const visualQuestionConfigs = {
   },
 };
 
-const multipleChoiceQuestionConfigs = {
-  14: {
-    exhibitImage: q14Exhibit,
-    exhibitTitle: 'Code Snippet',
-    exhibitPageLabel: 'PDF page 21',
-    exhibitAlt:
-      'Question 14 code snippet showing the create_and_process run call where the tool_choice parameter must be added.',
-  },
-  9: {
-    exhibitImage: q9Exhibit,
-    exhibitTitle: 'Exhibit',
-    exhibitPageLabel: 'PDF page 16',
-    exhibitAlt:
-      'Question 9 exhibit showing a table with the TriageAgent, PolicyAgent, and ActionAgent roles and descriptions.',
-  },
-};
+const multipleChoiceQuestionConfigs = multipleChoiceExhibitConfigs;
 
 function AnswerSummaryRows({ rows }) {
   if (!rows?.length) {
@@ -493,11 +464,29 @@ function QuestionTwoContent({ question }) {
 function MultipleChoiceQuestionContent({ question }) {
   const questionParts = getChoiceQuestionDisplayParts(question);
   const questionConfig = multipleChoiceQuestionConfigs[question.number];
+  const hasInlineExhibit = Boolean(questionConfig?.exhibitTable || questionConfig?.exhibitCode);
+  const exhibitSplitIndex = hasInlineExhibit
+    ? Math.min(questionConfig.exhibitInsertAfterParagraph ?? 0, questionParts.promptParagraphs.length)
+    : questionParts.promptParagraphs.length;
+  const promptBeforeExhibit = questionParts.promptParagraphs.slice(0, exhibitSplitIndex);
+  const promptAfterExhibit = questionParts.promptParagraphs.slice(exhibitSplitIndex);
+  const exhibitCaption = questionConfig ? `${questionConfig.exhibitTitle} · ${questionConfig.exhibitPageLabel}` : '';
 
   return (
     <>
       <SectionBlock title="Question" ariaLabelledBy={`ai103-q${question.number}-question`}>
-        <PromptBlock paragraphs={questionParts.promptParagraphs} />
+        <PromptBlock paragraphs={promptBeforeExhibit} />
+        {questionConfig?.exhibitTable ? (
+          <ExhibitTable
+            headers={questionConfig.exhibitTable.headers}
+            rows={questionConfig.exhibitTable.rows}
+            caption={exhibitCaption}
+          />
+        ) : null}
+        {questionConfig?.exhibitCode ? (
+          <ExhibitCode code={questionConfig.exhibitCode} caption={exhibitCaption} />
+        ) : null}
+        <PromptBlock paragraphs={promptAfterExhibit} />
       </SectionBlock>
 
       {questionConfig?.exhibitImage ? (
@@ -601,10 +590,30 @@ function CaseStudyChoiceQuestionContent({ question }) {
   );
 }
 
+function AnswerAreaContent({ questionConfig, revealAnswer }) {
+  if (questionConfig.codeTemplate) {
+    return (
+      <CodeWithBlanks template={questionConfig.codeTemplate} blanks={questionConfig.codeBlanks} revealAnswer={revealAnswer} />
+    );
+  }
+  if (questionConfig.hotspotFields) {
+    return <HotspotFields fields={questionConfig.hotspotFields} revealAnswer={revealAnswer} />;
+  }
+  return (
+    <img
+      src={revealAnswer ? questionConfig.solvedImage : questionConfig.blankImage}
+      alt={revealAnswer ? questionConfig.solvedAlt : questionConfig.blankAlt}
+      className="ai103-answer-image"
+      style={{ maxWidth: 640 }}
+    />
+  );
+}
+
 function VisualQuestionContent({ question }) {
   const questionParts = getVisualQuestionDisplayParts(question);
   const questionConfig = visualQuestionConfigs[question.number];
   const answerRows = questionParts.answerRows.length > 0 ? questionParts.answerRows : questionConfig.answerRows;
+  const hasInteractiveAnswerArea = Boolean(questionConfig.codeTemplate || questionConfig.hotspotFields);
 
   return (
     <>
@@ -613,26 +622,16 @@ function VisualQuestionContent({ question }) {
       </SectionBlock>
 
       <SectionBlock title={`Answer Area · ${questionConfig.imagePageLabel}`} ariaLabelledBy={`ai103-q${question.number}-answer-area`}>
-        <img
-          src={questionConfig.blankImage}
-          alt={questionConfig.blankAlt}
-          className="ai103-answer-image"
-          style={{ maxWidth: 640 }}
-        />
+        <AnswerAreaContent questionConfig={questionConfig} revealAnswer={false} />
       </SectionBlock>
 
-      {questionConfig.solvedImage ? (
+      {hasInteractiveAnswerArea || questionConfig.solvedImage ? (
         <SectionBlock
           title={`Correct Answer Area · ${questionConfig.imagePageLabel}`}
           ariaLabelledBy={`ai103-q${question.number}-solved-answer-area`}
           className="ai103-section-block--success"
         >
-          <img
-            src={questionConfig.solvedImage}
-            alt={questionConfig.solvedAlt}
-            className="ai103-answer-image"
-            style={{ maxWidth: 640 }}
-          />
+          <AnswerAreaContent questionConfig={questionConfig} revealAnswer />
         </SectionBlock>
       ) : null}
 
