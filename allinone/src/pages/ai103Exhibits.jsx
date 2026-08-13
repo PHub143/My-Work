@@ -91,6 +91,36 @@ export function CodeWithBlanks({ template, blanks, revealAnswer }) {
   );
 }
 
+const URL_SPLIT_PATTERN = /(https?:\/\/\S+)/g;
+const URL_TEST_PATTERN = /^https?:\/\//;
+
+export function ReferenceLinks({ references, headingId }) {
+  if (!references?.length) {
+    return null;
+  }
+
+  return (
+    <section className="ai103-references" aria-labelledby={headingId}>
+      <h3 id={headingId}>References</h3>
+      <ul className="ai103-references-list">
+        {references.map((reference, index) => (
+          <li key={`reference-${index}`}>
+            {reference.split(URL_SPLIT_PATTERN).map((part, partIndex) =>
+              URL_TEST_PATTERN.test(part) ? (
+                <a key={partIndex} href={part} target="_blank" rel="noopener noreferrer">
+                  {part}
+                </a>
+              ) : (
+                part
+              ),
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 export function HotspotFields({ fields, revealAnswer }) {
   return (
     <dl className="ai103-hotspot-fields">

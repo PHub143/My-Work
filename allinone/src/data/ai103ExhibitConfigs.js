@@ -43,7 +43,7 @@ export const visualCodeHotspotConfigs = {
       '    output_config={"effort": {{effort}}}\n' +
       ')',
     codeBlanks: {
-      temperature: { options: ['0', '1', '2'], answer: '0' },
+      temperature: { options: ['0', '1', '2'], answer: '1' },
       effort: { options: ['"high"', '"low"', '"medium"'], answer: '"low"' },
     },
   },

@@ -270,7 +270,7 @@ test('getPracticeControlConfig exposes question 1 dropdown controls and correct 
   assert.equal(config.type, 'dropdowns');
   assert.deepEqual(config.correct, {
     deploymentType: 'Standard',
-    versionUpdatePolicy: 'Opt out of automatic model version upgrades',
+    versionUpdatePolicy: 'Once the current version expires',
   });
   assert.deepEqual(config.controls.map((control) => control.id), [
     'deploymentType',
@@ -308,7 +308,7 @@ test('getPracticeControlConfig exposes question 4 yes-no radio controls and corr
 
 test('getPracticeControlConfig covers every visual answer-area question with structured controls', () => {
   const expectedCorrectAnswers = {
-    1: ['Standard', 'Opt out of automatic model version upgrades'],
+    1: ['Standard', 'Once the current version expires'],
     4: ['No', 'Yes', 'No'],
     5: ['Single-file task in standard mode', 'Multi-file task in pro mode'],
     6: ['DefaultAzureCredential', 'create'],
@@ -319,16 +319,16 @@ test('getPracticeControlConfig covers every visual answer-area question with str
     ],
     11: ['ask_question', 'approval == "approved"'],
     15: ['Groundedness evaluation metrics', 'Risk and safety metrics'],
-    18: ['Time To Response and Total Tokens', 'RequestResponse'],
+    18: ['Model Availability Rate and Provisioned Utilization', 'RequestResponse'],
     20: ['required', 'Using a distinct agent identity bound to the client application'],
     30: ['"tool_choice"', '"required"'],
     32: ['Grounding with Bing Search', 'Code interpreter', 'File search'],
-    35: ['0', '"low"'],
+    35: ['1', '"low"'],
     37: ['Agent memory that uses persistent storage', 'File search tool'],
     40: ['An Azure Login action that uses OpenID Connect (OIDC)', 'Fail'],
     49: [
       'Set action to block.',
-      'Use optical character recognition (OCR) to extract the text from the images first.',
+      'Enable Spotlighting.',
     ],
   };
 
@@ -376,7 +376,7 @@ test('getPracticeSessionResults scores structured visual controls for questions 
   const results = getPracticeSessionResults(questions, {
     1: {
       deploymentType: 'Standard',
-      versionUpdatePolicy: 'Opt out of automatic model version upgrades',
+      versionUpdatePolicy: 'Once the current version expires',
     },
     4: {
       langchainAppearsWithoutTracer: 'No',
@@ -385,7 +385,7 @@ test('getPracticeSessionResults scores structured visual controls for questions 
     },
     49: {
       promptShieldsAction: 'Set action to block.',
-      additionalMitigation: 'Use optical character recognition (OCR) to extract the text from the images first.',
+      additionalMitigation: 'Enable Spotlighting.',
     },
   });
 
@@ -393,11 +393,11 @@ test('getPracticeSessionResults scores structured visual controls for questions 
   assert.equal(results.totalQuestions, 3);
   assert.equal(results.scorePercent, 100);
   assert.deepEqual(results.items.map((item) => item.correct), [
-    ['Standard', 'Opt out of automatic model version upgrades'],
+    ['Standard', 'Once the current version expires'],
     ['No', 'Yes', 'No'],
     [
       'Set action to block.',
-      'Use optical character recognition (OCR) to extract the text from the images first.',
+      'Enable Spotlighting.',
     ],
   ]);
 });
@@ -460,8 +460,8 @@ test('getQuestionOneDisplayParts preserves the case study structure and answer s
     explanation: [
       'Standard .',
       'A Standard deployment uses a pay-as-you-go model.',
-      'Opt out of automatic model version upgrades .',
-      'This keeps the deployment on the selected model version until administrators manually upgrade it.',
+      'Once the current version expires .',
+      'This keeps the deployment on the selected model version until it reaches its retirement date.',
     ].join('\n'),
   };
 
@@ -486,7 +486,7 @@ test('getQuestionOneDisplayParts preserves the case study structure and answer s
   ]);
   assert.deepEqual(parts.answerSelections, [
     'Standard',
-    'Opt out of automatic model version upgrades',
+    'Once the current version expires',
   ]);
 });
 

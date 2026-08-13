@@ -427,6 +427,7 @@
 .ai103-answer-block h3,
 .ai103-explanation-block h3,
 .ai103-explanation h3,
+.ai103-references h3,
 .ai103-section-block h3 {
   margin: 0 0 12px;
   font-size: 11px;
@@ -474,6 +475,35 @@
 }
 
 .ai103-explanation p:last-child { margin-bottom: 0; }
+
+.ai103-references {
+  padding: 18px;
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.ai103-references-list {
+  margin: 0;
+  padding: 0 0 0 18px;
+  list-style: decimal;
+}
+
+.ai103-references-list li {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.ai103-references-list li:last-child { margin-bottom: 0; }
+
+.ai103-references-list a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  word-break: break-word;
+}
 
 .ai103-illustration { margin: 14px 0 0; }
 

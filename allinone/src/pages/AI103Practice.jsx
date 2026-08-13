@@ -28,9 +28,52 @@ import q32AnswerAreaBlank from '../assets/ai103/q32-answer-area-blank.png';
 import q37AnswerArea from '../assets/ai103/q37-answer-area.png';
 import q37AnswerAreaBlank from '../assets/ai103/q37-answer-area-blank.png';
 import q49AnswerAreaBlank from '../assets/ai103/q49-answer-area-blank.png';
+import q66AnswerArea from '../assets/ai103/q66-answer-area.png';
+import q66AnswerAreaBlank from '../assets/ai103/q66-answer-area-blank.png';
+import q68AnswerArea from '../assets/ai103/q68-answer-area.png';
+import q68AnswerAreaBlank from '../assets/ai103/q68-answer-area-blank.png';
+import q71AnswerArea from '../assets/ai103/q71-answer-area.png';
+import q71AnswerAreaBlank from '../assets/ai103/q71-answer-area-blank.png';
+import q79AnswerArea from '../assets/ai103/q79-answer-area.png';
+import q79AnswerAreaBlank from '../assets/ai103/q79-answer-area-blank.png';
+import q86AnswerArea from '../assets/ai103/q86-answer-area.png';
+import q86AnswerAreaBlank from '../assets/ai103/q86-answer-area-blank.png';
+import q92AnswerArea from '../assets/ai103/q92-answer-area.png';
+import q92AnswerAreaBlank from '../assets/ai103/q92-answer-area-blank.png';
+import q93AnswerArea from '../assets/ai103/q93-answer-area.png';
+import q93AnswerAreaBlank from '../assets/ai103/q93-answer-area-blank.png';
+import q94AnswerArea from '../assets/ai103/q94-answer-area.png';
+import q94AnswerAreaBlank from '../assets/ai103/q94-answer-area-blank.png';
+import q95AnswerArea from '../assets/ai103/q95-answer-area.png';
+import q95AnswerAreaBlank from '../assets/ai103/q95-answer-area-blank.png';
+import q98AnswerArea from '../assets/ai103/q98-answer-area.png';
+import q98AnswerAreaBlank from '../assets/ai103/q98-answer-area-blank.png';
+import q99AnswerArea from '../assets/ai103/q99-answer-area.png';
+import q99AnswerAreaBlank from '../assets/ai103/q99-answer-area-blank.png';
+import q101Exhibit from '../assets/ai103/q101-exhibit.png';
+import q101AnswerArea from '../assets/ai103/q101-answer-area.png';
+import q101AnswerAreaBlank from '../assets/ai103/q101-answer-area-blank.png';
+import q103AnswerArea from '../assets/ai103/q103-answer-area.png';
+import q103AnswerAreaBlank from '../assets/ai103/q103-answer-area-blank.png';
+import q104AnswerArea from '../assets/ai103/q104-answer-area.png';
+import q104AnswerAreaBlank from '../assets/ai103/q104-answer-area-blank.png';
+import q107Exhibit from '../assets/ai103/q107-exhibit.png';
+import q107AnswerArea from '../assets/ai103/q107-answer-area.png';
+import q107AnswerAreaBlank from '../assets/ai103/q107-answer-area-blank.png';
+import q108AnswerArea from '../assets/ai103/q108-answer-area.png';
+import q108AnswerAreaBlank from '../assets/ai103/q108-answer-area-blank.png';
+import q112AnswerArea from '../assets/ai103/q112-answer-area.png';
+import q112AnswerAreaBlank from '../assets/ai103/q112-answer-area-blank.png';
+import q113AnswerArea from '../assets/ai103/q113-answer-area.png';
+import q113AnswerAreaBlank from '../assets/ai103/q113-answer-area-blank.png';
+import q114Exhibit from '../assets/ai103/q114-exhibit.png';
+import q114AnswerArea from '../assets/ai103/q114-answer-area.png';
+import q114AnswerAreaBlank from '../assets/ai103/q114-answer-area-blank.png';
+import q117AnswerArea from '../assets/ai103/q117-answer-area.png';
+import q117AnswerAreaBlank from '../assets/ai103/q117-answer-area-blank.png';
 import ai103Content from '../data/ai103Content.json';
 import { multipleChoiceExhibitConfigs, visualCodeHotspotConfigs } from '../data/ai103ExhibitConfigs';
-import { ExhibitTable, ExhibitCode, CodeWithBlanks, HotspotFields } from './ai103Exhibits';
+import { ExhibitTable, ExhibitCode, CodeWithBlanks, HotspotFields, ReferenceLinks } from './ai103Exhibits';
 import {
   createPracticeSession,
   getPracticeControlConfig,
@@ -57,6 +100,44 @@ const practiceVisualConfigs = {
   37: { blankImage: q37AnswerAreaBlank, solvedImage: q37AnswerArea, label: 'Answer Area' },
   40: { label: 'Answer Area' },
   49: { blankImage: q49AnswerAreaBlank, solvedImage: null, label: 'Answer Area' },
+  66: { blankImage: q66AnswerAreaBlank, solvedImage: q66AnswerArea, label: 'Answer Area' },
+  68: { blankImage: q68AnswerAreaBlank, solvedImage: q68AnswerArea, label: 'Answer Area' },
+  71: { blankImage: q71AnswerAreaBlank, solvedImage: q71AnswerArea, label: 'Answer Area' },
+  79: { blankImage: q79AnswerAreaBlank, solvedImage: q79AnswerArea, label: 'Answer Area' },
+  86: { blankImage: q86AnswerAreaBlank, solvedImage: q86AnswerArea, label: 'Answer Area' },
+  92: { blankImage: q92AnswerAreaBlank, solvedImage: q92AnswerArea, label: 'Answer Area' },
+  93: { blankImage: q93AnswerAreaBlank, solvedImage: q93AnswerArea, label: 'Answer Area' },
+  94: { blankImage: q94AnswerAreaBlank, solvedImage: q94AnswerArea, label: 'Answer Area' },
+  95: { blankImage: q95AnswerAreaBlank, solvedImage: q95AnswerArea, label: 'Answer Area' },
+  98: { blankImage: q98AnswerAreaBlank, solvedImage: q98AnswerArea, label: 'Answer Area' },
+  99: { blankImage: q99AnswerAreaBlank, solvedImage: q99AnswerArea, label: 'Answer Area' },
+  101: {
+    blankImage: q101AnswerAreaBlank,
+    solvedImage: q101AnswerArea,
+    label: 'Answer Area',
+    exhibitImage: q101Exhibit,
+    exhibitLabel: 'Exhibit',
+  },
+  103: { blankImage: q103AnswerAreaBlank, solvedImage: q103AnswerArea, label: 'Answer Area' },
+  104: { blankImage: q104AnswerAreaBlank, solvedImage: q104AnswerArea, label: 'Answer Area' },
+  107: {
+    blankImage: q107AnswerAreaBlank,
+    solvedImage: q107AnswerArea,
+    label: 'Answer Area',
+    exhibitImage: q107Exhibit,
+    exhibitLabel: 'Exhibit',
+  },
+  108: { blankImage: q108AnswerAreaBlank, solvedImage: q108AnswerArea, label: 'Answer Area' },
+  112: { blankImage: q112AnswerAreaBlank, solvedImage: q112AnswerArea, label: 'Answer Area' },
+  113: { blankImage: q113AnswerAreaBlank, solvedImage: q113AnswerArea, label: 'Answer Area' },
+  114: {
+    blankImage: q114AnswerAreaBlank,
+    solvedImage: q114AnswerArea,
+    label: 'Answer Area',
+    exhibitImage: q114Exhibit,
+    exhibitLabel: 'Exhibit',
+  },
+  117: { blankImage: q117AnswerAreaBlank, solvedImage: q117AnswerArea, label: 'Answer Area' },
 };
 
 function formatDifficulty(difficulty) {
@@ -523,6 +604,15 @@ const AI103Practice = () => {
               </section>
             ) : null}
 
+            {visualConfig?.exhibitImage ? (
+              <section className="ai103-answer-visual ai103-exhibit-panel">
+                <div className="ai103-answer-visual-header">
+                  <h2>{visualConfig.exhibitLabel}</h2>
+                </div>
+                <img src={visualConfig.exhibitImage} alt={`Question ${currentQuestion.number} exhibit`} />
+              </section>
+            ) : null}
+
             {showAnswerAreaHint ? (
               <section className="ai103-answer-visual">
                 <div className="ai103-answer-visual-header">
@@ -582,6 +672,10 @@ const AI103Practice = () => {
                 {currentParts.explanationParagraphs.map((paragraph, index) => (
                   <p key={`${currentQuestion.number}-practice-explanation-${index}`}>{paragraph}</p>
                 ))}
+                <ReferenceLinks
+                  references={currentQuestion.references}
+                  headingId={`ai103-q${currentQuestion.number}-practice-references`}
+                />
               </section>
             ) : null}
 

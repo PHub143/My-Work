@@ -29,9 +29,52 @@ import q32AnswerAreaBlank from '../assets/ai103/q32-answer-area-blank.png';
 import q37AnswerArea from '../assets/ai103/q37-answer-area.png';
 import q37AnswerAreaBlank from '../assets/ai103/q37-answer-area-blank.png';
 import q49AnswerAreaBlank from '../assets/ai103/q49-answer-area-blank.png';
+import q66AnswerArea from '../assets/ai103/q66-answer-area.png';
+import q66AnswerAreaBlank from '../assets/ai103/q66-answer-area-blank.png';
+import q68AnswerArea from '../assets/ai103/q68-answer-area.png';
+import q68AnswerAreaBlank from '../assets/ai103/q68-answer-area-blank.png';
+import q71AnswerArea from '../assets/ai103/q71-answer-area.png';
+import q71AnswerAreaBlank from '../assets/ai103/q71-answer-area-blank.png';
+import q79AnswerArea from '../assets/ai103/q79-answer-area.png';
+import q79AnswerAreaBlank from '../assets/ai103/q79-answer-area-blank.png';
+import q86AnswerArea from '../assets/ai103/q86-answer-area.png';
+import q86AnswerAreaBlank from '../assets/ai103/q86-answer-area-blank.png';
+import q92AnswerArea from '../assets/ai103/q92-answer-area.png';
+import q92AnswerAreaBlank from '../assets/ai103/q92-answer-area-blank.png';
+import q93AnswerArea from '../assets/ai103/q93-answer-area.png';
+import q93AnswerAreaBlank from '../assets/ai103/q93-answer-area-blank.png';
+import q94AnswerArea from '../assets/ai103/q94-answer-area.png';
+import q94AnswerAreaBlank from '../assets/ai103/q94-answer-area-blank.png';
+import q95AnswerArea from '../assets/ai103/q95-answer-area.png';
+import q95AnswerAreaBlank from '../assets/ai103/q95-answer-area-blank.png';
+import q98AnswerArea from '../assets/ai103/q98-answer-area.png';
+import q98AnswerAreaBlank from '../assets/ai103/q98-answer-area-blank.png';
+import q99AnswerArea from '../assets/ai103/q99-answer-area.png';
+import q99AnswerAreaBlank from '../assets/ai103/q99-answer-area-blank.png';
+import q101Exhibit from '../assets/ai103/q101-exhibit.png';
+import q101AnswerArea from '../assets/ai103/q101-answer-area.png';
+import q101AnswerAreaBlank from '../assets/ai103/q101-answer-area-blank.png';
+import q103AnswerArea from '../assets/ai103/q103-answer-area.png';
+import q103AnswerAreaBlank from '../assets/ai103/q103-answer-area-blank.png';
+import q104AnswerArea from '../assets/ai103/q104-answer-area.png';
+import q104AnswerAreaBlank from '../assets/ai103/q104-answer-area-blank.png';
+import q107Exhibit from '../assets/ai103/q107-exhibit.png';
+import q107AnswerArea from '../assets/ai103/q107-answer-area.png';
+import q107AnswerAreaBlank from '../assets/ai103/q107-answer-area-blank.png';
+import q108AnswerArea from '../assets/ai103/q108-answer-area.png';
+import q108AnswerAreaBlank from '../assets/ai103/q108-answer-area-blank.png';
+import q112AnswerArea from '../assets/ai103/q112-answer-area.png';
+import q112AnswerAreaBlank from '../assets/ai103/q112-answer-area-blank.png';
+import q113AnswerArea from '../assets/ai103/q113-answer-area.png';
+import q113AnswerAreaBlank from '../assets/ai103/q113-answer-area-blank.png';
+import q114Exhibit from '../assets/ai103/q114-exhibit.png';
+import q114AnswerArea from '../assets/ai103/q114-answer-area.png';
+import q114AnswerAreaBlank from '../assets/ai103/q114-answer-area-blank.png';
+import q117AnswerArea from '../assets/ai103/q117-answer-area.png';
+import q117AnswerAreaBlank from '../assets/ai103/q117-answer-area-blank.png';
 import ai103Content from '../data/ai103Content.json';
 import { multipleChoiceExhibitConfigs, visualCodeHotspotConfigs } from '../data/ai103ExhibitConfigs';
-import { ExhibitTable, ExhibitCode, CodeWithBlanks, HotspotFields } from './ai103Exhibits';
+import { ExhibitTable, ExhibitCode, CodeWithBlanks, HotspotFields, ReferenceLinks } from './ai103Exhibits';
 import {
   getCaseStudyChoiceQuestionDisplayParts,
   getChoiceQuestionDisplayParts,
@@ -174,9 +217,9 @@ const visualQuestionConfigs = {
     blankAlt:
       'Question 18 answer area showing dropdown choices for the metrics to enable and the diagnostic log to collect.',
     solvedAlt:
-      'Question 18 answer area showing Time To Response and Total Tokens plus RequestResponse highlighted.',
+      'Question 18 answer area showing Model Availability Rate and Provisioned Utilization plus RequestResponse highlighted.',
     answerRows: [
-      { label: 'Metrics to enable', value: 'Time To Response and Total Tokens' },
+      { label: 'Metrics to enable', value: 'Model Availability Rate and Provisioned Utilization' },
       { label: 'Diagnostic log to collect', value: 'RequestResponse' },
     ],
   },
@@ -220,7 +263,7 @@ const visualQuestionConfigs = {
     imagePageLabel: 'PDF page 40',
     ...visualCodeHotspotConfigs[35],
     answerRows: [
-      { label: 'temperature', value: '0' },
+      { label: 'temperature', value: '1' },
       { label: 'output_config.effort', value: '"low"' },
     ],
   },
@@ -252,7 +295,305 @@ const visualQuestionConfigs = {
       'Question 49 answer area showing dropdown choices for the prompt shields action and the added mitigation for malicious text embedded in screenshots.',
     answerRows: [
       { label: 'Prompt shields action', value: 'Set action to block' },
-      { label: 'Additional mitigation', value: 'Use optical character recognition (OCR) to extract the text from the images first' },
+      { label: 'Additional mitigation', value: 'Enable Spotlighting.' },
+    ],
+  },
+  66: {
+    blankImage: q66AnswerAreaBlank,
+    solvedImage: q66AnswerArea,
+    imagePageLabel: 'PDF page 92',
+    blankAlt:
+      'Question 66 Python code answer area showing dropdown choices for the two client.videos method calls before the correct answers are highlighted.',
+    solvedAlt: 'Question 66 answer area showing create and retrieve highlighted for the two client.videos method calls.',
+    answerRows: [
+      { label: 'Initial video generation call', value: 'create' },
+      { label: 'Polling call using video.id', value: 'retrieve' },
+    ],
+  },
+  68: {
+    blankImage: q68AnswerAreaBlank,
+    solvedImage: q68AnswerArea,
+    imagePageLabel: 'PDF pages 98, 99',
+    blankAlt:
+      'Question 68 Python code answer area showing dropdown choices for the credential and the agent retrieval method before the correct answers are highlighted.',
+    solvedAlt: 'Question 68 answer area showing DefaultAzureCredential() and get highlighted.',
+    answerRows: [
+      { label: 'credential', value: 'DefaultAzureCredential()' },
+      { label: 'project_client.agents method', value: 'get' },
+    ],
+  },
+  71: {
+    blankImage: q71AnswerAreaBlank,
+    solvedImage: q71AnswerArea,
+    imagePageLabel: 'PDF pages 102, 103',
+    blankAlt:
+      'Question 71 answer area showing dropdown choices for the groundedness metric and the sensitive-information metric before the correct answers are highlighted.',
+    solvedAlt: 'Question 71 answer area showing Groundedness and Relevance plus Protected material highlighted.',
+    answerRows: [
+      {
+        label: 'To measure whether the responses are supported by the provided context and address the user query',
+        value: 'Groundedness and Relevance',
+      },
+      { label: 'To measure whether responses contain sensitive or proprietary information', value: 'Protected material' },
+    ],
+  },
+  79: {
+    blankImage: q79AnswerAreaBlank,
+    solvedImage: q79AnswerArea,
+    imagePageLabel: 'PDF pages 108, 109',
+    blankAlt:
+      'Question 79 answer area showing dropdown choices for the orchestration pattern and the approval checkpoint node before the correct answers are highlighted.',
+    solvedAlt:
+      'Question 79 answer area showing the sequential template that passes outputs node-by-node and Add an Ask a question node highlighted.',
+    answerRows: [
+      { label: 'Orchestration pattern', value: 'The sequential template that passes outputs node by-node' },
+      { label: 'Approval checkpoint', value: 'Add an Ask a question node.' },
+    ],
+  },
+  86: {
+    blankImage: q86AnswerAreaBlank,
+    solvedImage: q86AnswerArea,
+    imagePageLabel: 'PDF pages 116, 117',
+    blankAlt:
+      'Question 86 drag-and-drop answer area showing the available values and empty targets for field value type and field method.',
+    solvedAlt: 'Question 86 answer area showing field value type set to string and field method set to generate.',
+    answerRows: [
+      { label: 'Field value type', value: 'string' },
+      { label: 'Field method', value: 'generate' },
+    ],
+  },
+  92: {
+    blankImage: q92AnswerAreaBlank,
+    solvedImage: q92AnswerArea,
+    imagePageLabel: 'PDF pages 123, 124',
+    blankAlt:
+      'Question 92 answer area showing dropdown choices for the managed identity scope and the Key Vault authorization method before the correct answers are highlighted.',
+    solvedAlt:
+      'Question 92 answer area showing a system-assigned managed identity at the Foundry level and the Key Vault Secrets User role highlighted.',
+    answerRows: [
+      { label: 'Managed identity scope', value: 'Enable a system-assigned managed identity at the Foundry level.' },
+      {
+        label: 'Key Vault authorization method',
+        value: 'Assign the Key Vault Secrets User role to the managed identity.',
+      },
+    ],
+  },
+  93: {
+    blankImage: q93AnswerAreaBlank,
+    solvedImage: q93AnswerArea,
+    imagePageLabel: 'PDF page 125',
+    blankAlt:
+      'Question 93 answer area showing three statements about content filtering and fine-tuning results with Yes and No columns before any selections are highlighted.',
+    solvedAlt: 'Question 93 answer area showing No, Yes, and Yes highlighted for the three statements.',
+    answerRows: [
+      {
+        label: 'Changing the content filtering configuration to low severity will resolve the fine-tuning job issues',
+        value: 'No',
+      },
+      {
+        label:
+          'The difference between the 12% and 4% content harm defect rate is consistent with the different severity thresholds used in Run1 and Run2',
+        value: 'Yes',
+      },
+      {
+        label:
+          'The identical 6% protected material evaluation values across Run1 and Run2 indicate that this metric is unaffected by the change in the severity threshold',
+        value: 'Yes',
+      },
+    ],
+  },
+  94: {
+    blankImage: q94AnswerAreaBlank,
+    solvedImage: q94AnswerArea,
+    imagePageLabel: 'PDF page 126',
+    blankAlt:
+      'Question 94 drag-and-drop answer area showing the available tracing options and empty targets for the two observability requirements.',
+    solvedAlt: 'Question 94 answer area showing Hierarchical spans and Tool call attributes matched to the two requirements.',
+    answerRows: [
+      { label: 'Capture all the nested operations across the entire agent run', value: 'Hierarchical spans' },
+      { label: 'Record tool invocation arguments and results', value: 'Tool call attributes' },
+    ],
+  },
+  95: {
+    blankImage: q95AnswerAreaBlank,
+    solvedImage: q95AnswerArea,
+    imagePageLabel: 'PDF pages 127, 128',
+    blankAlt:
+      'Question 95 drag-and-drop answer area showing the available actions and empty targets for the HTTP 429 and HTTP 400 errors.',
+    solvedAlt:
+      'Question 95 answer area showing exponential backoff and jitter matched to HTTP 429, and moving large content to files matched to HTTP 400.',
+    answerRows: [
+      { label: 'HTTP 429', value: 'Implement exponential backoff and jitter in the retry logic.' },
+      { label: 'HTTP 400', value: 'Move large content to files and use file search.' },
+    ],
+  },
+  98: {
+    blankImage: q98AnswerAreaBlank,
+    solvedImage: q98AnswerArea,
+    imagePageLabel: 'PDF pages 131, 132',
+    blankAlt:
+      'Question 98 Bicep code answer area showing dropdown choices for the connection category and authentication type before the correct answers are highlighted.',
+    solvedAlt: "Question 98 answer area showing 'AzureKeyVault' and 'AccountManagedIdentity' highlighted.",
+    answerRows: [
+      { label: 'category', value: "'AzureKeyVault'" },
+      { label: 'authType', value: "'AccountManagedIdentity'" },
+    ],
+  },
+  99: {
+    blankImage: q99AnswerAreaBlank,
+    solvedImage: q99AnswerArea,
+    imagePageLabel: 'PDF page 133',
+    blankAlt:
+      'Question 99 answer area showing dropdown choices for knowledge grounding and memory configuration before the correct answers are highlighted.',
+    solvedAlt:
+      'Question 99 answer area showing Configure revival from approved data sources and Enable agent memory that uses persistent storage highlighted.',
+    answerRows: [
+      { label: 'Knowledge grounding', value: 'Configure revival from approved data sources.' },
+      { label: 'Memory', value: 'Enable agent memory that uses persistent storage.' },
+    ],
+  },
+  101: {
+    exhibitImage: q101Exhibit,
+    exhibitAlt:
+      'Code segment that iterates over image_analysis.brands and prints the name and rectangle coordinates for brands with confidence of 0.75 or higher.',
+    exhibitPageLabel: 'PDF page 135',
+    blankImage: q101AnswerAreaBlank,
+    solvedImage: q101AnswerArea,
+    imagePageLabel: 'PDF pages 135, 136',
+    blankAlt:
+      'Question 101 answer area showing three statements about the code segment output with Yes and No columns before any selections are highlighted.',
+    solvedAlt: 'Question 101 answer area showing Yes, Yes, and No highlighted for the three statements.',
+    answerRows: [
+      {
+        label: 'The code will display the name of each detected brand with a confidence equal to or higher than 75 percent',
+        value: 'Yes',
+      },
+      {
+        label:
+          'The code will display coordinates for the top-left corner of the rectangle that contains the brand logo of the displayed brands',
+        value: 'Yes',
+      },
+      {
+        label:
+          'The code will display coordinates for the bottom-right corner of the rectangle that contains the brand logo of the displayed brands',
+        value: 'No',
+      },
+    ],
+  },
+  103: {
+    blankImage: q103AnswerAreaBlank,
+    solvedImage: q103AnswerArea,
+    imagePageLabel: 'PDF page 138',
+    blankAlt:
+      'Question 103 CLI command answer area showing dropdown choices for the resource kind and a flag before the correct answers are highlighted.',
+    solvedAlt: 'Question 103 answer area showing OpenAI and --encryption highlighted.',
+    answerRows: [
+      { label: '--kind', value: 'OpenAI' },
+      { label: 'Flag before the JSON payload', value: '--encryption' },
+    ],
+  },
+  104: {
+    blankImage: q104AnswerAreaBlank,
+    solvedImage: q104AnswerArea,
+    imagePageLabel: 'PDF pages 139, 140',
+    blankAlt:
+      'Question 104 Python code answer area showing dropdown choices for the request and response calls before the correct answers are highlighted.',
+    solvedAlt: 'Question 104 answer area showing AnalyzeTextOptions(text=comment) and client.analyze_text(request) highlighted.',
+    answerRows: [
+      { label: 'request =', value: 'AnalyzeTextOptions(text=comment)' },
+      { label: 'response =', value: 'client.analyze_text(request)' },
+    ],
+  },
+  107: {
+    exhibitImage: q107Exhibit,
+    exhibitAlt:
+      'Python code that redacts PII from sample_text and returns text_for_model and an audit list of redacted entities.',
+    exhibitPageLabel: 'PDF page 143',
+    blankImage: q107AnswerAreaBlank,
+    solvedImage: q107AnswerArea,
+    imagePageLabel: 'PDF page 144',
+    blankAlt:
+      'Question 107 answer area showing three statements about the redaction code output with Yes and No columns before any selections are highlighted.',
+    solvedAlt: 'Question 107 answer area showing No, No, and Yes highlighted for the three statements.',
+    answerRows: [
+      { label: 'For sample_text, audit will include entity records for Contact and SSN', value: 'No' },
+      {
+        label: 'For sample_text, text_for_model will include john.doe@contoso.com and 859-98-0987',
+        value: 'No',
+      },
+      {
+        label: 'For sample_text, text_for_model will contain entity type masks for John Doe and 312-555-1234',
+        value: 'Yes',
+      },
+    ],
+  },
+  108: {
+    blankImage: q108AnswerAreaBlank,
+    solvedImage: q108AnswerArea,
+    imagePageLabel: 'PDF page 145',
+    blankAlt:
+      'Question 108 answer area showing the available actions and three empty ordered targets before the correct sequence is highlighted.',
+    solvedAlt: 'Question 108 answer area showing Create a project, Upload and tag images, and Train the classifier model in order.',
+    answerRows: [
+      { label: '1', value: 'Create a project.' },
+      { label: '2', value: 'Upload and tag images.' },
+      { label: '3', value: 'Train the classifier model.' },
+    ],
+  },
+  112: {
+    blankImage: q112AnswerAreaBlank,
+    solvedImage: q112AnswerArea,
+    imagePageLabel: 'PDF pages 149, 150',
+    blankAlt:
+      'Question 112 answer area showing the available actions and three empty ordered targets before the correct sequence is highlighted.',
+    solvedAlt:
+      'Question 112 answer area showing the app switched to the secondary admin key, the primary key regenerated, then the app switched to the new key.',
+    answerRows: [
+      { label: '1', value: 'Change the app to use the secondary admin key.' },
+      { label: '2', value: 'Regenerate the primary admin key.' },
+      { label: '3', value: 'Change the app to use the new key.' },
+    ],
+  },
+  113: {
+    blankImage: q113AnswerAreaBlank,
+    solvedImage: q113AnswerArea,
+    imagePageLabel: 'PDF pages 151, 152',
+    blankAlt:
+      'Question 113 REST request answer area showing dropdown choices for the HTTP method and the resource kind before the correct answers are highlighted.',
+    solvedAlt: 'Question 113 answer area showing PUT and CognitiveServices highlighted.',
+    answerRows: [
+      { label: 'HTTP method', value: 'PUT' },
+      { label: 'kind', value: 'CognitiveServices' },
+    ],
+  },
+  114: {
+    exhibitImage: q114Exhibit,
+    exhibitAlt: 'Custom Vision performance dashboard for Iteration 1 showing Precision 100.0%, Recall 25.0%, and mAP 77.2%.',
+    exhibitPageLabel: 'PDF page 153',
+    blankImage: q114AnswerAreaBlank,
+    solvedImage: q114AnswerArea,
+    imagePageLabel: 'PDF pages 153, 154',
+    blankAlt:
+      'Question 114 answer area showing dropdown choices for the false positive percentage and the true positive ratio before the correct answers are highlighted.',
+    solvedAlt: 'Question 114 answer area showing 0 and 100 highlighted.',
+    answerRows: [
+      { label: 'The percentage of false positives is', value: '0' },
+      {
+        label: 'The value for the number of true positives divided by the total number of true positives and false negatives is',
+        value: '100',
+      },
+    ],
+  },
+  117: {
+    blankImage: q117AnswerAreaBlank,
+    solvedImage: q117AnswerArea,
+    imagePageLabel: 'PDF page 157',
+    blankAlt:
+      'Question 117 answer area showing dropdown choices for the JSON data projection and the extracted text data projection before the correct answers are highlighted.',
+    solvedAlt: 'Question 117 answer area showing Object projection and Table projection highlighted.',
+    answerRows: [
+      { label: 'JSON data', value: 'Object projection' },
+      { label: 'Extracted text data', value: 'Table projection' },
     ],
   },
 };
@@ -415,7 +756,7 @@ function QuestionOneContent({ question, explanationParagraphs }) {
       <SectionBlock title="Correct Answer Area · PDF page 6" ariaLabelledBy="ai103-q1-solved-answer-area">
         <img
           src={q1AnswerArea}
-          alt="Question 1 answer area showing Deployment type set to Standard and Version update policy set to Opt out of automatic model version upgrades."
+          alt="Question 1 answer area showing Deployment type set to Standard and Version update policy set to Once the current version expires."
           className="ai103-answer-image"
           style={{ maxWidth: 480 }}
         />
@@ -423,6 +764,7 @@ function QuestionOneContent({ question, explanationParagraphs }) {
 
       <AnswerBlock selections={questionParts.answerSelections} />
       <ExplanationBlock paragraphs={explanationParagraphs} />
+      <ReferenceLinks references={question.references} headingId="ai103-q1-references" />
     </>
   );
 }
@@ -457,6 +799,7 @@ function QuestionTwoContent({ question }) {
 
       <AnswerBlock selections={questionParts.answerSelections} />
       <ExplanationBlock paragraphs={questionParts.explanationParagraphs} />
+      <ReferenceLinks references={question.references} headingId="ai103-q2-references" />
     </>
   );
 }
@@ -513,6 +856,7 @@ function MultipleChoiceQuestionContent({ question }) {
 
       <AnswerBlock selections={questionParts.answerSelections} />
       <ExplanationBlock paragraphs={questionParts.explanationParagraphs} />
+      <ReferenceLinks references={question.references} headingId={`ai103-q${question.number}-references`} />
     </>
   );
 }
@@ -552,6 +896,7 @@ function QuestionTwentyOneContent({ question }) {
 
       <AnswerBlock selections={questionParts.answerSelections} />
       <ExplanationBlock paragraphs={questionParts.explanationParagraphs} />
+      <ReferenceLinks references={question.references} headingId="ai103-q21-references" />
     </>
   );
 }
@@ -586,6 +931,7 @@ function CaseStudyChoiceQuestionContent({ question }) {
 
       <AnswerBlock selections={questionParts.answerSelections} />
       <ExplanationBlock paragraphs={questionParts.explanationParagraphs} />
+      <ReferenceLinks references={question.references} headingId={`ai103-q${question.number}-references`} />
     </>
   );
 }
@@ -621,6 +967,20 @@ function VisualQuestionContent({ question }) {
         <PromptBlock paragraphs={questionParts.promptParagraphs} />
       </SectionBlock>
 
+      {questionConfig.exhibitImage ? (
+        <SectionBlock
+          title={`Exhibit · ${questionConfig.exhibitPageLabel}`}
+          ariaLabelledBy={`ai103-q${question.number}-exhibit`}
+        >
+          <img
+            src={questionConfig.exhibitImage}
+            alt={questionConfig.exhibitAlt}
+            className="ai103-answer-image"
+            style={{ maxWidth: 640 }}
+          />
+        </SectionBlock>
+      ) : null}
+
       <SectionBlock title={`Answer Area · ${questionConfig.imagePageLabel}`} ariaLabelledBy={`ai103-q${question.number}-answer-area`}>
         <AnswerAreaContent questionConfig={questionConfig} revealAnswer={false} />
       </SectionBlock>
@@ -637,6 +997,7 @@ function VisualQuestionContent({ question }) {
 
       <AnswerBlock summaryRows={answerRows} />
       <ExplanationBlock paragraphs={questionParts.explanationParagraphs} />
+      <ReferenceLinks references={question.references} headingId={`ai103-q${question.number}-references`} />
     </>
   );
 }
@@ -688,9 +1049,7 @@ const AI103 = () => {
   const answerParagraphs = visibleQuestion ? splitPageText(visibleQuestion.answer) : [];
   const explanationParagraphs = visibleQuestion ? splitPageText(visibleQuestion.explanation) : [];
   const paginationLabel = visibleQuestion
-    ? pagination.total === questions.length
-      ? `Question ${visibleQuestion.number} / ${questions.length}`
-      : `Question ${visibleQuestion.number} (${pagination.currentIndex + 1} / ${pagination.total})`
+    ? `Question ${visibleQuestion.number} (${pagination.currentIndex + 1} / ${pagination.total})`
     : 'No question';
   const originalQuestionCount = questions.filter((question) => question.number <= 65).length;
   const scopes = [
@@ -837,7 +1196,7 @@ const AI103 = () => {
                   <CaseStudyChoiceQuestionContent question={visibleQuestion} />
                 ) : visibleQuestion.number === 21 ? (
                   <QuestionTwentyOneContent question={visibleQuestion} />
-                ) : [4, 5, 6, 7, 8, 11, 15, 18, 20, 30, 32, 35, 37, 40, 49].includes(visibleQuestion.number) ? (
+                ) : [4, 5, 6, 7, 8, 11, 15, 18, 20, 30, 32, 35, 37, 40, 49, 66, 68, 71, 79, 86, 92, 93, 94, 95, 98, 99, 101, 103, 104, 107, 108, 112, 113, 114, 117].includes(visibleQuestion.number) ? (
                   <VisualQuestionContent question={visibleQuestion} />
                 ) : [3, 9, 10, 12, 13, 14, 16, 17, 19, 22, 23, 24, 25, 26, 29, 31, 33, 34, 36, 38, 39, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 55, 57, 58, 59, 60, 63, 64, 65].includes(visibleQuestion.number) || visibleQuestion.number >= 66 ? (
                   <MultipleChoiceQuestionContent question={visibleQuestion} />
@@ -850,6 +1209,7 @@ const AI103 = () => {
                       <AnswerBlock paragraphText={answerParagraphs.join('\n\n')} />
                     )}
                     <ExplanationBlock paragraphs={explanationParagraphs} />
+                    <ReferenceLinks references={visibleQuestion.references} headingId="ai103-fallback-references" />
                   </>
                 )}
 

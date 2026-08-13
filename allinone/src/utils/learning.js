@@ -240,7 +240,7 @@ const PRACTICE_CONTROL_CONFIGS = {
     ],
     correct: {
       deploymentType: 'Standard',
-      versionUpdatePolicy: 'Opt out of automatic model version upgrades',
+      versionUpdatePolicy: 'Once the current version expires',
     },
   },
   4: {
@@ -461,7 +461,7 @@ const PRACTICE_CONTROL_CONFIGS = {
       },
     ],
     correct: {
-      metricsToEnable: 'Time To Response and Total Tokens',
+      metricsToEnable: 'Model Availability Rate and Provisioned Utilization',
       diagnosticLog: 'RequestResponse',
     },
   },
@@ -591,7 +591,7 @@ const PRACTICE_CONTROL_CONFIGS = {
       },
     ],
     correct: {
-      temperature: '0',
+      temperature: '1',
       effort: '"low"',
     },
   },
@@ -673,7 +673,518 @@ const PRACTICE_CONTROL_CONFIGS = {
     ],
     correct: {
       promptShieldsAction: 'Set action to block.',
-      additionalMitigation: 'Use optical character recognition (OCR) to extract the text from the images first.',
+      additionalMitigation: 'Enable Spotlighting.',
+    },
+  },
+  66: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'initialCall',
+        label: 'video = client.videos.',
+        options: ['create', 'download_content', 'list', 'retrieve'],
+      },
+      {
+        id: 'pollCall',
+        label: 'video = client.videos. (video.id)',
+        options: ['create', 'download_content', 'list', 'retrieve'],
+      },
+    ],
+    correct: {
+      initialCall: 'create',
+      pollCall: 'retrieve',
+    },
+  },
+  68: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'credential',
+        label: 'credential',
+        options: ['AzureKeyCredential()', 'DefaultAzureCredential()', 'None'],
+      },
+      {
+        id: 'agentMethod',
+        label: 'agent = project_client.agents.',
+        options: ['create_version', 'get', 'get_version'],
+      },
+    ],
+    correct: {
+      credential: 'DefaultAzureCredential()',
+      agentMethod: 'get',
+    },
+  },
+  71: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'groundednessMetric',
+        label: 'To measure whether the responses are supported by the provided context and address the user query',
+        options: [
+          'Coherence and Fluency',
+          'GPT similarity and F1 score',
+          'Groundedness and Relevance',
+          'Groundedness and ROUGE score',
+        ],
+      },
+      {
+        id: 'sensitiveInfoMetric',
+        label: 'To measure whether responses contain sensitive or proprietary information',
+        options: [
+          'Hateful and unfair content',
+          'Indirect attack',
+          'Protected material',
+          'Violent content',
+        ],
+      },
+    ],
+    correct: {
+      groundednessMetric: 'Groundedness and Relevance',
+      sensitiveInfoMetric: 'Protected material',
+    },
+  },
+  79: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'orchestrationPattern',
+        label: 'Orchestration pattern',
+        options: [
+          'The sequential template that passes outputs node by-node',
+          'The group chat template to dynamically route control between the agents',
+          'The human-in-the-loop template that pauses execution of the workflow for input',
+        ],
+      },
+      {
+        id: 'approvalCheckpoint',
+        label: 'Approval checkpoints',
+        options: [
+          'Add a Basic chat node.',
+          'Add a Condition statement.',
+          'Add an Ask a question node.',
+        ],
+      },
+    ],
+    correct: {
+      orchestrationPattern: 'The sequential template that passes outputs node by-node',
+      approvalCheckpoint: 'Add an Ask a question node.',
+    },
+  },
+  86: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'fieldValueType',
+        label: 'Field value type',
+        options: ['classify', 'generate', 'group', 'string', 'table'],
+      },
+      {
+        id: 'fieldMethod',
+        label: 'Field method',
+        options: ['classify', 'generate', 'group', 'string', 'table'],
+      },
+    ],
+    correct: {
+      fieldValueType: 'string',
+      fieldMethod: 'generate',
+    },
+  },
+  92: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'managedIdentityScope',
+        label: 'Managed identity scope',
+        options: [
+          'Enable a system-assigned managed identity at the Foundry level.',
+          'Enable a system-assigned managed identity at the project level.',
+          "Create a service principal and store the principal's client secret.",
+        ],
+      },
+      {
+        id: 'keyVaultAuth',
+        label: 'Key Vault authorization method',
+        options: [
+          'Add an API key to application settings.',
+          'Add a Key Vault access policy for the secrets.',
+          'Assign the Key Vault Secrets User role to the managed identity.',
+        ],
+      },
+    ],
+    correct: {
+      managedIdentityScope: 'Enable a system-assigned managed identity at the Foundry level.',
+      keyVaultAuth: 'Assign the Key Vault Secrets User role to the managed identity.',
+    },
+  },
+  93: {
+    type: 'radioRows',
+    controls: [
+      {
+        id: 'lowSeverityResolves',
+        label: 'Changing the content filtering configuration to low severity will resolve the fine-tuning job issues.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'defectRateConsistent',
+        label:
+          'The difference between the 12% and 4% content harm defect rate is consistent with the different severity thresholds used in Run1 and Run2.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'protectedMaterialUnaffected',
+        label:
+          'The identical 6% protected material evaluation values across Run1 and Run2 indicate that this metric is unaffected by the change in the severity threshold.',
+        options: ['Yes', 'No'],
+      },
+    ],
+    correct: {
+      lowSeverityResolves: 'No',
+      defectRateConsistent: 'Yes',
+      protectedMaterialUnaffected: 'Yes',
+    },
+  },
+  94: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'nestedOperations',
+        label: 'Capture all the nested operations across the entire agent run',
+        options: ['Hierarchical spans', 'A KQL query filter', 'Sampling', 'Tool call attributes', 'Trace sampling policy'],
+      },
+      {
+        id: 'toolInvocationRecord',
+        label: 'Record tool invocation arguments and results',
+        options: ['Hierarchical spans', 'A KQL query filter', 'Sampling', 'Tool call attributes', 'Trace sampling policy'],
+      },
+    ],
+    correct: {
+      nestedOperations: 'Hierarchical spans',
+      toolInvocationRecord: 'Tool call attributes',
+    },
+  },
+  95: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'http429',
+        label: 'HTTP 429',
+        options: [
+          'Increase tenant-wide quotas.',
+          'Move large content to files and use file search.',
+          'Use additional agent tools to reduce the message size.',
+          'Implement exponential backoff and jitter in the retry logic.',
+          'Split content into smaller files before uploading the files.',
+        ],
+      },
+      {
+        id: 'http400',
+        label: 'HTTP 400',
+        options: [
+          'Increase tenant-wide quotas.',
+          'Move large content to files and use file search.',
+          'Use additional agent tools to reduce the message size.',
+          'Implement exponential backoff and jitter in the retry logic.',
+          'Split content into smaller files before uploading the files.',
+        ],
+      },
+    ],
+    correct: {
+      http429: 'Implement exponential backoff and jitter in the retry logic.',
+      http400: 'Move large content to files and use file search.',
+    },
+  },
+  98: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'category',
+        label: 'category',
+        options: ["'AzureAIService'", "'AzureKeyVault'", "'AzureOpenAI'"],
+      },
+      {
+        id: 'authType',
+        label: 'authType',
+        options: ["'AccountKey'", "'AccountManagedIdentity'", "'ApiKey'"],
+      },
+    ],
+    correct: {
+      category: "'AzureKeyVault'",
+      authType: "'AccountManagedIdentity'",
+    },
+  },
+  99: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'knowledgeGrounding',
+        label: 'Knowledge grounding',
+        options: [
+          'Configure revival from approved data sources.',
+          'Upload the policy documents direct to the agent.',
+          'Embed the policy documents directly into the agent instructions.',
+        ],
+      },
+      {
+        id: 'memory',
+        label: 'Memory',
+        options: [
+          'Use orchestration-managed session context.',
+          'Enable agent memory that uses persistent storage.',
+          'Retain user preferences in the state of the client application',
+        ],
+      },
+    ],
+    correct: {
+      knowledgeGrounding: 'Configure revival from approved data sources.',
+      memory: 'Enable agent memory that uses persistent storage.',
+    },
+  },
+  101: {
+    type: 'radioRows',
+    controls: [
+      {
+        id: 'nameConfidence',
+        label:
+          'The code will display the name of each detected brand with a confidence equal to or higher than 75 percent.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'topLeftCoords',
+        label:
+          'The code will display coordinates for the top-left corner of the rectangle that contains the brand logo of the displayed brands.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'bottomRightCoords',
+        label:
+          'The code will display coordinates for the bottom-right corner of the rectangle that contains the brand logo of the displayed brands.',
+        options: ['Yes', 'No'],
+      },
+    ],
+    correct: {
+      nameConfidence: 'Yes',
+      topLeftCoords: 'Yes',
+      bottomRightCoords: 'No',
+    },
+  },
+  103: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'kind',
+        label: '--kind',
+        options: ['AIServices', 'LanguageAuthoring', 'OpenAI'],
+      },
+      {
+        id: 'flag',
+        label: 'Flag before the JSON payload',
+        options: ['--api-properties', '--assign-identity', '--encryption'],
+      },
+    ],
+    correct: {
+      kind: 'OpenAI',
+      flag: '--encryption',
+    },
+  },
+  104: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'request',
+        label: 'request =',
+        options: [
+          'AnalyzeTextOptions(categories=comment)',
+          'AnalyzeTextOptions(text=[comment])',
+          'AnalyzeTextOptions(text=comment)',
+          'TextCategory.SELF_HARM(comment)',
+        ],
+      },
+      {
+        id: 'response',
+        label: 'response =',
+        options: [
+          'client.analyze_image(request)',
+          'client.analyze_text(request)',
+          'client.moderate_text(request)',
+          'client.path("/text:analyze").post(request)',
+        ],
+      },
+    ],
+    correct: {
+      request: 'AnalyzeTextOptions(text=comment)',
+      response: 'client.analyze_text(request)',
+    },
+  },
+  107: {
+    type: 'radioRows',
+    controls: [
+      {
+        id: 'auditIncludesContactSsn',
+        label: 'For sample_text, audit will include entity records for Contact and SSN.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'textForModelIncludesRaw',
+        label: 'For sample_text, text_for_model will include john.doe@contoso.com and 859-98-0987.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'textForModelHasMasks',
+        label: 'For sample_text, text_for_model will contain entity type masks for John Doe and 312-555-1234.',
+        options: ['Yes', 'No'],
+      },
+    ],
+    correct: {
+      auditIncludesContactSsn: 'No',
+      textForModelIncludesRaw: 'No',
+      textForModelHasMasks: 'Yes',
+    },
+  },
+  108: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'step1',
+        label: 'Step 1',
+        options: [
+          'Initialize the training dataset.',
+          'Train the classifier model.',
+          'Create a project.',
+          'Upload and tag images.',
+          'Train the object detection model.',
+        ],
+      },
+      {
+        id: 'step2',
+        label: 'Step 2',
+        options: [
+          'Initialize the training dataset.',
+          'Train the classifier model.',
+          'Create a project.',
+          'Upload and tag images.',
+          'Train the object detection model.',
+        ],
+      },
+      {
+        id: 'step3',
+        label: 'Step 3',
+        options: [
+          'Initialize the training dataset.',
+          'Train the classifier model.',
+          'Create a project.',
+          'Upload and tag images.',
+          'Train the object detection model.',
+        ],
+      },
+    ],
+    correct: {
+      step1: 'Create a project.',
+      step2: 'Upload and tag images.',
+      step3: 'Train the classifier model.',
+    },
+  },
+  112: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'step1',
+        label: 'Step 1',
+        options: [
+          'Regenerate the primary admin key',
+          'Regenerate the secondary admin key',
+          'Change the app to use the secondary admin key',
+          'Add a new query key',
+          'Change the app to use the new key',
+          'Delete the compromised key',
+        ],
+      },
+      {
+        id: 'step2',
+        label: 'Step 2',
+        options: [
+          'Regenerate the primary admin key',
+          'Regenerate the secondary admin key',
+          'Change the app to use the secondary admin key',
+          'Add a new query key',
+          'Change the app to use the new key',
+          'Delete the compromised key',
+        ],
+      },
+      {
+        id: 'step3',
+        label: 'Step 3',
+        options: [
+          'Regenerate the primary admin key',
+          'Regenerate the secondary admin key',
+          'Change the app to use the secondary admin key',
+          'Add a new query key',
+          'Change the app to use the new key',
+          'Delete the compromised key',
+        ],
+      },
+    ],
+    correct: {
+      step1: 'Change the app to use the secondary admin key',
+      step2: 'Regenerate the primary admin key',
+      step3: 'Change the app to use the new key',
+    },
+  },
+  113: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'httpMethod',
+        label: 'HTTP method',
+        options: ['PATCH', 'POST', 'PUT'],
+      },
+      {
+        id: 'kind',
+        label: 'kind',
+        options: ['CognitiveServices', 'ComputerVision', 'TextAnalytics'],
+      },
+    ],
+    correct: {
+      httpMethod: 'PUT',
+      kind: 'CognitiveServices',
+    },
+  },
+  114: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'falsePositivePercent',
+        label: 'The percentage of false positives is',
+        options: ['0', '25', '30', '50', '100'],
+      },
+      {
+        id: 'truePositiveRatio',
+        label:
+          'The value for the number of true positives divided by the total number of true positives and false negatives is',
+        options: ['0', '25', '30', '50', '100'],
+      },
+    ],
+    correct: {
+      falsePositivePercent: '0',
+      truePositiveRatio: '100',
+    },
+  },
+  117: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'jsonData',
+        label: 'JSON data',
+        options: ['File projection', 'Object projection', 'Table projection'],
+      },
+      {
+        id: 'extractedTextData',
+        label: 'Extracted text data',
+        options: ['File projection', 'Object projection', 'Table projection'],
+      },
+    ],
+    correct: {
+      jsonData: 'Object projection',
+      extractedTextData: 'Table projection',
     },
   },
 };
@@ -787,7 +1298,7 @@ export function getQuestionOneDisplayParts(question) {
     finalPrompt: linesToParagraphs(finalPromptLines),
     answerSelections: [
       'Standard',
-      'Opt out of automatic model version upgrades',
+      'Once the current version expires',
     ].filter((selection) => explanation.includes(selection)),
   };
 }
