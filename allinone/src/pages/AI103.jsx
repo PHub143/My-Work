@@ -1063,14 +1063,18 @@ const AI103 = () => {
   const promptParagraphs = visibleQuestion ? splitPageText(visibleQuestion.prompt) : [];
   const answerParagraphs = visibleQuestion ? splitPageText(visibleQuestion.answer) : [];
   const explanationParagraphs = visibleQuestion ? splitPageText(visibleQuestion.explanation) : [];
-  const originalQuestionCount = questions.filter((question) => question.number <= 65).length;
+  const practiceQuestions = useMemo(
+    () => questions.filter((question) => !question.tags?.includes('fundamentals')),
+    [questions],
+  );
+  const originalQuestionCount = practiceQuestions.filter((question) => question.number <= 65).length;
   const scopes = [
-    { id: 'all', label: `All ${questions.length}`, detail: `Full bank, including ${questions.length - originalQuestionCount} newer Skills Measured questions` },
+    { id: 'all', label: `All ${practiceQuestions.length}`, detail: `Full bank, including ${practiceQuestions.length - originalQuestionCount} newer Skills Measured questions` },
     { id: 'original', label: `Original ${originalQuestionCount}`, detail: 'Only the original 65 exam-guide questions' },
   ];
   const questionPool = selectedScope === 'original'
-    ? questions.filter((question) => question.number <= 65)
-    : questions;
+    ? practiceQuestions.filter((question) => question.number <= 65)
+    : practiceQuestions;
   const difficulties = [
     { id: 'easy', label: 'Easy', detail: `${Math.min(20, questionPool.length)} random questions, no time limit`, enabled: true },
     { id: 'normal', label: 'Normal', detail: `${questionPool.length} random questions, 60 minute limit`, enabled: true },
