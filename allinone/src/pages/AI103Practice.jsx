@@ -346,7 +346,9 @@ const AI103Practice = () => {
   const scope = location.state?.scope || 'all';
   const questionNumbers = location.state?.questionNumbers || parsePracticeQuestionNumbers(location.search);
   const questions = useMemo(() => {
-    const allQuestions = ai103Content.questions || [];
+    const allQuestions = (ai103Content.questions || []).filter(
+      (question) => !question.tags?.includes('fundamentals'),
+    );
     return scope === 'original' ? allQuestions.filter((question) => question.number <= 65) : allQuestions;
   }, [scope]);
   const buildPracticeSession = () => createPracticeSession(questions, {
