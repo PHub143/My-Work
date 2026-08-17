@@ -80,6 +80,7 @@ import {
   getPracticeQuestionDisplayParts,
   getPracticeResultSummary,
   getPracticeSessionResults,
+  isCaseStudyQuestion,
   parsePracticeQuestionNumbers,
 } from '../utils/learning';
 
@@ -371,6 +372,12 @@ const AI103Practice = () => {
   const codeHotspotConfig = currentQuestion ? visualCodeHotspotConfigs[currentQuestion.number] : null;
   const showAnswerAreaHint = Boolean(visualConfig && session.answerAreaHintsEnabled);
   const answeredCount = session.questions.filter((question) => hasSelection(selections[question.number])).length;
+  const firstStandaloneIndex = session.questions.findIndex((question) => !isCaseStudyQuestion(question.number));
+  const hasCaseStudyPart = session.questions.some((question) => isCaseStudyQuestion(question.number));
+  const hasStandalonePart = firstStandaloneIndex !== -1;
+  const currentPartLabel = currentQuestion && hasCaseStudyPart && hasStandalonePart
+    ? (isCaseStudyQuestion(currentQuestion.number) ? 'Part 1 · Case Study' : 'Part 2 · Standalone Questions')
+    : null;
   const results = isSubmitted ? getPracticeSessionResults(session.questions, selections) : null;
   const resultSummary = results ? getPracticeResultSummary(results) : null;
   const autoScoredTotal = resultSummary?.autoScoredTotal || 0;
@@ -562,15 +569,22 @@ const AI103Practice = () => {
               ].filter(Boolean).join(' ');
 
               return (
-                <button
-                  key={`${question.number}-${index}`}
-                  type="button"
-                  className={buttonClass}
-                  onClick={() => goToQuestion(index)}
-                  aria-current={index === currentIndex ? 'page' : undefined}
-                >
-                  {index + 1}
-                </button>
+                <React.Fragment key={`${question.number}-${index}`}>
+                  {hasCaseStudyPart && hasStandalonePart && index === 0 ? (
+                    <span className="ai103-practice-rail-label">Part 1 · Case Study</span>
+                  ) : null}
+                  {hasCaseStudyPart && hasStandalonePart && index === firstStandaloneIndex ? (
+                    <span className="ai103-practice-rail-label">Part 2 · Standalone</span>
+                  ) : null}
+                  <button
+                    type="button"
+                    className={buttonClass}
+                    onClick={() => goToQuestion(index)}
+                    aria-current={index === currentIndex ? 'page' : undefined}
+                  >
+                    {index + 1}
+                  </button>
+                </React.Fragment>
               );
             })}
           </aside>
@@ -582,6 +596,7 @@ const AI103Practice = () => {
             </div>
 
             <div className="ai103-question-type-row">
+              {currentPartLabel ? <span>{currentPartLabel}</span> : null}
               {currentParts.type ? <span>{currentParts.type}</span> : null}
               <span>{controlConfig || currentParts.options.length ? 'Choose answer' : 'Written response'}</span>
             </div>

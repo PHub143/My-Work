@@ -1656,6 +1656,12 @@ export function parsePracticeQuestionNumbers(search) {
     });
 }
 
+export const CASE_STUDY_QUESTION_NUMBERS = [1, 2, 27, 28, 56, 61, 62, 67];
+
+export function isCaseStudyQuestion(questionNumber) {
+  return CASE_STUDY_QUESTION_NUMBERS.includes(questionNumber);
+}
+
 export function createPracticeSession(questions, options = {}) {
   const difficulty = options.difficulty || 'easy';
   const fullQuestionMode = ['normal', 'hard', 'extra-hard'].includes(difficulty);
@@ -1680,9 +1686,14 @@ export function createPracticeSession(questions, options = {}) {
     .filter(Boolean);
   const pinnedSet = new Set(pinnedQuestions.map((question) => question.number));
   const remainingQuestions = (questions || []).filter((question) => !pinnedSet.has(question.number));
+  const caseStudyQuestions = remainingQuestions
+    .filter((question) => isCaseStudyQuestion(question.number))
+    .sort((a, b) => a.number - b.number);
+  const standaloneQuestions = remainingQuestions.filter((question) => !isCaseStudyQuestion(question.number));
   const shuffledQuestions = [
     ...pinnedQuestions,
-    ...shuffleQuestions(remainingQuestions, random),
+    ...caseStudyQuestions,
+    ...shuffleQuestions(standaloneQuestions, random),
   ];
   const selectedQuestions = shuffledQuestions.slice(0, questionCount).map((question) => ({
     ...question,

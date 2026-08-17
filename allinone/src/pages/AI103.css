@@ -1025,6 +1025,18 @@
 
 .ai103-practice-rail button:hover { background: rgba(255, 255, 255, 0.08); color: #ffffff; }
 
+.ai103-practice-rail-label {
+  grid-column: 1 / -1;
+  margin: 6px 0 2px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.ai103-practice-rail-label:first-child { margin-top: 0; }
+
 .ai103-practice-rail button.answered {
   background: rgba(255, 255, 255, 0.14);
   color: #ffffff;
