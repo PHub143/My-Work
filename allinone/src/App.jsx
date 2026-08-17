@@ -12,6 +12,7 @@ import { DriveProvider } from './DriveContext';
 
 const Documents = lazy(() => import('./pages/Documents'));
 const Gallery = lazy(() => import('./pages/Gallery'));
+const LearningHome = lazy(() => import('./pages/LearningHome'));
 const AI103 = lazy(() => import('./pages/AI103'));
 const AI103Practice = lazy(() => import('./pages/AI103Practice'));
 const AI102 = lazy(() => import('./pages/AI102'));
@@ -72,6 +73,7 @@ const AppShell = () => {
               <Route path='/settings' element={<Settings />} />
             </Route>
             <Route element={<LearningRoute />}>
+              <Route path='/learning/home' element={<LearningHome />} />
               <Route path='/learning/ai-103' element={<AI103 />} />
               <Route path='/learning/ai-103/practice' element={<AI103Practice />} />
               <Route path='/learning/ai-102' element={<AI102 />} />

@@ -28,7 +28,7 @@ const AppRail = () => {
 
   const items = [
     canLearn && {
-      to: '/learning/ai-103',
+      to: '/learning/home',
       label: 'Study',
       match: '/learning',
       icon: (

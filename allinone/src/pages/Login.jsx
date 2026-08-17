@@ -76,13 +76,11 @@ const Login = () => {
 
       if (response.ok) {
         login(data.token);
-        const requestedPath = isRegisterMode ? LEARNING_FALLBACK_ROUTE : from || loginContent.fallback;
-        navigate(requestedPath, {
-          replace: true,
-          state: canRoleAccessPath(data.user, requestedPath, { isAdmin, isStudent })
-            ? undefined
-            : { locked: true }
-        });
+        const preferredPath = isRegisterMode ? LEARNING_FALLBACK_ROUTE : from || loginContent.fallback;
+        const requestedPath = canRoleAccessPath(data.user, preferredPath, { isAdmin, isStudent })
+          ? preferredPath
+          : loginContent.fallback;
+        navigate(requestedPath, { replace: true });
       } else {
         setError(data.message || `${isRegisterMode ? 'Registration' : 'Login'} failed. Please try again.`);
       }

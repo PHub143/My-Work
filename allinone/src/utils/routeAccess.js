@@ -1,4 +1,4 @@
-export const LEARNING_FALLBACK_ROUTE = '/learning/ai-103';
+export const LEARNING_FALLBACK_ROUTE = '/learning/home';
 export const ADMIN_FALLBACK_ROUTE = '/';
 
 export const STUDENT_LOGIN_ROUTE = '/login';
