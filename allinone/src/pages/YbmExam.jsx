@@ -15,6 +15,7 @@ import {
   getAudioUrl,
   getOptionKeys,
   getPageUrl,
+  getQuestionAudioUrl,
   getTestReadiness,
   loadAttempt,
   saveAttempt,
@@ -57,7 +58,7 @@ function sectionRange(section) {
   return [parts[0].from, parts[parts.length - 1].to];
 }
 
-function AnswerSheet({ section, selections, onSelect, disabled }) {
+function AnswerSheet({ section, selections, onSelect, disabled, focus, onFocusChange }) {
   const parts = sectionParts(section);
 
   return (
@@ -75,7 +76,15 @@ function AnswerSheet({ section, selections, onSelect, disabled }) {
             <ul>
               {numbers.map((number) => (
                 <li key={number}>
-                  <span className="ybm-sheet-number">{number}</span>
+                  <button
+                    type="button"
+                    className="ybm-sheet-number"
+                    aria-label={`Play audio for question ${number}`}
+                    aria-current={number === focus}
+                    onClick={() => onFocusChange(number)}
+                  >
+                    {number}
+                  </button>
                   <span className="ybm-sheet-bubbles">
                     {getOptionKeys(number).map((option) => (
                       <button
@@ -243,6 +252,7 @@ const ExamRunner = ({ test, volumeId }) => {
   const compact = useCompactLayout();
 
   const pageCount = section === 'listening' ? test?.listeningPages : test?.readingPages;
+  const questionAudioUrl = section === 'listening' ? getQuestionAudioUrl(test.id, focus) : null;
 
   const persist = useCallback((patch) => {
     if (!test) return;
@@ -452,7 +462,15 @@ const ExamRunner = ({ test, volumeId }) => {
 
           {section === 'listening' && (
             <div className="ybm-audio">
-              <audio ref={audioRef} controls src={getAudioUrl(test.id)} preload="none">
+              {questionAudioUrl && (
+                <span className="ybm-audio-label">Question {focus}</span>
+              )}
+              <audio
+                ref={audioRef}
+                controls
+                src={questionAudioUrl || getAudioUrl(test.id)}
+                preload="none"
+              >
                 Your browser does not support audio playback.
               </audio>
             </div>
@@ -481,6 +499,8 @@ const ExamRunner = ({ test, volumeId }) => {
               selections={selections}
               onSelect={handleSelect}
               disabled={Boolean(result)}
+              focus={focus}
+              onFocusChange={handleFocusChange}
             />
             {!result && (
               <button type="button" className="ybm-submit" onClick={handleSubmit}>

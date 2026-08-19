@@ -275,6 +275,14 @@
   width: 100%;
 }
 
+.ybm-audio-label {
+  display: inline-block;
+  margin-bottom: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--exam-accent);
+}
+
 /* --- answer sheet --- */
 
 .ybm-answers {
@@ -344,12 +352,27 @@
 }
 
 .ybm-sheet-number {
+  appearance: none;
+  cursor: pointer;
   width: 2.2rem;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
   font-size: 0.8rem;
   font-variant-numeric: tabular-nums;
   color: var(--exam-text);
   opacity: 0.72;
   text-align: right;
+}
+
+.ybm-sheet-number:hover {
+  opacity: 1;
+}
+
+.ybm-sheet-number[aria-current='true'] {
+  opacity: 1;
+  font-weight: 700;
+  color: var(--exam-accent);
 }
 
 .ybm-sheet-bubbles {

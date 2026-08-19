@@ -31,6 +31,20 @@ export function getAudioUrl(testId) {
   return `${ASSET_BASE}/${testId}/listening.mp3`;
 }
 
+// Per-question audio clips, cut from the full listening track by silence
+// detection. Being split out is a per-test, per-question fact (some tests/
+// parts aren't split yet), so this is an explicit allowlist rather than a
+// blanket path formula like getPageUrl/getAudioUrl above.
+const QUESTION_AUDIO = {
+  'vol-1-test-01': [1, 2, 3, 4, 5, 6],
+};
+
+export function getQuestionAudioUrl(testId, questionNumber) {
+  if (!QUESTION_AUDIO[testId]?.includes(questionNumber)) return null;
+  const n = String(questionNumber).padStart(2, '0');
+  return `${ASSET_BASE}/${testId}/lc-q${n}.mp3`;
+}
+
 // --- Answer keys -----------------------------------------------------------
 
 const keyModules = import.meta.glob('../data/ybm/keys/*.json', {
