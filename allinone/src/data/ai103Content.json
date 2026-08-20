@@ -3,7 +3,7 @@
   "subtitle": "Microsoft Azure AI solution study material",
   "sourceFile": "ai-103.pdf",
   "sourceUrl": "https://certyiq.com/papers/microsoft/ai-103",
-  "questionCount": 180,
+  "questionCount": 183,
   "pageCount": 159,
   "wordCount": 52586,
   "blankPages": [
@@ -1098,6 +1098,27 @@
       ]
     },
     {
+      "number": 76,
+      "sourcePages": [],
+      "prompt": "You have a Microsoft Foundry project that contains an agent for a customer support chat app. The agent uses a memory store and a memory search tool.\nYou need to ensure that the conversation history does NOT persist across separate sessions.\nTo what should you set the scope of the memory tool?\nA. session\nB. {{$conversationId}}\nC. {{$userId}}\nD. global",
+      "answer": "A",
+      "explanation": "Technical Justification for Correct Answer: A (session)\nTo ensure that the conversation history does not persist across separate sessions in the Microsoft Foundry project for the customer support chat app, setting the scope of the memory tool to A. session is the most appropriate choice. Here's why:\nCorrect Choice - A. session:\nSetting the scope to \"session\" ensures that the memory store and search tool are confined to the duration of a single user session.\nOnce the session ends (e.g., user closes the chat, times out, or explicitly ends the conversation), the associated memory is cleared, achieving the requirement that conversation history does not persist across sessions.\nThis scope balances the need for in-session contextual understanding with the requirement for session-to-session data isolation.\nWhy Other Options are Less Suitable:\nB. {{$conversationId}}:\nWhile unique per conversation, if a user starts a new conversation in what is considered a new \"session\" by the application's logic (but perhaps not by the conversation ID's definition), this could inadvertently retain history across what the application considers separate sessions.\nThe definition of a conversation's boundary might not align with the session's boundary as perceived by the application's requirements.\nC. {{$userId}}:\nThis scope would retain conversation history across all sessions for a given user, directly contradicting the requirement.\nIt's useful for retaining preferences or history within an app for personalized experiences but not suitable here.\nD. global:\nA global scope would share the memory store across all users and sessions, leading to privacy concerns, data mingling, and a clear violation of the persistence requirement.\nIt's the least suitable for this specific need.",
+      "text": "You have a Microsoft Foundry project that contains an agent for a customer support chat app. The agent uses a memory store and a memory search tool.\nYou need to ensure that the conversation history does NOT persist across separate sessions.\nTo what should you set the scope of the memory tool?\nA. session\nB. {{$conversationId}}\nC. {{$userId}}\nD. global\nAnswer: A\nExplanation:\nTechnical Justification for Correct Answer: A (session)\nTo ensure that the conversation history does not persist across separate sessions in the Microsoft Foundry project for the customer support chat app, setting the scope of the memory tool to A. session is the most appropriate choice. Here's why:\nCorrect Choice - A. session:\nSetting the scope to \"session\" ensures that the memory store and search tool are confined to the duration of a single user session.\nOnce the session ends (e.g., user closes the chat, times out, or explicitly ends the conversation), the associated memory is cleared, achieving the requirement that conversation history does not persist across sessions.\nThis scope balances the need for in-session contextual understanding with the requirement for session-to-session data isolation.\nWhy Other Options are Less Suitable:\nB. {{$conversationId}}:\nWhile unique per conversation, if a user starts a new conversation in what is considered a new \"session\" by the application's logic (but perhaps not by the conversation ID's definition), this could inadvertently retain history across what the application considers separate sessions.\nThe definition of a conversation's boundary might not align with the session's boundary as perceived by the application's requirements.\nC. {{$userId}}:\nThis scope would retain conversation history across all sessions for a given user, directly contradicting the requirement.\nIt's useful for retaining preferences or history within an app for personalized experiences but not suitable here.\nD. global:\nA global scope would share the memory store across all users and sessions, leading to privacy concerns, data mingling, and a clear violation of the persistence requirement.\nIt's the least suitable for this specific need.",
+      "references": [
+        "Microsoft Azure Documentation: Managing Session State in Azure: https://docs.microsoft.com/en-us/azure/app-service/configure-common?tabs=portal#settings",
+        "Microsoft Bot Framework Documentation: Conversation Scope: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-scope?view=azure-bot-service-4.0"
+      ]
+    },
+    {
+      "number": 77,
+      "sourcePages": [],
+      "prompt": "DRAG DROP\n-\nYou have a Microsoft Foundry project that contains an agent.\nYou need to enable long-term memory to ensure that the agent can recall user preferences across separate conversations. Stored memories must be isolated per authenticated user without the client application manually generating user IDs.\nHow should you complete the Python code? To answer, drag the appropriate values to the correct targets. Each value may be used once, more than once, or not at all.\nNOTE: Each correct selection is worth one point.",
+      "answer": "",
+      "explanation": "Value: \"{{$userId}}\"\nIn the Azure AI Agent service client library, \"{{$userId}}\" is a special variable parameter used to automatically scope and isolate long-term memory to the current signed-in user context.\nValue: [memory_tool]\nThe tools parameter takes a list of tool objects. Since the instance of the memory search tool was assigned to the variable memory_tool right above, it must be provided as a list: [memory_tool].",
+      "text": "DRAG DROP\n-\nYou have a Microsoft Foundry project that contains an agent.\nYou need to enable long-term memory to ensure that the agent can recall user preferences across separate conversations. Stored memories must be isolated per authenticated user without the client application manually generating user IDs.\nHow should you complete the Python code? To answer, drag the appropriate values to the correct targets. Each value may be used once, more than once, or not at all.\nNOTE: Each correct selection is worth one point.\nAnswer: \nExplanation:\nValue: \"{{$userId}}\"\nIn the Azure AI Agent service client library, \"{{$userId}}\" is a special variable parameter used to automatically scope and isolate long-term memory to the current signed-in user context.\nValue: [memory_tool]\nThe tools parameter takes a list of tool objects. Since the instance of the memory search tool was assigned to the variable memory_tool right above, it must be provided as a list: [memory_tool].",
+      "references": []
+    },
+    {
       "number": 78,
       "sourcePages": [
         107,
@@ -1655,6 +1676,15 @@
     {
       "number": 118,
       "sourcePages": [],
+      "prompt": "DRAG DROP\n-\nYou are building an app that will scan confidential documents and use the Azure Language in Foundry Tools service to analyze the contents.\nYou provision a Microsoft Foundry Service resource.\nYou need to ensure that the app can make requests to the Azure Language in Foundry Tools service endpoint. The solution must ensure that confidential documents remain on-premises.\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and arrange them in the correct order.",
+      "answer": "",
+      "explanation": "Step 1: Provision an on-premises Kubernetes cluster that has internet connectivity.\nTo keep confidential documents on-premises while still analyzing them with the Azure Language in Foundry Tools service, you host the service as a container on your own infrastructure. The host cluster needs internet connectivity so the container can periodically report usage to Azure for billing and metering, even though the document content itself never leaves the on-premises environment.\nStep 2: Pull an image from the Microsoft Container Registry (MCR).\nMicrosoft publishes the official Language service container images on the Microsoft Container Registry, not Docker Hub. You pull the container image from MCR onto the on-premises host.\nStep 3: Run the container and specify an API key and the Endpoint URL of the Azure AI resource.\nWhen you run the container, you supply the API key and endpoint URL of the Azure Language in Foundry Tools resource. This authorizes the container and lets it send billing and metering data to Azure, while all document processing continues to happen locally on-premises.",
+      "text": "DRAG DROP\n-\nYou are building an app that will scan confidential documents and use the Azure Language in Foundry Tools service to analyze the contents.\nYou provision a Microsoft Foundry Service resource.\nYou need to ensure that the app can make requests to the Azure Language in Foundry Tools service endpoint. The solution must ensure that confidential documents remain on-premises.\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and arrange them in the correct order.\nAnswer: \nExplanation:\nStep 1: Provision an on-premises Kubernetes cluster that has internet connectivity.\nTo keep confidential documents on-premises while still analyzing them with the Azure Language in Foundry Tools service, you host the service as a container on your own infrastructure. The host cluster needs internet connectivity so the container can periodically report usage to Azure for billing and metering, even though the document content itself never leaves the on-premises environment.\nStep 2: Pull an image from the Microsoft Container Registry (MCR).\nMicrosoft publishes the official Language service container images on the Microsoft Container Registry, not Docker Hub. You pull the container image from MCR onto the on-premises host.\nStep 3: Run the container and specify an API key and the Endpoint URL of the Azure AI resource.\nWhen you run the container, you supply the API key and endpoint URL of the Azure Language in Foundry Tools resource. This authorizes the container and lets it send billing and metering data to Azure, while all document processing continues to happen locally on-premises.",
+      "references": []
+    },
+    {
+      "number": 119,
+      "sourcePages": [],
       "prompt": "Which web portal should you use to work with assets in a Microsoft Foundry project?\nA. The Azure portal\nB. Microsoft Copilot\nC. The Microsoft Foundry portal",
       "answer": "C",
       "explanation": "The Microsoft Foundry portal is the dedicated web portal for creating, configuring, and managing assets (projects, models, agents, tools, and connections) within a Microsoft Foundry project. The Azure portal manages broader Azure resources and subscriptions rather than Foundry project assets directly, and Microsoft Copilot is an AI assistant, not an asset management portal.",
@@ -1665,7 +1695,7 @@
       ]
     },
     {
-      "number": 119,
+      "number": 120,
       "sourcePages": [],
       "prompt": "Which component of Microsoft Foundry provides pre-built services for common AI tasks?\nA. Foundry Tools\nB. Foundry Models\nC. Foundry IQ",
       "answer": "A",
@@ -1677,7 +1707,7 @@
       ]
     },
     {
-      "number": 120,
+      "number": 121,
       "sourcePages": [],
       "prompt": "Which extension should you use in Visual Studio Code to work with Foundry projects?\nA. Python extension for Visual Studio Code\nB. GitHub Copilot\nC. Microsoft AI Toolkit extension for Visual Studio Code",
       "answer": "C",
@@ -1689,7 +1719,7 @@
       ]
     },
     {
-      "number": 121,
+      "number": 122,
       "sourcePages": [],
       "prompt": "Which model benchmark indicates the model's ability to process prompts and return comprehensive responses quickly?\nA. Quality index\nB. Cost\nC. Throughput",
       "answer": "C",
@@ -1701,7 +1731,7 @@
       ]
     },
     {
-      "number": 122,
+      "number": 123,
       "sourcePages": [],
       "prompt": "Which deployment type in Microsoft Foundry is best for general use while offering the largest quota?\nA. Data Zone Batch\nB. Global Standard\nC. Developer",
       "answer": "B",
@@ -1713,7 +1743,7 @@
       ]
     },
     {
-      "number": 123,
+      "number": 124,
       "sourcePages": [],
       "prompt": "Which evaluation metric measures linguistic correctness and natural language quality?\nA. Fluency\nB. Groundedness\nC. Relevance",
       "answer": "A",
@@ -1725,7 +1755,7 @@
       ]
     },
     {
-      "number": 124,
+      "number": 125,
       "sourcePages": [],
       "prompt": "Which endpoint offers the broadest support for OpenAI APIs with Foundry Models?\nA. The Foundry project endpoint\nB. The Azure OpenAI endpoint\nC. The Foundry Tools endpoint",
       "answer": "B",
@@ -1737,7 +1767,7 @@
       ]
     },
     {
-      "number": 125,
+      "number": 126,
       "sourcePages": [],
       "prompt": "Which package must you install to use the Microsoft Foundry SDK in Python?\nA. azure-foundry\nB. azure-ai-projects\nC. microsoft-foundry-sdk",
       "answer": "B",
@@ -1749,7 +1779,7 @@
       ]
     },
     {
-      "number": 126,
+      "number": 127,
       "sourcePages": [],
       "prompt": "Which method do you use to generate responses with the Responses API?\nA. client.chat.completions.create()\nB. client.get_response_id()\nC. client.responses.create()",
       "answer": "C",
@@ -1761,7 +1791,7 @@
       ]
     },
     {
-      "number": 127,
+      "number": 128,
       "sourcePages": [],
       "prompt": "Which tool should you use when a model needs to answer questions from your own uploaded policy documents?\nA. web_search\nB. file_search\nC. code_interpreter",
       "answer": "B",
@@ -1773,7 +1803,7 @@
       ]
     },
     {
-      "number": 128,
+      "number": 129,
       "sourcePages": [],
       "prompt": "In a function-calling workflow, what should your application do after the model returns a function_call item?\nA. Wait for the model to run the function automatically\nB. Run the function in your code and send a function_call_output back to the model\nC. Convert the function call into a web_search request",
       "answer": "B",
@@ -1785,7 +1815,7 @@
       ]
     },
     {
-      "number": 129,
+      "number": 130,
       "sourcePages": [],
       "prompt": "Which statement about the code_interpreter tool is correct?\nA. It can run Python code in a sandboxed runtime to help solve tasks\nB. It can browse external websites directly during code execution\nC. It only supports file uploads and can't perform calculations",
       "answer": "A",
@@ -1797,7 +1827,7 @@
       ]
     },
     {
-      "number": 130,
+      "number": 131,
       "sourcePages": [],
       "prompt": "What is the primary purpose of a system message in a prompt?\nA. To define the model's role, behavior, and output constraints\nB. To provide training data that permanently changes the model\nC. To retrieve data from an external data source",
       "answer": "A",
@@ -1809,7 +1839,7 @@
       ]
     },
     {
-      "number": 131,
+      "number": 132,
       "sourcePages": [],
       "prompt": "When should you use Retrieval Augmented Generation (RAG) instead of relying on prompt engineering alone?\nA. When you want the model to respond in a consistent style and format\nB. When the model needs access to domain-specific or current data that it wasn't trained on\nC. When you want to reduce the length of prompts sent to the model",
       "answer": "B",
@@ -1821,7 +1851,7 @@
       ]
     },
     {
-      "number": 132,
+      "number": 133,
       "sourcePages": [],
       "prompt": "What does fine-tuning optimize in a language model?\nA. The factual accuracy of responses by connecting to external data\nB. The consistency of the model's behavior, style, and output format\nC. The number of tokens the model can process in a single request",
       "answer": "B",
@@ -1833,7 +1863,7 @@
       ]
     },
     {
-      "number": 133,
+      "number": 134,
       "sourcePages": [],
       "prompt": "Why should you consider creating an AI Impact Assessment when designing a generative AI solution?\nA. To make a legal case that indemnifies you from responsibility for harms caused by the solution\nB. To document the purpose, expected use, and potential harms for the solution\nC. To evaluate the cost of cloud services required to implement your solution",
       "answer": "B",
@@ -1845,7 +1875,7 @@
       ]
     },
     {
-      "number": 134,
+      "number": 135,
       "sourcePages": [],
       "prompt": "What capability of Microsoft Foundry helps mitigate harmful content generation at the Safety System level?\nA. DALL-E model support\nB. Fine-tuning\nC. Guardrails",
       "answer": "C",
@@ -1857,7 +1887,7 @@
       ]
     },
     {
-      "number": 135,
+      "number": 136,
       "sourcePages": [],
       "prompt": "Why should you consider a phased delivery plan for your generative AI solution?\nA. To enable you to gather feedback and identify issues before releasing the solution more broadly\nB. To eliminate the need to map, measure, mitigate, and manage potential harms\nC. To enable you to charge more for the solution",
       "answer": "A",
@@ -1869,7 +1899,7 @@
       ]
     },
     {
-      "number": 136,
+      "number": 137,
       "sourcePages": [],
       "prompt": "What is the primary benefit of using Microsoft Foundry Agent Service compared to building agents with standard APIs?\nA. It provides access to more powerful AI models\nB. It requires no Azure subscription\nC. It handles tool calling, state management, and infrastructure automatically\nD. It only works with the Azure portal",
       "answer": "C",
@@ -1881,7 +1911,7 @@
       ]
     },
     {
-      "number": 137,
+      "number": 138,
       "sourcePages": [],
       "prompt": "How does Microsoft Foundry Agent Service handle conversation state?\nA. By requiring developers to manually manage conversation history\nB. Through external database connections\nC. Through the Responses API which automatically manages conversation context\nD. Using local file storage on the client device",
       "answer": "C",
@@ -1893,7 +1923,7 @@
       ]
     },
     {
-      "number": 138,
+      "number": 139,
       "sourcePages": [],
       "prompt": "What are custom tools, and how can they help you develop effective agents?\nA. Callable functions that an agent can use to extend its capabilities\nB. Extensions for Visual Studio Code to create and deploy agents\nC. Fine-tuned models that the agent uses to generate custom output",
       "answer": "A",
@@ -1905,7 +1935,7 @@
       ]
     },
     {
-      "number": 139,
+      "number": 140,
       "sourcePages": [],
       "prompt": "You need to integrate functionality from an OpenAPI 3.0-based web service. What should you do?\nA. Add the JSON schema to the agent's instructions\nB. Rewrite the web service as a Python function and hard-code it\nC. Add the web service as an OpenAPI specification tool to the agent definition",
       "answer": "C",
@@ -1917,7 +1947,7 @@
       ]
     },
     {
-      "number": 140,
+      "number": 141,
       "sourcePages": [],
       "prompt": "What role does the MCP server play in the MCP agent tool integration?\nA. Runs the AI agent and processes user prompts directly\nB. Manages network connections between multiple agents\nC. Hosts tool definitions and makes them available for discovery by the client",
       "answer": "C",
@@ -1929,7 +1959,7 @@
       ]
     },
     {
-      "number": 141,
+      "number": 142,
       "sourcePages": [],
       "prompt": "How does an MCP client retrieve available tools from the MCP server?\nA. By calling session.list_tools() to get the current tool catalog\nB. By reading a static JSON file from the server directory\nC. By subscribing to server events via a WebSocket connection",
       "answer": "A",
@@ -1941,7 +1971,7 @@
       ]
     },
     {
-      "number": 142,
+      "number": 143,
       "sourcePages": [],
       "prompt": "What is the primary advantage of Retrieval Augmented Generation (RAG) over simple AI agents?\nA. RAG eliminates the need for large language models\nB. RAG enables agents to ground responses in current organizational information and provide source transparency\nC. RAG automatically retrains the language model when documents change",
       "answer": "B",
@@ -1953,7 +1983,7 @@
       ]
     },
     {
-      "number": 143,
+      "number": 144,
       "sourcePages": [],
       "prompt": "Which data source option provides real-time access to SharePoint content with Microsoft 365 governance?\nA. SharePoint Indexed, which pre-processes content into Azure AI Search\nB. SharePoint Remote, which queries SharePoint sites and libraries in real-time\nC. Azure Blob Storage, which connects to SharePoint files stored as blobs",
       "answer": "B",
@@ -1965,7 +1995,7 @@
       ]
     },
     {
-      "number": 144,
+      "number": 145,
       "sourcePages": [],
       "prompt": "What Azure resource does the Foundry portal automatically create when you publish an agent to Microsoft Teams?\nA. Azure Functions\nB. Azure Bot Service\nC. Azure Cosmos DB\nD. Azure Logic Apps",
       "answer": "B",
@@ -1977,7 +2007,7 @@
       ]
     },
     {
-      "number": 145,
+      "number": 146,
       "sourcePages": [],
       "prompt": "What is a key benefit of an Agent Application created when publishing an agent?\nA. It ensures all agents share the same identity and data\nB. It provides a stable endpoint and isolates user interactions\nC. It automatically retrains the agent with new data\nD. It replaces the need for Azure Bot Service",
       "answer": "B",
@@ -1989,7 +2019,7 @@
       ]
     },
     {
-      "number": 146,
+      "number": 147,
       "sourcePages": [],
       "prompt": "Which type of node in a Foundry workflow is used to invoke an AI agent?\nA. Logic node\nB. Agent node\nC. Data transformation node",
       "answer": "B",
@@ -2001,7 +2031,7 @@
       ]
     },
     {
-      "number": 147,
+      "number": 148,
       "sourcePages": [],
       "prompt": "Which node type would you use to handle multiple items in a workflow without duplicating nodes?\nA. If/Else node\nB. For-Each node\nC. Send message node",
       "answer": "B",
@@ -2013,7 +2043,7 @@
       ]
     },
     {
-      "number": 148,
+      "number": 149,
       "sourcePages": [],
       "prompt": "What are the key steps to create a Microsoft Foundry Agent using the Microsoft Agent Framework?\nA. Deploy a custom AI model before creating an agent definition in the Azure portal\nB. Initialize the agent by defining a model in the AgentThread constructor\nC. Create an AzureAIAgentClient, define a ChatAgent with instructions and tools, and create an AgentThread",
       "answer": "C",
@@ -2025,7 +2055,7 @@
       ]
     },
     {
-      "number": 149,
+      "number": 150,
       "sourcePages": [],
       "prompt": "Which component in the Microsoft Agent Framework manages conversation state and stores messages?\nA. AgentThread\nB. ChatAgent\nC. AzureAIAgentClient",
       "answer": "A",
@@ -2037,7 +2067,7 @@
       ]
     },
     {
-      "number": 150,
+      "number": 151,
       "sourcePages": [],
       "prompt": "What's the first step in the Microsoft Agent Framework's unified orchestration workflow?\nA. Select and create an orchestration pattern\nB. Define your agents and describe their capabilities\nC. Start a runtime to manage execution",
       "answer": "B",
@@ -2049,7 +2079,7 @@
       ]
     },
     {
-      "number": 151,
+      "number": 152,
       "sourcePages": [],
       "prompt": "For brainstorming and collaborative problem solving among multiple agents, which orchestration pattern is most suitable?\nA. Group Chat\nB. Magentic\nC. Sequential",
       "answer": "A",
@@ -2061,7 +2091,7 @@
       ]
     },
     {
-      "number": 152,
+      "number": 153,
       "sourcePages": [],
       "prompt": "How should you create an application that analyzes news articles and extracts key people, places, and dates that are mentioned for indexing?\nA. Use a generative AI model with a custom function tool that matches strings using a regular expression.\nB. Use Azure Language in Foundry Tools to extract PII entities.\nC. Use Azure Language in Foundry Tools to extract named entities.",
       "answer": "C",
@@ -2073,7 +2103,7 @@
       ]
     },
     {
-      "number": 153,
+      "number": 154,
       "sourcePages": [],
       "prompt": "You want to publish extracts from customer testimonials on a web site. You need to remove personal details from the text before publishing it. What should you do?\nA. Use Azure Language in Foundry Tools to find and redact PII entities.\nB. Use Azure Language in Foundry Tools to detect the language and publish only the testimonials in English.\nC. Use a gpt-4.1 model to create new AI-generated customer reviews.",
       "answer": "A",
@@ -2085,7 +2115,7 @@
       ]
     },
     {
-      "number": 154,
+      "number": 155,
       "sourcePages": [],
       "prompt": "What is the primary role of the Azure Language MCP server?\nA. To train and fine-tune custom language models for use by AI agents\nB. To expose Azure Language text analysis capabilities as MCP tools for agents\nC. To deploy and manage large language models in an Azure subscription",
       "answer": "B",
@@ -2097,7 +2127,7 @@
       ]
     },
     {
-      "number": 155,
+      "number": 156,
       "sourcePages": [],
       "prompt": "How does an agent determine which Azure Language MCP tool to call when processing a user's prompt?\nA. The developer writes routing logic to direct each prompt to a specific tool\nB. The agent matches the prompt to tool descriptions received from the MCP server\nC. The MCP server analyzes the prompt and automatically routes it to a tool",
       "answer": "B",
@@ -2109,7 +2139,7 @@
       ]
     },
     {
-      "number": 156,
+      "number": 157,
       "sourcePages": [],
       "prompt": "Which model can you use to generate text from speech?\nA. gpt-4o-mini\nB. gpt-4o-mini-tts\nC. gpt-4o-mini-transcribe",
       "answer": "C",
@@ -2121,7 +2151,7 @@
       ]
     },
     {
-      "number": 157,
+      "number": 158,
       "sourcePages": [],
       "prompt": "Which model can you use to synthesize speech from text?\nA. gpt-4o-mini\nB. gpt-4o-mini-tts\nC. gpt-4o-mini-transcribe",
       "answer": "B",
@@ -2133,7 +2163,7 @@
       ]
     },
     {
-      "number": 158,
+      "number": 159,
       "sourcePages": [],
       "prompt": "What information do you need from your Microsoft Foundry resource to consume it using the Azure Speech SDK?\nA. The endpoint and key\nB. The primary and secondary keys\nC. The Azure subscription ID and resource group name",
       "answer": "A",
@@ -2145,7 +2175,7 @@
       ]
     },
     {
-      "number": 159,
+      "number": 160,
       "sourcePages": [],
       "prompt": "Which object should you use to specify that the speech input to be transcribed to text is in an audio file?\nA. SpeechConfig\nB. AudioConfig\nC. SpeechRecognizer",
       "answer": "B",
@@ -2157,7 +2187,7 @@
       ]
     },
     {
-      "number": 160,
+      "number": 161,
       "sourcePages": [],
       "prompt": "How can you change the voice used in speech synthesis?\nA. Specify a SpeechSynthesisOutputFormat enumeration in the SpeechConfig object\nB. Set the SpeechSynthesisVoiceName property of the SpeechConfig object to the desired voice name\nC. Specify a filename in the AudioConfig object",
       "answer": "B",
@@ -2169,7 +2199,7 @@
       ]
     },
     {
-      "number": 161,
+      "number": 162,
       "sourcePages": [],
       "prompt": "What two core capabilities does the Azure Speech MCP server expose to agents?\nA. Language translation and text summarization\nB. Speech-to-text recognition and text-to-speech synthesis\nC. Named entity recognition and sentiment analysis",
       "answer": "B",
@@ -2181,7 +2211,7 @@
       ]
     },
     {
-      "number": 162,
+      "number": 163,
       "sourcePages": [],
       "prompt": "Why does the Azure Speech MCP server require an Azure Storage account?\nA. To store the agent's instructions and configuration settings\nB. To store input audio files and output audio files generated by the speech tools\nC. To cache the MCP server's tool definitions for faster discovery",
       "answer": "B",
@@ -2193,7 +2223,7 @@
       ]
     },
     {
-      "number": 163,
+      "number": 164,
       "sourcePages": [],
       "prompt": "What credentials are needed when connecting the Azure Speech MCP server to a Foundry agent?\nA. An OAuth 2.0 token and a managed identity endpoint URL\nB. A Foundry resource key and a SAS URL for a blob container\nC. A client certificate and the Azure subscription ID",
       "answer": "B",
@@ -2205,7 +2235,7 @@
       ]
     },
     {
-      "number": 164,
+      "number": 165,
       "sourcePages": [],
       "prompt": "What are the two authentication methods supported by the Voice Live API?\nA. OAuth 2.0 and JWT (JSON Web Tokens)\nB. Basic authentication and API keys\nC. Microsoft Entra (keyless) and API key",
       "answer": "C",
@@ -2217,7 +2247,7 @@
       ]
     },
     {
-      "number": 165,
+      "number": 166,
       "sourcePages": [],
       "prompt": "How do you configure and test Voice Live agent integration in the Foundry Portal?\nA. You can't - Voice Live is only accessible through the REST API or Python SDK\nB. In the Azure Speech in Foundry Tools Voice Live playground\nC. Enable Voice mode in the agent playground",
       "answer": "C",
@@ -2229,7 +2259,7 @@
       ]
     },
     {
-      "number": 166,
+      "number": 167,
       "sourcePages": [],
       "prompt": "How can you stop audio playback when a user interrupts the voice agent?\nA. You can't - the user must wait for the agent to finish\nB. Handle the INPUT_AUDIO_BUFFER_SPEECH_STARTED event\nC. Reset the Voice Live session and clear the conversation history",
       "answer": "B",
@@ -2241,7 +2271,7 @@
       ]
     },
     {
-      "number": 167,
+      "number": 168,
       "sourcePages": [],
       "prompt": "What function of an Azure Translator TextTranslationClient object should you use to convert the Chinese word \"你好\" to the English word \"Hello\"?\nA. get_supported_language\nB. translate\nC. transliterate",
       "answer": "B",
@@ -2253,7 +2283,7 @@
       ]
     },
     {
-      "number": 168,
+      "number": 169,
       "sourcePages": [],
       "prompt": "What function of an Azure Translator TextTranslationClient object should you use to convert the Russian word \"спасибо\" in Cyrillic characters to \"spasibo\" in Latin characters?\nA. get_supported_language\nB. translate\nC. transliterate",
       "answer": "C",
@@ -2265,7 +2295,7 @@
       ]
     },
     {
-      "number": 169,
+      "number": 170,
       "sourcePages": [],
       "prompt": "Which Azure Speech SDK object should you use to specify the language(s) into which you want speech translated?\nA. SpeechConfig\nB. SpeechTranslationConfig\nC. AudioConfig",
       "answer": "B",
@@ -2277,7 +2307,7 @@
       ]
     },
     {
-      "number": 170,
+      "number": 171,
       "sourcePages": [],
       "prompt": "Which kind of model can you use to respond to visual input?\nA. Only OpenAI GPT models\nB. Embedding models\nC. Multimodal models",
       "answer": "C",
@@ -2289,7 +2319,7 @@
       ]
     },
     {
-      "number": 171,
+      "number": 172,
       "sourcePages": [],
       "prompt": "How should you submit a prompt that asks a model to analyze an image?\nA. Submit one prompt with an image-based message followed by another prompt with a text-based message\nB. Submit a prompt that contains a multi-part user message, containing both text content and image content\nC. Submit the image as the system message and the instruction or question as the user message",
       "answer": "B",
@@ -2301,7 +2331,7 @@
       ]
     },
     {
-      "number": 172,
+      "number": 173,
       "sourcePages": [],
       "prompt": "How can you include an image in a message?\nA. As a URL or as binary data\nB. Only as a URL for an online image\nC. Only as binary data",
       "answer": "A",
@@ -2313,7 +2343,7 @@
       ]
     },
     {
-      "number": 173,
+      "number": 174,
       "sourcePages": [],
       "prompt": "You want to find a model in Microsoft Foundry to generate images. Which inference task should you filter by?\nA. Text to Image\nB. Text to Video\nC. Embeddings",
       "answer": "A",
@@ -2325,7 +2355,7 @@
       ]
     },
     {
-      "number": 174,
+      "number": 175,
       "sourcePages": [],
       "prompt": "Which OpenAI API object do you an you use to download from video-generation models?\nA. Videos\nB. Images\nC. Graphics",
       "answer": "A",
@@ -2337,7 +2367,7 @@
       ]
     },
     {
-      "number": 175,
+      "number": 176,
       "sourcePages": [],
       "prompt": "What kinds of AI solution is Azure Content Understanding designed to help you build?\nA. Chatbots that automatically translate between multiple spoken and written languages.\nB. Analyzers that extract information from documents, images, videos, and audio files.\nC. Image generators that create visualizations based on descriptions.",
       "answer": "B",
@@ -2349,7 +2379,7 @@
       ]
     },
     {
-      "number": 176,
+      "number": 177,
       "sourcePages": [],
       "prompt": "Which graphical tool should you use to create an Azure Content Understanding project?\nA. Microsoft Visual Studio.\nB. Azure Machine Learning studio.\nC. Content Understanding Studio.",
       "answer": "C",
@@ -2361,7 +2391,7 @@
       ]
     },
     {
-      "number": 177,
+      "number": 178,
       "sourcePages": [],
       "prompt": "You need to extract vendor names, line items, and totals from photographed sales receipts. Which prebuilt analyzer should you use?\nA. prebuilt-image\nB. prebuilt-receipt\nC. prebuilt-idDocument",
       "answer": "B",
@@ -2373,7 +2403,7 @@
       ]
     },
     {
-      "number": 178,
+      "number": 179,
       "sourcePages": [],
       "prompt": "Which confidence score range indicates a value suitable for automated processing?\nA. 0.9 and above\nB. 90 or higher\nC. Below 0.7",
       "answer": "A",
@@ -2385,7 +2415,7 @@
       ]
     },
     {
-      "number": 179,
+      "number": 180,
       "sourcePages": [],
       "prompt": "What should you define for the information you want to extract from content?\nA. A schema\nB. An index\nC. A cluster",
       "answer": "A",
@@ -2397,7 +2427,7 @@
       ]
     },
     {
-      "number": 180,
+      "number": 181,
       "sourcePages": [],
       "prompt": "Which component of an Azure AI Search solution is scheduled to extract and enrich data to populate an index?\nA. Indexer\nB. Projection\nC. Query",
       "answer": "A",
@@ -2409,7 +2439,7 @@
       ]
     },
     {
-      "number": 181,
+      "number": 182,
       "sourcePages": [],
       "prompt": "Which service supports built-in AI skills in Azure AI Search?\nA. Azure Functions\nB. Foundry Tools\nC. Azure Cosmos DB",
       "answer": "B",
@@ -2421,7 +2451,7 @@
       ]
     },
     {
-      "number": 182,
+      "number": 183,
       "sourcePages": [],
       "prompt": "Which kind of projection results in a relational data schema for extracted fields?\nA. File\nB. Object\nC. Table",
       "answer": "C",
