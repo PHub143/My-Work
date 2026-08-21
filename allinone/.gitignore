@@ -23,5 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-# YBM booklet scans and audio are served from Drive, not the repo
+# YBM booklet scans and audio are served from Drive, not the repo. Push a
+# test's local assets with api/scripts/upload-ybm-assets.js, which writes a
+# small Drive-file-id manifest under src/data/ybm/assets/ (that one IS
+# committed) for allinone/src/utils/ybm.js to resolve at runtime.
 public/ybm/

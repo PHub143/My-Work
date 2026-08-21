@@ -95,6 +95,15 @@
   color: var(--ybm-accent);
 }
 
+.ybm-volume-tab.is-disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.ybm-volume-tab.is-disabled:hover {
+  opacity: 0.35;
+}
+
 /* --- header --- */
 
 .ybm-header {

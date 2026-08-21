@@ -243,6 +243,7 @@ const deleteFile = async (fileId, driveConfigId) => {
 };
 
 module.exports = {
+  getDriveClient,
   uploadFile,
   listFiles,
   deleteFile,

@@ -61,6 +61,10 @@ const VOLUMES = [
     title: 'YBM 실전토익 1000 Vol. 2',
     listeningPages: null,
     readingPages: null,
+    // Tests are being digitised one at a time; only mapped tests get a page
+    // count here, so the rest stay unavailable until their booklets exist.
+    listeningPageOverrides: { 5: 12 },
+    readingPageOverrides: { 5: 30 },
   },
   {
     id: 'vol-3',
@@ -81,6 +85,7 @@ export function getTestId(volumeId, testNumber) {
 }
 
 function buildTest(volume, number) {
+  const listeningPages = volume.listeningPageOverrides?.[number] ?? volume.listeningPages;
   const readingPages = volume.readingPageOverrides?.[number] ?? volume.readingPages;
 
   return {
@@ -88,7 +93,7 @@ function buildTest(volume, number) {
     volumeId: volume.id,
     number,
     label: `Test ${padTestNumber(number)}`,
-    listeningPages: volume.listeningPages,
+    listeningPages,
     readingPages,
     listeningMinutes: LISTENING_MINUTES,
     readingMinutes: READING_MINUTES,

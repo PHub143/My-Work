@@ -12,8 +12,8 @@ import {
 import { getFullTestScore } from './toeicScore.js';
 
 // Booklet scans and audio are far too large for the repo, so they are served
-// from outside it. Set VITE_YBM_ASSET_BASE to the Drive-backed origin; the
-// default points at a local folder so the feature can run in development.
+// from outside it. Set VITE_YBM_ASSET_BASE to a static origin holding them;
+// the default points at a local folder so the feature can run in development.
 // The app is served under a base path (/My-Work/allinone/ on Pages), so the
 // local fallback has to be built from BASE_URL rather than assumed to be root.
 export const ASSET_BASE = (
@@ -21,13 +21,40 @@ export const ASSET_BASE = (
   || `${import.meta.env?.BASE_URL || '/'}ybm`
 ).replace(/\/$/, '');
 
+// Tests digitised via scripts/upload-ybm-assets.js get their pages/audio
+// pushed to the app's Google Drive instead, one manifest file per test
+// mapping the same relative filenames (lc-p01.jpg, listening.mp3, ...) to
+// Drive file IDs. A test with a manifest here is served from Drive; every
+// other test falls back to ASSET_BASE (the local dev folder in practice,
+// since nothing else is hosted anywhere yet).
+const driveAssetManifests = import.meta.glob('../data/ybm/assets/*.json', {
+  eager: true,
+  import: 'default',
+});
+
+function driveFilesFor(testId) {
+  return driveAssetManifests[`../data/ybm/assets/${testId}.json`]?.files || null;
+}
+
+function driveFileUrl(fileId) {
+  return `https://drive.google.com/uc?export=download&id=${fileId}`;
+}
+
 export function getPageUrl(testId, section, pageNumber) {
   const page = String(pageNumber).padStart(2, '0');
   const prefix = section === 'listening' ? 'lc' : 'rc';
-  return `${ASSET_BASE}/${testId}/${prefix}-p${page}.jpg`;
+  const filename = `${prefix}-p${page}.jpg`;
+
+  const driveFileId = driveFilesFor(testId)?.[filename];
+  if (driveFileId) return driveFileUrl(driveFileId);
+
+  return `${ASSET_BASE}/${testId}/${filename}`;
 }
 
 export function getAudioUrl(testId) {
+  const driveFileId = driveFilesFor(testId)?.['listening.mp3'];
+  if (driveFileId) return driveFileUrl(driveFileId);
+
   return `${ASSET_BASE}/${testId}/listening.mp3`;
 }
 

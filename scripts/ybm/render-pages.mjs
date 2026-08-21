@@ -22,7 +22,10 @@ const SOURCE = '/Volumes/Samsung_T5/Download/YBM';
 const DEFAULT_OUT = join(ROOT, 'allinone/public/ybm');
 
 // Where each volume's per-test booklets come from. `perTest` volumes have one
-// PDF per test; the others need page ranges that have not been mapped yet.
+// PDF per test. `pageRanges` volumes share one combined PDF per section across
+// all 10 tests; each test's [firstPage, lastPage] (1-indexed, inclusive) has to
+// be located by hand in the combined scan (cover + content, up to the page
+// before the next test's cover/divider) and added here before it can render.
 const VOLUME_SOURCES = {
   1: {
     perTest: true,
@@ -32,7 +35,13 @@ const VOLUME_SOURCES = {
   },
   2: {
     perTest: false,
-    audio: (n) => `${SOURCE}/Vol 2/Test ${String(n).padStart(2, '0')}.mp3`,
+    listeningSource: `${SOURCE}/Vol 2/YBM TOEIC 2/lc 1000 - 2.pdf`,
+    readingSource: `${SOURCE}/Vol 2/YBM TOEIC 2/rc 1000 - 2.pdf`,
+    // Content-only ranges (cover/divider pages excluded), located by hand.
+    pageRanges: {
+      5: { listening: [75, 86], reading: [143, 172] },
+    },
+    audio: (n) => `${SOURCE}/Vol 2/YBM TOEIC 2/file nghe/Test ${String(n).padStart(2, '0')}.mp3`,
   },
   3: {
     perTest: false,
@@ -57,29 +66,38 @@ function testId(vol, test) {
   return `vol-${vol}-test-${String(test).padStart(2, '0')}`;
 }
 
-// pdftoppm names output <prefix>-<n>.jpg with a variable-width counter;
-// normalise to a fixed two-digit page number the frontend can predict.
-async function normaliseNames(dir, prefix) {
+// pdftoppm names output <prefix>-<n>.jpg with a variable-width counter, using
+// the source PDF's absolute page number. Normalise to a fixed two-digit page
+// number the frontend can predict, relative to `offset` (the page before the
+// range's first page, 0 when rendering a whole per-test PDF from page 1).
+async function normaliseNames(dir, prefix, offset) {
   const files = (await readdir(dir)).filter((f) => f.startsWith(`${prefix}-`) && f.endsWith('.jpg'));
 
   for (const file of files) {
     const match = file.match(/-(\d+)\.jpg$/);
     if (!match) continue;
-    const target = `${prefix}-p${String(Number(match[1])).padStart(2, '0')}.jpg`;
+    const relative = Number(match[1]) - offset;
+    const target = `${prefix}-p${String(relative).padStart(2, '0')}.jpg`;
     if (file !== target) await rename(join(dir, file), join(dir, target));
   }
 
   return files.length;
 }
 
-async function renderSection(pdfPath, outDir, prefix, dpi) {
+// `range`, when given, is a [firstPage, lastPage] 1-indexed inclusive slice of
+// a combined multi-test PDF; omitted for a PDF that is already one test.
+async function renderSection(pdfPath, outDir, prefix, dpi, range) {
   if (!existsSync(pdfPath)) {
     console.warn(`  ! missing source: ${pdfPath}`);
     return 0;
   }
 
-  await run('pdftoppm', ['-jpeg', '-r', String(dpi), pdfPath, join(outDir, prefix)]);
-  const count = await normaliseNames(outDir, prefix);
+  const pdftoppmArgs = ['-jpeg', '-r', String(dpi)];
+  if (range) pdftoppmArgs.push('-f', String(range[0]), '-l', String(range[1]));
+  pdftoppmArgs.push(pdfPath, join(outDir, prefix));
+
+  await run('pdftoppm', pdftoppmArgs);
+  const count = await normaliseNames(outDir, prefix, range ? range[0] - 1 : 0);
   console.log(`  ${prefix}: ${count} pages`);
   return count;
 }
@@ -88,18 +106,24 @@ async function renderTest(vol, test, args) {
   const source = VOLUME_SOURCES[vol];
   if (!source) throw new Error(`Unknown volume ${vol}`);
 
-  if (!source.perTest) {
-    console.warn(`Vol ${vol} has no per-test booklet mapping yet — skipping test ${test}.`);
-    return;
-  }
-
   const id = testId(vol, test);
   const outDir = join(args.out, id);
-  await mkdir(outDir, { recursive: true });
 
-  console.log(`${id}:`);
-  await renderSection(source.listening(test), outDir, 'lc', args.dpi);
-  await renderSection(source.reading(test), outDir, 'rc', args.dpi);
+  if (source.perTest) {
+    await mkdir(outDir, { recursive: true });
+    console.log(`${id}:`);
+    await renderSection(source.listening(test), outDir, 'lc', args.dpi);
+    await renderSection(source.reading(test), outDir, 'rc', args.dpi);
+  } else if (source.pageRanges?.[test]) {
+    const range = source.pageRanges[test];
+    await mkdir(outDir, { recursive: true });
+    console.log(`${id}:`);
+    await renderSection(source.listeningSource, outDir, 'lc', args.dpi, range.listening);
+    await renderSection(source.readingSource, outDir, 'rc', args.dpi, range.reading);
+  } else {
+    console.warn(`Vol ${vol} test ${test} has no page mapping yet — skipping.`);
+    return;
+  }
 
   const audio = source.audio(test);
   console.log(existsSync(audio) ? `  audio ready: ${audio}` : `  ! missing audio: ${audio}`);

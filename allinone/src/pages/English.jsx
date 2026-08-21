@@ -6,7 +6,8 @@ import { useAuth } from '../AuthContext';
 import { YBM_VOLUMES, getVolume } from '../data/ybm/manifest.js';
 import { getTestReadiness, loadAttempt } from '../utils/ybm.js';
 
-const DEFAULT_VOLUME = YBM_VOLUMES[0].id;
+const DEFAULT_VOLUME = 'vol-2';
+const DISABLED_VOLUME_IDS = new Set(['vol-1', 'vol-3']);
 
 function getTestStatus(userId, test) {
   const readiness = getTestReadiness(test);
@@ -63,7 +64,7 @@ const English = () => {
   if (!volumeId) {
     return <Navigate to={`/learning/english/toeic/ybm/${DEFAULT_VOLUME}`} replace />;
   }
-  if (!volume) {
+  if (!volume || DISABLED_VOLUME_IDS.has(volume.id)) {
     return <Navigate to={`/learning/english/toeic/ybm/${DEFAULT_VOLUME}`} replace />;
   }
 
@@ -80,17 +81,21 @@ const English = () => {
       </nav>
 
       <nav className="ybm-volumes" aria-label="YBM volumes">
-        {YBM_VOLUMES.map((entry) => (
-          <button
-            key={entry.id}
-            type="button"
-            className={`ybm-volume-tab${entry.id === volume.id ? ' is-active' : ''}`}
-            aria-current={entry.id === volume.id ? 'page' : undefined}
-            onClick={() => navigate(`/learning/english/toeic/ybm/${entry.id}`)}
-          >
-            {entry.label}
-          </button>
-        ))}
+        {YBM_VOLUMES.map((entry) => {
+          const isDisabled = DISABLED_VOLUME_IDS.has(entry.id);
+          return (
+            <button
+              key={entry.id}
+              type="button"
+              className={`ybm-volume-tab${entry.id === volume.id ? ' is-active' : ''}${isDisabled ? ' is-disabled' : ''}`}
+              aria-current={entry.id === volume.id ? 'page' : undefined}
+              disabled={isDisabled}
+              onClick={() => navigate(`/learning/english/toeic/ybm/${entry.id}`)}
+            >
+              {entry.label}
+            </button>
+          );
+        })}
       </nav>
 
       <header className="ybm-header">
