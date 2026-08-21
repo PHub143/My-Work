@@ -253,6 +253,19 @@ const ExamRunner = ({ test, volumeId }) => {
 
   const pageCount = section === 'listening' ? test?.listeningPages : test?.readingPages;
   const questionAudioUrl = section === 'listening' ? getQuestionAudioUrl(test.id, focus) : null;
+  const pageUrl = section ? getPageUrl(test.id, section, page) : null;
+  const audioUrl = section === 'listening' ? (questionAudioUrl || getAudioUrl(test.id)) : null;
+
+  // Booklet pages and audio stream from Drive through the API (see ybm.js),
+  // which is noticeably slower than a static file — show a spinner rather
+  // than a blank/broken-looking gap while each new URL is in flight. Tracking
+  // the *loaded* url (rather than a plain boolean reset in an effect) means a
+  // url change is "not loaded" for free on the very next render, with no
+  // extra effect/render cycle.
+  const [loadedPageUrl, setLoadedPageUrl] = useState(null);
+  const [loadedAudioUrl, setLoadedAudioUrl] = useState(null);
+  const pageLoaded = loadedPageUrl === pageUrl;
+  const audioLoaded = loadedAudioUrl === audioUrl;
 
   const persist = useCallback((patch) => {
     if (!test) return;
@@ -453,10 +466,18 @@ const ExamRunner = ({ test, volumeId }) => {
           </div>
 
           <div className="ybm-booklet-viewport">
+            {!pageLoaded && (
+              <div className="ybm-loading" role="status">
+                <span className="ybm-spinner" aria-hidden="true" />
+                <span>Loading page…</span>
+              </div>
+            )}
             <img
-              src={getPageUrl(test.id, section, page)}
+              src={pageUrl}
               alt={`${test.label} ${section} booklet page ${page}`}
-              style={{ width: `${zoom * 100}%` }}
+              style={{ width: `${zoom * 100}%`, display: pageLoaded ? 'inline-block' : 'none' }}
+              onLoad={() => setLoadedPageUrl(pageUrl)}
+              onError={() => setLoadedPageUrl(pageUrl)}
             />
           </div>
 
@@ -465,14 +486,24 @@ const ExamRunner = ({ test, volumeId }) => {
               {questionAudioUrl && (
                 <span className="ybm-audio-label">Question {focus}</span>
               )}
-              <audio
-                ref={audioRef}
-                controls
-                src={questionAudioUrl || getAudioUrl(test.id)}
-                preload="none"
-              >
-                Your browser does not support audio playback.
-              </audio>
+              <div className="ybm-audio-row">
+                <audio
+                  ref={audioRef}
+                  controls
+                  src={audioUrl}
+                  preload="auto"
+                  onCanPlay={() => setLoadedAudioUrl(audioUrl)}
+                  onError={() => setLoadedAudioUrl(audioUrl)}
+                >
+                  Your browser does not support audio playback.
+                </audio>
+                {!audioLoaded && (
+                  <span className="ybm-loading ybm-loading--inline" role="status">
+                    <span className="ybm-spinner ybm-spinner--sm" aria-hidden="true" />
+                    <span>Loading audio…</span>
+                  </span>
+                )}
+              </div>
             </div>
           )}
         </section>
