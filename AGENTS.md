@@ -15,6 +15,11 @@ Workspace-level guidance for the two-subproject repo.
 
 - `allinone/` is the React/Vite frontend.
 - `api/` is the Express/Prisma/PostgreSQL backend.
+- `scripts/` holds cross-cutting content-pipeline tooling that isn't part of
+  either app's runtime — currently `scripts/ybm/render-pages.mjs`, which
+  rasterises YBM TOEIC booklet PDFs into page images. See
+  [`.claude/rules/architecture.md`](.claude/rules/architecture.md) for how it
+  fits into the rest of the YBM asset pipeline.
 - `.github/workflows/` contains deployment automation, primarily for the
   frontend GitHub Pages deployment.
 - Keep changes scoped to the relevant subproject unless the task requires

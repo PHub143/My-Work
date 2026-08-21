@@ -18,7 +18,7 @@ Fullstack app: `allinone/` (React 19 + Vite SPA) and `api/` (Express 5 + Prisma/
 
 Full tables live in the subproject AGENTS.md files. Most used, from each subproject dir:
 
-- Frontend: `npm run dev` (local API) · `npm run dev:prod` (Render API) · `npm run build` · `npm run lint`
+- Frontend: `npm run dev` (local API) · `npm run dev:prod` (Render API) · `npm run build` · `npm run lint` · `npm test` (real `node:test` suite)
 - Backend: `npm start` · `npx prisma generate` · `npm run db:sync` · `npm run db:studio`
 
-Safety: in `api/`, `npm run build` runs `prisma db push --accept-data-loss` (can destroy DB data — prefer `npx prisma generate`), and `npm test` is a placeholder that always exits 1. There is no test suite in this repo; verify with lint/build/syntax checks per the subproject AGENTS.md.
+Safety: in `api/`, `npm run build` runs `prisma db push --accept-data-loss` (can destroy DB data — prefer `npx prisma generate`). `api/`'s own `npm test` is a placeholder that always exits 1 — it does *not* run the two real `node:test` files that exist there (`api/auth-role.test.js`, `api/controllers/learningResultController.test.js`); run those directly with `node --test <file>`. `allinone/`'s `npm test` is real (see above) but has one known pre-existing failure — see `allinone/src/utils/AGENTS.md`.

@@ -12,6 +12,7 @@ import { useAuth } from '../AuthContext';
 import { PARTS, getTest } from '../data/ybm/manifest.js';
 import {
   clearAttempt,
+  getAnswerKey,
   getAudioUrl,
   getOptionKeys,
   getPageUrl,
@@ -58,7 +59,7 @@ function sectionRange(section) {
   return [parts[0].from, parts[parts.length - 1].to];
 }
 
-function AnswerSheet({ section, selections, onSelect, disabled, focus, onFocusChange }) {
+function AnswerSheet({ section, selections, onSelect, disabled, focus, onFocusChange, correctAnswers }) {
   const parts = sectionParts(section);
 
   return (
@@ -86,19 +87,26 @@ function AnswerSheet({ section, selections, onSelect, disabled, focus, onFocusCh
                     {number}
                   </button>
                   <span className="ybm-sheet-bubbles">
-                    {getOptionKeys(number).map((option) => (
-                      <button
-                        type="button"
-                        key={option}
-                        disabled={disabled}
-                        aria-label={`Question ${number} answer ${option}`}
-                        aria-pressed={selections[number] === option}
-                        className={selections[number] === option ? 'is-picked' : ''}
-                        onClick={() => onSelect(number, option)}
-                      >
-                        {option}
-                      </button>
-                    ))}
+                    {getOptionKeys(number).map((option) => {
+                      const picked = selections[number] === option;
+                      const isCorrect = disabled && correctAnswers[number] === option;
+                      const isWrongPick = disabled && picked && !isCorrect;
+                      const className = isCorrect ? 'is-correct' : isWrongPick ? 'is-incorrect' : picked ? 'is-picked' : '';
+
+                      return (
+                        <button
+                          type="button"
+                          key={option}
+                          disabled={disabled}
+                          aria-label={`Question ${number} answer ${option}`}
+                          aria-pressed={picked}
+                          className={className}
+                          onClick={() => onSelect(number, option)}
+                        >
+                          {option}
+                        </button>
+                      );
+                    })}
                   </span>
                 </li>
               ))}
@@ -122,6 +130,7 @@ function FocusPad({
   onFocusChange,
   answered,
   onSubmit,
+  correctAnswers,
 }) {
   const [reviewOpen, setReviewOpen] = useState(false);
   const [first, last] = sectionRange(section);
@@ -177,19 +186,26 @@ function FocusPad({
       </div>
 
       <div className="ybm-focus-options">
-        {getOptionKeys(focus).map((option) => (
-          <button
-            type="button"
-            key={option}
-            disabled={disabled}
-            aria-label={`Question ${focus} answer ${option}`}
-            aria-pressed={selections[focus] === option}
-            className={selections[focus] === option ? 'is-picked' : ''}
-            onClick={() => pick(option)}
-          >
-            {option}
-          </button>
-        ))}
+        {getOptionKeys(focus).map((option) => {
+          const picked = selections[focus] === option;
+          const isCorrect = disabled && correctAnswers[focus] === option;
+          const isWrongPick = disabled && picked && !isCorrect;
+          const className = isCorrect ? 'is-correct' : isWrongPick ? 'is-incorrect' : picked ? 'is-picked' : '';
+
+          return (
+            <button
+              type="button"
+              key={option}
+              disabled={disabled}
+              aria-label={`Question ${focus} answer ${option}`}
+              aria-pressed={picked}
+              className={className}
+              onClick={() => pick(option)}
+            >
+              {option}
+            </button>
+          );
+        })}
       </div>
 
       <div className="ybm-focus-nav">
@@ -226,6 +242,7 @@ const ExamRunner = ({ test, volumeId }) => {
   const { user } = useAuth();
 
   const readiness = useMemo(() => getTestReadiness(test), [test]);
+  const correctAnswers = useMemo(() => getAnswerKey(test.id).answers, [test.id]);
 
   const sections = useMemo(() => {
     const available = [];
@@ -518,6 +535,7 @@ const ExamRunner = ({ test, volumeId }) => {
             onFocusChange={handleFocusChange}
             answered={answeredInSection}
             onSubmit={handleSubmit}
+            correctAnswers={correctAnswers}
           />
         ) : (
           <aside className="ybm-answers" aria-label="Answer sheet">
@@ -532,6 +550,7 @@ const ExamRunner = ({ test, volumeId }) => {
               disabled={Boolean(result)}
               focus={focus}
               onFocusChange={handleFocusChange}
+              correctAnswers={correctAnswers}
             />
             {!result && (
               <button type="button" className="ybm-submit" onClick={handleSubmit}>

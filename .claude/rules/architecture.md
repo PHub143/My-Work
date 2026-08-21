@@ -14,6 +14,35 @@ Cross-cutting picture not captured in any single AGENTS.md. Workspace rules and 
 - `npm run db:sync` (in `api/`) mirrors Drive files into the DB.
 - Multi-drive support: each `DriveConfig` row carries one drive's OAuth credentials; `clientSecret` and `refreshToken` are stored AES-256-GCM encrypted via `api/utils/encryption.js` (hex `ENCRYPTION_KEY` env var).
 
+## YBM asset pipeline
+
+The YBM TOEIC feature (`allinone/src/pages/English.jsx`, `YbmExam.jsx`,
+`data/ybm/manifest.js`) needs a booklet-page image per test page plus one
+listening-track MP3, per test, per volume — far too much binary data to ship
+in either app's repo. Digitising one test is a two-step pipeline:
+
+1. `scripts/ybm/render-pages.mjs --vol <n> --test <n>` rasterises the source
+   PDFs/audio (paths hardcoded per volume in that file) into
+   `allinone/public/ybm/<testId>/lc-p01.jpg, ..., listening.mp3` — local-only,
+   `public/ybm/` is gitignored in `allinone/.gitignore`.
+2. `api/scripts/upload-ybm-assets.js <testId>` pushes that folder to the app's
+   Google Drive (under an `ybm/<testId>/` folder in the configured
+   `DriveConfig`) and writes `api/data/ybm-assets/<testId>.json`, a
+   `{ filename: driveFileId }` manifest — this one *is* committed (it's tiny).
+
+At runtime, `GET /ybm/:testId/:filename` (`api/routes/ybmAssetRoutes.js` →
+`services/ybmAssetService.js`) looks up the manifest and streams the file
+straight from Drive through the API. **Don't embed Drive download links
+(`drive.google.com/uc?export=download`) directly in `<img>`/`<audio>` tags** —
+Drive's CDN sets `Cross-Origin-Resource-Policy: same-site`, which browsers
+silently block for cross-origin embeds even though the same URL fetches fine
+via `curl` or a server-side request; this proxy route exists specifically to
+work around that. `allinone/src/utils/ybm.js` picks `ASSET_BASE` the same way
+`config.js` picks `API_URL` — the local `public/ybm/` folder in plain dev,
+the API's `/ybm` route whenever the app is talking to the real API (prod
+build, or `VITE_USE_PROD_API=true` / `npm run dev:prod`) — so a test only
+needs step 1 to work locally, and both steps to work in production.
+
 ## Auth and roles
 
 - App login is JWT-based (`api/controllers/userAuthController.js`, enforced by `api/middleware/authMiddleware.js`). Google OAuth is separate — it only authorizes Drive access for a `DriveConfig`.

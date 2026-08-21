@@ -23,7 +23,10 @@ npm run db:sync      # syncs Drive files into DB; integration operation
 npm test             # placeholder; exits with code 1
 ```
 
-Do not report `npm test` as passing. It is currently a placeholder failure.
+Do not report `npm test` as passing. It is currently a placeholder failure — two
+real `node:test` files exist (`auth-role.test.js`,
+`controllers/learningResultController.test.js`) but aren't wired to it; run
+them directly, e.g. `node --test auth-role.test.js`.
 
 Important: `npm run build` runs `npx prisma generate && npx prisma db push --accept-data-loss`. This can mutate or drop database data. Use `npx prisma generate` for schema/client verification unless the user explicitly approves database synchronization against a safe target.
 
@@ -39,6 +42,7 @@ Important: `npm run build` runs `npx prisma generate && npx prisma db push --acc
 | [`config/`](config/AGENTS.md) | Environment variables, CORS, Google credentials |
 | [`scripts/`](scripts/AGENTS.md) | Operational jobs (Drive sync, seed, token utilities) |
 | [`utils/`](utils/AGENTS.md) | Encryption, role normalization |
+| `data/ybm-assets/` | Committed `{ filename: driveFileId }` manifests for digitised YBM tests, read by `services/ybmAssetService.js`. See `.claude/rules/architecture.md` "YBM asset pipeline". |
 
 Keep the route/controller/service layering intact.
 

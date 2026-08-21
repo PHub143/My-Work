@@ -20,3 +20,4 @@ Helper utilities, role logic, and learning module functions.
 - Tests use `node:test` and `node:assert/strict` (Vitest was not introduced).
 - Run the whole suite from `allinone/` with `npm test`, or a single file with `node src/utils/learning.test.js`.
 - Follow existing pattern when adding new test suites.
+- Known pre-existing failure, unrelated to most changes: `learning.test.js` → "createPracticeSession can use a provided random source for regenerating practice tests". Don't assume you broke it; only chase it if the task is actually about `learning.js`'s random source handling.

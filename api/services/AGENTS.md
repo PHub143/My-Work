@@ -12,6 +12,8 @@ Business logic, Prisma persistence, Google Drive behavior, config encryption.
 | `configService.js` | Drive config CRUD with encrypted secret storage |
 | `userService.js` | User persistence and queries |
 | `defaultAdminService.js` | Ensures a default admin user exists on startup |
+| `learningResultService.js` | Learning-result persistence and queries |
+| `ybmAssetService.js` | Resolves a YBM test/filename to a Drive file ID (via `api/data/ybm-assets/<testId>.json`) and returns a readable stream from Drive; see `.claude/rules/architecture.md` "YBM asset pipeline" |
 
 ## Google Drive Behavior
 

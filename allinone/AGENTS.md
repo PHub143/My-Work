@@ -21,7 +21,11 @@ npm run dev:prod     # Vite dev server against production API (Render)
 npm run build        # production build -> dist/
 npm run lint         # ESLint
 npm run preview      # preview the built app
+npm test             # node --test src/utils/*.test.js — real suite, unlike api/'s
 ```
+
+`npm test` currently has one known pre-existing failure unrelated to most
+changes — see `src/utils/AGENTS.md`.
 
 ## Structure
 

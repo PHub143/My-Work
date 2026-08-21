@@ -13,6 +13,9 @@
   --exam-accent: #4c3ad6;
   --exam-accent-text: #ffffff;
   --exam-warn: #c02626;
+  --exam-warn-text: #ffffff;
+  --exam-correct: #1c7a4a;
+  --exam-correct-text: #ffffff;
 
   display: flex;
   flex-direction: column;
@@ -37,6 +40,9 @@
   --exam-accent: #9d8bff;
   --exam-accent-text: #0a0612;
   --exam-warn: #ff7a7a;
+  --exam-warn-text: #2a0a0a;
+  --exam-correct: #3ecf8e;
+  --exam-correct-text: #06210f;
 }
 
 .ybm-exam--empty {
@@ -448,6 +454,20 @@
   font-weight: 700;
 }
 
+.ybm-sheet-bubbles button.is-correct {
+  background: var(--exam-correct);
+  color: var(--exam-correct-text);
+  border-color: transparent;
+  font-weight: 700;
+}
+
+.ybm-sheet-bubbles button.is-incorrect {
+  background: var(--exam-warn);
+  color: var(--exam-warn-text);
+  border-color: transparent;
+  font-weight: 700;
+}
+
 .ybm-sheet-bubbles button:disabled {
   cursor: not-allowed;
 }
@@ -510,6 +530,20 @@
 .ybm-focus-options button.is-picked {
   background: var(--exam-accent);
   color: var(--exam-accent-text);
+  border-color: transparent;
+  font-weight: 700;
+}
+
+.ybm-focus-options button.is-correct {
+  background: var(--exam-correct);
+  color: var(--exam-correct-text);
+  border-color: transparent;
+  font-weight: 700;
+}
+
+.ybm-focus-options button.is-incorrect {
+  background: var(--exam-warn);
+  color: var(--exam-warn-text);
   border-color: transparent;
   font-weight: 700;
 }

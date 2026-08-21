@@ -11,6 +11,7 @@ Operational jobs such as Drive sync, token management, and admin seeding.
 | `get-token.js` | OAuth token retrieval utility |
 | `get-token-fallback.js` | Fallback token retrieval |
 | `test-token.js` | Token testing utility |
+| `upload-ybm-assets.js` | One-off per-test migration: pushes `allinone/public/ybm/<testId>/` to Drive and writes `data/ybm-assets/<testId>.json`. Usage: `node scripts/upload-ybm-assets.js <testId>`. See `.claude/rules/architecture.md` "YBM asset pipeline". |
 
 ## Sync Behavior
 
