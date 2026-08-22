@@ -7,7 +7,7 @@ import { YBM_VOLUMES, getVolume } from '../data/ybm/manifest.js';
 import { getTestReadiness, loadAttempt } from '../utils/ybm.js';
 
 const DEFAULT_VOLUME = 'vol-2';
-const DISABLED_VOLUME_IDS = new Set(['vol-1', 'vol-3']);
+const DISABLED_VOLUME_IDS = new Set(['vol-1']);
 
 function getTestStatus(userId, test) {
   const readiness = getTestReadiness(test);
