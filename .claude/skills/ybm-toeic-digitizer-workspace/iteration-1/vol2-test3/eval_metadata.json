@@ -1,0 +1,19 @@
+{
+  "eval_id": 0,
+  "eval_name": "vol2-test3-real-digitize",
+  "prompt": "Digitize Vol 2 Test 3 for the YBM TOEIC feature so it's playable in the app, the same way Vol 2 Tests 1, 2, and 5 were already done.",
+  "assertions": [
+    "allinone/public/ybm/vol-2-test-03/ contains the correct number of lc-pNN.jpg and rc-pNN.jpg files matching the located page range, plus listening.mp3",
+    "allinone/src/data/ybm/keys/vol-2-test-03.json exists with 100-character listening and reading strings, each matching /^[ABCD]{100}$/",
+    "cd allinone && node --test src/utils/ybm.test.js passes (validates key format + manifest consistency)",
+    "cd allinone && npm run lint passes",
+    "cd allinone && npm run build passes",
+    "api/data/ybm-assets/vol-2-test-03.json exists and is a { filename: driveFileId } map covering every rendered file",
+    "allinone/src/data/ybm/manifest.js vol-2 listeningPageOverrides and readingPageOverrides both include a `3` entry matching the actual rendered page counts",
+    "curl against a running local API's GET /ybm/vol-2-test-03/lc-p01.jpg returns 200 with Content-Type image/jpeg and is byte-identical to the local rendered file",
+    "curl against GET /ybm/vol-2-test-03/listening.mp3 returns 200 with Content-Type audio/mpeg",
+    "the file one past the last reading page (rc-p<lastPage+1>.jpg) returns 404, confirming the page range boundary is exact",
+    "git status shows no binary files staged/untracked outside allinone/public/ybm (which should stay gitignored) -- only small JSON/code diffs",
+    "the agent's final report does not claim to have committed or pushed anything"
+  ]
+}
