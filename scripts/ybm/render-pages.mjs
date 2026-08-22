@@ -54,7 +54,25 @@ const VOLUME_SOURCES = {
   },
   3: {
     perTest: false,
-    audio: (n) => `${SOURCE}/Vol 3/Audio/Test ${String(n).padStart(2, '0')}.mp3`,
+    listeningSource: `${SOURCE}/Vol 3/YBM Vol 3/YBM Vol 3/LC.pdf`,
+    readingSource: `${SOURCE}/Vol 3/YBM Vol 3/YBM Vol 3/RC.pdf`,
+    // Content-only ranges (cover/divider pages excluded), located by hand.
+    // LC is a uniform 12 pages/test. RC is 28 pages/test except tests 9-10,
+    // which run 30 — confirmed directly against "Stop! This is the end of
+    // the test." on each test's last page, not assumed from the TOC alone.
+    pageRanges: {
+      1: { listening: [18, 29], reading: [17, 44] },
+      2: { listening: [32, 43], reading: [47, 74] },
+      3: { listening: [46, 57], reading: [77, 104] },
+      4: { listening: [60, 71], reading: [107, 134] },
+      5: { listening: [74, 85], reading: [137, 164] },
+      6: { listening: [88, 99], reading: [167, 194] },
+      7: { listening: [102, 113], reading: [197, 224] },
+      8: { listening: [116, 127], reading: [227, 254] },
+      9: { listening: [130, 141], reading: [257, 286] },
+      10: { listening: [144, 155], reading: [289, 318] },
+    },
+    audio: (n) => `${SOURCE}/Vol 3/YBM Vol 3/YBM Vol 3/AUDIO FULL/Test ${String(n).padStart(2, '0')}.mp3`,
   },
 };
 

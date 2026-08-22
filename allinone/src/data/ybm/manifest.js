@@ -73,9 +73,13 @@ const VOLUMES = [
     id: 'vol-3',
     label: 'Vol 3',
     title: 'YBM 실전토익 1000 Vol. 3',
-    // Vol 3 ships no listening booklet, only the recordings and the key.
     listeningPages: null,
     readingPages: null,
+    // Listening is a uniform 12 pages/test. Reading is 28 pages/test except
+    // tests 9-10, which run 30 — confirmed directly against the source PDF,
+    // not assumed from the table of contents alone.
+    listeningPageOverrides: { 1: 12, 2: 12, 3: 12, 4: 12, 5: 12, 6: 12, 7: 12, 8: 12, 9: 12, 10: 12 },
+    readingPageOverrides: { 1: 28, 2: 28, 3: 28, 4: 28, 5: 28, 6: 28, 7: 28, 8: 28, 9: 30, 10: 30 },
   },
 ];
 
