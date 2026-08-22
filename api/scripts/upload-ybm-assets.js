@@ -35,15 +35,38 @@ async function findOrCreateFolder(drive, name, parentId) {
   return created.data.id;
 }
 
-async function uploadOne(drive, folderId, filePath, name, mimeType) {
-  const response = await drive.files.create({
-    requestBody: { name, parents: [folderId] },
-    media: { mimeType, body: fs.createReadStream(filePath) },
-    fields: 'id, name',
+async function findExistingFile(drive, name, folderId) {
+  const existing = await drive.files.list({
+    q: `name = '${name}' and '${folderId}' in parents and trashed = false`,
+    fields: 'files(id, name)',
     supportsAllDrives: true,
+    includeItemsFromAllDrives: true,
   });
+  return existing.data.files?.[0]?.id;
+}
 
-  return response.data.id;
+async function uploadOne(drive, folderId, filePath, name, mimeType) {
+  const existingId = await findExistingFile(drive, name, folderId);
+  if (existingId) return existingId;
+
+  const maxAttempts = 3;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      const response = await drive.files.create({
+        requestBody: { name, parents: [folderId] },
+        media: { mimeType, body: fs.createReadStream(filePath) },
+        fields: 'id, name',
+        supportsAllDrives: true,
+      });
+      return response.data.id;
+    } catch (error) {
+      if (attempt === maxAttempts) throw error;
+      const delayMs = 2000 * attempt;
+      console.log(`\n  retrying ${name} after transient error (attempt ${attempt}/${maxAttempts})...`);
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
+  }
+  return undefined;
 }
 
 async function main() {
