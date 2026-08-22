@@ -39,6 +39,7 @@ const VOLUME_SOURCES = {
     readingSource: `${SOURCE}/Vol 2/YBM TOEIC 2/rc 1000 - 2.pdf`,
     // Content-only ranges (cover/divider pages excluded), located by hand.
     pageRanges: {
+      1: { listening: [19, 30], reading: [19, 48] },
       5: { listening: [75, 86], reading: [143, 172] },
     },
     audio: (n) => `${SOURCE}/Vol 2/YBM TOEIC 2/file nghe/Test ${String(n).padStart(2, '0')}.mp3`,
