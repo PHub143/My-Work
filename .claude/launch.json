@@ -7,6 +7,13 @@
       "runtimeArgs": ["--prefix", "allinone", "run", "dev:prod"],
       "port": 5173,
       "autoPort": true
+    },
+    {
+      "name": "allinone-dev-local",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "allinone", "run", "dev"],
+      "port": 5173,
+      "autoPort": true
     }
   ]
 }
