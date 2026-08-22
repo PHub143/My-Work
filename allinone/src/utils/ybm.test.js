@@ -43,9 +43,9 @@ test('getTest resolves by string route params', () => {
   assert.equal(getTest('vol-9', '1'), null);
 });
 
-test('vol 1 test 10 keeps its longer reading booklet', () => {
+test('vol 1 reading booklets are a uniform 30 pages', () => {
   assert.equal(getTest('vol-1', 1).readingPages, 30);
-  assert.equal(getTest('vol-1', 10).readingPages, 34);
+  assert.equal(getTest('vol-1', 10).readingPages, 30);
 });
 
 // --- part layout ---

@@ -52,8 +52,6 @@ const VOLUMES = [
     title: 'YBM 실전토익 1000 Vol. 1',
     listeningPages: 14,
     readingPages: 30,
-    // Test 10's reading booklet runs four pages longer than the others.
-    readingPageOverrides: { 10: 34 },
   },
   {
     id: 'vol-2',

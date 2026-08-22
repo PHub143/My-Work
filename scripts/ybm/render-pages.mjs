@@ -29,9 +29,17 @@ const DEFAULT_OUT = join(ROOT, 'allinone/public/ybm');
 const VOLUME_SOURCES = {
   1: {
     perTest: true,
-    listening: (n) => `${SOURCE}/Vol 1/2025 edition/YBM TOEIC Vol.1 2025/LC/TEST ${n}.pdf`,
-    reading: (n) => `${SOURCE}/Vol 1/2025 edition/YBM TOEIC Vol.1 2025/RC/TEST ${n}.pdf`,
-    audio: (n) => `${SOURCE}/Vol 1/Audio/YBM - Test ${n}.mp3`,
+    listening: (n) => `${SOURCE}/Vol 1 - 2025 edition/YBM TOEIC Vol.1 2025/LC/TEST ${n}.pdf`,
+    reading: (n) => `${SOURCE}/Vol 1 - 2025 edition/YBM TOEIC Vol.1 2025/RC/TEST ${n}.pdf`,
+    // Per-test recordings live in the "Chia Từng Test" (split-by-test) audio
+    // folder, zero-padded two digits — not the rapid/per-question variants.
+    audio: (n) =>
+      `${SOURCE}/Vol 1 - 2025 edition/YBM TOEIC Vol.1 2025/YBM TOEIC LC 1000 Vol_1 Audio Chia Từng Test/Test ${String(n).padStart(2, '0')}.mp3`,
+    // TEST 10.pdf's split ran 4 pages past the real end of the booklet,
+    // pulling in the book's back-of-book "ANSWERS" appendix (grids for
+    // tests 5-8) — confirmed by reading pages 31-34 directly, not assumed.
+    // Every other test's RC PDF is a clean 30 pages; cap this one to match.
+    readingLastPage: { 10: 30 },
   },
   2: {
     perTest: false,
@@ -119,7 +127,11 @@ async function renderSection(pdfPath, outDir, prefix, dpi, range) {
     return 0;
   }
 
-  const pdftoppmArgs = ['-jpeg', '-r', String(dpi)];
+  // -cropbox: some scans' MediaBox is larger than the intended page (e.g.
+  // Vol 1's scanner bleed strip with a page-turning hand in it) — the PDF's
+  // own CropBox is the trustworthy page boundary. A no-op when CropBox ==
+  // MediaBox, which is the case for every other volume's source PDFs.
+  const pdftoppmArgs = ['-jpeg', '-cropbox', '-r', String(dpi)];
   if (range) pdftoppmArgs.push('-f', String(range[0]), '-l', String(range[1]));
   pdftoppmArgs.push(pdfPath, join(outDir, prefix));
 
@@ -139,8 +151,10 @@ async function renderTest(vol, test, args) {
   if (source.perTest) {
     await mkdir(outDir, { recursive: true });
     console.log(`${id}:`);
-    await renderSection(source.listening(test), outDir, 'lc', args.dpi);
-    await renderSection(source.reading(test), outDir, 'rc', args.dpi);
+    const listeningRange = source.listeningLastPage?.[test] ? [1, source.listeningLastPage[test]] : undefined;
+    const readingRange = source.readingLastPage?.[test] ? [1, source.readingLastPage[test]] : undefined;
+    await renderSection(source.listening(test), outDir, 'lc', args.dpi, listeningRange);
+    await renderSection(source.reading(test), outDir, 'rc', args.dpi, readingRange);
   } else if (source.pageRanges?.[test]) {
     const range = source.pageRanges[test];
     await mkdir(outDir, { recursive: true });
