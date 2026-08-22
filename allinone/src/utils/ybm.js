@@ -42,10 +42,11 @@ export function getAudioUrl(testId) {
 // Per-question audio clips, cut from the full listening track by silence
 // detection. Being split out is a per-test, per-question fact (some tests/
 // parts aren't split yet), so this is an explicit allowlist rather than a
-// blanket path formula like getPageUrl/getAudioUrl above.
-const QUESTION_AUDIO = {
-  'vol-1-test-01': [1, 2, 3, 4, 5, 6],
-};
+// blanket path formula like getPageUrl/getAudioUrl above. Empty for now —
+// vol-1-test-01's clips were cut by hand from an earlier recording and
+// can't be safely re-cut without audibly verifying the boundaries, so every
+// test plays its one full listening.mp3 until this is redone properly.
+const QUESTION_AUDIO = {};
 
 export function getQuestionAudioUrl(testId, questionNumber) {
   if (!QUESTION_AUDIO[testId]?.includes(questionNumber)) return null;
