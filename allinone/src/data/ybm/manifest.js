@@ -63,11 +63,11 @@ const VOLUMES = [
     readingPages: null,
     // Tests are being digitised one at a time; only mapped tests get a page
     // count here, so the rest stay unavailable until their booklets exist.
-    listeningPageOverrides: { 1: 12, 2: 12, 3: 12, 4: 12, 5: 12 },
+    listeningPageOverrides: { 1: 12, 2: 12, 3: 12, 4: 12, 5: 12, 6: 12, 7: 12, 8: 12, 9: 12, 10: 12 },
     // Content length genuinely varies test to test (e.g. test 2's reading
     // section runs 2 pages shorter than tests 1 and 5) — verified per test
     // against the source PDF, not assumed uniform.
-    readingPageOverrides: { 1: 30, 2: 28, 3: 30, 4: 28, 5: 30 },
+    readingPageOverrides: { 1: 30, 2: 28, 3: 30, 4: 28, 5: 30, 6: 30, 7: 28, 8: 28, 9: 30, 10: 30 },
   },
   {
     id: 'vol-3',
