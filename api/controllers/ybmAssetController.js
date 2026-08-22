@@ -11,11 +11,23 @@ const getAssetHandler = async (req, res, next) => {
   const { testId, filename } = req.params;
 
   try {
-    const { stream, mimeType } = await ybmAssetService.getAssetStream(testId, filename);
+    const { fileId, mimeType } = ybmAssetService.resolveAsset(testId, filename);
 
+    // fileId is the ETag: a redigitized test uploads a new Drive file (old
+    // one deleted, not overwritten), so it changes exactly when content
+    // does. A long max-age here previously meant a fixed re-digitization
+    // was invisible to already-cached clients for up to a year — cache
+    // aggressively but always let the client confirm the id first.
     res.set('Content-Type', mimeType);
-    res.set('Cache-Control', 'public, max-age=31536000, immutable');
+    res.set('ETag', `"${fileId}"`);
+    res.set('Cache-Control', 'public, max-age=0, must-revalidate');
 
+    if (req.get('If-None-Match') === `"${fileId}"`) {
+      res.status(304).end();
+      return;
+    }
+
+    const stream = await ybmAssetService.streamAsset(fileId);
     stream.on('error', (error) => next(error));
     stream.pipe(res);
   } catch (error) {

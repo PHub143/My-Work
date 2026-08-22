@@ -29,12 +29,15 @@ function loadManifest(testId) {
 }
 
 /**
- * Resolves a YBM asset's Drive file ID and streams its bytes.
+ * Resolves a YBM asset's Drive file ID from the manifest, without touching
+ * Drive. fileId doubles as an ETag: a redigitized test gets a new Drive file
+ * (old one deleted, not overwritten), so the id changes whenever content
+ * does — letting the controller answer a conditional GET without streaming.
  * @param {string} testId - e.g. "vol-2-test-05".
  * @param {string} filename - e.g. "lc-p01.jpg" or "listening.mp3".
- * @returns {Promise<{ stream: NodeJS.ReadableStream, mimeType: string }>}
+ * @returns {{ fileId: string, mimeType: string }}
  */
-const getAssetStream = async (testId, filename) => {
+const resolveAsset = (testId, filename) => {
   const extension = path.extname(filename).toLowerCase();
   const mimeType = MIME_TYPES[extension];
   if (!mimeType) {
@@ -47,13 +50,21 @@ const getAssetStream = async (testId, filename) => {
     throw createServiceError(404, 'YBM asset not found.');
   }
 
+  return { fileId, mimeType };
+};
+
+/**
+ * Streams an asset's bytes from Drive by file ID.
+ * @param {string} fileId
+ * @returns {Promise<NodeJS.ReadableStream>}
+ */
+const streamAsset = async (fileId) => {
   const { drive } = await googleDriveService.getDriveClient();
   const response = await drive.files.get(
     { fileId, alt: 'media', supportsAllDrives: true },
     { responseType: 'stream' },
   );
-
-  return { stream: response.data, mimeType };
+  return response.data;
 };
 
-module.exports = { getAssetStream };
+module.exports = { resolveAsset, streamAsset };
