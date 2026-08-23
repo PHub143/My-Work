@@ -25,6 +25,9 @@ const AppRail = () => {
   const canAdmin = isAdmin(user);
   const canLearn = !isAuthenticated || isStudent(user);
   const showContent = !isAuthenticated || canAdmin;
+  // isStudent() is also true for admins (they have student privileges too),
+  // so exclude admins explicitly to keep this student-only.
+  const logoTarget = !canAdmin && isStudent(user) ? '/learning/home' : '/';
 
   const items = [
     canLearn && {
@@ -85,7 +88,7 @@ const AppRail = () => {
 
   return (
     <nav className="rail" aria-label="Main">
-      <Link to="/" className="rail-mark" aria-label="Allinone home">A</Link>
+      <Link to={logoTarget} className="rail-mark" aria-label="Allinone home">A</Link>
 
       <div className="rail-items">
         {items.map((item) => (
