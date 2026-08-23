@@ -13,7 +13,7 @@ Database schema and Prisma configuration.
 | Model | Description |
 |---|---|
 | `File` | Cached Google Drive metadata, linked by unique `driveFileId`. Fields: `name`, `mimeType`, `webViewLink`, `thumbnailLink`, `size` (BigInt), timestamps. Relates to `User` (owner) and `Tag` (many-to-many). Supports multi-drive via `DriveConfig`. |
-| `User` | Local credentials and role. Fields: `email` (unique), `name`, `password`, `role` (default `"USER"`), `roles` (JSON, default `["STUDENT"]`). |
+| `User` | Local credentials and role. Fields: `email` (unique), `name`, `password`, `role` (default `"USER"`), `roles` (JSON, default `["STUDENT"]`), `lastLoginAt` (nullable, stamped by `userService.recordLogin` on each successful login). |
 | `Tag` | Many-to-many labels for files. Fields: `name` (unique). |
 | `DriveConfig` | Encrypted Google OAuth configuration and target folder. Fields: `name`, `clientId`, `clientSecret` (encrypted), `redirectUri`, `refreshToken` (encrypted), `folderId`, `isDefault`, timestamps. |
 

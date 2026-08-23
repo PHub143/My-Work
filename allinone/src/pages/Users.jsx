@@ -29,6 +29,11 @@ const Users = () => {
   
   const { token, user: currentUser } = useAuth();
 
+  const formatLastActive = (u) => {
+    if (!u.lastLoginAt) return 'Never logged in';
+    return `Active ${new Date(u.lastLoginAt).toLocaleString()}`;
+  };
+
   const getInitials = (u) => {
     const source = u.name || u.email || '';
     const parts = source.trim().split(/\s+/);
@@ -200,7 +205,9 @@ const Users = () => {
                       </span>
                     ))}
                   </div>
-                  <span>{new Date(u.createdAt).toLocaleDateString()}</span>
+                  <span title={`Joined ${new Date(u.createdAt).toLocaleDateString()}`}>
+                    {formatLastActive(u)}
+                  </span>
                 </div>
                 <div className="user-card-actions">
                   {deletingUserId === u.id ? (

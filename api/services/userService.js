@@ -131,6 +131,20 @@ const userService = {
   },
 
   /**
+   * Stamps a user's last-login time. Called on successful authentication.
+   * @param {string} id - The user's ID.
+   * @returns {Promise<Object>}
+   */
+  recordLogin: async (id) => {
+    const user = await prisma.user.update({
+      where: { id },
+      data: { lastLoginAt: new Date() },
+    });
+
+    return withNormalizedRoles(user);
+  },
+
+  /**
    * Deletes a user from the database.
    * @param {string} id - The user's ID.
    * @returns {Promise<Object>}

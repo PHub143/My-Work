@@ -59,6 +59,7 @@ const loginHandler = async (req, res, next) => {
     }
 
     const token = createUserToken(normalizedUser);
+    await userService.recordLogin(normalizedUser.id);
 
     res.status(200).json({
       message: 'Login successful',
