@@ -106,16 +106,6 @@ const AppRail = () => {
       </div>
 
       <div className="rail-foot">
-        {isAuthenticated && (
-          <NavLink to="/account" className="rail-btn" title="Account">
-            <Icon>
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </Icon>
-            <span className="rail-tip">Account</span>
-          </NavLink>
-        )}
-
         {canAdmin && (
           <NavLink to="/settings" className="rail-btn" title="Settings">
             <Icon>
@@ -144,15 +134,26 @@ const AppRail = () => {
         </button>
 
         {isAuthenticated ? (
-          <button
-            type="button"
-            className="rail-avatar"
-            onClick={logout}
-            title={`${user?.name || 'Account'} · sign out`}
-          >
-            {initials(user?.name)}
-            <span className="rail-tip">Sign out</span>
-          </button>
+          <>
+            <button
+              type="button"
+              className="rail-btn"
+              onClick={logout}
+              title="Sign out"
+            >
+              <Icon>
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </Icon>
+              <span className="rail-tip">Sign out</span>
+            </button>
+
+            <NavLink to="/account" className="rail-avatar" title={user?.name || 'Account'}>
+              {initials(user?.name)}
+              <span className="rail-tip">Account</span>
+            </NavLink>
+          </>
         ) : (
           <Link to="/login" className="rail-btn" title="Sign in">
             <Icon>
