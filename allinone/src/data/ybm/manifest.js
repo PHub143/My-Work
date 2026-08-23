@@ -49,14 +49,20 @@ const VOLUMES = [
   {
     id: 'vol-1',
     label: 'Vol 1',
-    title: 'YBM 실전토익 1000 Vol. 1',
+    // Digitised from the 전면개정판 (Dec 20, 2024 full revision) — the
+    // current YBM edition, not the earlier 2017 original or the 2019
+    // 최신개정판 also floating around under a misleadingly-named folder.
+    title: 'YBM 실전토익 1000 Vol. 1 (전면개정판, 2024)',
     listeningPages: 14,
     readingPages: 30,
   },
   {
     id: 'vol-2',
     label: 'Vol 2',
-    title: 'YBM 실전토익 1000 Vol. 2',
+    // Digitised from the 고득점 대비 최신판 (Feb 6, 2018) — not YBM's current
+    // edition. A 전면개정판 (released Jun 30, 2026) supersedes this source
+    // but hasn't been digitised yet.
+    title: 'YBM 실전토익 1000 Vol. 2 (고득점 대비 최신판, 2018)',
     listeningPages: null,
     readingPages: null,
     // Tests are being digitised one at a time; only mapped tests get a page
@@ -70,7 +76,9 @@ const VOLUMES = [
   {
     id: 'vol-3',
     label: 'Vol 3',
-    title: 'YBM 실전토익 1000 Vol. 3',
+    // Digitised from the 2021 최신판 (Jan 4, 2021) — YBM's current edition
+    // for this volume.
+    title: 'YBM 실전토익 1000 Vol. 3 (2021 최신판, 2021)',
     listeningPages: null,
     readingPages: null,
     // Listening is a uniform 12 pages/test. Reading is 28 pages/test except
