@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const userService = require('../services/userService');
 const { normalizeRoles, withNormalizedRoles } = require('../utils/roles');
 const { getUserIdFromEmail } = require('../utils/userId');
@@ -117,7 +118,7 @@ const userController = {
         return res.status(400).json(requestedRoles.error);
       }
 
-      const existingUser = await userService.findUserByEmail(getUserIdFromEmail(email));
+      const existingUser = await userService.findUserByLoginId(getUserIdFromEmail(email));
       if (existingUser) {
         return res.status(409).json({ message: 'A user with this user ID already exists.' });
       }
@@ -144,7 +145,8 @@ const userController = {
       const updateData = {};
 
       if (hasOwn(req.body, 'email')) {
-        updateData.email = req.body.email;
+        const trimmedEmail = typeof req.body.email === 'string' ? req.body.email.trim() : '';
+        updateData.email = trimmedEmail || null;
       }
       if (hasOwn(req.body, 'name')) {
         updateData.name = req.body.name;
@@ -165,13 +167,72 @@ const userController = {
       // Note: We don't have a findUserById yet, but we can use prismaService directly or add it.
       // For now, let's just try the update.
       const user = await userService.updateUser(id, updateData);
-      res.status(200).json({ 
-        message: 'User updated successfully', 
+      res.status(200).json({
+        message: 'User updated successfully',
         user: safeUserResponse(user),
       });
     } catch (error) {
       if (error.code === 'P2025') {
         return res.status(404).json({ message: 'User not found.' });
+      }
+      if (error.code === 'P2002') {
+        return res.status(409).json({ message: 'That email address is already in use.' });
+      }
+      next(error);
+    }
+  },
+
+  /**
+   * Returns the signed-in user's own profile.
+   */
+  getMe: async (req, res, next) => {
+    try {
+      const user = await userService.findUserById(req.user.id);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found.' });
+      }
+      res.status(200).json({ user: safeUserResponse(user) });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  /**
+   * Updates the signed-in user's own name, email, and password. Password
+   * changes require the current password. Roles cannot be changed here.
+   */
+  updateMe: async (req, res, next) => {
+    try {
+      const updateData = {};
+
+      if (hasOwn(req.body, 'name')) {
+        updateData.name = typeof req.body.name === 'string' ? req.body.name.trim() : req.body.name;
+      }
+      if (hasOwn(req.body, 'email')) {
+        const trimmedEmail = typeof req.body.email === 'string' ? req.body.email.trim() : '';
+        updateData.email = trimmedEmail || null;
+      }
+
+      if (hasOwn(req.body, 'password') && req.body.password) {
+        const currentUser = await userService.findUserById(req.user.id);
+        if (!currentUser) {
+          return res.status(404).json({ message: 'User not found.' });
+        }
+        const isCurrentPasswordValid = await bcrypt.compare(req.body.currentPassword || '', currentUser.password);
+        if (!isCurrentPasswordValid) {
+          return res.status(401).json({ message: 'Current password is incorrect.' });
+        }
+        updateData.password = req.body.password;
+      }
+
+      const user = await userService.updateUser(req.user.id, updateData);
+      res.status(200).json({
+        message: 'Profile updated successfully.',
+        user: safeUserResponse(user),
+      });
+    } catch (error) {
+      if (error.code === 'P2002') {
+        return res.status(409).json({ message: 'That email address is already in use.' });
       }
       next(error);
     }

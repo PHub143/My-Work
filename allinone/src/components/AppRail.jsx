@@ -12,8 +12,8 @@ const Icon = ({ d, children }) => (
   </svg>
 );
 
-const initials = (name = '') => {
-  const parts = name.trim().split(/\s+/);
+const initials = (name) => {
+  const parts = (name || '').trim().split(/\s+/);
   return ((parts[0]?.[0] || '') + (parts[1]?.[0] || '')).toUpperCase() || '?';
 };
 
@@ -106,6 +106,16 @@ const AppRail = () => {
       </div>
 
       <div className="rail-foot">
+        {isAuthenticated && (
+          <NavLink to="/account" className="rail-btn" title="Account">
+            <Icon>
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </Icon>
+            <span className="rail-tip">Account</span>
+          </NavLink>
+        )}
+
         {canAdmin && (
           <NavLink to="/settings" className="rail-btn" title="Settings">
             <Icon>

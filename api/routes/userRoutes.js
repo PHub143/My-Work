@@ -8,6 +8,10 @@ const { authenticateToken, isAdmin } = require('../middleware/authMiddleware');
 router.post('/login', userAuthController.loginHandler);
 router.post('/register', userAuthController.registerHandler);
 
+// Self-service Profile Routes
+router.get('/me', authenticateToken, userController.getMe);
+router.patch('/me', authenticateToken, userController.updateMe);
+
 // Admin Management Routes
 router.get('/', authenticateToken, isAdmin, userController.listUsers);
 router.post('/', authenticateToken, isAdmin, userController.createUser);

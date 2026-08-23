@@ -35,7 +35,7 @@ const Users = () => {
   };
 
   const getInitials = (u) => {
-    const source = u.name || u.email || '';
+    const source = u.name || u.email || u.userId || '';
     const parts = source.trim().split(/\s+/);
     const first = parts[0]?.charAt(0) || '';
     const second = parts[1]?.charAt(0) || '';
@@ -76,7 +76,7 @@ const Users = () => {
       setEditingUser(user);
       setFormData({
         name: user.name || '',
-        email: user.email,
+        email: user.email || '',
         password: '',
         roles: normalizeRoles(user.roles || user.role)
       });
@@ -196,7 +196,7 @@ const Users = () => {
                   {u.id === currentUser.id && <strong>YOU</strong>}
                 </div>
                 <div className="user-polaroid-name">{u.name || 'Unnamed User'}</div>
-                <div className="user-polaroid-email">{u.email}</div>
+                <div className="user-polaroid-email">{u.email || u.userId}</div>
                 <div className="user-polaroid-footer">
                   <div className="role-badge-group" aria-label="User roles">
                     {u.roles.map((role) => (
@@ -269,13 +269,13 @@ const Users = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor={emailInputId}>Email Address</label>
-                <input 
+                <label htmlFor={emailInputId}>Email Address{editingUser ? ' (optional)' : ''}</label>
+                <input
                   id={emailInputId}
-                  type="email" 
-                  value={formData.email} 
+                  type="email"
+                  value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  required
+                  required={!editingUser}
                   placeholder="john@example.com"
                 />
               </div>

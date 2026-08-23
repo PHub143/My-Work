@@ -22,6 +22,7 @@ const YbmExam = lazy(() => import('./pages/YbmExam'));
 const Users = lazy(() => import('./pages/Users'));
 const Upload = lazy(() => import('./pages/Upload'));
 const Settings = lazy(() => import('./pages/Settings'));
+const Profile = lazy(() => import('./pages/Profile'));
 const Login = lazy(() => import('./pages/Login'));
 const OAuthCallback = lazy(() => import('./pages/OAuthCallback'));
 
@@ -73,6 +74,7 @@ const AppShell = () => {
               <Route path='/settings' element={<Settings />} />
             </Route>
             <Route element={<LearningRoute />}>
+              <Route path='/account' element={<Profile />} />
               <Route path='/learning/home' element={<LearningHome />} />
               <Route path='/learning/ai-103' element={<AI103 />} />
               <Route path='/learning/ai-103/practice' element={<AI103Practice />} />

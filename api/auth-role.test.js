@@ -128,11 +128,12 @@ function makeResponse() {
 test('public register cannot create an admin role from request body', async () => {
   const createdUsers = [];
   const { registerHandler } = loadWithMockedUserService(controllerPath, {
-    findUserByEmail: async () => null,
+    findUserByLoginId: async () => null,
     createUser: async (data) => {
       createdUsers.push(data);
       return {
         id: 'user_1',
+        userId: data.userId,
         email: data.email,
         name: data.name,
         role: data.role,
@@ -143,9 +144,8 @@ test('public register cannot create an admin role from request body', async () =
 
   const req = {
     body: {
-      email: 'new@example.com',
+      userId: 'newuser',
       password: 'password123',
-      name: 'New User',
       role: 'ADMIN',
     },
   };
@@ -160,14 +160,15 @@ test('public register cannot create an admin role from request body', async () =
   assert.deepEqual(res.body.user.roles, [ROLES.STUDENT]);
 });
 
-test('public student register emits token and normalized user response', async () => {
+test('public student register requires a UserID but not an email, and emits token and normalized user response', async () => {
   const jwt = require('jsonwebtoken');
   const { registerHandler } = loadWithMockedUserService(controllerPath, {
-    findUserByEmail: async () => null,
+    findUserByLoginId: async () => null,
     createUser: async (data) => ({
       id: 'student_1',
-      email: data.email,
-      name: data.name,
+      userId: data.userId,
+      email: data.email ?? null,
+      name: null,
       role: ROLES.STUDENT,
       roles: data.roles,
     }),
@@ -175,9 +176,8 @@ test('public student register emits token and normalized user response', async (
 
   const req = {
     body: {
-      email: 'student@example.com',
+      userId: 'student1',
       password: 'password123',
-      name: 'Student User',
     },
   };
   const res = makeResponse();
@@ -187,37 +187,53 @@ test('public student register emits token and normalized user response', async (
   const payload = jwt.verify(res.body.token, process.env.JWT_SECRET || 'your-default-secret-key-change-this-in-production');
   assert.equal(res.statusCode, 201);
   assert.equal(payload.id, 'student_1');
-  assert.equal(payload.email, 'student@example.com');
-  assert.equal(payload.name, 'Student User');
+  assert.equal(payload.userId, 'student1');
+  assert.equal(payload.email, null);
   assert.equal(payload.role, ROLES.STUDENT);
   assert.deepEqual(payload.roles, [ROLES.STUDENT]);
   assert.deepEqual(res.body.user, {
     id: 'student_1',
-    email: 'student@example.com',
-    name: 'Student User',
+    userId: 'student1',
+    email: null,
+    name: null,
     role: ROLES.STUDENT,
     roles: [ROLES.STUDENT],
   });
 });
 
-test('public register rejects an email whose user ID is already in use', async () => {
+test('public register rejects a UserID that is already in use', async () => {
   let receivedLoginId;
   const { registerHandler } = loadWithMockedUserService(controllerPath, {
-    findUserByEmail: async (loginId) => {
+    findUserByLoginId: async (loginId) => {
       receivedLoginId = loginId;
-      return { id: 'user_1', email: 'student@gmail.com' };
+      return { id: 'user_1', userId: 'student' };
     },
     createUser: assert.fail,
   });
   const res = makeResponse();
 
   await registerHandler({
-    body: { email: 'student@company.com', password: 'password123' },
+    body: { userId: ' Student ', password: 'password123' },
   }, res, assert.fail);
 
-  assert.equal(receivedLoginId, 'student');
+  assert.equal(receivedLoginId, 'Student');
   assert.equal(res.statusCode, 400);
   assert.equal(res.body.message, 'User ID is already in use.');
+});
+
+test('public register rejects a UserID that contains "@"', async () => {
+  const { registerHandler } = loadWithMockedUserService(controllerPath, {
+    findUserByLoginId: assert.fail,
+    createUser: assert.fail,
+  });
+  const res = makeResponse();
+
+  await registerHandler({
+    body: { userId: 'student@example.com', password: 'password123' },
+  }, res, assert.fail);
+
+  assert.equal(res.statusCode, 400);
+  assert.equal(res.body.message, 'User ID cannot contain "@".');
 });
 
 test('login emits normalized role and roles in token and response', async () => {
@@ -226,14 +242,16 @@ test('login emits normalized role and roles in token and response', async () => 
   const password = 'password123';
   const passwordHash = await bcrypt.hash(password, 10);
   const { loginHandler } = loadWithMockedUserService(controllerPath, {
-    findUserByEmail: async () => ({
+    findUserByLoginId: async () => ({
       id: 'admin_1',
+      userId: 'admin',
       email: 'admin@example.com',
       name: 'Admin User',
       password: passwordHash,
       role: ROLES.STUDENT,
       roles: [ROLES.ADMIN],
     }),
+    recordLogin: async () => {},
   });
 
   const req = {
@@ -249,12 +267,14 @@ test('login emits normalized role and roles in token and response', async () => 
   const payload = jwt.verify(res.body.token, process.env.JWT_SECRET || 'your-default-secret-key-change-this-in-production');
   assert.equal(res.statusCode, 200);
   assert.equal(payload.id, 'admin_1');
+  assert.equal(payload.userId, 'admin');
   assert.equal(payload.email, 'admin@example.com');
   assert.equal(payload.name, 'Admin User');
   assert.equal(payload.role, ROLES.ADMIN);
   assert.deepEqual(payload.roles, [ROLES.STUDENT, ROLES.ADMIN]);
   assert.deepEqual(res.body.user, {
     id: 'admin_1',
+    userId: 'admin',
     email: 'admin@example.com',
     name: 'Admin User',
     role: ROLES.ADMIN,
@@ -268,7 +288,7 @@ test('login accepts userId and passes a domainless value to the user lookup', as
   const passwordHash = await bcrypt.hash(password, 10);
   let receivedLoginId;
   const { loginHandler } = loadWithMockedUserService(controllerPath, {
-    findUserByEmail: async (loginId) => {
+    findUserByLoginId: async (loginId) => {
       receivedLoginId = loginId;
       return {
         id: 'admin_1',
@@ -279,6 +299,7 @@ test('login accepts userId and passes a domainless value to the user lookup', as
         roles: [ROLES.ADMIN],
       };
     },
+    recordLogin: async () => {},
   });
   const res = makeResponse();
 
@@ -288,37 +309,38 @@ test('login accepts userId and passes a domainless value to the user lookup', as
   assert.equal(receivedLoginId, 'lieutienthinh');
 });
 
-test('findUserByEmail resolves a unique email local part and rejects ambiguous ones', async () => {
+test('findUserByLoginId looks up by email when the identifier contains "@", by UserID otherwise', async () => {
   const calls = [];
   const { userService, cleanup } = loadUserServiceWithMockedPrisma({
     user: {
-      findMany: async (query) => {
+      findUnique: async (query) => {
         calls.push(query);
-        if (query.where.email.startsWith === 'duplicate@') {
-          return [{ id: 'user_1' }, { id: 'user_2' }];
+        if (query.where.email) {
+          return query.where.email === 'lieutienthinh@gmail.com'
+            ? { id: 'admin_1', email: 'lieutienthinh@gmail.com', role: ROLES.ADMIN, roles: [ROLES.ADMIN] }
+            : null;
         }
-        return [{
-          id: 'admin_1',
-          email: 'lieutienthinh@gmail.com',
-          role: ROLES.ADMIN,
-          roles: [ROLES.ADMIN],
-        }];
+        return query.where.userId === 'lieutienthinh'
+          ? { id: 'admin_1', userId: 'lieutienthinh', role: ROLES.ADMIN, roles: [ROLES.ADMIN] }
+          : null;
       },
-      findUnique: assert.fail,
     },
   });
 
   try {
-    const user = await userService.findUserByEmail('lieutienthinh');
-    assert.equal(user.email, 'lieutienthinh@gmail.com');
-    assert.equal(await userService.findUserByEmail('duplicate'), null);
-    assert.deepEqual(calls, [{
-      where: { email: { startsWith: 'lieutienthinh@', mode: 'insensitive' } },
-      take: 2,
-    }, {
-      where: { email: { startsWith: 'duplicate@', mode: 'insensitive' } },
-      take: 2,
-    }]);
+    const byEmail = await userService.findUserByLoginId('lieutienthinh@gmail.com');
+    assert.equal(byEmail.email, 'lieutienthinh@gmail.com');
+
+    const byUserId = await userService.findUserByLoginId('  LieuTienThinh  ');
+    assert.equal(byUserId.userId, 'lieutienthinh');
+
+    assert.equal(await userService.findUserByLoginId('nobody'), null);
+
+    assert.deepEqual(calls, [
+      { where: { email: 'lieutienthinh@gmail.com' } },
+      { where: { userId: 'lieutienthinh' } },
+      { where: { userId: 'nobody' } },
+    ]);
   } finally {
     cleanup();
   }
@@ -570,7 +592,7 @@ test('isAdmin rejects stale admin token when persisted roles are STUDENT', async
 test('admin create accepts roles and returns normalized safe user', async () => {
   const createdUsers = [];
   const userController = loadWithMockedUserService(userControllerPath, {
-    findUserByEmail: async () => null,
+    findUserByLoginId: async () => null,
     createUser: async (data) => {
       createdUsers.push(data);
       return {
@@ -607,7 +629,7 @@ test('admin create accepts roles and returns normalized safe user', async () => 
 
 test('admin create rejects unknown roles', async () => {
   const userController = loadWithMockedUserService(userControllerPath, {
-    findUserByEmail: assert.fail,
+    findUserByLoginId: assert.fail,
     createUser: assert.fail,
   });
   const req = {
@@ -627,7 +649,7 @@ test('admin create rejects unknown roles', async () => {
 
 test('admin create rejects null roles', async () => {
   const userController = loadWithMockedUserService(userControllerPath, {
-    findUserByEmail: assert.fail,
+    findUserByLoginId: assert.fail,
     createUser: assert.fail,
   });
   const req = {
@@ -647,7 +669,7 @@ test('admin create rejects null roles', async () => {
 
 test('admin create rejects blank roles', async () => {
   const userController = loadWithMockedUserService(userControllerPath, {
-    findUserByEmail: assert.fail,
+    findUserByLoginId: assert.fail,
     createUser: assert.fail,
   });
   const req = {
@@ -667,7 +689,7 @@ test('admin create rejects blank roles', async () => {
 
 test('admin create rejects blank scalar roles', async () => {
   const userController = loadWithMockedUserService(userControllerPath, {
-    findUserByEmail: assert.fail,
+    findUserByLoginId: assert.fail,
     createUser: assert.fail,
   });
   const req = {
@@ -687,7 +709,7 @@ test('admin create rejects blank scalar roles', async () => {
 
 test('admin create rejects null role entries', async () => {
   const userController = loadWithMockedUserService(userControllerPath, {
-    findUserByEmail: assert.fail,
+    findUserByLoginId: assert.fail,
     createUser: assert.fail,
   });
   const req = {
@@ -763,10 +785,8 @@ test('ensureDefaultAdmin creates the default admin when missing', async () => {
   let createPayload;
   const { defaultAdminService, cleanup } = loadDefaultAdminServiceWithMockedPrisma({
     user: {
-      findFirst: async ({ where }) => {
-        assert.deepEqual(where, {
-          email: { startsWith: 'lieutienthinh@', mode: 'insensitive' },
-        });
+      findUnique: async ({ where }) => {
+        assert.deepEqual(where, { userId: 'lieutienthinh' });
         return null;
       },
       create: async (payload) => {
@@ -783,6 +803,7 @@ test('ensureDefaultAdmin creates the default admin when missing', async () => {
     const result = await defaultAdminService.ensureDefaultAdmin();
 
     assert.equal(result.created, true);
+    assert.equal(createPayload.data.userId, 'lieutienthinh');
     assert.equal(createPayload.data.email, 'lieutienthinh@gmail.com');
     assert.equal(createPayload.data.name, 'Default Admin');
     assert.equal(createPayload.data.role, ROLES.ADMIN);
@@ -798,6 +819,7 @@ test('ensureDefaultAdmin leaves an existing default admin untouched', async () =
   let createCalled = false;
   const existingAdmin = {
     id: 'admin_1',
+    userId: 'lieutienthinh',
     email: 'lieutienthinh@gmail.com',
     name: 'Existing Admin',
     role: ROLES.ADMIN,
@@ -805,7 +827,7 @@ test('ensureDefaultAdmin leaves an existing default admin untouched', async () =
   };
   const { defaultAdminService, cleanup } = loadDefaultAdminServiceWithMockedPrisma({
     user: {
-      findFirst: async () => existingAdmin,
+      findUnique: async () => existingAdmin,
       create: async () => {
         createCalled = true;
       },

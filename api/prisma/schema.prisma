@@ -32,7 +32,8 @@ model File {
 
 model User {
   id        String   @id @default(cuid())
-  email     String   @unique
+  userId    String   @unique
+  email     String?  @unique
   name      String?
   password  String
   role      String   @default("USER")

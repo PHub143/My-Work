@@ -1,0 +1,142 @@
+/* Profile — self-service account page. Self-scoped: every class is prefixed
+   `.profile-` so it can't collide with other lazy-loaded page stylesheets.
+   Uses the app-wide tokens from index.css (--ink, --surface, --text, etc.),
+   which are already theme-aware at the root, so no per-theme overrides
+   are needed here. */
+
+.profile-page {
+  min-height: 100%;
+  background: var(--color-system-background);
+}
+
+.profile-content {
+  max-width: var(--col-read, 780px);
+  margin: 0 auto;
+  padding: 40px 24px 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.profile-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.profile-userid-badge {
+  align-self: flex-start;
+  padding: 3px 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: var(--surface-sunken);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+}
+
+.profile-hero-title {
+  margin: 4px 0 0;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.profile-hero-title em { font-style: normal; }
+
+.profile-hero p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 13.5px;
+}
+
+.profile-message {
+  padding: 10px 13px;
+  border: 1px solid var(--line-soft);
+  border-radius: 9px;
+  background: var(--surface-sunken);
+  font-size: 13px;
+  color: var(--text);
+}
+
+.profile-message--success {
+  border-color: rgba(28, 124, 84, 0.28);
+  background: rgba(28, 124, 84, 0.07);
+  color: var(--positive);
+}
+
+.profile-message--error {
+  border-color: rgba(163, 24, 60, 0.28);
+  background: rgba(163, 24, 60, 0.07);
+  color: var(--danger);
+}
+
+.profile-form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--line-soft);
+  border-radius: 13px;
+  background: var(--surface);
+}
+
+.profile-card-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.profile-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.profile-form-group label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.profile-form-group input {
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+}
+
+.profile-form-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-wash);
+}
+
+.profile-form-btn-row {
+  display: flex;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.profile-btn-primary {
+  padding: 11px 17px;
+  border: 1px solid var(--ink);
+  border-radius: 9px;
+  background: var(--ink);
+  color: var(--surface);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.profile-btn-primary:hover { filter: brightness(1.12); }
+.profile-btn-primary:disabled { opacity: 0.45; filter: none; }

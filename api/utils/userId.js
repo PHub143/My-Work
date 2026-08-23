@@ -6,4 +6,13 @@ function getUserIdFromEmail(email) {
   return email.trim().split('@', 1)[0].toLowerCase();
 }
 
-module.exports = { getUserIdFromEmail };
+/**
+ * Normalizes a user-supplied UserID (the login handle) for storage and
+ * lookup: trimmed and lowercased, same casing rules the old email-local-part
+ * login used.
+ */
+function normalizeUserId(userId) {
+  return typeof userId === 'string' ? userId.trim().toLowerCase() : '';
+}
+
+module.exports = { getUserIdFromEmail, normalizeUserId };

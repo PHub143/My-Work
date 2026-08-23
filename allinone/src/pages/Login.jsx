@@ -14,8 +14,8 @@ import './Login.css';
 
 const Login = () => {
   const [authMode, setAuthMode] = useState('login');
-  const [name, setName] = useState('');
   const [userId, setUserId] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -61,7 +61,7 @@ const Login = () => {
     try {
       const endpoint = isRegisterMode ? 'register' : 'login';
       const payload = isRegisterMode
-        ? { email: userId, password, name }
+        ? { userId, email: email || undefined, password }
         : { userId, password, portal: isStudentMode ? 'student' : 'admin' };
 
       const response = await fetch(`${API_URL}/users/${endpoint}`, {
@@ -97,6 +97,7 @@ const Login = () => {
     setError('');
     setPassword('');
     setConfirmPassword('');
+    setEmail('');
   };
 
   return (
@@ -130,33 +131,33 @@ const Login = () => {
           )}
 
           <form onSubmit={handleSubmit} className="login-form">
-            {isRegisterMode && (
-              <div className="form-group">
-                <label htmlFor="name">Full name</label>
-                <input
-                  id="name"
-                  type="text"
-                  placeholder="Student name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  autoComplete="name"
-                />
-              </div>
-            )}
-
             <div className="form-group">
-              <label htmlFor="userId">{isRegisterMode ? 'Email address' : 'Email or user ID'}</label>
+              <label htmlFor="userId">{isRegisterMode ? 'User ID' : 'User ID or email'}</label>
               <input
                 id="userId"
-                type={isRegisterMode ? 'email' : 'text'}
-                placeholder={isRegisterMode ? loginContent.placeholder : 'Email address or email name'}
+                type="text"
+                placeholder={isRegisterMode ? 'Choose a user ID' : 'User ID or email address'}
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
                 required
-                autoComplete={isRegisterMode ? 'email' : 'username'}
+                autoComplete="username"
                 autoFocus
               />
             </div>
+
+            {isRegisterMode && (
+              <div className="form-group">
+                <label htmlFor="email">Email address (optional)</label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder={loginContent.placeholder}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="email"
+                />
+              </div>
+            )}
 
             <div className="form-group">
               <label htmlFor="password">Password</label>

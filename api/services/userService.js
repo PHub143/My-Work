@@ -5,7 +5,7 @@ const {
   primaryRole,
   withNormalizedRoles,
 } = require('../utils/roles');
-const { getUserIdFromEmail } = require('../utils/userId');
+const { getUserIdFromEmail, normalizeUserId } = require('../utils/userId');
 
 function hasOwn(data, key) {
   return Object.prototype.hasOwnProperty.call(data, key);
@@ -16,34 +16,30 @@ function hasOwn(data, key) {
  */
 const userService = {
   /**
-   * Finds a user by their full email address or its local part (before `@`).
-   * A local-part login only succeeds when it identifies exactly one user.
-   * @param {string} email - The full email address or local part.
+   * Finds a user by login identifier: a full email address (if it contains
+   * `@`) or a UserID otherwise.
+   * @param {string} loginId - The UserID or full email address.
    * @returns {Promise<Object|null>}
    */
-  findUserByEmail: async (email) => {
-    const loginId = typeof email === 'string' ? email.trim() : '';
-    if (!loginId) {
+  findUserByLoginId: async (loginId) => {
+    const trimmed = typeof loginId === 'string' ? loginId.trim() : '';
+    if (!trimmed) {
       return null;
     }
 
-    if (!loginId.includes('@')) {
-      const users = await prisma.user.findMany({
+    if (trimmed.includes('@')) {
+      const user = await prisma.user.findUnique({
         where: {
-          email: {
-            startsWith: `${getUserIdFromEmail(loginId)}@`,
-            mode: 'insensitive',
-          },
+          email: trimmed,
         },
-        take: 2,
       });
 
-      return users.length === 1 ? withNormalizedRoles(users[0]) : null;
+      return withNormalizedRoles(user);
     }
 
     const user = await prisma.user.findUnique({
       where: {
-        email: loginId,
+        userId: normalizeUserId(trimmed),
       },
     });
 
@@ -67,17 +63,21 @@ const userService = {
 
   /**
    * Creates a new user in the database.
-   * Hashes the password before saving.
-   * @param {Object} data - User data (email, name, password, role).
+   * Hashes the password before saving. `userId` (the login handle) is used
+   * if given, otherwise it's derived from the email local part.
+   * @param {Object} data - User data (userId, email, name, password, role).
    * @returns {Promise<Object>}
    */
   createUser: async (data) => {
     const hashedPassword = await bcrypt.hash(data.password, 10);
     const roles = normalizeRoles(hasOwn(data, 'roles') ? data.roles : data.role);
+    const userId = normalizeUserId(data.userId || getUserIdFromEmail(data.email));
+    const email = typeof data.email === 'string' && data.email.trim() ? data.email.trim() : null;
     const user = await prisma.user.create({
       data: {
-        email: data.email,
-        name: data.name,
+        userId,
+        email,
+        name: data.name || null,
         password: hashedPassword,
         role: primaryRole(roles),
         roles,

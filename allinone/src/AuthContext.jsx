@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }) => {
     
     return {
       id: decoded.id,
+      userId: decoded.userId,
       email: decoded.email,
       roles,
       role: primaryRole(roles),

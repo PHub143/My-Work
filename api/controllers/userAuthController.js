@@ -2,13 +2,14 @@ const userService = require('../services/userService');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { ROLES, hasRole, withNormalizedRoles } = require('../utils/roles');
-const { getUserIdFromEmail } = require('../utils/userId');
+const { normalizeUserId } = require('../utils/userId');
 
 const { JWT_SECRET } = require('../config/jwt');
 
 const createUserToken = (user) => jwt.sign(
   {
     id: user.id,
+    userId: user.userId,
     email: user.email,
     role: user.role,
     roles: user.roles,
@@ -17,6 +18,15 @@ const createUserToken = (user) => jwt.sign(
   JWT_SECRET,
   { expiresIn: '24h' }
 );
+
+const safeAuthUser = (user) => ({
+  id: user.id,
+  userId: user.userId,
+  email: user.email,
+  name: user.name,
+  role: user.role,
+  roles: user.roles,
+});
 
 /**
  * Handles user login.
@@ -33,7 +43,7 @@ const loginHandler = async (req, res, next) => {
   }
 
   try {
-    const user = await userService.findUserByEmail(loginId);
+    const user = await userService.findUserByLoginId(loginId);
     if (!user) {
       return res.status(401).json({ message: 'Invalid user ID or password.' });
     }
@@ -64,13 +74,7 @@ const loginHandler = async (req, res, next) => {
     res.status(200).json({
       message: 'Login successful',
       token,
-      user: {
-        id: normalizedUser.id,
-        email: normalizedUser.email,
-        name: normalizedUser.name,
-        role: normalizedUser.role,
-        roles: normalizedUser.roles,
-      }
+      user: safeAuthUser(normalizedUser),
     });
   } catch (error) {
     next(error);
@@ -78,28 +82,35 @@ const loginHandler = async (req, res, next) => {
 };
 
 /**
- * Handles initial admin registration (optional helper).
+ * Handles self-service student registration. UserID is the required login
+ * handle; email is optional and can be added later from the profile page.
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  * @param {Function} next - Express next middleware function.
  */
 const registerHandler = async (req, res, next) => {
-  const { email, password, name } = req.body;
+  const { userId, email, password } = req.body;
+  const trimmedUserId = typeof userId === 'string' ? userId.trim() : '';
+  const trimmedEmail = typeof email === 'string' ? email.trim() : '';
 
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required.' });
+  if (!trimmedUserId || !password) {
+    return res.status(400).json({ message: 'User ID and password are required.' });
+  }
+
+  if (trimmedUserId.includes('@')) {
+    return res.status(400).json({ message: 'User ID cannot contain "@".' });
   }
 
   try {
-    const existingUser = await userService.findUserByEmail(getUserIdFromEmail(email));
+    const existingUser = await userService.findUserByLoginId(trimmedUserId);
     if (existingUser) {
       return res.status(400).json({ message: 'User ID is already in use.' });
     }
 
     const newUser = await userService.createUser({
-      email,
+      userId: normalizeUserId(trimmedUserId),
+      email: trimmedEmail || undefined,
       password,
-      name,
       roles: [ROLES.STUDENT],
     });
     const normalizedUser = withNormalizedRoles(newUser);
@@ -108,16 +119,14 @@ const registerHandler = async (req, res, next) => {
     res.status(201).json({
       message: 'User created successfully',
       token,
-      user: {
-        id: normalizedUser.id,
-        email: normalizedUser.email,
-        name: normalizedUser.name,
-        role: normalizedUser.role,
-        roles: normalizedUser.roles,
-      }
+      user: safeAuthUser(normalizedUser),
     });
   } catch (error) {
     if (error.code === 'P2002') {
+      const target = Array.isArray(error.meta?.target) ? error.meta.target.join(',') : String(error.meta?.target || '');
+      if (target.includes('email')) {
+        return res.status(400).json({ message: 'Email address is already in use.' });
+      }
       return res.status(400).json({ message: 'User ID is already in use.' });
     }
     next(error);
