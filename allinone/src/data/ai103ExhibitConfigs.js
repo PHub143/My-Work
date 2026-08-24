@@ -12,6 +12,13 @@ export const multipleChoiceExhibitConfigs = {
     exhibitInsertAfterParagraph: 3,
     exhibitCode: 'run = project_client.agents.runs.create_and_process(\n    thread_id=thread.id,\n    agent_id=agent.id\n)',
   },
+  118: {
+    answerRows: [
+      { label: 'Step 1', value: 'Provision an on-premises Kubernetes cluster that has internet connectivity.' },
+      { label: 'Step 2', value: 'Pull an image from the Microsoft Container Registry (MCR).' },
+      { label: 'Step 3', value: 'Run the container and specify an API key and the Endpoint URL of the Azure AI resource.' },
+    ],
+  },
   9: {
     exhibitTitle: 'Exhibit',
     exhibitPageLabel: 'PDF page 16',
@@ -64,5 +71,71 @@ export const visualCodeHotspotConfigs = {
         answer: 'Fail',
       },
     ],
+  },
+  119: {
+    hotspotFields: [
+      {
+        label: 'Project Types:',
+        options: ['Classification', 'Object Detection'],
+        answer: 'Classification',
+      },
+      {
+        label: 'Classification Types:',
+        options: ['Multiclass (Single tag per image)', 'Multilabel (Multiple tags per image)'],
+        answer: 'Multiclass (Single tag per image)',
+      },
+      {
+        label: 'Domains:',
+        options: [
+          'Adult',
+          'Food',
+          'General',
+          'General (compact)',
+          'Landmarks',
+          'Landmarks (compact)',
+          'Retail',
+          'Retail (compact)',
+        ],
+        answer: 'General (compact)',
+      },
+    ],
+  },
+  77: {
+    codeTemplate:
+      'from azure.ai.projects.models import MemorySearchTool, PromptAgentDefinition\n\n' +
+      'mem_store_name = "agent_mem_store"\n' +
+      'memory_tool = MemorySearchTool(\n' +
+      '    memory_store_name=mem_store_name,\n' +
+      '    scope={{scope}},\n' +
+      ')\n' +
+      'agent_def = PromptAgentDefinition(\n' +
+      '    model="gpt-5.2",\n' +
+      '    instructions="You are a customer support assistant.",\n' +
+      '    tools={{tools}},\n' +
+      ')',
+    codeBlanks: {
+      scope: {
+        options: [
+          '"session"',
+          '"{{$conversationId}}"',
+          '"{{$userId}}"',
+          '[mem_store_name]',
+          '[memory_tool]',
+          'MemorySearchTool("support_mem_store")',
+        ],
+        answer: '"{{$userId}}"',
+      },
+      tools: {
+        options: [
+          '"session"',
+          '"{{$conversationId}}"',
+          '"{{$userId}}"',
+          '[mem_store_name]',
+          '[memory_tool]',
+          'MemorySearchTool("support_mem_store")',
+        ],
+        answer: '[memory_tool]',
+      },
+    },
   },
 };

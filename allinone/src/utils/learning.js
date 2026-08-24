@@ -743,6 +743,39 @@ const PRACTICE_CONTROL_CONFIGS = {
       sensitiveInfoMetric: 'Protected material',
     },
   },
+  77: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'scopeValue',
+        label: 'memory_tool scope',
+        options: [
+          '"session"',
+          '"{{$conversationId}}"',
+          '"{{$userId}}"',
+          '[mem_store_name]',
+          '[memory_tool]',
+          'MemorySearchTool("support_mem_store")',
+        ],
+      },
+      {
+        id: 'toolsValue',
+        label: 'agent_def tools',
+        options: [
+          '"session"',
+          '"{{$conversationId}}"',
+          '"{{$userId}}"',
+          '[mem_store_name]',
+          '[memory_tool]',
+          'MemorySearchTool("support_mem_store")',
+        ],
+      },
+    ],
+    correct: {
+      scopeValue: '"{{$userId}}"',
+      toolsValue: '[memory_tool]',
+    },
+  },
   79: {
     type: 'dropdowns',
     controls: [
