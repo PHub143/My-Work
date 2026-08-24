@@ -3,8 +3,8 @@
   "subtitle": "Microsoft Azure AI solution study material",
   "sourceFile": "ai-103.pdf",
   "sourceUrl": "https://certyiq.com/papers/microsoft/ai-103",
-  "questionCount": 183,
-  "pageCount": 159,
+  "questionCount": 133,
+  "pageCount": 173,
   "wordCount": 52586,
   "blankPages": [
     158
@@ -1098,27 +1098,6 @@
       ]
     },
     {
-      "number": 76,
-      "sourcePages": [],
-      "prompt": "You have a Microsoft Foundry project that contains an agent for a customer support chat app. The agent uses a memory store and a memory search tool.\nYou need to ensure that the conversation history does NOT persist across separate sessions.\nTo what should you set the scope of the memory tool?\nA. session\nB. {{$conversationId}}\nC. {{$userId}}\nD. global",
-      "answer": "A",
-      "explanation": "Technical Justification for Correct Answer: A (session)\nTo ensure that the conversation history does not persist across separate sessions in the Microsoft Foundry project for the customer support chat app, setting the scope of the memory tool to A. session is the most appropriate choice. Here's why:\nCorrect Choice - A. session:\nSetting the scope to \"session\" ensures that the memory store and search tool are confined to the duration of a single user session.\nOnce the session ends (e.g., user closes the chat, times out, or explicitly ends the conversation), the associated memory is cleared, achieving the requirement that conversation history does not persist across sessions.\nThis scope balances the need for in-session contextual understanding with the requirement for session-to-session data isolation.\nWhy Other Options are Less Suitable:\nB. {{$conversationId}}:\nWhile unique per conversation, if a user starts a new conversation in what is considered a new \"session\" by the application's logic (but perhaps not by the conversation ID's definition), this could inadvertently retain history across what the application considers separate sessions.\nThe definition of a conversation's boundary might not align with the session's boundary as perceived by the application's requirements.\nC. {{$userId}}:\nThis scope would retain conversation history across all sessions for a given user, directly contradicting the requirement.\nIt's useful for retaining preferences or history within an app for personalized experiences but not suitable here.\nD. global:\nA global scope would share the memory store across all users and sessions, leading to privacy concerns, data mingling, and a clear violation of the persistence requirement.\nIt's the least suitable for this specific need.",
-      "text": "You have a Microsoft Foundry project that contains an agent for a customer support chat app. The agent uses a memory store and a memory search tool.\nYou need to ensure that the conversation history does NOT persist across separate sessions.\nTo what should you set the scope of the memory tool?\nA. session\nB. {{$conversationId}}\nC. {{$userId}}\nD. global\nAnswer: A\nExplanation:\nTechnical Justification for Correct Answer: A (session)\nTo ensure that the conversation history does not persist across separate sessions in the Microsoft Foundry project for the customer support chat app, setting the scope of the memory tool to A. session is the most appropriate choice. Here's why:\nCorrect Choice - A. session:\nSetting the scope to \"session\" ensures that the memory store and search tool are confined to the duration of a single user session.\nOnce the session ends (e.g., user closes the chat, times out, or explicitly ends the conversation), the associated memory is cleared, achieving the requirement that conversation history does not persist across sessions.\nThis scope balances the need for in-session contextual understanding with the requirement for session-to-session data isolation.\nWhy Other Options are Less Suitable:\nB. {{$conversationId}}:\nWhile unique per conversation, if a user starts a new conversation in what is considered a new \"session\" by the application's logic (but perhaps not by the conversation ID's definition), this could inadvertently retain history across what the application considers separate sessions.\nThe definition of a conversation's boundary might not align with the session's boundary as perceived by the application's requirements.\nC. {{$userId}}:\nThis scope would retain conversation history across all sessions for a given user, directly contradicting the requirement.\nIt's useful for retaining preferences or history within an app for personalized experiences but not suitable here.\nD. global:\nA global scope would share the memory store across all users and sessions, leading to privacy concerns, data mingling, and a clear violation of the persistence requirement.\nIt's the least suitable for this specific need.",
-      "references": [
-        "Microsoft Azure Documentation: Managing Session State in Azure: https://docs.microsoft.com/en-us/azure/app-service/configure-common?tabs=portal#settings",
-        "Microsoft Bot Framework Documentation: Conversation Scope: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-scope?view=azure-bot-service-4.0"
-      ]
-    },
-    {
-      "number": 77,
-      "sourcePages": [],
-      "prompt": "DRAG DROP\n-\nYou have a Microsoft Foundry project that contains an agent.\nYou need to enable long-term memory to ensure that the agent can recall user preferences across separate conversations. Stored memories must be isolated per authenticated user without the client application manually generating user IDs.\nHow should you complete the Python code? To answer, drag the appropriate values to the correct targets. Each value may be used once, more than once, or not at all.\nNOTE: Each correct selection is worth one point.",
-      "answer": "",
-      "explanation": "Value: \"{{$userId}}\"\nIn the Azure AI Agent service client library, \"{{$userId}}\" is a special variable parameter used to automatically scope and isolate long-term memory to the current signed-in user context.\nValue: [memory_tool]\nThe tools parameter takes a list of tool objects. Since the instance of the memory search tool was assigned to the variable memory_tool right above, it must be provided as a list: [memory_tool].",
-      "text": "DRAG DROP\n-\nYou have a Microsoft Foundry project that contains an agent.\nYou need to enable long-term memory to ensure that the agent can recall user preferences across separate conversations. Stored memories must be isolated per authenticated user without the client application manually generating user IDs.\nHow should you complete the Python code? To answer, drag the appropriate values to the correct targets. Each value may be used once, more than once, or not at all.\nNOTE: Each correct selection is worth one point.\nAnswer: \nExplanation:\nValue: \"{{$userId}}\"\nIn the Azure AI Agent service client library, \"{{$userId}}\" is a special variable parameter used to automatically scope and isolate long-term memory to the current signed-in user context.\nValue: [memory_tool]\nThe tools parameter takes a list of tool objects. Since the instance of the memory search tool was assigned to the variable memory_tool right above, it must be provided as a list: [memory_tool].",
-      "references": []
-    },
-    {
       "number": 78,
       "sourcePages": [
         107,
@@ -1684,782 +1663,205 @@
     },
     {
       "number": 119,
-      "sourcePages": [],
-      "prompt": "Which web portal should you use to work with assets in a Microsoft Foundry project?\nA. The Azure portal\nB. Microsoft Copilot\nC. The Microsoft Foundry portal",
-      "answer": "C",
-      "explanation": "The Microsoft Foundry portal is the dedicated web portal for creating, configuring, and managing assets (projects, models, agents, tools, and connections) within a Microsoft Foundry project. The Azure portal manages broader Azure resources and subscriptions rather than Foundry project assets directly, and Microsoft Copilot is an AI assistant, not an asset management portal.",
-      "text": "Which web portal should you use to work with assets in a Microsoft Foundry project?\nA. The Azure portal\nB. Microsoft Copilot\nC. The Microsoft Foundry portal\nAnswer: C\nExplanation:\nThe Microsoft Foundry portal is the dedicated web portal for creating, configuring, and managing assets (projects, models, agents, tools, and connections) within a Microsoft Foundry project. The Azure portal manages broader Azure resources and subscriptions rather than Foundry project assets directly, and Microsoft Copilot is an AI assistant, not an asset management portal.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
+      "sourcePages": [
+        158
+      ],
+      "prompt": "HOTSPOT\n-\nYou are building a custom vision model that will be deployed as part of an iOS app.\nYou have images of cats and dogs. Each image contains either a cat or a dog.\nYou need to use the Azure Custom Vision service to detect whether the image is of a cat or a dog.\nHow should you configure the project in the Azure Custom Vision portal? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\nProject Types: Classification, Object Detection\nClassification Types: Multiclass (Single tag per image), Multilabel (Multiple tags per image)\nDomains: Adult, Food, General, General (compact), Landmarks, Landmarks (compact), Retail, Retail (compact)",
+      "answer": "Project Type: Classification\nClassification Type: Multiclass (Single tag per image)\nDomain: General (compact)",
+      "explanation": "",
+      "text": "HOTSPOT\n-\nYou are building a custom vision model that will be deployed as part of an iOS app.\nYou have images of cats and dogs. Each image contains either a cat or a dog.\nYou need to use the Azure Custom Vision service to detect whether the image is of a cat or a dog.\nHow should you configure the project in the Azure Custom Vision portal? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\nProject Types: Classification, Object Detection\nClassification Types: Multiclass (Single tag per image), Multilabel (Multiple tags per image)\nDomains: Adult, Food, General, General (compact), Landmarks, Landmarks (compact), Retail, Retail (compact)\nAnswer: Project Type: Classification\nClassification Type: Multiclass (Single tag per image)\nDomain: General (compact)",
+      "references": []
     },
     {
       "number": 120,
-      "sourcePages": [],
-      "prompt": "Which component of Microsoft Foundry provides pre-built services for common AI tasks?\nA. Foundry Tools\nB. Foundry Models\nC. Foundry IQ",
-      "answer": "A",
-      "explanation": "Foundry Tools supplies pre-built, ready-to-use services (such as Azure AI Search integration and Content Understanding) that handle common AI tasks without requiring custom development. Foundry Models is the catalog of models available for deployment, and Foundry IQ is not a Microsoft Foundry component.",
-      "text": "Which component of Microsoft Foundry provides pre-built services for common AI tasks?\nA. Foundry Tools\nB. Foundry Models\nC. Foundry IQ\nAnswer: A\nExplanation:\nFoundry Tools supplies pre-built, ready-to-use services (such as Azure AI Search integration and Content Understanding) that handle common AI tasks without requiring custom development. Foundry Models is the catalog of models available for deployment, and Foundry IQ is not a Microsoft Foundry component.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
+      "sourcePages": [
+        158
+      ],
+      "prompt": "You have a Microsoft Foundry project that contains an agent. The agent has a Model Context Protocol (MCP) tool named kbsearch that queries a knowledge base stored in Azure AI Search.\nSome agent runs return answers from the base model without invoking the knowledge base, which results in responses without grounded citations.\nYou are provided with the following code snippet that runs the agent.\nrun = project_client.agents.runs.create_and_process(\n    thread_id=thread.id,\n    agent_id=agent.id\n)\nYou need to deterministically force the agent to invoke kbsearch on each run.\nWhat should you do?\n\n   A. Add the response_format parameter to the create_and_process() method call.\n   B. Replace create_and_process() method with the create_thread_and_process_run() method.\n   C. Add the toolset parameter to the create_and_process() method call.\n   D. Add the tool_choice parameter to the create_and_process() method call.",
+      "answer": "D",
+      "explanation": "",
+      "text": "You have a Microsoft Foundry project that contains an agent. The agent has a Model Context Protocol (MCP) tool named kbsearch that queries a knowledge base stored in Azure AI Search.\nSome agent runs return answers from the base model without invoking the knowledge base, which results in responses without grounded citations.\nYou are provided with the following code snippet that runs the agent.\nrun = project_client.agents.runs.create_and_process(\n    thread_id=thread.id,\n    agent_id=agent.id\n)\nYou need to deterministically force the agent to invoke kbsearch on each run.\nWhat should you do?\n\n   A. Add the response_format parameter to the create_and_process() method call.\n   B. Replace create_and_process() method with the create_thread_and_process_run() method.\n   C. Add the toolset parameter to the create_and_process() method call.\n   D. Add the tool_choice parameter to the create_and_process() method call.\nAnswer: D",
+      "references": []
     },
     {
       "number": 121,
-      "sourcePages": [],
-      "prompt": "Which extension should you use in Visual Studio Code to work with Foundry projects?\nA. Python extension for Visual Studio Code\nB. GitHub Copilot\nC. Microsoft AI Toolkit extension for Visual Studio Code",
-      "answer": "C",
-      "explanation": "The Microsoft AI Toolkit extension for Visual Studio Code is purpose-built for working with Foundry projects, letting you browse models, run and evaluate prompts, and deploy directly from the editor. The Python extension provides general Python language support and GitHub Copilot is a general-purpose coding assistant, neither of which is specific to Foundry project workflows.",
-      "text": "Which extension should you use in Visual Studio Code to work with Foundry projects?\nA. Python extension for Visual Studio Code\nB. GitHub Copilot\nC. Microsoft AI Toolkit extension for Visual Studio Code\nAnswer: C\nExplanation:\nThe Microsoft AI Toolkit extension for Visual Studio Code is purpose-built for working with Foundry projects, letting you browse models, run and evaluate prompts, and deploy directly from the editor. The Python extension provides general Python language support and GitHub Copilot is a general-purpose coding assistant, neither of which is specific to Foundry project workflows.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
+      "sourcePages": [
+        159
+      ],
+      "prompt": "You are developing a text processing solution.\nYou have the following function.\ndef get_key_words(textAnalyticsClient, text):\n    response = textAnalyticsClient.recognize_entities(documents = [text])[0]\n    print(\"Key Words:\")\n    for entity in response.entities:\n        print(\"\\t\\t\", entity.text)\nYou call the function and use the following string as the second argument.\nOur tour of London included a visit to Buckingham Palace\nWhat will be the output of the function?\n\n   A. London and Buckingham Palace only\n   B. Tour and visit only\n   C. Our tour of London included a visit to Buckingham Palace\n   D. London and Tour only",
+      "answer": "A",
+      "explanation": "",
+      "text": "You are developing a text processing solution.\nYou have the following function.\ndef get_key_words(textAnalyticsClient, text):\n    response = textAnalyticsClient.recognize_entities(documents = [text])[0]\n    print(\"Key Words:\")\n    for entity in response.entities:\n        print(\"\\t\\t\", entity.text)\nYou call the function and use the following string as the second argument.\nOur tour of London included a visit to Buckingham Palace\nWhat will be the output of the function?\n\n   A. London and Buckingham Palace only\n   B. Tour and visit only\n   C. Our tour of London included a visit to Buckingham Palace\n   D. London and Tour only\nAnswer: A",
+      "references": []
     },
     {
       "number": 122,
-      "sourcePages": [],
-      "prompt": "Which model benchmark indicates the model's ability to process prompts and return comprehensive responses quickly?\nA. Quality index\nB. Cost\nC. Throughput",
-      "answer": "C",
-      "explanation": "Throughput measures how quickly a model can process prompts and return comprehensive responses, reflecting the model's processing speed under load. Quality index reflects response accuracy and relevance rather than speed, and Cost reflects the price of running the model, not its performance.",
-      "text": "Which model benchmark indicates the model's ability to process prompts and return comprehensive responses quickly?\nA. Quality index\nB. Cost\nC. Throughput\nAnswer: C\nExplanation:\nThroughput measures how quickly a model can process prompts and return comprehensive responses, reflecting the model's processing speed under load. Quality index reflects response accuracy and relevance rather than speed, and Cost reflects the price of running the model, not its performance.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
+      "sourcePages": [
+        159
+      ],
+      "prompt": "HOTSPOT\n-\nYou are building a solution that students will use to find references for essays.\nYou use the following code to start building the solution.\nfrom azure.core.credentials import AzureKeyCredential\nfrom azure.ai.textanalytics import TextAnalyticsClient\n\nendpoint = os.environ[\"AZURE_TEXT_ANALYTICS_ENDPOINT\"]\nkey = os.environ[\"AZURE_TEXT_ANALYTICS_KEY\"]\n\ntext_analytics_client = TextAnalyticsClient(endpoint=endpoint, credential=AzureKeyCredential(key))\ndocuments = [\n    \"\"\"\n    Our tour guide took us up the Space Needle during our trip to Seattle last week.\n    \"\"\"\n]\n\nresult = text_analytics_client.recognize_linked_entities(documents)\nFor each of the following statements, select Yes is the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth one point.\n\nStatements:\nThe code will detect the language of documents.\nThe url attribute returned for each linked entity will be a Bing search link.\nThe matches attribute returned for each linked entity will provide the location in a document where the entity is referenced.",
+      "answer": "Yes, Yes, No",
+      "explanation": "",
+      "text": "HOTSPOT\n-\nYou are building a solution that students will use to find references for essays.\nYou use the following code to start building the solution.\nfrom azure.core.credentials import AzureKeyCredential\nfrom azure.ai.textanalytics import TextAnalyticsClient\n\nendpoint = os.environ[\"AZURE_TEXT_ANALYTICS_ENDPOINT\"]\nkey = os.environ[\"AZURE_TEXT_ANALYTICS_KEY\"]\n\ntext_analytics_client = TextAnalyticsClient(endpoint=endpoint, credential=AzureKeyCredential(key))\ndocuments = [\n    \"\"\"\n    Our tour guide took us up the Space Needle during our trip to Seattle last week.\n    \"\"\"\n]\n\nresult = text_analytics_client.recognize_linked_entities(documents)\nFor each of the following statements, select Yes is the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth one point.\n\nStatements:\nThe code will detect the language of documents.\nThe url attribute returned for each linked entity will be a Bing search link.\nThe matches attribute returned for each linked entity will provide the location in a document where the entity is referenced.\nAnswer: Yes, Yes, No",
+      "references": []
     },
     {
       "number": 123,
-      "sourcePages": [],
-      "prompt": "Which deployment type in Microsoft Foundry is best for general use while offering the largest quota?\nA. Data Zone Batch\nB. Global Standard\nC. Developer",
-      "answer": "B",
-      "explanation": "Global Standard is the default, general-purpose deployment type in Microsoft Foundry and offers the largest available quota by routing traffic to any region with capacity worldwide. Data Zone Batch is intended for asynchronous, high-volume batch workloads scoped to a data zone, and Developer is a lower-quota tier intended for early testing rather than general production use.",
-      "text": "Which deployment type in Microsoft Foundry is best for general use while offering the largest quota?\nA. Data Zone Batch\nB. Global Standard\nC. Developer\nAnswer: B\nExplanation:\nGlobal Standard is the default, general-purpose deployment type in Microsoft Foundry and offers the largest available quota by routing traffic to any region with capacity worldwide. Data Zone Batch is intended for asynchronous, high-volume batch workloads scoped to a data zone, and Developer is a lower-quota tier intended for early testing rather than general production use.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
+      "sourcePages": [
+        160
+      ],
+      "prompt": "HOTSPOT\n-\nYou have a Microsoft Foundry project for a support ticket triage app that reads ticket text from a database.\nYou need to ensure that the app meets the following requirements:\n- Compares candidate models by quality, cost, and throughput\n- Prevents hosting model weights in the Azure subscription\nWhat should you configure? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\n\nModel evaluation: Configure private endpoint access. / Use deployment lists and license tabs. / Use tool catalog connections and run traces. / Use model catalog leaderboards and model cards.\nDeployment option: Bring your own model. / Build a vector index. / Use a serverless deployment. / Use a managed compute deployment.",
+      "answer": "Model evaluation: Use model catalog leaderboards and model cards.\nDeployment option: Use a serverless deployment.",
+      "explanation": "",
+      "text": "HOTSPOT\n-\nYou have a Microsoft Foundry project for a support ticket triage app that reads ticket text from a database.\nYou need to ensure that the app meets the following requirements:\n- Compares candidate models by quality, cost, and throughput\n- Prevents hosting model weights in the Azure subscription\nWhat should you configure? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\n\nModel evaluation: Configure private endpoint access. / Use deployment lists and license tabs. / Use tool catalog connections and run traces. / Use model catalog leaderboards and model cards.\nDeployment option: Bring your own model. / Build a vector index. / Use a serverless deployment. / Use a managed compute deployment.\nAnswer: Model evaluation: Use model catalog leaderboards and model cards.\nDeployment option: Use a serverless deployment.",
+      "references": []
     },
     {
       "number": 124,
-      "sourcePages": [],
-      "prompt": "Which evaluation metric measures linguistic correctness and natural language quality?\nA. Fluency\nB. Groundedness\nC. Relevance",
-      "answer": "A",
-      "explanation": "Fluency evaluates whether a response is grammatically correct, coherent, and reads naturally as well-formed language. Groundedness measures whether a response is supported by the provided source data, and Relevance measures how well a response addresses the actual question asked, neither of which assesses linguistic quality specifically.",
-      "text": "Which evaluation metric measures linguistic correctness and natural language quality?\nA. Fluency\nB. Groundedness\nC. Relevance\nAnswer: A\nExplanation:\nFluency evaluates whether a response is grammatically correct, coherent, and reads naturally as well-formed language. Groundedness measures whether a response is supported by the provided source data, and Relevance measures how well a response addresses the actual question asked, neither of which assesses linguistic quality specifically.",
-      "references": [],
-      "tags": [
-        "fundamentals"
+      "sourcePages": [
+        161
+      ],
+      "prompt": "You have an Azure subscription.\nYou need to build an app that will compare documents for semantic similarity. The solution must meet the following requirements:\n- Return numeric vectors that represent the tokens of each document.\n- Minimize development effort.\nWhich Azure OpenAI model should you use?\n\n   A. GPT-3.5\n   B. embeddings\n   C. GPT-4\n   D. DALL-E",
+      "answer": "B",
+      "explanation": "Technical Justification for Choosing the Correct Option (B. embeddings)\n\nRequirements Recap:\n1. Return numeric vectors representing document tokens for semantic similarity comparison.\n2. Minimize development effort.\n\nWhy B. embeddings is the Best Choice:\nSemantic Similarity through Embeddings: The embeddings model is specifically designed to generate dense vector representations (embeddings) of input texts. These vectors capture semantic similarities between tokens/documents, making them ideal for comparison tasks. This directly fulfills the first requirement.\nDevelopment Effort Minimization: Utilizing the embeddings model requires minimal custom development since it's pre-trained for this exact purpose. You can directly integrate the API into your application with less coding effort compared to fine-tuning or adapting more general models like GPT-3.5 or GPT-4 for embedding generation.\n\nWhy Other Options are Less Suitable:\nA. GPT-3.5 & C. GPT-4: Both are general-purpose language models, primarily suited for text generation, question-answering, and similar tasks, not specifically for generating embeddings for semantic similarity. Using either for semantic similarity would require additional logic or fine-tuning, significantly increasing development time and effort, and neither is optimized for returning numeric vectors of tokens.\nD. DALL-E: Focused on image generation from text prompts, completely unrelated to the task of comparing document semantic similarity, and provides no functionality for generating numeric vectors for text tokens.\n\nConclusion: Given the specific requirements of generating numeric vectors for semantic similarity comparison and minimizing development effort, B. embeddings is the most technically suitable and efficient choice among the provided Azure OpenAI models.",
+      "text": "You have an Azure subscription.\nYou need to build an app that will compare documents for semantic similarity. The solution must meet the following requirements:\n- Return numeric vectors that represent the tokens of each document.\n- Minimize development effort.\nWhich Azure OpenAI model should you use?\n\n   A. GPT-3.5\n   B. embeddings\n   C. GPT-4\n   D. DALL-E\nAnswer: B\nExplanation:\nTechnical Justification for Choosing the Correct Option (B. embeddings)\n\nRequirements Recap:\n1. Return numeric vectors representing document tokens for semantic similarity comparison.\n2. Minimize development effort.\n\nWhy B. embeddings is the Best Choice:\nSemantic Similarity through Embeddings: The embeddings model is specifically designed to generate dense vector representations (embeddings) of input texts. These vectors capture semantic similarities between tokens/documents, making them ideal for comparison tasks. This directly fulfills the first requirement.\nDevelopment Effort Minimization: Utilizing the embeddings model requires minimal custom development since it's pre-trained for this exact purpose. You can directly integrate the API into your application with less coding effort compared to fine-tuning or adapting more general models like GPT-3.5 or GPT-4 for embedding generation.\n\nWhy Other Options are Less Suitable:\nA. GPT-3.5 & C. GPT-4: Both are general-purpose language models, primarily suited for text generation, question-answering, and similar tasks, not specifically for generating embeddings for semantic similarity. Using either for semantic similarity would require additional logic or fine-tuning, significantly increasing development time and effort, and neither is optimized for returning numeric vectors of tokens.\nD. DALL-E: Focused on image generation from text prompts, completely unrelated to the task of comparing document semantic similarity, and provides no functionality for generating numeric vectors for text tokens.\n\nConclusion: Given the specific requirements of generating numeric vectors for semantic similarity comparison and minimizing development effort, B. embeddings is the most technically suitable and efficient choice among the provided Azure OpenAI models.",
+      "references": [
+        "Azure OpenAI Documentation - Embeddings"
       ]
     },
     {
       "number": 125,
-      "sourcePages": [],
-      "prompt": "Which endpoint offers the broadest support for OpenAI APIs with Foundry Models?\nA. The Foundry project endpoint\nB. The Azure OpenAI endpoint\nC. The Foundry Tools endpoint",
-      "answer": "B",
-      "explanation": "The Azure OpenAI endpoint exposes the widest range of OpenAI API surface area (chat completions, responses, assistants, and more) for models deployed through Foundry Models. The Foundry project endpoint targets project-level resources rather than the full OpenAI API surface, and there is no separate Foundry Tools endpoint for calling models.",
-      "text": "Which endpoint offers the broadest support for OpenAI APIs with Foundry Models?\nA. The Foundry project endpoint\nB. The Azure OpenAI endpoint\nC. The Foundry Tools endpoint\nAnswer: B\nExplanation:\nThe Azure OpenAI endpoint exposes the widest range of OpenAI API surface area (chat completions, responses, assistants, and more) for models deployed through Foundry Models. The Foundry project endpoint targets project-level resources rather than the full OpenAI API surface, and there is no separate Foundry Tools endpoint for calling models.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
+      "sourcePages": [
+        162
+      ],
+      "prompt": "HOTSPOT\n-\nYou are building an app that will provide users with definitions of common AI terms.\nYou create the following Python code.\n...\nopenai.api_key = key\nopenai.api_base = endpoint\nresponse = openai.ChatCompletion.create(\n    engine=deployment_name\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n        {\"role\": \"user\", \"content\": \"What is an LLM?\"}\n    ]\n)\n\nprint(response['choices'][0]['message']['content'])\n...\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth point.\n\nStatements:\nThe response will contain an explanation of large language models (LLMs) that has a high degree of certainty.\nChanging \"What is an LLM?\" to \"What is an LLM in the context of AI models?\" will produce the intended response.\nChanging \"You are a helpful assistant.\" to \"You must answer only within the context of AI language models.\" will give a higher likelihood of producing the intended response.",
+      "answer": "Yes, Yes, No",
+      "explanation": "",
+      "text": "HOTSPOT\n-\nYou are building an app that will provide users with definitions of common AI terms.\nYou create the following Python code.\n...\nopenai.api_key = key\nopenai.api_base = endpoint\nresponse = openai.ChatCompletion.create(\n    engine=deployment_name\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n        {\"role\": \"user\", \"content\": \"What is an LLM?\"}\n    ]\n)\n\nprint(response['choices'][0]['message']['content'])\n...\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth point.\n\nStatements:\nThe response will contain an explanation of large language models (LLMs) that has a high degree of certainty.\nChanging \"What is an LLM?\" to \"What is an LLM in the context of AI models?\" will produce the intended response.\nChanging \"You are a helpful assistant.\" to \"You must answer only within the context of AI language models.\" will give a higher likelihood of producing the intended response.\nAnswer: Yes, Yes, No",
+      "references": []
     },
     {
       "number": 126,
-      "sourcePages": [],
-      "prompt": "Which package must you install to use the Microsoft Foundry SDK in Python?\nA. azure-foundry\nB. azure-ai-projects\nC. microsoft-foundry-sdk",
-      "answer": "B",
-      "explanation": "The azure-ai-projects package is the official Python SDK package for working with Microsoft Foundry projects. azure-foundry and microsoft-foundry-sdk are not published package names for the Foundry SDK.",
-      "text": "Which package must you install to use the Microsoft Foundry SDK in Python?\nA. azure-foundry\nB. azure-ai-projects\nC. microsoft-foundry-sdk\nAnswer: B\nExplanation:\nThe azure-ai-projects package is the official Python SDK package for working with Microsoft Foundry projects. azure-foundry and microsoft-foundry-sdk are not published package names for the Foundry SDK.",
-      "references": [],
-      "tags": [
-        "fundamentals"
+      "sourcePages": [
+        162
+      ],
+      "prompt": "You have an Azure OpenAI model named AI1.\nYou are building a web app named App1 by using the Azure OpenAI SDK.\nYou need to configure App1 to connect to AI1.\nWhat information must you provide?\n\n   A. the deployment name, key, and model name\n   B. the endpoint, key, and model type\n   C. the deployment name, endpoint, and key\n   D. the endpoint, key, and model name",
+      "answer": "C",
+      "explanation": "Technical Justification for Correct Answer: C\n\nTo configure App1 (the web app) to connect to AI1 (the Azure OpenAI model) using the Azure OpenAI SDK, the essential configuration parameters are analyzed as follows, highlighting why option C is the most suitable:\n\nCorrect Answer: C - the deployment name, endpoint, and key\nDeployment Name: Necessary to identify the specific deployment of the Azure OpenAI model (AI1) that App1 should interact with. Each deployment can have different configurations or versions of the model.\nEndpoint: Required to specify the URL where App1 can send requests to interact with AI1. The endpoint is unique to the Azure OpenAI resource.\nKey: Essential for authentication. The key authorizes App1 to make requests to AI1, ensuring only authorized applications can interact with the model.\n\nWhy Other Options Are Less Suitable:\nA. the deployment name, key, and model name: Missing the endpoint, so App1 doesn't know where to send requests, making this option incomplete for connectivity. The model name is redundant since the deployment name already encapsulates the specific model version being targeted.\nB. the endpoint, key, and model type: Missing the deployment name, which is critical for identifying the correct deployment of AI1. Knowing the model \"type\" doesn't specify which deployment of that type to use.\nD. the endpoint, key, and model name: Also missing the deployment name, lacking specificity regarding which deployment of AI1 to interact with, potentially leading to targeting the wrong model configuration.\n\nConclusion: Option C (the deployment name, endpoint, and key) is the most comprehensive and necessary set of information for App1 to securely and accurately connect to the intended deployment of AI1.",
+      "text": "You have an Azure OpenAI model named AI1.\nYou are building a web app named App1 by using the Azure OpenAI SDK.\nYou need to configure App1 to connect to AI1.\nWhat information must you provide?\n\n   A. the deployment name, key, and model name\n   B. the endpoint, key, and model type\n   C. the deployment name, endpoint, and key\n   D. the endpoint, key, and model name\nAnswer: C\nExplanation:\nTechnical Justification for Correct Answer: C\n\nTo configure App1 (the web app) to connect to AI1 (the Azure OpenAI model) using the Azure OpenAI SDK, the essential configuration parameters are analyzed as follows, highlighting why option C is the most suitable:\n\nCorrect Answer: C - the deployment name, endpoint, and key\nDeployment Name: Necessary to identify the specific deployment of the Azure OpenAI model (AI1) that App1 should interact with. Each deployment can have different configurations or versions of the model.\nEndpoint: Required to specify the URL where App1 can send requests to interact with AI1. The endpoint is unique to the Azure OpenAI resource.\nKey: Essential for authentication. The key authorizes App1 to make requests to AI1, ensuring only authorized applications can interact with the model.\n\nWhy Other Options Are Less Suitable:\nA. the deployment name, key, and model name: Missing the endpoint, so App1 doesn't know where to send requests, making this option incomplete for connectivity. The model name is redundant since the deployment name already encapsulates the specific model version being targeted.\nB. the endpoint, key, and model type: Missing the deployment name, which is critical for identifying the correct deployment of AI1. Knowing the model \"type\" doesn't specify which deployment of that type to use.\nD. the endpoint, key, and model name: Also missing the deployment name, lacking specificity regarding which deployment of AI1 to interact with, potentially leading to targeting the wrong model configuration.\n\nConclusion: Option C (the deployment name, endpoint, and key) is the most comprehensive and necessary set of information for App1 to securely and accurately connect to the intended deployment of AI1.",
+      "references": [
+        "Azure OpenAI Authentication and Authorization",
+        "Azure OpenAI SDK Connection Setup"
       ]
     },
     {
       "number": 127,
-      "sourcePages": [],
-      "prompt": "Which method do you use to generate responses with the Responses API?\nA. client.chat.completions.create()\nB. client.get_response_id()\nC. client.responses.create()",
-      "answer": "C",
-      "explanation": "client.responses.create() is the method exposed by the Responses API to generate a model response. client.chat.completions.create() belongs to the older Chat Completions API, and client.get_response_id() is not a real SDK method.",
-      "text": "Which method do you use to generate responses with the Responses API?\nA. client.chat.completions.create()\nB. client.get_response_id()\nC. client.responses.create()\nAnswer: C\nExplanation:\nclient.responses.create() is the method exposed by the Responses API to generate a model response. client.chat.completions.create() belongs to the older Chat Completions API, and client.get_response_id() is not a real SDK method.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
+      "sourcePages": [
+        164
+      ],
+      "prompt": "You are building a solution in Azure that will use Azure Language in Foundry Tools service to process sensitive customer data.\nYou need to ensure that only specific Azure processes can access the Language service. The solution must minimize administrative effort.\nWhat should you include in the solution?\n\n   A. Azure Application Gateway\n   B. a virtual network gateway\n   C. IPsec rules\n   D. virtual network rules",
+      "answer": "D",
+      "explanation": "",
+      "text": "You are building a solution in Azure that will use Azure Language in Foundry Tools service to process sensitive customer data.\nYou need to ensure that only specific Azure processes can access the Language service. The solution must minimize administrative effort.\nWhat should you include in the solution?\n\n   A. Azure Application Gateway\n   B. a virtual network gateway\n   C. IPsec rules\n   D. virtual network rules\nAnswer: D",
+      "references": []
     },
     {
       "number": 128,
-      "sourcePages": [],
-      "prompt": "Which tool should you use when a model needs to answer questions from your own uploaded policy documents?\nA. web_search\nB. file_search\nC. code_interpreter",
-      "answer": "B",
-      "explanation": "file_search lets a model retrieve and ground its answers in content from documents you have uploaded, such as policy documents. web_search retrieves information from the public internet rather than your own files, and code_interpreter runs code rather than searching documents.",
-      "text": "Which tool should you use when a model needs to answer questions from your own uploaded policy documents?\nA. web_search\nB. file_search\nC. code_interpreter\nAnswer: B\nExplanation:\nfile_search lets a model retrieve and ground its answers in content from documents you have uploaded, such as policy documents. web_search retrieves information from the public internet rather than your own files, and code_interpreter runs code rather than searching documents.",
-      "references": [],
-      "tags": [
-        "fundamentals"
+      "sourcePages": [
+        164
+      ],
+      "prompt": "You have an Azure subscription that contains a Microsoft Foundry Service resource named CSAccount1 and a virtual network named VNet1. CSAccount1 is connected to VNet1.\nYou need to ensure that only specific resources can access CSAccount1. The solution must meet the following requirements:\n- Prevent external access to CSAccount1.\n- Minimize administrative effort.\nWhich two actions should you perform? Each correct answer presents part of the solution.\nNOTE: Each correct answer is worth one point.\n\n   A. In CSAccount1, modify the virtual network settings.\n   B. In VNet1, create a virtual subnet.\n   C. In VNet1, enable a service endpoint for CSAccount1.\n   D. In CSAccount1, configure the Access control (IAM) settings.\n   E. In VNet1, modify the virtual network settings.",
+      "answer": "AC",
+      "explanation": "Technical Justification for Correct Answer: AC\n\nWhy A is Correct: Modifying the virtual network settings in CSAccount1 (A) is essential to restrict access to the Foundry Service resource. By updating these settings, you can specifically configure CSAccount1 to only allow traffic from the associated VNet1, thereby preventing external access. This action directly addresses the requirement to prevent external access to CSAccount1.\n\nWhy C is Correct: Enabling a service endpoint for CSAccount1 in VNet1 (C) enhances security by allowing traffic from VNet1 to CSAccount1 through Microsoft's backbone network, without exposing CSAccount1 to the public internet. This meets the security requirement while also minimizing administrative effort, as service endpoints are managed at the VNet level and don't require constant updating of firewall rules or access lists for CSAccount1.\n\nWhy Other Options are Less Suitable:\nB. In VNet1, create a virtual subnet: does not directly prevent external access to CSAccount1 or necessarily minimize administrative effort in this specific context.\nD. In CSAccount1, configure the Access control (IAM) settings: IAM settings control who can manage CSAccount1, not which resources can access it. This does not prevent network-level external access.\nE. In VNet1, modify the virtual network settings: too broad and does not specifically ensure CSAccount1's external access is prevented without further context on what settings are modified.\n\nSummary: Actions A and C are the most technically suitable because they directly address the requirement to prevent external access to CSAccount1 while minimizing administrative effort. A ensures CSAccount1 only accepts traffic from VNet1, and C securely enables this communication without public internet exposure.",
+      "text": "You have an Azure subscription that contains a Microsoft Foundry Service resource named CSAccount1 and a virtual network named VNet1. CSAccount1 is connected to VNet1.\nYou need to ensure that only specific resources can access CSAccount1. The solution must meet the following requirements:\n- Prevent external access to CSAccount1.\n- Minimize administrative effort.\nWhich two actions should you perform? Each correct answer presents part of the solution.\nNOTE: Each correct answer is worth one point.\n\n   A. In CSAccount1, modify the virtual network settings.\n   B. In VNet1, create a virtual subnet.\n   C. In VNet1, enable a service endpoint for CSAccount1.\n   D. In CSAccount1, configure the Access control (IAM) settings.\n   E. In VNet1, modify the virtual network settings.\nAnswer: AC\nExplanation:\nTechnical Justification for Correct Answer: AC\n\nWhy A is Correct: Modifying the virtual network settings in CSAccount1 (A) is essential to restrict access to the Foundry Service resource. By updating these settings, you can specifically configure CSAccount1 to only allow traffic from the associated VNet1, thereby preventing external access. This action directly addresses the requirement to prevent external access to CSAccount1.\n\nWhy C is Correct: Enabling a service endpoint for CSAccount1 in VNet1 (C) enhances security by allowing traffic from VNet1 to CSAccount1 through Microsoft's backbone network, without exposing CSAccount1 to the public internet. This meets the security requirement while also minimizing administrative effort, as service endpoints are managed at the VNet level and don't require constant updating of firewall rules or access lists for CSAccount1.\n\nWhy Other Options are Less Suitable:\nB. In VNet1, create a virtual subnet: does not directly prevent external access to CSAccount1 or necessarily minimize administrative effort in this specific context.\nD. In CSAccount1, configure the Access control (IAM) settings: IAM settings control who can manage CSAccount1, not which resources can access it. This does not prevent network-level external access.\nE. In VNet1, modify the virtual network settings: too broad and does not specifically ensure CSAccount1's external access is prevented without further context on what settings are modified.\n\nSummary: Actions A and C are the most technically suitable because they directly address the requirement to prevent external access to CSAccount1 while minimizing administrative effort. A ensures CSAccount1 only accepts traffic from VNet1, and C securely enables this communication without public internet exposure.",
+      "references": [
+        "Microsoft Azure Documentation: Virtual network service endpoints",
+        "Microsoft Azure Documentation: Integrate Azure services with Azure Virtual Network"
       ]
     },
     {
       "number": 129,
-      "sourcePages": [],
-      "prompt": "In a function-calling workflow, what should your application do after the model returns a function_call item?\nA. Wait for the model to run the function automatically\nB. Run the function in your code and send a function_call_output back to the model\nC. Convert the function call into a web_search request",
-      "answer": "B",
-      "explanation": "The model never executes functions itself: your application must run the requested function locally and return the result as a function_call_output item so the model can continue the conversation. The model does not run functions automatically, and there is no conversion of a function call into a web_search request.",
-      "text": "In a function-calling workflow, what should your application do after the model returns a function_call item?\nA. Wait for the model to run the function automatically\nB. Run the function in your code and send a function_call_output back to the model\nC. Convert the function call into a web_search request\nAnswer: B\nExplanation:\nThe model never executes functions itself: your application must run the requested function locally and return the result as a function_call_output item so the model can continue the conversation. The model does not run functions automatically, and there is no conversion of a function call into a web_search request.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
+      "sourcePages": [
+        165
+      ],
+      "prompt": "HOTSPOT\n-\nYou have a collection of press releases stored as PDF files.\nYou need to extract text from the files and perform sentiment analysis.\nWhich service should you use for each task? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\n\nExtract text: Azure AI Search / Azure Vision in Foundry Tools / Azure Document Intelligence in Foundry Tools\nPerform sentiment analysis: Azure AI Search / Azure AI Computer Vision / Azure Document Intelligence in Foundry Tools / Azure Language in Foundry Tools",
+      "answer": "Extract text: Azure Document Intelligence in Foundry Tools\nPerform sentiment analysis: Azure Language in Foundry Tools",
+      "explanation": "",
+      "text": "HOTSPOT\n-\nYou have a collection of press releases stored as PDF files.\nYou need to extract text from the files and perform sentiment analysis.\nWhich service should you use for each task? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\n\nExtract text: Azure AI Search / Azure Vision in Foundry Tools / Azure Document Intelligence in Foundry Tools\nPerform sentiment analysis: Azure AI Search / Azure AI Computer Vision / Azure Document Intelligence in Foundry Tools / Azure Language in Foundry Tools\nAnswer: Extract text: Azure Document Intelligence in Foundry Tools\nPerform sentiment analysis: Azure Language in Foundry Tools",
+      "references": []
     },
     {
       "number": 130,
-      "sourcePages": [],
-      "prompt": "Which statement about the code_interpreter tool is correct?\nA. It can run Python code in a sandboxed runtime to help solve tasks\nB. It can browse external websites directly during code execution\nC. It only supports file uploads and can't perform calculations",
-      "answer": "A",
-      "explanation": "code_interpreter executes Python code in a sandboxed runtime, letting the model perform calculations, data analysis, and file processing to help solve tasks. It cannot browse external websites during execution, and it does perform calculations rather than being limited to file uploads.",
-      "text": "Which statement about the code_interpreter tool is correct?\nA. It can run Python code in a sandboxed runtime to help solve tasks\nB. It can browse external websites directly during code execution\nC. It only supports file uploads and can't perform calculations\nAnswer: A\nExplanation:\ncode_interpreter executes Python code in a sandboxed runtime, letting the model perform calculations, data analysis, and file processing to help solve tasks. It cannot browse external websites during execution, and it does perform calculations rather than being limited to file uploads.",
-      "references": [],
-      "tags": [
-        "fundamentals"
+      "sourcePages": [
+        166
+      ],
+      "prompt": "You are designing an Azure AI solution to identify defective products on a production line.\nYou have a real-time video feed and an image library of sample products that are approved or rejected manually.\nYou need to recommend a service that meets the following requirements:\n- Monitors the video feed and identifies the defective products.\n- Can train a new model by using the image library.\n- Minimizes development effort.\nWhat should you recommend?\n\n   A. Azure Vision in Foundry Tools\n   B. Azure AI Video Indexer\n   C. Azure AI Custom Vision\n   D. Azure Machine Learning",
+      "answer": "C",
+      "explanation": "Recommended Service: C. Azure AI Custom Vision\n\nJustification for Azure AI Custom Vision:\nDefective Product Identification in Real-Time Video Feed: While Custom Vision primarily processes images, it can be integrated with a video processing pipeline where frames from the video feed are extracted and analyzed as individual images, enabling near real-time identification of defective products.\nTraining with Image Library: Custom Vision excels at training models from user-provided image datasets, which aligns perfectly with the requirement of leveraging an existing library of approved and rejected product images for model training.\nMinimized Development Effort: The service provides a user-friendly interface and SDKs for easy integration, reducing the development effort required for training, deploying, and maintaining the model compared to more general-purpose machine learning platforms.\n\nWhy Other Options are Less Suitable:\nA. Azure Vision in Foundry Tools: not a recognized standalone service for this scenario; Foundry Tools pertain more to data integration and transformation rather than AI/ML model training and deployment for image/video analysis.\nB. Azure AI Video Indexer: designed for video indexing, search, and analytics in a general sense, not specifically tailored for custom defect detection based on a user-provided dataset, and not optimized for training a custom model with a specific image library.\nD. Azure Machine Learning: capable of handling the task but requires significantly more development effort and machine learning expertise, contradicting the \"minimizes development effort\" requirement.",
+      "text": "You are designing an Azure AI solution to identify defective products on a production line.\nYou have a real-time video feed and an image library of sample products that are approved or rejected manually.\nYou need to recommend a service that meets the following requirements:\n- Monitors the video feed and identifies the defective products.\n- Can train a new model by using the image library.\n- Minimizes development effort.\nWhat should you recommend?\n\n   A. Azure Vision in Foundry Tools\n   B. Azure AI Video Indexer\n   C. Azure AI Custom Vision\n   D. Azure Machine Learning\nAnswer: C\nExplanation:\nRecommended Service: C. Azure AI Custom Vision\n\nJustification for Azure AI Custom Vision:\nDefective Product Identification in Real-Time Video Feed: While Custom Vision primarily processes images, it can be integrated with a video processing pipeline where frames from the video feed are extracted and analyzed as individual images, enabling near real-time identification of defective products.\nTraining with Image Library: Custom Vision excels at training models from user-provided image datasets, which aligns perfectly with the requirement of leveraging an existing library of approved and rejected product images for model training.\nMinimized Development Effort: The service provides a user-friendly interface and SDKs for easy integration, reducing the development effort required for training, deploying, and maintaining the model compared to more general-purpose machine learning platforms.\n\nWhy Other Options are Less Suitable:\nA. Azure Vision in Foundry Tools: not a recognized standalone service for this scenario; Foundry Tools pertain more to data integration and transformation rather than AI/ML model training and deployment for image/video analysis.\nB. Azure AI Video Indexer: designed for video indexing, search, and analytics in a general sense, not specifically tailored for custom defect detection based on a user-provided dataset, and not optimized for training a custom model with a specific image library.\nD. Azure Machine Learning: capable of handling the task but requires significantly more development effort and machine learning expertise, contradicting the \"minimizes development effort\" requirement.",
+      "references": [
+        "Azure Custom Vision Documentation",
+        "Comparing Azure Services for Computer Vision Tasks"
       ]
     },
     {
       "number": 131,
-      "sourcePages": [],
-      "prompt": "What is the primary purpose of a system message in a prompt?\nA. To define the model's role, behavior, and output constraints\nB. To provide training data that permanently changes the model\nC. To retrieve data from an external data source",
-      "answer": "A",
-      "explanation": "A system message sets the model's role, tone, behavior, and constraints for how it should respond within a conversation. It does not alter the model's underlying weights or training, and it does not retrieve external data on its own.",
-      "text": "What is the primary purpose of a system message in a prompt?\nA. To define the model's role, behavior, and output constraints\nB. To provide training data that permanently changes the model\nC. To retrieve data from an external data source\nAnswer: A\nExplanation:\nA system message sets the model's role, tone, behavior, and constraints for how it should respond within a conversation. It does not alter the model's underlying weights or training, and it does not retrieve external data on its own.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
+      "sourcePages": [
+        167
+      ],
+      "prompt": "HOTSPOT\n-\nYou run the following command.\ndocker run --rm -it -p 5000:5000 --memory 10g --cpus 2 \\\nmcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment \\\nEula=accept \\\nBilling={ENDPOINT_URI} \\\nApiKey={API_KEY}\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth one point.\n\nStatements:\nGoing to http://localhost:5000/status will query the Azure endpoint to verify whether the API key used to start the container is valid.\nThe container logging provider will write log data.\nGoing to http://localhost:5000/swagger will provide the details to access the documentation for the available endpoints.",
+      "answer": "Yes, No, Yes",
+      "explanation": "",
+      "text": "HOTSPOT\n-\nYou run the following command.\ndocker run --rm -it -p 5000:5000 --memory 10g --cpus 2 \\\nmcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment \\\nEula=accept \\\nBilling={ENDPOINT_URI} \\\nApiKey={API_KEY}\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth one point.\n\nStatements:\nGoing to http://localhost:5000/status will query the Azure endpoint to verify whether the API key used to start the container is valid.\nThe container logging provider will write log data.\nGoing to http://localhost:5000/swagger will provide the details to access the documentation for the available endpoints.\nAnswer: Yes, No, Yes",
+      "references": []
     },
     {
       "number": 132,
-      "sourcePages": [],
-      "prompt": "When should you use Retrieval Augmented Generation (RAG) instead of relying on prompt engineering alone?\nA. When you want the model to respond in a consistent style and format\nB. When the model needs access to domain-specific or current data that it wasn't trained on\nC. When you want to reduce the length of prompts sent to the model",
+      "sourcePages": [
+        168
+      ],
+      "prompt": "You are developing an app that will use the Speech and Language APIs.\nYou need to provision resources for the app. The solution must ensure that each service is accessed by using a single endpoint and credential.\nWhich type of resource should you create?\n\n   A. Azure Language in Foundry Tools\n   B. Microsoft Foundry service\n   C. Azure Speech in Foundry Tools\n   D. Content Safety in Foundry Control Plane",
       "answer": "B",
-      "explanation": "RAG retrieves relevant external content at query time and grounds the model's response in it, which is essential when the model needs domain-specific or up-to-date information beyond its training data. Consistent style/format is better addressed with prompt or system-message instructions, and RAG typically adds retrieved context rather than shortening prompts.",
-      "text": "When should you use Retrieval Augmented Generation (RAG) instead of relying on prompt engineering alone?\nA. When you want the model to respond in a consistent style and format\nB. When the model needs access to domain-specific or current data that it wasn't trained on\nC. When you want to reduce the length of prompts sent to the model\nAnswer: B\nExplanation:\nRAG retrieves relevant external content at query time and grounds the model's response in it, which is essential when the model needs domain-specific or up-to-date information beyond its training data. Consistent style/format is better addressed with prompt or system-message instructions, and RAG typically adds retrieved context rather than shortening prompts.",
-      "references": [],
-      "tags": [
-        "fundamentals"
+      "explanation": "Technical Justification for Choosing Option B: Microsoft Foundry service\n\nFor an application leveraging both Speech and Language APIs with the requirement of accessing each service through a single endpoint and credential, provisioning a Microsoft Foundry service is the most suitable choice.\nSingle Endpoint and Credential Requirement: Microsoft Foundry service allows for the unification of multiple Azure AI services (including Speech and Language APIs) under a single, unified endpoint and credential management system.\nIntegration of Multiple AI Services: Designed to support a suite of AI services, Microsoft Foundry service naturally fits an application requiring both Speech and Language capabilities without the need for separate endpoints or credentials for each.\nSimplified Security and Access Management: By using a single credential set for both services through Microsoft Foundry, security and access management are significantly simplified, reducing administrative overhead.\n\nWhy Other Options are Less Suitable:\nA. Azure Language in Foundry Tools & C. Azure Speech in Foundry Tools: both imply a tool tailored for either Language or Speech, not both, failing to meet the requirement of managing multiple services under one umbrella.\nD. Content Safety in Foundry Control Plane: not directly related to the core functionality of Speech and Language APIs, indicating a mismatch with the primary requirement.",
+      "text": "You are developing an app that will use the Speech and Language APIs.\nYou need to provision resources for the app. The solution must ensure that each service is accessed by using a single endpoint and credential.\nWhich type of resource should you create?\n\n   A. Azure Language in Foundry Tools\n   B. Microsoft Foundry service\n   C. Azure Speech in Foundry Tools\n   D. Content Safety in Foundry Control Plane\nAnswer: B\nExplanation:\nTechnical Justification for Choosing Option B: Microsoft Foundry service\n\nFor an application leveraging both Speech and Language APIs with the requirement of accessing each service through a single endpoint and credential, provisioning a Microsoft Foundry service is the most suitable choice.\nSingle Endpoint and Credential Requirement: Microsoft Foundry service allows for the unification of multiple Azure AI services (including Speech and Language APIs) under a single, unified endpoint and credential management system.\nIntegration of Multiple AI Services: Designed to support a suite of AI services, Microsoft Foundry service naturally fits an application requiring both Speech and Language capabilities without the need for separate endpoints or credentials for each.\nSimplified Security and Access Management: By using a single credential set for both services through Microsoft Foundry, security and access management are significantly simplified, reducing administrative overhead.\n\nWhy Other Options are Less Suitable:\nA. Azure Language in Foundry Tools & C. Azure Speech in Foundry Tools: both imply a tool tailored for either Language or Speech, not both, failing to meet the requirement of managing multiple services under one umbrella.\nD. Content Safety in Foundry Control Plane: not directly related to the core functionality of Speech and Language APIs, indicating a mismatch with the primary requirement.",
+      "references": [
+        "Microsoft Azure Documentation - Azure Cognitive Services"
       ]
     },
     {
       "number": 133,
-      "sourcePages": [],
-      "prompt": "What does fine-tuning optimize in a language model?\nA. The factual accuracy of responses by connecting to external data\nB. The consistency of the model's behavior, style, and output format\nC. The number of tokens the model can process in a single request",
+      "sourcePages": [
+        169
+      ],
+      "prompt": "You are building an app that will include one million scanned magazine articles. Each article will be stored as an image file.\nYou need to configure the app to extract text from the images. The solution must minimize development effort.\nWhat should you include in the solution?\n\n   A. Azure Document Intelligence in Foundry Tools\n   B. the Read API in Azure Vision in Foundry Tools\n   C. Azure Vision in Foundry Tools Image Analysis\n   D. Azure Language in Foundry Tools",
       "answer": "B",
-      "explanation": "Fine-tuning adapts a model on curated examples to make its behavior, tone, and output format more consistent for a specific task. It does not connect the model to external data sources, and it does not change the model's context window or token limits.",
-      "text": "What does fine-tuning optimize in a language model?\nA. The factual accuracy of responses by connecting to external data\nB. The consistency of the model's behavior, style, and output format\nC. The number of tokens the model can process in a single request\nAnswer: B\nExplanation:\nFine-tuning adapts a model on curated examples to make its behavior, tone, and output format more consistent for a specific task. It does not connect the model to external data sources, and it does not change the model's context window or token limits.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
+      "explanation": "",
+      "text": "You are building an app that will include one million scanned magazine articles. Each article will be stored as an image file.\nYou need to configure the app to extract text from the images. The solution must minimize development effort.\nWhat should you include in the solution?\n\n   A. Azure Document Intelligence in Foundry Tools\n   B. the Read API in Azure Vision in Foundry Tools\n   C. Azure Vision in Foundry Tools Image Analysis\n   D. Azure Language in Foundry Tools\nAnswer: B",
+      "references": []
     },
     {
       "number": 134,
-      "sourcePages": [],
-      "prompt": "Why should you consider creating an AI Impact Assessment when designing a generative AI solution?\nA. To make a legal case that indemnifies you from responsibility for harms caused by the solution\nB. To document the purpose, expected use, and potential harms for the solution\nC. To evaluate the cost of cloud services required to implement your solution",
-      "answer": "B",
-      "explanation": "An AI Impact Assessment documents the intended purpose, expected use, and potential harms of a solution so risks can be identified and mitigated early. It does not indemnify you from responsibility, and it is not a cost-evaluation exercise for cloud services.",
-      "text": "Why should you consider creating an AI Impact Assessment when designing a generative AI solution?\nA. To make a legal case that indemnifies you from responsibility for harms caused by the solution\nB. To document the purpose, expected use, and potential harms for the solution\nC. To evaluate the cost of cloud services required to implement your solution\nAnswer: B\nExplanation:\nAn AI Impact Assessment documents the intended purpose, expected use, and potential harms of a solution so risks can be identified and mitigated early. It does not indemnify you from responsibility, and it is not a cost-evaluation exercise for cloud services.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
+      "sourcePages": [
+        170
+      ],
+      "prompt": "HOTSPOT\n-\nYou are developing an app that will use the Azure Vision in Foundry Tools API to analyze an image.\nYou need configure the request that will be used by the app to identify whether an image is clipart or a line drawing.\nHow should you complete the request? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\n\nHTTP method: GET, PATCH, POST\n\"https://*.cognitiveservices.azure.com/vision/v3.2/analyze?visualFeatures={value}&details={string}&language=e...\nvalue: description, imageType, objects, tags",
+      "answer": "GET\nvisualFeatures: imageType",
+      "explanation": "",
+      "text": "HOTSPOT\n-\nYou are developing an app that will use the Azure Vision in Foundry Tools API to analyze an image.\nYou need configure the request that will be used by the app to identify whether an image is clipart or a line drawing.\nHow should you complete the request? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\n\nHTTP method: GET, PATCH, POST\n\"https://*.cognitiveservices.azure.com/vision/v3.2/analyze?visualFeatures={value}&details={string}&language=e...\nvalue: description, imageType, objects, tags\nAnswer: GET\nvisualFeatures: imageType",
+      "references": []
     },
     {
       "number": 135,
-      "sourcePages": [],
-      "prompt": "What capability of Microsoft Foundry helps mitigate harmful content generation at the Safety System level?\nA. DALL-E model support\nB. Fine-tuning\nC. Guardrails",
-      "answer": "C",
-      "explanation": "Guardrails operate at the Safety System level to detect and filter harmful content in prompts and responses. DALL-E model support is an image-generation capability, and fine-tuning adapts model behavior rather than enforcing content safety.",
-      "text": "What capability of Microsoft Foundry helps mitigate harmful content generation at the Safety System level?\nA. DALL-E model support\nB. Fine-tuning\nC. Guardrails\nAnswer: C\nExplanation:\nGuardrails operate at the Safety System level to detect and filter harmful content in prompts and responses. DALL-E model support is an image-generation capability, and fine-tuning adapts model behavior rather than enforcing content safety.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 136,
-      "sourcePages": [],
-      "prompt": "Why should you consider a phased delivery plan for your generative AI solution?\nA. To enable you to gather feedback and identify issues before releasing the solution more broadly\nB. To eliminate the need to map, measure, mitigate, and manage potential harms\nC. To enable you to charge more for the solution",
-      "answer": "A",
-      "explanation": "A phased delivery plan releases a solution to a limited audience first so you can gather feedback and catch issues before a broader rollout. It does not remove the need for the map-measure-mitigate-manage responsible AI lifecycle, and it has no bearing on pricing.",
-      "text": "Why should you consider a phased delivery plan for your generative AI solution?\nA. To enable you to gather feedback and identify issues before releasing the solution more broadly\nB. To eliminate the need to map, measure, mitigate, and manage potential harms\nC. To enable you to charge more for the solution\nAnswer: A\nExplanation:\nA phased delivery plan releases a solution to a limited audience first so you can gather feedback and catch issues before a broader rollout. It does not remove the need for the map-measure-mitigate-manage responsible AI lifecycle, and it has no bearing on pricing.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 137,
-      "sourcePages": [],
-      "prompt": "What is the primary benefit of using Microsoft Foundry Agent Service compared to building agents with standard APIs?\nA. It provides access to more powerful AI models\nB. It requires no Azure subscription\nC. It handles tool calling, state management, and infrastructure automatically\nD. It only works with the Azure portal",
-      "answer": "C",
-      "explanation": "Foundry Agent Service manages tool invocation, conversation state, and the underlying hosting infrastructure automatically, removing that undifferentiated work from building agents by hand with standard APIs. It does not grant access to more powerful models, it still runs within an Azure subscription, and it isn't limited to the Azure portal.",
-      "text": "What is the primary benefit of using Microsoft Foundry Agent Service compared to building agents with standard APIs?\nA. It provides access to more powerful AI models\nB. It requires no Azure subscription\nC. It handles tool calling, state management, and infrastructure automatically\nD. It only works with the Azure portal\nAnswer: C\nExplanation:\nFoundry Agent Service manages tool invocation, conversation state, and the underlying hosting infrastructure automatically, removing that undifferentiated work from building agents by hand with standard APIs. It does not grant access to more powerful models, it still runs within an Azure subscription, and it isn't limited to the Azure portal.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 138,
-      "sourcePages": [],
-      "prompt": "How does Microsoft Foundry Agent Service handle conversation state?\nA. By requiring developers to manually manage conversation history\nB. Through external database connections\nC. Through the Responses API which automatically manages conversation context\nD. Using local file storage on the client device",
-      "answer": "C",
-      "explanation": "The Responses API automatically tracks and manages conversation context on behalf of the agent, so developers don't need to manually track history, wire up an external database, or store state on the client device.",
-      "text": "How does Microsoft Foundry Agent Service handle conversation state?\nA. By requiring developers to manually manage conversation history\nB. Through external database connections\nC. Through the Responses API which automatically manages conversation context\nD. Using local file storage on the client device\nAnswer: C\nExplanation:\nThe Responses API automatically tracks and manages conversation context on behalf of the agent, so developers don't need to manually track history, wire up an external database, or store state on the client device.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 139,
-      "sourcePages": [],
-      "prompt": "What are custom tools, and how can they help you develop effective agents?\nA. Callable functions that an agent can use to extend its capabilities\nB. Extensions for Visual Studio Code to create and deploy agents\nC. Fine-tuned models that the agent uses to generate custom output",
-      "answer": "A",
-      "explanation": "Custom tools are callable functions you define that an agent can invoke to extend what it can do beyond the model's built-in capabilities. They are not Visual Studio Code extensions, and they are not fine-tuned models.",
-      "text": "What are custom tools, and how can they help you develop effective agents?\nA. Callable functions that an agent can use to extend its capabilities\nB. Extensions for Visual Studio Code to create and deploy agents\nC. Fine-tuned models that the agent uses to generate custom output\nAnswer: A\nExplanation:\nCustom tools are callable functions you define that an agent can invoke to extend what it can do beyond the model's built-in capabilities. They are not Visual Studio Code extensions, and they are not fine-tuned models.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 140,
-      "sourcePages": [],
-      "prompt": "You need to integrate functionality from an OpenAPI 3.0-based web service. What should you do?\nA. Add the JSON schema to the agent's instructions\nB. Rewrite the web service as a Python function and hard-code it\nC. Add the web service as an OpenAPI specification tool to the agent definition",
-      "answer": "C",
-      "explanation": "Foundry agents support registering an OpenAPI 3.0 specification directly as a tool, letting the agent call the web service's endpoints without custom glue code. Pasting the schema into instructions doesn't make it callable, and rewriting the service as a hard-coded Python function discards the benefit of using the existing API.",
-      "text": "You need to integrate functionality from an OpenAPI 3.0-based web service. What should you do?\nA. Add the JSON schema to the agent's instructions\nB. Rewrite the web service as a Python function and hard-code it\nC. Add the web service as an OpenAPI specification tool to the agent definition\nAnswer: C\nExplanation:\nFoundry agents support registering an OpenAPI 3.0 specification directly as a tool, letting the agent call the web service's endpoints without custom glue code. Pasting the schema into instructions doesn't make it callable, and rewriting the service as a hard-coded Python function discards the benefit of using the existing API.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 141,
-      "sourcePages": [],
-      "prompt": "What role does the MCP server play in the MCP agent tool integration?\nA. Runs the AI agent and processes user prompts directly\nB. Manages network connections between multiple agents\nC. Hosts tool definitions and makes them available for discovery by the client",
-      "answer": "C",
-      "explanation": "An MCP server hosts a catalog of tool definitions and exposes them so an MCP client can discover and invoke them. It does not run the AI agent or process prompts itself, and it is not responsible for managing network connections between agents.",
-      "text": "What role does the MCP server play in the MCP agent tool integration?\nA. Runs the AI agent and processes user prompts directly\nB. Manages network connections between multiple agents\nC. Hosts tool definitions and makes them available for discovery by the client\nAnswer: C\nExplanation:\nAn MCP server hosts a catalog of tool definitions and exposes them so an MCP client can discover and invoke them. It does not run the AI agent or process prompts itself, and it is not responsible for managing network connections between agents.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 142,
-      "sourcePages": [],
-      "prompt": "How does an MCP client retrieve available tools from the MCP server?\nA. By calling session.list_tools() to get the current tool catalog\nB. By reading a static JSON file from the server directory\nC. By subscribing to server events via a WebSocket connection",
-      "answer": "A",
-      "explanation": "An MCP client calls session.list_tools() to query the server for its current tool catalog at runtime. Tools are not retrieved by reading a static file on disk, nor through a WebSocket event subscription.",
-      "text": "How does an MCP client retrieve available tools from the MCP server?\nA. By calling session.list_tools() to get the current tool catalog\nB. By reading a static JSON file from the server directory\nC. By subscribing to server events via a WebSocket connection\nAnswer: A\nExplanation:\nAn MCP client calls session.list_tools() to query the server for its current tool catalog at runtime. Tools are not retrieved by reading a static file on disk, nor through a WebSocket event subscription.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 143,
-      "sourcePages": [],
-      "prompt": "What is the primary advantage of Retrieval Augmented Generation (RAG) over simple AI agents?\nA. RAG eliminates the need for large language models\nB. RAG enables agents to ground responses in current organizational information and provide source transparency\nC. RAG automatically retrains the language model when documents change",
-      "answer": "B",
-      "explanation": "RAG retrieves current organizational content at query time and grounds the model's answer in it, while also enabling citations back to the source documents. It still relies on a large language model to generate the response, and it does not retrain the model when source documents change.",
-      "text": "What is the primary advantage of Retrieval Augmented Generation (RAG) over simple AI agents?\nA. RAG eliminates the need for large language models\nB. RAG enables agents to ground responses in current organizational information and provide source transparency\nC. RAG automatically retrains the language model when documents change\nAnswer: B\nExplanation:\nRAG retrieves current organizational content at query time and grounds the model's answer in it, while also enabling citations back to the source documents. It still relies on a large language model to generate the response, and it does not retrain the model when source documents change.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 144,
-      "sourcePages": [],
-      "prompt": "Which data source option provides real-time access to SharePoint content with Microsoft 365 governance?\nA. SharePoint Indexed, which pre-processes content into Azure AI Search\nB. SharePoint Remote, which queries SharePoint sites and libraries in real-time\nC. Azure Blob Storage, which connects to SharePoint files stored as blobs",
-      "answer": "B",
-      "explanation": "SharePoint Remote queries SharePoint sites and libraries directly at request time, so it reflects current content and respects Microsoft 365 permissions and governance. SharePoint Indexed instead pre-processes and copies content into Azure AI Search, and Azure Blob Storage is unrelated to SharePoint's native governance model.",
-      "text": "Which data source option provides real-time access to SharePoint content with Microsoft 365 governance?\nA. SharePoint Indexed, which pre-processes content into Azure AI Search\nB. SharePoint Remote, which queries SharePoint sites and libraries in real-time\nC. Azure Blob Storage, which connects to SharePoint files stored as blobs\nAnswer: B\nExplanation:\nSharePoint Remote queries SharePoint sites and libraries directly at request time, so it reflects current content and respects Microsoft 365 permissions and governance. SharePoint Indexed instead pre-processes and copies content into Azure AI Search, and Azure Blob Storage is unrelated to SharePoint's native governance model.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 145,
-      "sourcePages": [],
-      "prompt": "What Azure resource does the Foundry portal automatically create when you publish an agent to Microsoft Teams?\nA. Azure Functions\nB. Azure Bot Service\nC. Azure Cosmos DB\nD. Azure Logic Apps",
-      "answer": "B",
-      "explanation": "Publishing an agent to Microsoft Teams provisions an Azure Bot Service resource, which acts as the channel connector between the agent and Teams. Azure Functions, Cosmos DB, and Logic Apps are not automatically created as part of this publishing flow.",
-      "text": "What Azure resource does the Foundry portal automatically create when you publish an agent to Microsoft Teams?\nA. Azure Functions\nB. Azure Bot Service\nC. Azure Cosmos DB\nD. Azure Logic Apps\nAnswer: B\nExplanation:\nPublishing an agent to Microsoft Teams provisions an Azure Bot Service resource, which acts as the channel connector between the agent and Teams. Azure Functions, Cosmos DB, and Logic Apps are not automatically created as part of this publishing flow.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 146,
-      "sourcePages": [],
-      "prompt": "What is a key benefit of an Agent Application created when publishing an agent?\nA. It ensures all agents share the same identity and data\nB. It provides a stable endpoint and isolates user interactions\nC. It automatically retrains the agent with new data\nD. It replaces the need for Azure Bot Service",
-      "answer": "B",
-      "explanation": "An Agent Application gives the published agent a stable, addressable endpoint while keeping each user's interactions isolated from one another. It does not share identity/data across agents, does not retrain the agent, and does not replace Azure Bot Service for channels like Teams.",
-      "text": "What is a key benefit of an Agent Application created when publishing an agent?\nA. It ensures all agents share the same identity and data\nB. It provides a stable endpoint and isolates user interactions\nC. It automatically retrains the agent with new data\nD. It replaces the need for Azure Bot Service\nAnswer: B\nExplanation:\nAn Agent Application gives the published agent a stable, addressable endpoint while keeping each user's interactions isolated from one another. It does not share identity/data across agents, does not retrain the agent, and does not replace Azure Bot Service for channels like Teams.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 147,
-      "sourcePages": [],
-      "prompt": "Which type of node in a Foundry workflow is used to invoke an AI agent?\nA. Logic node\nB. Agent node\nC. Data transformation node",
-      "answer": "B",
-      "explanation": "An Agent node is the workflow building block that invokes an AI agent as a step in the workflow. A Logic node handles conditional/branching logic, and a Data transformation node reshapes data rather than calling an agent.",
-      "text": "Which type of node in a Foundry workflow is used to invoke an AI agent?\nA. Logic node\nB. Agent node\nC. Data transformation node\nAnswer: B\nExplanation:\nAn Agent node is the workflow building block that invokes an AI agent as a step in the workflow. A Logic node handles conditional/branching logic, and a Data transformation node reshapes data rather than calling an agent.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 148,
-      "sourcePages": [],
-      "prompt": "Which node type would you use to handle multiple items in a workflow without duplicating nodes?\nA. If/Else node\nB. For-Each node\nC. Send message node",
-      "answer": "B",
-      "explanation": "A For-Each node iterates the same set of workflow steps over a collection of items, avoiding the need to duplicate nodes for each item. An If/Else node branches on a condition rather than iterating, and a Send message node performs a single messaging action.",
-      "text": "Which node type would you use to handle multiple items in a workflow without duplicating nodes?\nA. If/Else node\nB. For-Each node\nC. Send message node\nAnswer: B\nExplanation:\nA For-Each node iterates the same set of workflow steps over a collection of items, avoiding the need to duplicate nodes for each item. An If/Else node branches on a condition rather than iterating, and a Send message node performs a single messaging action.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 149,
-      "sourcePages": [],
-      "prompt": "What are the key steps to create a Microsoft Foundry Agent using the Microsoft Agent Framework?\nA. Deploy a custom AI model before creating an agent definition in the Azure portal\nB. Initialize the agent by defining a model in the AgentThread constructor\nC. Create an AzureAIAgentClient, define a ChatAgent with instructions and tools, and create an AgentThread",
-      "answer": "C",
-      "explanation": "The Microsoft Agent Framework workflow is to create an AzureAIAgentClient, define a ChatAgent with its instructions and tools, and create an AgentThread to hold the conversation. Deploying a custom model in the Azure portal isn't a required framework step, and the model is defined on the ChatAgent, not passed into the AgentThread constructor.",
-      "text": "What are the key steps to create a Microsoft Foundry Agent using the Microsoft Agent Framework?\nA. Deploy a custom AI model before creating an agent definition in the Azure portal\nB. Initialize the agent by defining a model in the AgentThread constructor\nC. Create an AzureAIAgentClient, define a ChatAgent with instructions and tools, and create an AgentThread\nAnswer: C\nExplanation:\nThe Microsoft Agent Framework workflow is to create an AzureAIAgentClient, define a ChatAgent with its instructions and tools, and create an AgentThread to hold the conversation. Deploying a custom model in the Azure portal isn't a required framework step, and the model is defined on the ChatAgent, not passed into the AgentThread constructor.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 150,
-      "sourcePages": [],
-      "prompt": "Which component in the Microsoft Agent Framework manages conversation state and stores messages?\nA. AgentThread\nB. ChatAgent\nC. AzureAIAgentClient",
-      "answer": "A",
-      "explanation": "AgentThread tracks and stores the conversation state and message history for an agent interaction. ChatAgent defines the agent's instructions, model, and tools, and AzureAIAgentClient is the client used to connect to the Foundry service, neither of which stores conversation state itself.",
-      "text": "Which component in the Microsoft Agent Framework manages conversation state and stores messages?\nA. AgentThread\nB. ChatAgent\nC. AzureAIAgentClient\nAnswer: A\nExplanation:\nAgentThread tracks and stores the conversation state and message history for an agent interaction. ChatAgent defines the agent's instructions, model, and tools, and AzureAIAgentClient is the client used to connect to the Foundry service, neither of which stores conversation state itself.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 151,
-      "sourcePages": [],
-      "prompt": "What's the first step in the Microsoft Agent Framework's unified orchestration workflow?\nA. Select and create an orchestration pattern\nB. Define your agents and describe their capabilities\nC. Start a runtime to manage execution",
-      "answer": "B",
-      "explanation": "The workflow starts by defining your agents and describing what each one is capable of, since the orchestration pattern and runtime both depend on knowing what agents exist. Choosing the orchestration pattern and starting the runtime are later steps that build on those agent definitions.",
-      "text": "What's the first step in the Microsoft Agent Framework's unified orchestration workflow?\nA. Select and create an orchestration pattern\nB. Define your agents and describe their capabilities\nC. Start a runtime to manage execution\nAnswer: B\nExplanation:\nThe workflow starts by defining your agents and describing what each one is capable of, since the orchestration pattern and runtime both depend on knowing what agents exist. Choosing the orchestration pattern and starting the runtime are later steps that build on those agent definitions.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 152,
-      "sourcePages": [],
-      "prompt": "For brainstorming and collaborative problem solving among multiple agents, which orchestration pattern is most suitable?\nA. Group Chat\nB. Magentic\nC. Sequential",
-      "answer": "A",
-      "explanation": "Group Chat orchestration lets multiple agents converse with one another in a shared thread, which suits open-ended brainstorming and collaborative problem solving. Magentic is geared toward complex, open-ended tasks coordinated by a manager agent, and Sequential runs agents one after another in a fixed order rather than collaboratively.",
-      "text": "For brainstorming and collaborative problem solving among multiple agents, which orchestration pattern is most suitable?\nA. Group Chat\nB. Magentic\nC. Sequential\nAnswer: A\nExplanation:\nGroup Chat orchestration lets multiple agents converse with one another in a shared thread, which suits open-ended brainstorming and collaborative problem solving. Magentic is geared toward complex, open-ended tasks coordinated by a manager agent, and Sequential runs agents one after another in a fixed order rather than collaboratively.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 153,
-      "sourcePages": [],
-      "prompt": "How should you create an application that analyzes news articles and extracts key people, places, and dates that are mentioned for indexing?\nA. Use a generative AI model with a custom function tool that matches strings using a regular expression.\nB. Use Azure Language in Foundry Tools to extract PII entities.\nC. Use Azure Language in Foundry Tools to extract named entities.",
-      "answer": "C",
-      "explanation": "Named entity recognition in Azure Language is built specifically to identify people, places, dates, and similar entities in text, which is exactly what's needed for indexing news articles. A regex-based custom function is far less reliable for open-ended entity extraction, and PII entity extraction is designed to find personal/sensitive data, not general named entities like places and dates.",
-      "text": "How should you create an application that analyzes news articles and extracts key people, places, and dates that are mentioned for indexing?\nA. Use a generative AI model with a custom function tool that matches strings using a regular expression.\nB. Use Azure Language in Foundry Tools to extract PII entities.\nC. Use Azure Language in Foundry Tools to extract named entities.\nAnswer: C\nExplanation:\nNamed entity recognition in Azure Language is built specifically to identify people, places, dates, and similar entities in text, which is exactly what's needed for indexing news articles. A regex-based custom function is far less reliable for open-ended entity extraction, and PII entity extraction is designed to find personal/sensitive data, not general named entities like places and dates.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 154,
-      "sourcePages": [],
-      "prompt": "You want to publish extracts from customer testimonials on a web site. You need to remove personal details from the text before publishing it. What should you do?\nA. Use Azure Language in Foundry Tools to find and redact PII entities.\nB. Use Azure Language in Foundry Tools to detect the language and publish only the testimonials in English.\nC. Use a gpt-4.1 model to create new AI-generated customer reviews.",
-      "answer": "A",
-      "explanation": "PII detection and redaction in Azure Language finds and removes personal details such as names, emails, and phone numbers from text before it's published. Language detection doesn't remove personal data, and generating new AI-written reviews would replace genuine customer testimonials rather than sanitizing them.",
-      "text": "You want to publish extracts from customer testimonials on a web site. You need to remove personal details from the text before publishing it. What should you do?\nA. Use Azure Language in Foundry Tools to find and redact PII entities.\nB. Use Azure Language in Foundry Tools to detect the language and publish only the testimonials in English.\nC. Use a gpt-4.1 model to create new AI-generated customer reviews.\nAnswer: A\nExplanation:\nPII detection and redaction in Azure Language finds and removes personal details such as names, emails, and phone numbers from text before it's published. Language detection doesn't remove personal data, and generating new AI-written reviews would replace genuine customer testimonials rather than sanitizing them.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 155,
-      "sourcePages": [],
-      "prompt": "What is the primary role of the Azure Language MCP server?\nA. To train and fine-tune custom language models for use by AI agents\nB. To expose Azure Language text analysis capabilities as MCP tools for agents\nC. To deploy and manage large language models in an Azure subscription",
-      "answer": "B",
-      "explanation": "The Azure Language MCP server exposes Azure Language's text analysis capabilities (such as entity recognition and PII detection) as MCP tools that an agent can call. It does not train or fine-tune models, and it does not deploy or manage LLMs in an Azure subscription.",
-      "text": "What is the primary role of the Azure Language MCP server?\nA. To train and fine-tune custom language models for use by AI agents\nB. To expose Azure Language text analysis capabilities as MCP tools for agents\nC. To deploy and manage large language models in an Azure subscription\nAnswer: B\nExplanation:\nThe Azure Language MCP server exposes Azure Language's text analysis capabilities (such as entity recognition and PII detection) as MCP tools that an agent can call. It does not train or fine-tune models, and it does not deploy or manage LLMs in an Azure subscription.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 156,
-      "sourcePages": [],
-      "prompt": "How does an agent determine which Azure Language MCP tool to call when processing a user's prompt?\nA. The developer writes routing logic to direct each prompt to a specific tool\nB. The agent matches the prompt to tool descriptions received from the MCP server\nC. The MCP server analyzes the prompt and automatically routes it to a tool",
-      "answer": "B",
-      "explanation": "The agent receives tool descriptions from the MCP server and uses the model's own reasoning to match a user's prompt to the most appropriate tool. This happens without the developer hand-writing routing logic, and the MCP server itself does not analyze prompts or make the routing decision.",
-      "text": "How does an agent determine which Azure Language MCP tool to call when processing a user's prompt?\nA. The developer writes routing logic to direct each prompt to a specific tool\nB. The agent matches the prompt to tool descriptions received from the MCP server\nC. The MCP server analyzes the prompt and automatically routes it to a tool\nAnswer: B\nExplanation:\nThe agent receives tool descriptions from the MCP server and uses the model's own reasoning to match a user's prompt to the most appropriate tool. This happens without the developer hand-writing routing logic, and the MCP server itself does not analyze prompts or make the routing decision.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 157,
-      "sourcePages": [],
-      "prompt": "Which model can you use to generate text from speech?\nA. gpt-4o-mini\nB. gpt-4o-mini-tts\nC. gpt-4o-mini-transcribe",
-      "answer": "C",
-      "explanation": "gpt-4o-mini-transcribe is the speech-to-text model that converts spoken audio into text. gpt-4o-mini-tts does the opposite (text-to-speech), and gpt-4o-mini is a general text model without built-in speech transcription.",
-      "text": "Which model can you use to generate text from speech?\nA. gpt-4o-mini\nB. gpt-4o-mini-tts\nC. gpt-4o-mini-transcribe\nAnswer: C\nExplanation:\ngpt-4o-mini-transcribe is the speech-to-text model that converts spoken audio into text. gpt-4o-mini-tts does the opposite (text-to-speech), and gpt-4o-mini is a general text model without built-in speech transcription.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 158,
-      "sourcePages": [],
-      "prompt": "Which model can you use to synthesize speech from text?\nA. gpt-4o-mini\nB. gpt-4o-mini-tts\nC. gpt-4o-mini-transcribe",
-      "answer": "B",
-      "explanation": "gpt-4o-mini-tts is the text-to-speech model that synthesizes natural-sounding audio from text. gpt-4o-mini-transcribe instead converts speech to text, and gpt-4o-mini is a general text model without built-in speech synthesis.",
-      "text": "Which model can you use to synthesize speech from text?\nA. gpt-4o-mini\nB. gpt-4o-mini-tts\nC. gpt-4o-mini-transcribe\nAnswer: B\nExplanation:\ngpt-4o-mini-tts is the text-to-speech model that synthesizes natural-sounding audio from text. gpt-4o-mini-transcribe instead converts speech to text, and gpt-4o-mini is a general text model without built-in speech synthesis.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 159,
-      "sourcePages": [],
-      "prompt": "What information do you need from your Microsoft Foundry resource to consume it using the Azure Speech SDK?\nA. The endpoint and key\nB. The primary and secondary keys\nC. The Azure subscription ID and resource group name",
-      "answer": "A",
-      "explanation": "The Azure Speech SDK is configured with the resource's endpoint and a key, which together authenticate and route requests to the right Foundry resource. Primary/secondary keys are a resource-management concept in the Azure portal, not what the SDK itself expects, and subscription ID/resource group are management-plane identifiers not used to authenticate SDK calls.",
-      "text": "What information do you need from your Microsoft Foundry resource to consume it using the Azure Speech SDK?\nA. The endpoint and key\nB. The primary and secondary keys\nC. The Azure subscription ID and resource group name\nAnswer: A\nExplanation:\nThe Azure Speech SDK is configured with the resource's endpoint and a key, which together authenticate and route requests to the right Foundry resource. Primary/secondary keys are a resource-management concept in the Azure portal, not what the SDK itself expects, and subscription ID/resource group are management-plane identifiers not used to authenticate SDK calls.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 160,
-      "sourcePages": [],
-      "prompt": "Which object should you use to specify that the speech input to be transcribed to text is in an audio file?\nA. SpeechConfig\nB. AudioConfig\nC. SpeechRecognizer",
-      "answer": "B",
-      "explanation": "AudioConfig specifies the audio input source, such as a file, for speech recognition. SpeechConfig holds subscription/region and recognition settings rather than the input source, and SpeechRecognizer is the object that performs recognition using the SpeechConfig and AudioConfig you provide it.",
-      "text": "Which object should you use to specify that the speech input to be transcribed to text is in an audio file?\nA. SpeechConfig\nB. AudioConfig\nC. SpeechRecognizer\nAnswer: B\nExplanation:\nAudioConfig specifies the audio input source, such as a file, for speech recognition. SpeechConfig holds subscription/region and recognition settings rather than the input source, and SpeechRecognizer is the object that performs recognition using the SpeechConfig and AudioConfig you provide it.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 161,
-      "sourcePages": [],
-      "prompt": "How can you change the voice used in speech synthesis?\nA. Specify a SpeechSynthesisOutputFormat enumeration in the SpeechConfig object\nB. Set the SpeechSynthesisVoiceName property of the SpeechConfig object to the desired voice name\nC. Specify a filename in the AudioConfig object",
-      "answer": "B",
-      "explanation": "Setting the SpeechSynthesisVoiceName property on the SpeechConfig object selects which voice is used for synthesis. SpeechSynthesisOutputFormat controls the audio format/quality rather than the voice, and AudioConfig controls where audio is read from or written to, not which voice is used.",
-      "text": "How can you change the voice used in speech synthesis?\nA. Specify a SpeechSynthesisOutputFormat enumeration in the SpeechConfig object\nB. Set the SpeechSynthesisVoiceName property of the SpeechConfig object to the desired voice name\nC. Specify a filename in the AudioConfig object\nAnswer: B\nExplanation:\nSetting the SpeechSynthesisVoiceName property on the SpeechConfig object selects which voice is used for synthesis. SpeechSynthesisOutputFormat controls the audio format/quality rather than the voice, and AudioConfig controls where audio is read from or written to, not which voice is used.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 162,
-      "sourcePages": [],
-      "prompt": "What two core capabilities does the Azure Speech MCP server expose to agents?\nA. Language translation and text summarization\nB. Speech-to-text recognition and text-to-speech synthesis\nC. Named entity recognition and sentiment analysis",
-      "answer": "B",
-      "explanation": "The Azure Speech MCP server exposes speech-to-text recognition and text-to-speech synthesis as its core tools for agents. Translation/summarization and entity recognition/sentiment analysis are capabilities of other Azure AI services, not the Speech MCP server.",
-      "text": "What two core capabilities does the Azure Speech MCP server expose to agents?\nA. Language translation and text summarization\nB. Speech-to-text recognition and text-to-speech synthesis\nC. Named entity recognition and sentiment analysis\nAnswer: B\nExplanation:\nThe Azure Speech MCP server exposes speech-to-text recognition and text-to-speech synthesis as its core tools for agents. Translation/summarization and entity recognition/sentiment analysis are capabilities of other Azure AI services, not the Speech MCP server.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 163,
-      "sourcePages": [],
-      "prompt": "Why does the Azure Speech MCP server require an Azure Storage account?\nA. To store the agent's instructions and configuration settings\nB. To store input audio files and output audio files generated by the speech tools\nC. To cache the MCP server's tool definitions for faster discovery",
-      "answer": "B",
-      "explanation": "Azure Storage holds the input audio files sent for transcription and the output audio files generated by synthesis, since audio payloads are exchanged via blob storage rather than inline. It is not used to store agent instructions/configuration or to cache tool definitions.",
-      "text": "Why does the Azure Speech MCP server require an Azure Storage account?\nA. To store the agent's instructions and configuration settings\nB. To store input audio files and output audio files generated by the speech tools\nC. To cache the MCP server's tool definitions for faster discovery\nAnswer: B\nExplanation:\nAzure Storage holds the input audio files sent for transcription and the output audio files generated by synthesis, since audio payloads are exchanged via blob storage rather than inline. It is not used to store agent instructions/configuration or to cache tool definitions.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 164,
-      "sourcePages": [],
-      "prompt": "What credentials are needed when connecting the Azure Speech MCP server to a Foundry agent?\nA. An OAuth 2.0 token and a managed identity endpoint URL\nB. A Foundry resource key and a SAS URL for a blob container\nC. A client certificate and the Azure subscription ID",
-      "answer": "B",
-      "explanation": "Connecting the Azure Speech MCP server to a Foundry agent requires a Foundry resource key to authenticate speech requests and a SAS URL for the blob container used to exchange audio files. OAuth tokens/managed identity endpoints and client certificates/subscription IDs are not the credentials this integration uses.",
-      "text": "What credentials are needed when connecting the Azure Speech MCP server to a Foundry agent?\nA. An OAuth 2.0 token and a managed identity endpoint URL\nB. A Foundry resource key and a SAS URL for a blob container\nC. A client certificate and the Azure subscription ID\nAnswer: B\nExplanation:\nConnecting the Azure Speech MCP server to a Foundry agent requires a Foundry resource key to authenticate speech requests and a SAS URL for the blob container used to exchange audio files. OAuth tokens/managed identity endpoints and client certificates/subscription IDs are not the credentials this integration uses.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 165,
-      "sourcePages": [],
-      "prompt": "What are the two authentication methods supported by the Voice Live API?\nA. OAuth 2.0 and JWT (JSON Web Tokens)\nB. Basic authentication and API keys\nC. Microsoft Entra (keyless) and API key",
-      "answer": "C",
-      "explanation": "The Voice Live API supports Microsoft Entra ID (keyless) authentication and API key authentication. OAuth 2.0/JWT and Basic authentication/API keys are not the two methods it documents as supported.",
-      "text": "What are the two authentication methods supported by the Voice Live API?\nA. OAuth 2.0 and JWT (JSON Web Tokens)\nB. Basic authentication and API keys\nC. Microsoft Entra (keyless) and API key\nAnswer: C\nExplanation:\nThe Voice Live API supports Microsoft Entra ID (keyless) authentication and API key authentication. OAuth 2.0/JWT and Basic authentication/API keys are not the two methods it documents as supported.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 166,
-      "sourcePages": [],
-      "prompt": "How do you configure and test Voice Live agent integration in the Foundry Portal?\nA. You can't - Voice Live is only accessible through the REST API or Python SDK\nB. In the Azure Speech in Foundry Tools Voice Live playground\nC. Enable Voice mode in the agent playground",
-      "answer": "C",
-      "explanation": "Voice Live agent integration is configured and tested by enabling Voice mode directly in the agent playground within the Foundry Portal. It is not limited to the REST API/Python SDK, and there is no separate Voice Live playground under Azure Speech in Foundry Tools for this.",
-      "text": "How do you configure and test Voice Live agent integration in the Foundry Portal?\nA. You can't - Voice Live is only accessible through the REST API or Python SDK\nB. In the Azure Speech in Foundry Tools Voice Live playground\nC. Enable Voice mode in the agent playground\nAnswer: C\nExplanation:\nVoice Live agent integration is configured and tested by enabling Voice mode directly in the agent playground within the Foundry Portal. It is not limited to the REST API/Python SDK, and there is no separate Voice Live playground under Azure Speech in Foundry Tools for this.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 167,
-      "sourcePages": [],
-      "prompt": "How can you stop audio playback when a user interrupts the voice agent?\nA. You can't - the user must wait for the agent to finish\nB. Handle the INPUT_AUDIO_BUFFER_SPEECH_STARTED event\nC. Reset the Voice Live session and clear the conversation history",
-      "answer": "B",
-      "explanation": "Handling the INPUT_AUDIO_BUFFER_SPEECH_STARTED event lets your application detect that the user has started speaking and stop the agent's current audio playback in response. The user is not forced to wait, and resetting the session and clearing history is a far heavier, unnecessary response to a simple interruption.",
-      "text": "How can you stop audio playback when a user interrupts the voice agent?\nA. You can't - the user must wait for the agent to finish\nB. Handle the INPUT_AUDIO_BUFFER_SPEECH_STARTED event\nC. Reset the Voice Live session and clear the conversation history\nAnswer: B\nExplanation:\nHandling the INPUT_AUDIO_BUFFER_SPEECH_STARTED event lets your application detect that the user has started speaking and stop the agent's current audio playback in response. The user is not forced to wait, and resetting the session and clearing history is a far heavier, unnecessary response to a simple interruption.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 168,
-      "sourcePages": [],
-      "prompt": "What function of an Azure Translator TextTranslationClient object should you use to convert the Chinese word \"你好\" to the English word \"Hello\"?\nA. get_supported_language\nB. translate\nC. transliterate",
-      "answer": "B",
-      "explanation": "translate converts text from one language into another, which is exactly what's needed to turn the Chinese word into its English meaning. get_supported_language only lists available languages, and transliterate converts text between scripts while keeping the same language, not translating meaning.",
-      "text": "What function of an Azure Translator TextTranslationClient object should you use to convert the Chinese word \"你好\" to the English word \"Hello\"?\nA. get_supported_language\nB. translate\nC. transliterate\nAnswer: B\nExplanation:\ntranslate converts text from one language into another, which is exactly what's needed to turn the Chinese word into its English meaning. get_supported_language only lists available languages, and transliterate converts text between scripts while keeping the same language, not translating meaning.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 169,
-      "sourcePages": [],
-      "prompt": "What function of an Azure Translator TextTranslationClient object should you use to convert the Russian word \"спасибо\" in Cyrillic characters to \"spasibo\" in Latin characters?\nA. get_supported_language\nB. translate\nC. transliterate",
-      "answer": "C",
-      "explanation": "transliterate converts text from one script to another while preserving pronunciation and language, which is exactly converting Cyrillic \"спасибо\" to Latin \"spasibo\". translate would change the language/meaning rather than just the script, and get_supported_language only lists available languages.",
-      "text": "What function of an Azure Translator TextTranslationClient object should you use to convert the Russian word \"спасибо\" in Cyrillic characters to \"spasibo\" in Latin characters?\nA. get_supported_language\nB. translate\nC. transliterate\nAnswer: C\nExplanation:\ntransliterate converts text from one script to another while preserving pronunciation and language, which is exactly converting Cyrillic \"спасибо\" to Latin \"spasibo\". translate would change the language/meaning rather than just the script, and get_supported_language only lists available languages.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 170,
-      "sourcePages": [],
-      "prompt": "Which Azure Speech SDK object should you use to specify the language(s) into which you want speech translated?\nA. SpeechConfig\nB. SpeechTranslationConfig\nC. AudioConfig",
-      "answer": "B",
-      "explanation": "SpeechTranslationConfig extends speech configuration with target translation languages, letting you specify which language(s) speech should be translated into. SpeechConfig handles plain recognition settings without translation targets, and AudioConfig only specifies the audio input/output source.",
-      "text": "Which Azure Speech SDK object should you use to specify the language(s) into which you want speech translated?\nA. SpeechConfig\nB. SpeechTranslationConfig\nC. AudioConfig\nAnswer: B\nExplanation:\nSpeechTranslationConfig extends speech configuration with target translation languages, letting you specify which language(s) speech should be translated into. SpeechConfig handles plain recognition settings without translation targets, and AudioConfig only specifies the audio input/output source.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 171,
-      "sourcePages": [],
-      "prompt": "Which kind of model can you use to respond to visual input?\nA. Only OpenAI GPT models\nB. Embedding models\nC. Multimodal models",
-      "answer": "C",
-      "explanation": "Multimodal models are built to accept and reason over multiple input types, including images, in addition to text. Visual input support isn't limited to OpenAI GPT models specifically, and embedding models produce vector representations rather than responding to visual input.",
-      "text": "Which kind of model can you use to respond to visual input?\nA. Only OpenAI GPT models\nB. Embedding models\nC. Multimodal models\nAnswer: C\nExplanation:\nMultimodal models are built to accept and reason over multiple input types, including images, in addition to text. Visual input support isn't limited to OpenAI GPT models specifically, and embedding models produce vector representations rather than responding to visual input.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 172,
-      "sourcePages": [],
-      "prompt": "How should you submit a prompt that asks a model to analyze an image?\nA. Submit one prompt with an image-based message followed by another prompt with a text-based message\nB. Submit a prompt that contains a multi-part user message, containing both text content and image content\nC. Submit the image as the system message and the instruction or question as the user message",
-      "answer": "B",
-      "explanation": "A single user message can contain multiple content parts, combining text and image content together so the model can analyze the image in context of the instruction in one turn. Splitting it into two separate prompts is unnecessary, and images are not meant to be placed in the system message.",
-      "text": "How should you submit a prompt that asks a model to analyze an image?\nA. Submit one prompt with an image-based message followed by another prompt with a text-based message\nB. Submit a prompt that contains a multi-part user message, containing both text content and image content\nC. Submit the image as the system message and the instruction or question as the user message\nAnswer: B\nExplanation:\nA single user message can contain multiple content parts, combining text and image content together so the model can analyze the image in context of the instruction in one turn. Splitting it into two separate prompts is unnecessary, and images are not meant to be placed in the system message.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 173,
-      "sourcePages": [],
-      "prompt": "How can you include an image in a message?\nA. As a URL or as binary data\nB. Only as a URL for an online image\nC. Only as binary data",
-      "answer": "A",
-      "explanation": "A message's image content can reference an image either by URL or by embedding it directly as binary (base64-encoded) data, giving flexibility for both hosted and local images. It is not restricted to only URLs or only binary data.",
-      "text": "How can you include an image in a message?\nA. As a URL or as binary data\nB. Only as a URL for an online image\nC. Only as binary data\nAnswer: A\nExplanation:\nA message's image content can reference an image either by URL or by embedding it directly as binary (base64-encoded) data, giving flexibility for both hosted and local images. It is not restricted to only URLs or only binary data.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 174,
-      "sourcePages": [],
-      "prompt": "You want to find a model in Microsoft Foundry to generate images. Which inference task should you filter by?\nA. Text to Image\nB. Text to Video\nC. Embeddings",
-      "answer": "A",
-      "explanation": "Filtering the model catalog by the Text to Image inference task surfaces models designed to generate images from text prompts. Text to Video surfaces video-generation models instead, and Embeddings surfaces models that produce vector representations, not images.",
-      "text": "You want to find a model in Microsoft Foundry to generate images. Which inference task should you filter by?\nA. Text to Image\nB. Text to Video\nC. Embeddings\nAnswer: A\nExplanation:\nFiltering the model catalog by the Text to Image inference task surfaces models designed to generate images from text prompts. Text to Video surfaces video-generation models instead, and Embeddings surfaces models that produce vector representations, not images.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 175,
-      "sourcePages": [],
-      "prompt": "Which OpenAI API object do you an you use to download from video-generation models?\nA. Videos\nB. Images\nC. Graphics",
-      "answer": "A",
-      "explanation": "The Videos object in the OpenAI API is used to retrieve and download output from video-generation models. Images is the corresponding object for image-generation output, and Graphics is not an object exposed by the API.",
-      "text": "Which OpenAI API object do you an you use to download from video-generation models?\nA. Videos\nB. Images\nC. Graphics\nAnswer: A\nExplanation:\nThe Videos object in the OpenAI API is used to retrieve and download output from video-generation models. Images is the corresponding object for image-generation output, and Graphics is not an object exposed by the API.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 176,
-      "sourcePages": [],
-      "prompt": "What kinds of AI solution is Azure Content Understanding designed to help you build?\nA. Chatbots that automatically translate between multiple spoken and written languages.\nB. Analyzers that extract information from documents, images, videos, and audio files.\nC. Image generators that create visualizations based on descriptions.",
-      "answer": "B",
-      "explanation": "Azure Content Understanding is designed to help you build analyzers that extract structured information from documents, images, videos, and audio files. It is not a translation-chatbot service, and it does not generate images from descriptions.",
-      "text": "What kinds of AI solution is Azure Content Understanding designed to help you build?\nA. Chatbots that automatically translate between multiple spoken and written languages.\nB. Analyzers that extract information from documents, images, videos, and audio files.\nC. Image generators that create visualizations based on descriptions.\nAnswer: B\nExplanation:\nAzure Content Understanding is designed to help you build analyzers that extract structured information from documents, images, videos, and audio files. It is not a translation-chatbot service, and it does not generate images from descriptions.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 177,
-      "sourcePages": [],
-      "prompt": "Which graphical tool should you use to create an Azure Content Understanding project?\nA. Microsoft Visual Studio.\nB. Azure Machine Learning studio.\nC. Content Understanding Studio.",
-      "answer": "C",
-      "explanation": "Content Understanding Studio is the dedicated graphical tool for creating and configuring Azure Content Understanding projects and analyzers. Microsoft Visual Studio is a general-purpose IDE, and Azure Machine Learning studio is used for ML workspace tasks, not Content Understanding projects.",
-      "text": "Which graphical tool should you use to create an Azure Content Understanding project?\nA. Microsoft Visual Studio.\nB. Azure Machine Learning studio.\nC. Content Understanding Studio.\nAnswer: C\nExplanation:\nContent Understanding Studio is the dedicated graphical tool for creating and configuring Azure Content Understanding projects and analyzers. Microsoft Visual Studio is a general-purpose IDE, and Azure Machine Learning studio is used for ML workspace tasks, not Content Understanding projects.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 178,
-      "sourcePages": [],
-      "prompt": "You need to extract vendor names, line items, and totals from photographed sales receipts. Which prebuilt analyzer should you use?\nA. prebuilt-image\nB. prebuilt-receipt\nC. prebuilt-idDocument",
-      "answer": "B",
-      "explanation": "prebuilt-receipt is purpose-built to extract fields like vendor names, line items, and totals from receipt images. prebuilt-image performs general image analysis without receipt-specific fields, and prebuilt-idDocument is designed for identity documents, not receipts.",
-      "text": "You need to extract vendor names, line items, and totals from photographed sales receipts. Which prebuilt analyzer should you use?\nA. prebuilt-image\nB. prebuilt-receipt\nC. prebuilt-idDocument\nAnswer: B\nExplanation:\nprebuilt-receipt is purpose-built to extract fields like vendor names, line items, and totals from receipt images. prebuilt-image performs general image analysis without receipt-specific fields, and prebuilt-idDocument is designed for identity documents, not receipts.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 179,
-      "sourcePages": [],
-      "prompt": "Which confidence score range indicates a value suitable for automated processing?\nA. 0.9 and above\nB. 90 or higher\nC. Below 0.7",
-      "answer": "A",
-      "explanation": "Confidence scores are expressed on a 0-to-1 scale, and a score of 0.9 and above indicates high enough confidence to trust the extracted value for automated processing without manual review. \"90 or higher\" misapplies a 0-100 scale that isn't used here, and scores below 0.7 indicate low confidence that typically needs manual review.",
-      "text": "Which confidence score range indicates a value suitable for automated processing?\nA. 0.9 and above\nB. 90 or higher\nC. Below 0.7\nAnswer: A\nExplanation:\nConfidence scores are expressed on a 0-to-1 scale, and a score of 0.9 and above indicates high enough confidence to trust the extracted value for automated processing without manual review. \"90 or higher\" misapplies a 0-100 scale that isn't used here, and scores below 0.7 indicate low confidence that typically needs manual review.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 180,
-      "sourcePages": [],
-      "prompt": "What should you define for the information you want to extract from content?\nA. A schema\nB. An index\nC. A cluster",
-      "answer": "A",
-      "explanation": "A schema defines the fields and structure of the information you want an analyzer to extract from content. An index is used for search/retrieval rather than defining extraction fields, and a cluster is a compute/grouping concept unrelated to defining extracted fields.",
-      "text": "What should you define for the information you want to extract from content?\nA. A schema\nB. An index\nC. A cluster\nAnswer: A\nExplanation:\nA schema defines the fields and structure of the information you want an analyzer to extract from content. An index is used for search/retrieval rather than defining extraction fields, and a cluster is a compute/grouping concept unrelated to defining extracted fields.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 181,
-      "sourcePages": [],
-      "prompt": "Which component of an Azure AI Search solution is scheduled to extract and enrich data to populate an index?\nA. Indexer\nB. Projection\nC. Query",
-      "answer": "A",
-      "explanation": "An indexer is the component that runs on a schedule (or on demand) to extract data from a source, enrich it through a skillset, and populate a search index. A projection defines how enriched data is shaped for a secondary store, and a query is how you search an already-populated index, not how it's populated.",
-      "text": "Which component of an Azure AI Search solution is scheduled to extract and enrich data to populate an index?\nA. Indexer\nB. Projection\nC. Query\nAnswer: A\nExplanation:\nAn indexer is the component that runs on a schedule (or on demand) to extract data from a source, enrich it through a skillset, and populate a search index. A projection defines how enriched data is shaped for a secondary store, and a query is how you search an already-populated index, not how it's populated.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 182,
-      "sourcePages": [],
-      "prompt": "Which service supports built-in AI skills in Azure AI Search?\nA. Azure Functions\nB. Foundry Tools\nC. Azure Cosmos DB",
-      "answer": "B",
-      "explanation": "Foundry Tools provides the built-in AI skills (such as OCR, entity recognition, and image analysis) that an Azure AI Search skillset can use to enrich content during indexing. Azure Functions is used for custom skills you write yourself, and Azure Cosmos DB is a data store, not a source of built-in AI skills.",
-      "text": "Which service supports built-in AI skills in Azure AI Search?\nA. Azure Functions\nB. Foundry Tools\nC. Azure Cosmos DB\nAnswer: B\nExplanation:\nFoundry Tools provides the built-in AI skills (such as OCR, entity recognition, and image analysis) that an Azure AI Search skillset can use to enrich content during indexing. Azure Functions is used for custom skills you write yourself, and Azure Cosmos DB is a data store, not a source of built-in AI skills.",
-      "references": [],
-      "tags": [
-        "fundamentals"
-      ]
-    },
-    {
-      "number": 183,
-      "sourcePages": [],
-      "prompt": "Which kind of projection results in a relational data schema for extracted fields?\nA. File\nB. Object\nC. Table",
-      "answer": "C",
-      "explanation": "A table projection shapes enriched, extracted fields into a relational schema of rows and columns. A file projection stores extracted binary content such as images, and an object projection stores enriched content as JSON documents rather than a relational schema.",
-      "text": "Which kind of projection results in a relational data schema for extracted fields?\nA. File\nB. Object\nC. Table\nAnswer: C\nExplanation:\nA table projection shapes enriched, extracted fields into a relational schema of rows and columns. A file projection stores extracted binary content such as images, and an object projection stores enriched content as JSON documents rather than a relational schema.",
-      "references": [],
-      "tags": [
-        "fundamentals"
+      "sourcePages": [
+        170
+      ],
+      "prompt": "You use the Azure Custom Vision service to build a classifier.\nAfter training is complete, you need to evaluate the classifier.\nWhich two metrics are available for review? Each correct answer presents a complete solution.\nNOTE: Each correct selection is worth one point.\n\n   A. F-score\n   B. area under the curve (AUC)\n   C. precision\n   D. weighted accuracy\n   E. recall",
+      "answer": "CE",
+      "explanation": "Technical Justification for Correct Answer: CE (Precision and Recall)\n\nWhen evaluating a classifier built with Azure Custom Vision, the primary metrics for assessing its performance are Precision and Recall.\n\nC. Precision: This metric measures the accuracy of the classifier's positive predictions, indicating how many of the predicted positives are actually correct.\nE. Recall: This metric assesses the classifier's ability to identify all actual positives, reflecting how many of the actual positives were correctly predicted.\n\nWhy Other Options Are Less Suitable:\nA. F-score: a useful composite metric that balances precision and recall, but not directly listed as a primary evaluation metric provided by Azure Custom Vision for immediate review after training.\nB. Area Under the Curve (AUC): more commonly used for models where the output is a probability score and the threshold for positive/negative classification can be adjusted; Azure Custom Vision's primary evaluation focuses on precision and recall rather than the threshold-dependent AUC.\nD. Weighted Accuracy: not explicitly highlighted as a standard evaluation metric in Azure Custom Vision's post-training analysis.",
+      "text": "You use the Azure Custom Vision service to build a classifier.\nAfter training is complete, you need to evaluate the classifier.\nWhich two metrics are available for review? Each correct answer presents a complete solution.\nNOTE: Each correct selection is worth one point.\n\n   A. F-score\n   B. area under the curve (AUC)\n   C. precision\n   D. weighted accuracy\n   E. recall\nAnswer: CE\nExplanation:\nTechnical Justification for Correct Answer: CE (Precision and Recall)\n\nWhen evaluating a classifier built with Azure Custom Vision, the primary metrics for assessing its performance are Precision and Recall.\n\nC. Precision: This metric measures the accuracy of the classifier's positive predictions, indicating how many of the predicted positives are actually correct.\nE. Recall: This metric assesses the classifier's ability to identify all actual positives, reflecting how many of the actual positives were correctly predicted.\n\nWhy Other Options Are Less Suitable:\nA. F-score: a useful composite metric that balances precision and recall, but not directly listed as a primary evaluation metric provided by Azure Custom Vision for immediate review after training.\nB. Area Under the Curve (AUC): more commonly used for models where the output is a probability score and the threshold for positive/negative classification can be adjusted; Azure Custom Vision's primary evaluation focuses on precision and recall rather than the threshold-dependent AUC.\nD. Weighted Accuracy: not explicitly highlighted as a standard evaluation metric in Azure Custom Vision's post-training analysis.",
+      "references": [
+        "Azure Custom Vision - Evaluate a Model",
+        "Azure Custom Vision - Metrics"
       ]
     }
   ],

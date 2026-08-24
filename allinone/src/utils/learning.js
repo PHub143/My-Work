@@ -1187,6 +1187,185 @@ const PRACTICE_CONTROL_CONFIGS = {
       extractedTextData: 'Table projection',
     },
   },
+  119: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'projectType',
+        label: 'Project Type',
+        options: ['Classification', 'Object Detection'],
+      },
+      {
+        id: 'classificationType',
+        label: 'Classification Type',
+        options: ['Multiclass (Single tag per image)', 'Multilabel (Multiple tags per image)'],
+      },
+      {
+        id: 'domain',
+        label: 'Domain',
+        options: [
+          'Adult', 'Food', 'General', 'General (compact)',
+          'Landmarks', 'Landmarks (compact)', 'Retail', 'Retail (compact)',
+        ],
+      },
+    ],
+    correct: {
+      projectType: 'Classification',
+      classificationType: 'Multiclass (Single tag per image)',
+      domain: 'General (compact)',
+    },
+  },
+  122: {
+    type: 'radioRows',
+    controls: [
+      {
+        id: 'detectsLanguage',
+        label: 'The code will detect the language of documents.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'urlIsBingSearchLink',
+        label: 'The url attribute returned for each linked entity will be a Bing search link.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'matchesGivesLocation',
+        label: 'The matches attribute returned for each linked entity will provide the location in a document '
+          + 'where the entity is referenced.',
+        options: ['Yes', 'No'],
+      },
+    ],
+    correct: {
+      detectsLanguage: 'Yes',
+      urlIsBingSearchLink: 'Yes',
+      matchesGivesLocation: 'No',
+    },
+  },
+  123: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'modelEvaluation',
+        label: 'Model evaluation',
+        options: [
+          'Configure private endpoint access.',
+          'Use deployment lists and license tabs.',
+          'Use tool catalog connections and run traces.',
+          'Use model catalog leaderboards and model cards.',
+        ],
+      },
+      {
+        id: 'deploymentOption',
+        label: 'Deployment option',
+        options: [
+          'Bring your own model.',
+          'Build a vector index.',
+          'Use a serverless deployment.',
+          'Use a managed compute deployment.',
+        ],
+      },
+    ],
+    correct: {
+      modelEvaluation: 'Use model catalog leaderboards and model cards.',
+      deploymentOption: 'Use a serverless deployment.',
+    },
+  },
+  125: {
+    type: 'radioRows',
+    controls: [
+      {
+        id: 'highCertaintyExplanation',
+        label: 'The response will contain an explanation of large language models (LLMs) that has a high degree '
+          + 'of certainty.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'rephrasedQuestionProducesIntended',
+        label: 'Changing "What is an LLM?" to "What is an LLM in the context of AI models?" will produce the '
+          + 'intended response.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'strictSystemPromptHigherLikelihood',
+        label: 'Changing "You are a helpful assistant." to "You must answer only within the context of AI '
+          + 'language models." will give a higher likelihood of producing the intended response.',
+        options: ['Yes', 'No'],
+      },
+    ],
+    correct: {
+      highCertaintyExplanation: 'Yes',
+      rephrasedQuestionProducesIntended: 'Yes',
+      strictSystemPromptHigherLikelihood: 'No',
+    },
+  },
+  129: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'extractText',
+        label: 'Extract text',
+        options: ['Azure AI Search', 'Azure Vision in Foundry Tools', 'Azure Document Intelligence in Foundry Tools'],
+      },
+      {
+        id: 'sentimentAnalysis',
+        label: 'Perform sentiment analysis',
+        options: [
+          'Azure AI Search', 'Azure AI Computer Vision',
+          'Azure Document Intelligence in Foundry Tools', 'Azure Language in Foundry Tools',
+        ],
+      },
+    ],
+    correct: {
+      extractText: 'Azure Document Intelligence in Foundry Tools',
+      sentimentAnalysis: 'Azure Language in Foundry Tools',
+    },
+  },
+  131: {
+    type: 'radioRows',
+    controls: [
+      {
+        id: 'statusChecksApiKey',
+        label: 'Going to http://localhost:5000/status will query the Azure endpoint to verify whether the API '
+          + 'key used to start the container is valid.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'loggingProviderWritesLogs',
+        label: 'The container logging provider will write log data.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'swaggerProvidesDocs',
+        label: 'Going to http://localhost:5000/swagger will provide the details to access the documentation for '
+          + 'the available endpoints.',
+        options: ['Yes', 'No'],
+      },
+    ],
+    correct: {
+      statusChecksApiKey: 'Yes',
+      loggingProviderWritesLogs: 'No',
+      swaggerProvidesDocs: 'Yes',
+    },
+  },
+  134: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'httpMethod',
+        label: 'HTTP method',
+        options: ['GET', 'PATCH', 'POST'],
+      },
+      {
+        id: 'visualFeatures',
+        label: 'visualFeatures',
+        options: ['description', 'imageType', 'objects', 'tags'],
+      },
+    ],
+    correct: {
+      httpMethod: 'GET',
+      visualFeatures: 'imageType',
+    },
+  },
 };
 
 function normalizeStructuredSelection(questionNumber, selection) {
