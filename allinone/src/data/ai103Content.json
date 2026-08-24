@@ -1675,15 +1675,6 @@
     },
     {
       "number": 118,
-      "sourcePages": [],
-      "prompt": "DRAG DROP\n-\nYou are building an app that will scan confidential documents and use the Azure Language in Foundry Tools service to analyze the contents.\nYou provision a Microsoft Foundry Service resource.\nYou need to ensure that the app can make requests to the Azure Language in Foundry Tools service endpoint. The solution must ensure that confidential documents remain on-premises.\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and arrange them in the correct order.",
-      "answer": "Step 1: Provision an on-premises Kubernetes cluster that has internet connectivity.\nStep 2: Pull an image from the Microsoft Container Registry (MCR).\nStep 3: Run the container and specify an API key and the Endpoint URL of the Azure AI resource.",
-      "explanation": "Step 1: Provision an on-premises Kubernetes cluster that has internet connectivity.\nTo keep confidential documents on-premises while still analyzing them with the Azure Language in Foundry Tools service, you host the service as a container on your own infrastructure. The host cluster needs internet connectivity so the container can periodically report usage to Azure for billing and metering, even though the document content itself never leaves the on-premises environment.\nStep 2: Pull an image from the Microsoft Container Registry (MCR).\nMicrosoft publishes the official Language service container images on the Microsoft Container Registry, not Docker Hub. You pull the container image from MCR onto the on-premises host.\nStep 3: Run the container and specify an API key and the Endpoint URL of the Azure AI resource.\nWhen you run the container, you supply the API key and endpoint URL of the Azure Language in Foundry Tools resource. This authorizes the container and lets it send billing and metering data to Azure, while all document processing continues to happen locally on-premises.",
-      "text": "DRAG DROP\n-\nYou are building an app that will scan confidential documents and use the Azure Language in Foundry Tools service to analyze the contents.\nYou provision a Microsoft Foundry Service resource.\nYou need to ensure that the app can make requests to the Azure Language in Foundry Tools service endpoint. The solution must ensure that confidential documents remain on-premises.\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and arrange them in the correct order.\nAnswer: Step 1: Provision an on-premises Kubernetes cluster that has internet connectivity.\nStep 2: Pull an image from the Microsoft Container Registry (MCR).\nStep 3: Run the container and specify an API key and the Endpoint URL of the Azure AI resource.\nExplanation:\nStep 1: Provision an on-premises Kubernetes cluster that has internet connectivity.\nTo keep confidential documents on-premises while still analyzing them with the Azure Language in Foundry Tools service, you host the service as a container on your own infrastructure. The host cluster needs internet connectivity so the container can periodically report usage to Azure for billing and metering, even though the document content itself never leaves the on-premises environment.\nStep 2: Pull an image from the Microsoft Container Registry (MCR).\nMicrosoft publishes the official Language service container images on the Microsoft Container Registry, not Docker Hub. You pull the container image from MCR onto the on-premises host.\nStep 3: Run the container and specify an API key and the Endpoint URL of the Azure AI resource.\nWhen you run the container, you supply the API key and endpoint URL of the Azure Language in Foundry Tools resource. This authorizes the container and lets it send billing and metering data to Azure, while all document processing continues to happen locally on-premises.",
-      "references": []
-    },
-    {
-      "number": 119,
       "sourcePages": [
         158
       ],
@@ -1694,7 +1685,7 @@
       "references": []
     },
     {
-      "number": 120,
+      "number": 119,
       "sourcePages": [
         158
       ],
@@ -1705,7 +1696,7 @@
       "references": []
     },
     {
-      "number": 121,
+      "number": 120,
       "sourcePages": [
         159
       ],
@@ -1716,7 +1707,7 @@
       "references": []
     },
     {
-      "number": 122,
+      "number": 121,
       "sourcePages": [
         159
       ],
@@ -1727,7 +1718,7 @@
       "references": []
     },
     {
-      "number": 123,
+      "number": 122,
       "sourcePages": [
         160
       ],
@@ -1738,7 +1729,7 @@
       "references": []
     },
     {
-      "number": 124,
+      "number": 123,
       "sourcePages": [
         161
       ],
@@ -1751,7 +1742,7 @@
       ]
     },
     {
-      "number": 125,
+      "number": 124,
       "sourcePages": [
         162
       ],
@@ -1762,7 +1753,7 @@
       "references": []
     },
     {
-      "number": 126,
+      "number": 125,
       "sourcePages": [
         162
       ],
@@ -1776,7 +1767,7 @@
       ]
     },
     {
-      "number": 127,
+      "number": 126,
       "sourcePages": [
         164
       ],
@@ -1787,7 +1778,7 @@
       "references": []
     },
     {
-      "number": 128,
+      "number": 127,
       "sourcePages": [
         164
       ],
@@ -1801,7 +1792,7 @@
       ]
     },
     {
-      "number": 129,
+      "number": 128,
       "sourcePages": [
         165
       ],
@@ -1812,7 +1803,7 @@
       "references": []
     },
     {
-      "number": 130,
+      "number": 129,
       "sourcePages": [
         166
       ],
@@ -1826,7 +1817,7 @@
       ]
     },
     {
-      "number": 131,
+      "number": 130,
       "sourcePages": [
         167
       ],
@@ -1837,7 +1828,7 @@
       "references": []
     },
     {
-      "number": 132,
+      "number": 131,
       "sourcePages": [
         168
       ],
@@ -1850,7 +1841,7 @@
       ]
     },
     {
-      "number": 133,
+      "number": 132,
       "sourcePages": [
         169
       ],
@@ -1858,6 +1849,17 @@
       "answer": "B",
       "explanation": "",
       "text": "You are building an app that will include one million scanned magazine articles. Each article will be stored as an image file.\nYou need to configure the app to extract text from the images. The solution must minimize development effort.\nWhat should you include in the solution?\n\n   A. Azure Document Intelligence in Foundry Tools\n   B. the Read API in Azure Vision in Foundry Tools\n   C. Azure Vision in Foundry Tools Image Analysis\n   D. Azure Language in Foundry Tools\nAnswer: B",
+      "references": []
+    },
+    {
+      "number": 133,
+      "sourcePages": [
+        169
+      ],
+      "prompt": "DRAG DROP\n-\nYou are building an app that will scan confidential documents and use the Azure Language in Foundry Tools service to analyze the contents.\nYou provision a Microsoft Foundry Service resource.\nYou need to ensure that the app can make requests to the Azure Language in Foundry Tools service endpoint. The solution must ensure that confidential documents remain on-premises.\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and arrange them in the correct order.",
+      "answer": "Step 1: Provision an on-premises Kubernetes cluster that has internet connectivity.\nStep 2: Pull an image from the Microsoft Container Registry (MCR).\nStep 3: Run the container and specify an API key and the Endpoint URL of the Azure AI resource.",
+      "explanation": "Step 1: Provision an on-premises Kubernetes cluster that has internet connectivity.\nTo keep confidential documents on-premises while still analyzing them with the Azure Language in Foundry Tools service, you host the service as a container on your own infrastructure. The host cluster needs internet connectivity so the container can periodically report usage to Azure for billing and metering, even though the document content itself never leaves the on-premises environment.\nStep 2: Pull an image from the Microsoft Container Registry (MCR).\nMicrosoft publishes the official Language service container images on the Microsoft Container Registry, not Docker Hub. You pull the container image from MCR onto the on-premises host.\nStep 3: Run the container and specify an API key and the Endpoint URL of the Azure AI resource.\nWhen you run the container, you supply the API key and endpoint URL of the Azure Language in Foundry Tools resource. This authorizes the container and lets it send billing and metering data to Azure, while all document processing continues to happen locally on-premises.",
+      "text": "DRAG DROP\n-\nYou are building an app that will scan confidential documents and use the Azure Language in Foundry Tools service to analyze the contents.\nYou provision a Microsoft Foundry Service resource.\nYou need to ensure that the app can make requests to the Azure Language in Foundry Tools service endpoint. The solution must ensure that confidential documents remain on-premises.\nWhich three actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and arrange them in the correct order.\nAnswer: Step 1: Provision an on-premises Kubernetes cluster that has internet connectivity.\nStep 2: Pull an image from the Microsoft Container Registry (MCR).\nStep 3: Run the container and specify an API key and the Endpoint URL of the Azure AI resource.\nExplanation:\nStep 1: Provision an on-premises Kubernetes cluster that has internet connectivity.\nTo keep confidential documents on-premises while still analyzing them with the Azure Language in Foundry Tools service, you host the service as a container on your own infrastructure. The host cluster needs internet connectivity so the container can periodically report usage to Azure for billing and metering, even though the document content itself never leaves the on-premises environment.\nStep 2: Pull an image from the Microsoft Container Registry (MCR).\nMicrosoft publishes the official Language service container images on the Microsoft Container Registry, not Docker Hub. You pull the container image from MCR onto the on-premises host.\nStep 3: Run the container and specify an API key and the Endpoint URL of the Azure AI resource.\nWhen you run the container, you supply the API key and endpoint URL of the Azure Language in Foundry Tools resource. This authorizes the container and lets it send billing and metering data to Azure, while all document processing continues to happen locally on-premises.",
       "references": []
     },
     {

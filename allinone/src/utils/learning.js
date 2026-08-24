@@ -1220,7 +1220,7 @@ const PRACTICE_CONTROL_CONFIGS = {
       extractedTextData: 'Table projection',
     },
   },
-  119: {
+  118: {
     type: 'dropdowns',
     controls: [
       {
@@ -1248,7 +1248,7 @@ const PRACTICE_CONTROL_CONFIGS = {
       domain: 'General (compact)',
     },
   },
-  122: {
+  121: {
     type: 'radioRows',
     controls: [
       {
@@ -1274,7 +1274,7 @@ const PRACTICE_CONTROL_CONFIGS = {
       matchesGivesLocation: 'No',
     },
   },
-  123: {
+  122: {
     type: 'dropdowns',
     controls: [
       {
@@ -1303,7 +1303,7 @@ const PRACTICE_CONTROL_CONFIGS = {
       deploymentOption: 'Use a serverless deployment.',
     },
   },
-  125: {
+  124: {
     type: 'radioRows',
     controls: [
       {
@@ -1331,7 +1331,7 @@ const PRACTICE_CONTROL_CONFIGS = {
       strictSystemPromptHigherLikelihood: 'No',
     },
   },
-  129: {
+  128: {
     type: 'dropdowns',
     controls: [
       {
@@ -1353,7 +1353,7 @@ const PRACTICE_CONTROL_CONFIGS = {
       sentimentAnalysis: 'Azure Language in Foundry Tools',
     },
   },
-  131: {
+  130: {
     type: 'radioRows',
     controls: [
       {

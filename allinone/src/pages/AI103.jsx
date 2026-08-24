@@ -296,9 +296,9 @@ const visualQuestionConfigs = {
       { label: 'agent_def tools', value: '[memory_tool]' },
     ],
   },
-  119: {
+  118: {
     imagePageLabel: 'PDF page 158',
-    ...visualCodeHotspotConfigs[119],
+    ...visualCodeHotspotConfigs[118],
     answerRows: [
       { label: 'Project Types', value: 'Classification' },
       { label: 'Classification Types', value: 'Multiclass (Single tag per image)' },
@@ -1230,7 +1230,7 @@ const AI103 = () => {
                   <CaseStudyChoiceQuestionContent question={visibleQuestion} />
                 ) : visibleQuestion.number === 21 ? (
                   <QuestionTwentyOneContent question={visibleQuestion} />
-                ) : [4, 5, 6, 7, 8, 11, 15, 18, 20, 30, 32, 35, 37, 40, 49, 66, 68, 71, 77, 79, 86, 92, 93, 94, 95, 98, 99, 101, 103, 104, 107, 108, 112, 113, 114, 117, 119].includes(visibleQuestion.number) ? (
+                ) : [4, 5, 6, 7, 8, 11, 15, 18, 20, 30, 32, 35, 37, 40, 49, 66, 68, 71, 77, 79, 86, 92, 93, 94, 95, 98, 99, 101, 103, 104, 107, 108, 112, 113, 114, 117, 118].includes(visibleQuestion.number) ? (
                   <VisualQuestionContent question={visibleQuestion} />
                 ) : [3, 9, 10, 12, 13, 14, 16, 17, 19, 22, 23, 24, 25, 26, 29, 31, 33, 34, 36, 38, 39, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 55, 57, 58, 59, 60, 63, 64, 65].includes(visibleQuestion.number) || visibleQuestion.number >= 66 ? (
                   <MultipleChoiceQuestionContent question={visibleQuestion} />

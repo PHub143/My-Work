@@ -12,7 +12,7 @@ export const multipleChoiceExhibitConfigs = {
     exhibitInsertAfterParagraph: 3,
     exhibitCode: 'run = project_client.agents.runs.create_and_process(\n    thread_id=thread.id,\n    agent_id=agent.id\n)',
   },
-  118: {
+  133: {
     answerRows: [
       { label: 'Step 1', value: 'Provision an on-premises Kubernetes cluster that has internet connectivity.' },
       { label: 'Step 2', value: 'Pull an image from the Microsoft Container Registry (MCR).' },
@@ -72,7 +72,7 @@ export const visualCodeHotspotConfigs = {
       },
     ],
   },
-  119: {
+  118: {
     hotspotFields: [
       {
         label: 'Project Types:',
