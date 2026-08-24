@@ -72,6 +72,37 @@ export const visualCodeHotspotConfigs = {
       },
     ],
   },
+  121: {
+    exhibitCode:
+      'from azure.core.credentials import AzureKeyCredential\n' +
+      'from azure.ai.textanalytics import TextAnalyticsClient\n\n' +
+      'endpoint = os.environ["AZURE_TEXT_ANALYTICS_ENDPOINT"]\n' +
+      'key = os.environ["AZURE_TEXT_ANALYTICS_KEY"]\n\n' +
+      'text_analytics_client = TextAnalyticsClient(endpoint=endpoint, credential=AzureKeyCredential(key))\n' +
+      'documents = [\n' +
+      '    """\n' +
+      '    Our tour guide took us up the Space Needle during our trip to Seattle last week.\n' +
+      '    """\n' +
+      ']\n\n' +
+      'result = text_analytics_client.recognize_linked_entities(documents)',
+    hotspotFields: [
+      {
+        label: 'The code will detect the language of documents.',
+        options: ['Yes', 'No'],
+        answer: 'Yes',
+      },
+      {
+        label: 'The url attribute returned for each linked entity will be a Bing search link.',
+        options: ['Yes', 'No'],
+        answer: 'Yes',
+      },
+      {
+        label: 'The matches attribute returned for each linked entity will provide the location in a document where the entity is referenced.',
+        options: ['Yes', 'No'],
+        answer: 'No',
+      },
+    ],
+  },
   118: {
     hotspotFields: [
       {

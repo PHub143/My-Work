@@ -305,6 +305,18 @@ const visualQuestionConfigs = {
       { label: 'Domains', value: 'General (compact)' },
     ],
   },
+  121: {
+    imagePageLabel: 'PDF page 159',
+    ...visualCodeHotspotConfigs[121],
+    answerRows: [
+      { label: 'The code will detect the language of documents', value: 'Yes' },
+      { label: 'The url attribute returned for each linked entity will be a Bing search link', value: 'Yes' },
+      {
+        label: 'The matches attribute returned for each linked entity will provide the location in a document where the entity is referenced',
+        value: 'No',
+      },
+    ],
+  },
   49: {
     blankImage: q49AnswerAreaBlank,
     imagePageLabel: 'PDF page 50',
@@ -998,6 +1010,10 @@ function VisualQuestionContent({ question }) {
         </SectionBlock>
       ) : null}
 
+      {questionConfig.exhibitCode ? (
+        <ExhibitCode code={questionConfig.exhibitCode} caption={`Code · ${questionConfig.imagePageLabel}`} />
+      ) : null}
+
       <SectionBlock title={`Answer Area · ${questionConfig.imagePageLabel}`} ariaLabelledBy={`ai103-q${question.number}-answer-area`}>
         <AnswerAreaContent questionConfig={questionConfig} revealAnswer={false} />
       </SectionBlock>
@@ -1230,7 +1246,7 @@ const AI103 = () => {
                   <CaseStudyChoiceQuestionContent question={visibleQuestion} />
                 ) : visibleQuestion.number === 21 ? (
                   <QuestionTwentyOneContent question={visibleQuestion} />
-                ) : [4, 5, 6, 7, 8, 11, 15, 18, 20, 30, 32, 35, 37, 40, 49, 66, 68, 71, 77, 79, 86, 92, 93, 94, 95, 98, 99, 101, 103, 104, 107, 108, 112, 113, 114, 117, 118].includes(visibleQuestion.number) ? (
+                ) : [4, 5, 6, 7, 8, 11, 15, 18, 20, 30, 32, 35, 37, 40, 49, 66, 68, 71, 77, 79, 86, 92, 93, 94, 95, 98, 99, 101, 103, 104, 107, 108, 112, 113, 114, 117, 118, 121].includes(visibleQuestion.number) ? (
                   <VisualQuestionContent question={visibleQuestion} />
                 ) : [3, 9, 10, 12, 13, 14, 16, 17, 19, 22, 23, 24, 25, 26, 29, 31, 33, 34, 36, 38, 39, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 55, 57, 58, 59, 60, 63, 64, 65].includes(visibleQuestion.number) || visibleQuestion.number >= 66 ? (
                   <MultipleChoiceQuestionContent question={visibleQuestion} />
