@@ -131,6 +131,121 @@ export const visualCodeHotspotConfigs = {
       },
     ],
   },
+  122: {
+    hotspotFields: [
+      {
+        label: 'Model evaluation',
+        options: [
+          'Configure private endpoint access.',
+          'Use deployment lists and license tabs.',
+          'Use tool catalog connections and run traces.',
+          'Use model catalog leaderboards and model cards.',
+        ],
+        answer: 'Use model catalog leaderboards and model cards.',
+      },
+      {
+        label: 'Deployment option',
+        options: [
+          'Bring your own model.',
+          'Build a vector index.',
+          'Use a serverless deployment.',
+          'Use a managed compute deployment.',
+        ],
+        answer: 'Use a serverless deployment.',
+      },
+    ],
+  },
+  124: {
+    exhibitCode:
+      '...\n' +
+      'openai.api_key = key\n' +
+      'openai.api_base = endpoint\n' +
+      'response = openai.ChatCompletion.create(\n' +
+      '    engine=deployment_name\n' +
+      '    messages=[\n' +
+      '        {"role": "system", "content": "You are a helpful assistant."},\n' +
+      '        {"role": "user", "content": "What is an LLM?"}\n' +
+      '    ]\n' +
+      ')\n\n' +
+      "print(response['choices'][0]['message']['content'])\n" +
+      '...',
+    hotspotFields: [
+      {
+        label: 'The response will contain an explanation of large language models (LLMs) that has a high degree of certainty.',
+        options: ['Yes', 'No'],
+        answer: 'Yes',
+      },
+      {
+        label: 'Changing "What is an LLM?" to "What is an LLM in the context of AI models?" will produce the intended response.',
+        options: ['Yes', 'No'],
+        answer: 'Yes',
+      },
+      {
+        label: 'Changing "You are a helpful assistant." to "You must answer only within the context of AI language models." will give a higher likelihood of producing the intended response.',
+        options: ['Yes', 'No'],
+        answer: 'No',
+      },
+    ],
+  },
+  128: {
+    hotspotFields: [
+      {
+        label: 'Extract text',
+        options: ['Azure AI Search', 'Azure Vision in Foundry Tools', 'Azure Document Intelligence in Foundry Tools'],
+        answer: 'Azure Document Intelligence in Foundry Tools',
+      },
+      {
+        label: 'Perform sentiment analysis',
+        options: [
+          'Azure AI Search',
+          'Azure AI Computer Vision',
+          'Azure Document Intelligence in Foundry Tools',
+          'Azure Language in Foundry Tools',
+        ],
+        answer: 'Azure Language in Foundry Tools',
+      },
+    ],
+  },
+  130: {
+    exhibitCode:
+      'docker run --rm -it -p 5000:5000 --memory 10g --cpus 2 \\\n' +
+      'mcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment \\\n' +
+      'Eula=accept \\\n' +
+      'Billing={ENDPOINT_URI} \\\n' +
+      'ApiKey={API_KEY}',
+    hotspotFields: [
+      {
+        label: 'Going to http://localhost:5000/status will query the Azure endpoint to verify whether the API key used to start the container is valid.',
+        options: ['Yes', 'No'],
+        answer: 'Yes',
+      },
+      {
+        label: 'The container logging provider will write log data.',
+        options: ['Yes', 'No'],
+        answer: 'No',
+      },
+      {
+        label: 'Going to http://localhost:5000/swagger will provide the details to access the documentation for the available endpoints.',
+        options: ['Yes', 'No'],
+        answer: 'Yes',
+      },
+    ],
+  },
+  134: {
+    exhibitCode: '"https://*.cognitiveservices.azure.com/vision/v3.2/analyze?visualFeatures={value}&details={string}&language=e...',
+    hotspotFields: [
+      {
+        label: 'HTTP method',
+        options: ['GET', 'PATCH', 'POST'],
+        answer: 'GET',
+      },
+      {
+        label: 'visualFeatures value',
+        options: ['description', 'imageType', 'objects', 'tags'],
+        answer: 'imageType',
+      },
+    ],
+  },
   77: {
     codeTemplate:
       'from azure.ai.projects.models import MemorySearchTool, PromptAgentDefinition\n\n' +

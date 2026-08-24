@@ -1722,10 +1722,10 @@
       "sourcePages": [
         160
       ],
-      "prompt": "HOTSPOT\n-\nYou have a Microsoft Foundry project for a support ticket triage app that reads ticket text from a database.\nYou need to ensure that the app meets the following requirements:\n- Compares candidate models by quality, cost, and throughput\n- Prevents hosting model weights in the Azure subscription\nWhat should you configure? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\n\nModel evaluation: Configure private endpoint access. / Use deployment lists and license tabs. / Use tool catalog connections and run traces. / Use model catalog leaderboards and model cards.\nDeployment option: Bring your own model. / Build a vector index. / Use a serverless deployment. / Use a managed compute deployment.",
+      "prompt": "HOTSPOT\n-\nYou have a Microsoft Foundry project for a support ticket triage app that reads ticket text from a database.\nYou need to ensure that the app meets the following requirements:\n- Compares candidate models by quality, cost, and throughput\n- Prevents hosting model weights in the Azure subscription\nWhat should you configure? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.",
       "answer": "Model evaluation: Use model catalog leaderboards and model cards.\nDeployment option: Use a serverless deployment.",
       "explanation": "",
-      "text": "HOTSPOT\n-\nYou have a Microsoft Foundry project for a support ticket triage app that reads ticket text from a database.\nYou need to ensure that the app meets the following requirements:\n- Compares candidate models by quality, cost, and throughput\n- Prevents hosting model weights in the Azure subscription\nWhat should you configure? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\n\nModel evaluation: Configure private endpoint access. / Use deployment lists and license tabs. / Use tool catalog connections and run traces. / Use model catalog leaderboards and model cards.\nDeployment option: Bring your own model. / Build a vector index. / Use a serverless deployment. / Use a managed compute deployment.\nAnswer: Model evaluation: Use model catalog leaderboards and model cards.\nDeployment option: Use a serverless deployment.",
+      "text": "HOTSPOT\n-\nYou have a Microsoft Foundry project for a support ticket triage app that reads ticket text from a database.\nYou need to ensure that the app meets the following requirements:\n- Compares candidate models by quality, cost, and throughput\n- Prevents hosting model weights in the Azure subscription\nWhat should you configure? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\nAnswer: Model evaluation: Use model catalog leaderboards and model cards.\nDeployment option: Use a serverless deployment.",
       "references": []
     },
     {
@@ -1746,10 +1746,10 @@
       "sourcePages": [
         162
       ],
-      "prompt": "HOTSPOT\n-\nYou are building an app that will provide users with definitions of common AI terms.\nYou create the following Python code.\n...\nopenai.api_key = key\nopenai.api_base = endpoint\nresponse = openai.ChatCompletion.create(\n    engine=deployment_name\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n        {\"role\": \"user\", \"content\": \"What is an LLM?\"}\n    ]\n)\n\nprint(response['choices'][0]['message']['content'])\n...\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth point.\n\nStatements:\nThe response will contain an explanation of large language models (LLMs) that has a high degree of certainty.\nChanging \"What is an LLM?\" to \"What is an LLM in the context of AI models?\" will produce the intended response.\nChanging \"You are a helpful assistant.\" to \"You must answer only within the context of AI language models.\" will give a higher likelihood of producing the intended response.",
+      "prompt": "HOTSPOT\n-\nYou are building an app that will provide users with definitions of common AI terms.\nYou create the following Python code.\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth point.",
       "answer": "Yes, Yes, No",
       "explanation": "",
-      "text": "HOTSPOT\n-\nYou are building an app that will provide users with definitions of common AI terms.\nYou create the following Python code.\n...\nopenai.api_key = key\nopenai.api_base = endpoint\nresponse = openai.ChatCompletion.create(\n    engine=deployment_name\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n        {\"role\": \"user\", \"content\": \"What is an LLM?\"}\n    ]\n)\n\nprint(response['choices'][0]['message']['content'])\n...\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth point.\n\nStatements:\nThe response will contain an explanation of large language models (LLMs) that has a high degree of certainty.\nChanging \"What is an LLM?\" to \"What is an LLM in the context of AI models?\" will produce the intended response.\nChanging \"You are a helpful assistant.\" to \"You must answer only within the context of AI language models.\" will give a higher likelihood of producing the intended response.\nAnswer: Yes, Yes, No",
+      "text": "HOTSPOT\n-\nYou are building an app that will provide users with definitions of common AI terms.\nYou create the following Python code.\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth point.\nAnswer: Yes, Yes, No",
       "references": []
     },
     {
@@ -1796,10 +1796,10 @@
       "sourcePages": [
         165
       ],
-      "prompt": "HOTSPOT\n-\nYou have a collection of press releases stored as PDF files.\nYou need to extract text from the files and perform sentiment analysis.\nWhich service should you use for each task? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\n\nExtract text: Azure AI Search / Azure Vision in Foundry Tools / Azure Document Intelligence in Foundry Tools\nPerform sentiment analysis: Azure AI Search / Azure AI Computer Vision / Azure Document Intelligence in Foundry Tools / Azure Language in Foundry Tools",
+      "prompt": "HOTSPOT\n-\nYou have a collection of press releases stored as PDF files.\nYou need to extract text from the files and perform sentiment analysis.\nWhich service should you use for each task? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.",
       "answer": "Extract text: Azure Document Intelligence in Foundry Tools\nPerform sentiment analysis: Azure Language in Foundry Tools",
       "explanation": "",
-      "text": "HOTSPOT\n-\nYou have a collection of press releases stored as PDF files.\nYou need to extract text from the files and perform sentiment analysis.\nWhich service should you use for each task? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\n\nExtract text: Azure AI Search / Azure Vision in Foundry Tools / Azure Document Intelligence in Foundry Tools\nPerform sentiment analysis: Azure AI Search / Azure AI Computer Vision / Azure Document Intelligence in Foundry Tools / Azure Language in Foundry Tools\nAnswer: Extract text: Azure Document Intelligence in Foundry Tools\nPerform sentiment analysis: Azure Language in Foundry Tools",
+      "text": "HOTSPOT\n-\nYou have a collection of press releases stored as PDF files.\nYou need to extract text from the files and perform sentiment analysis.\nWhich service should you use for each task? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\nAnswer: Extract text: Azure Document Intelligence in Foundry Tools\nPerform sentiment analysis: Azure Language in Foundry Tools",
       "references": []
     },
     {
@@ -1821,10 +1821,10 @@
       "sourcePages": [
         167
       ],
-      "prompt": "HOTSPOT\n-\nYou run the following command.\ndocker run --rm -it -p 5000:5000 --memory 10g --cpus 2 \\\nmcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment \\\nEula=accept \\\nBilling={ENDPOINT_URI} \\\nApiKey={API_KEY}\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth one point.\n\nStatements:\nGoing to http://localhost:5000/status will query the Azure endpoint to verify whether the API key used to start the container is valid.\nThe container logging provider will write log data.\nGoing to http://localhost:5000/swagger will provide the details to access the documentation for the available endpoints.",
+      "prompt": "HOTSPOT\n-\nYou run the following command.\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth one point.",
       "answer": "Yes, No, Yes",
       "explanation": "",
-      "text": "HOTSPOT\n-\nYou run the following command.\ndocker run --rm -it -p 5000:5000 --memory 10g --cpus 2 \\\nmcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment \\\nEula=accept \\\nBilling={ENDPOINT_URI} \\\nApiKey={API_KEY}\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth one point.\n\nStatements:\nGoing to http://localhost:5000/status will query the Azure endpoint to verify whether the API key used to start the container is valid.\nThe container logging provider will write log data.\nGoing to http://localhost:5000/swagger will provide the details to access the documentation for the available endpoints.\nAnswer: Yes, No, Yes",
+      "text": "HOTSPOT\n-\nYou run the following command.\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth one point.\nAnswer: Yes, No, Yes",
       "references": []
     },
     {
@@ -1867,10 +1867,10 @@
       "sourcePages": [
         170
       ],
-      "prompt": "HOTSPOT\n-\nYou are developing an app that will use the Azure Vision in Foundry Tools API to analyze an image.\nYou need configure the request that will be used by the app to identify whether an image is clipart or a line drawing.\nHow should you complete the request? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\n\nHTTP method: GET, PATCH, POST\n\"https://*.cognitiveservices.azure.com/vision/v3.2/analyze?visualFeatures={value}&details={string}&language=e...\nvalue: description, imageType, objects, tags",
+      "prompt": "HOTSPOT\n-\nYou are developing an app that will use the Azure Vision in Foundry Tools API to analyze an image.\nYou need configure the request that will be used by the app to identify whether an image is clipart or a line drawing.\nHow should you complete the request? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.",
       "answer": "GET\nvisualFeatures: imageType",
       "explanation": "",
-      "text": "HOTSPOT\n-\nYou are developing an app that will use the Azure Vision in Foundry Tools API to analyze an image.\nYou need configure the request that will be used by the app to identify whether an image is clipart or a line drawing.\nHow should you complete the request? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\n\nHTTP method: GET, PATCH, POST\n\"https://*.cognitiveservices.azure.com/vision/v3.2/analyze?visualFeatures={value}&details={string}&language=e...\nvalue: description, imageType, objects, tags\nAnswer: GET\nvisualFeatures: imageType",
+      "text": "HOTSPOT\n-\nYou are developing an app that will use the Azure Vision in Foundry Tools API to analyze an image.\nYou need configure the request that will be used by the app to identify whether an image is clipart or a line drawing.\nHow should you complete the request? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point.\nAnswer: GET\nvisualFeatures: imageType",
       "references": []
     },
     {

@@ -317,6 +317,63 @@ const visualQuestionConfigs = {
       },
     ],
   },
+  122: {
+    imagePageLabel: 'PDF page 160',
+    ...visualCodeHotspotConfigs[122],
+    answerRows: [
+      { label: 'Model evaluation', value: 'Use model catalog leaderboards and model cards.' },
+      { label: 'Deployment option', value: 'Use a serverless deployment.' },
+    ],
+  },
+  124: {
+    imagePageLabel: 'PDF page 162',
+    ...visualCodeHotspotConfigs[124],
+    answerRows: [
+      {
+        label: 'The response will contain an explanation of large language models (LLMs) that has a high degree of certainty',
+        value: 'Yes',
+      },
+      {
+        label: 'Changing "What is an LLM?" to "What is an LLM in the context of AI models?" will produce the intended response',
+        value: 'Yes',
+      },
+      {
+        label: 'Changing "You are a helpful assistant." to "You must answer only within the context of AI language models." will give a higher likelihood of producing the intended response',
+        value: 'No',
+      },
+    ],
+  },
+  128: {
+    imagePageLabel: 'PDF page 165',
+    ...visualCodeHotspotConfigs[128],
+    answerRows: [
+      { label: 'Extract text', value: 'Azure Document Intelligence in Foundry Tools' },
+      { label: 'Perform sentiment analysis', value: 'Azure Language in Foundry Tools' },
+    ],
+  },
+  130: {
+    imagePageLabel: 'PDF page 167',
+    ...visualCodeHotspotConfigs[130],
+    answerRows: [
+      {
+        label: 'Going to http://localhost:5000/status will query the Azure endpoint to verify whether the API key used to start the container is valid',
+        value: 'Yes',
+      },
+      { label: 'The container logging provider will write log data', value: 'No' },
+      {
+        label: 'Going to http://localhost:5000/swagger will provide the details to access the documentation for the available endpoints',
+        value: 'Yes',
+      },
+    ],
+  },
+  134: {
+    imagePageLabel: 'PDF page 170',
+    ...visualCodeHotspotConfigs[134],
+    answerRows: [
+      { label: 'HTTP method', value: 'GET' },
+      { label: 'visualFeatures value', value: 'imageType' },
+    ],
+  },
   49: {
     blankImage: q49AnswerAreaBlank,
     imagePageLabel: 'PDF page 50',
@@ -1246,7 +1303,7 @@ const AI103 = () => {
                   <CaseStudyChoiceQuestionContent question={visibleQuestion} />
                 ) : visibleQuestion.number === 21 ? (
                   <QuestionTwentyOneContent question={visibleQuestion} />
-                ) : [4, 5, 6, 7, 8, 11, 15, 18, 20, 30, 32, 35, 37, 40, 49, 66, 68, 71, 77, 79, 86, 92, 93, 94, 95, 98, 99, 101, 103, 104, 107, 108, 112, 113, 114, 117, 118, 121].includes(visibleQuestion.number) ? (
+                ) : [4, 5, 6, 7, 8, 11, 15, 18, 20, 30, 32, 35, 37, 40, 49, 66, 68, 71, 77, 79, 86, 92, 93, 94, 95, 98, 99, 101, 103, 104, 107, 108, 112, 113, 114, 117, 118, 121, 122, 124, 128, 130, 134].includes(visibleQuestion.number) ? (
                   <VisualQuestionContent question={visibleQuestion} />
                 ) : [3, 9, 10, 12, 13, 14, 16, 17, 19, 22, 23, 24, 25, 26, 29, 31, 33, 34, 36, 38, 39, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 55, 57, 58, 59, 60, 63, 64, 65].includes(visibleQuestion.number) || visibleQuestion.number >= 66 ? (
                   <MultipleChoiceQuestionContent question={visibleQuestion} />
