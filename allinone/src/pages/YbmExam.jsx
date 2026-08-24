@@ -284,6 +284,17 @@ const ExamRunner = ({ test, volumeId }) => {
   const pageLoaded = loadedPageUrl === pageUrl;
   const audioLoaded = loadedAudioUrl === audioUrl;
 
+  // Warm the browser's cache for the neighboring pages while the current one
+  // is being read, so Prev/Next feels instant instead of starting a fresh
+  // fetch on click. Fire-and-forget: no need to track or cancel these.
+  useEffect(() => {
+    if (!section || !pageCount) return;
+    [page - 1, page + 1].forEach((neighbor) => {
+      if (neighbor < 1 || neighbor > pageCount) return;
+      new Image().src = getPageUrl(test.id, section, neighbor);
+    });
+  }, [page, section, pageCount, test.id]);
+
   const persist = useCallback((patch) => {
     if (!test) return;
     saveAttempt(user?.id, test.id, {

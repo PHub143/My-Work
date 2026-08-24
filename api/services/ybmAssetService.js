@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { Readable, PassThrough } = require('stream');
 const googleDriveService = require('./googleDriveService');
 
 function createServiceError(status, message) {
@@ -53,18 +54,63 @@ const resolveAsset = (testId, filename) => {
   return { fileId, mimeType };
 };
 
+// In-memory cache of previously-streamed Drive bytes, so repeat requests
+// (other students opening the same test, a browser without a cached copy)
+// are served from process memory instead of paying a live Drive round-trip
+// each time. Bounded by total bytes rather than entry count since booklet
+// pages and the listening track vary wildly in size; oldest entries evict
+// first once the budget is exceeded. Resets on process restart — that's
+// fine, it's a speed optimization, not a source of truth (Drive still is).
+const CACHE_BUDGET_BYTES = Number(process.env.YBM_ASSET_CACHE_MB || 150) * 1024 * 1024;
+const contentCache = new Map(); // fileId -> Buffer
+let cachedBytes = 0;
+
+function rememberAsset(fileId, buffer) {
+  if (buffer.length > CACHE_BUDGET_BYTES) return;
+
+  cachedBytes += buffer.length;
+  contentCache.set(fileId, buffer);
+  while (cachedBytes > CACHE_BUDGET_BYTES && contentCache.size > 0) {
+    const oldestKey = contentCache.keys().next().value;
+    cachedBytes -= contentCache.get(oldestKey).length;
+    contentCache.delete(oldestKey);
+  }
+}
+
 /**
- * Streams an asset's bytes from Drive by file ID.
+ * Streams an asset's bytes from Drive by file ID, serving from the in-memory
+ * cache when available.
  * @param {string} fileId
  * @returns {Promise<NodeJS.ReadableStream>}
  */
 const streamAsset = async (fileId) => {
+  const cached = contentCache.get(fileId);
+  if (cached) {
+    // Re-insert to refresh LRU order (Map iterates in insertion order).
+    contentCache.delete(fileId);
+    contentCache.set(fileId, cached);
+    return Readable.from(cached);
+  }
+
   const { drive } = await googleDriveService.getDriveClient();
   const response = await drive.files.get(
     { fileId, alt: 'media', supportsAllDrives: true },
     { responseType: 'stream' },
   );
-  return response.data;
+
+  // Tee the Drive stream: pipe it straight to the caller (no added latency
+  // to first byte) while also buffering it to populate the cache once it
+  // finishes, for the next request.
+  const driveStream = response.data;
+  const out = new PassThrough();
+  const chunks = [];
+
+  driveStream.on('data', (chunk) => chunks.push(chunk));
+  driveStream.on('end', () => rememberAsset(fileId, Buffer.concat(chunks)));
+  driveStream.on('error', (error) => out.emit('error', error));
+  driveStream.pipe(out);
+
+  return out;
 };
 
 module.exports = { resolveAsset, streamAsset };
