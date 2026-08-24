@@ -1380,6 +1380,55 @@ const PRACTICE_CONTROL_CONFIGS = {
       swaggerProvidesDocs: 'Yes',
     },
   },
+  133: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'step1',
+        label: 'Step 1',
+        options: [
+          'Pull an image from Docker Hub.',
+          'Run the container and specify an API key and the Endpoint URL of the Azure AI resource.',
+          'Provision an on-premises Kubernetes cluster that is isolated from the internet.',
+          'Provision an on-premises Kubernetes cluster that has internet connectivity.',
+          'Provision an Azure Kubernetes Service (AKS) resource.',
+          'Run the container and specify an App ID and Client Secret.',
+          'Pull an image from the Microsoft Container Registry (MCR).',
+        ],
+      },
+      {
+        id: 'step2',
+        label: 'Step 2',
+        options: [
+          'Pull an image from Docker Hub.',
+          'Run the container and specify an API key and the Endpoint URL of the Azure AI resource.',
+          'Provision an on-premises Kubernetes cluster that is isolated from the internet.',
+          'Provision an on-premises Kubernetes cluster that has internet connectivity.',
+          'Provision an Azure Kubernetes Service (AKS) resource.',
+          'Run the container and specify an App ID and Client Secret.',
+          'Pull an image from the Microsoft Container Registry (MCR).',
+        ],
+      },
+      {
+        id: 'step3',
+        label: 'Step 3',
+        options: [
+          'Pull an image from Docker Hub.',
+          'Run the container and specify an API key and the Endpoint URL of the Azure AI resource.',
+          'Provision an on-premises Kubernetes cluster that is isolated from the internet.',
+          'Provision an on-premises Kubernetes cluster that has internet connectivity.',
+          'Provision an Azure Kubernetes Service (AKS) resource.',
+          'Run the container and specify an App ID and Client Secret.',
+          'Pull an image from the Microsoft Container Registry (MCR).',
+        ],
+      },
+    ],
+    correct: {
+      step1: 'Provision an on-premises Kubernetes cluster that has internet connectivity.',
+      step2: 'Pull an image from the Microsoft Container Registry (MCR).',
+      step3: 'Run the container and specify an API key and the Endpoint URL of the Azure AI resource.',
+    },
+  },
   134: {
     type: 'dropdowns',
     controls: [
