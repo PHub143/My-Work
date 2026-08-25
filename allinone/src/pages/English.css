@@ -1,9 +1,11 @@
-/* YBM test hub. Theme-dependent colors are declared as custom properties on
-   .ybm-page (a parent that shares no class with its children) so the
-   lightningcss minifier cannot strip the [data-theme] selectors — see
-   .cursor/rules/light-dark-mode-text-contrast.mdc */
+/* YBM test hub. .ybm-container is the full-width page shell (LearningTabs'
+   sticky bar lives here, unconstrained, matching .ai103-container); .ybm-page
+   is the centered reading column inside it. Theme-dependent colors are
+   declared as custom properties on .ybm-container (a parent that shares no
+   class with its children) so the lightningcss minifier cannot strip the
+   [data-theme] selectors — see .cursor/rules/light-dark-mode-text-contrast.mdc */
 
-.ybm-page {
+.ybm-container {
   --ybm-text: #17101f;
   --ybm-muted: #17101f;
   --ybm-card-bg: #ffffff;
@@ -15,13 +17,19 @@
   --ybm-done-bg: #1c7a4a;
   --ybm-active-bg: #b4590c;
 
+  min-height: 100%;
+  background: var(--color-system-background);
+  color: var(--ybm-text);
+}
+
+.ybm-page {
   max-width: 1120px;
   margin: 0 auto;
   padding: 0 1rem 3rem;
   color: var(--ybm-text);
 }
 
-[data-theme='light'] .ybm-page {
+[data-theme='light'] .ybm-container {
   --ybm-text: #17101f;
   --ybm-muted: #17101f;
   --ybm-card-bg: #ffffff;
@@ -30,7 +38,7 @@
   --ybm-badge-bg: rgba(23, 16, 31, 0.08);
 }
 
-[data-theme='dark'] .ybm-page {
+[data-theme='dark'] .ybm-container {
   --ybm-text: #fef9f0;
   --ybm-muted: #fef9f0;
   --ybm-card-bg: rgba(254, 249, 240, 0.06);

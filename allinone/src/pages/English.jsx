@@ -72,72 +72,74 @@ const English = () => {
   const readyCount = tests.filter(({ status }) => status.kind !== 'unavailable').length;
 
   return (
-    <div className="ybm-page">
+    <div className="ybm-container">
       <LearningTabs />
 
-      <ToeicCollectionSwitch active="ybm" />
+      <div className="ybm-page">
+        <ToeicCollectionSwitch active="ybm" />
 
-      <nav className="ybm-volumes" aria-label="YBM volumes">
-        {YBM_VOLUMES.map((entry) => {
-          const isDisabled = DISABLED_VOLUME_IDS.has(entry.id);
-          return (
-            <button
-              key={entry.id}
-              type="button"
-              className={`ybm-volume-tab${entry.id === volume.id ? ' is-active' : ''}${isDisabled ? ' is-disabled' : ''}`}
-              aria-current={entry.id === volume.id ? 'page' : undefined}
-              disabled={isDisabled}
-              onClick={() => navigate(`/learning/english/toeic/ybm/${entry.id}`)}
-            >
-              {entry.label}
-            </button>
-          );
-        })}
-      </nav>
-
-      <header className="ybm-header">
-        <div>
-          <h1>{volume.title}</h1>
-          <p>
-            10 full tests · 200 questions each · Listening and Reading in one
-            120-minute sitting.
-          </p>
-        </div>
-        <div className="ybm-header-stat">
-          <strong>{readyCount}</strong>
-          <span>of {volume.tests.length} ready</span>
-        </div>
-      </header>
-
-      <ul className="ybm-test-grid">
-        {tests.map(({ test, status }) => {
-          const disabled = status.kind === 'unavailable';
-
-          return (
-            <li key={test.id}>
+        <nav className="ybm-volumes" aria-label="YBM volumes">
+          {YBM_VOLUMES.map((entry) => {
+            const isDisabled = DISABLED_VOLUME_IDS.has(entry.id);
+            return (
               <button
+                key={entry.id}
                 type="button"
-                className={`ybm-test-card${disabled ? ' is-disabled' : ''}`}
-                disabled={disabled}
-                onClick={() => navigate(
-                  `/learning/english/toeic/ybm/${volume.id}/test/${test.number}`,
-                )}
+                className={`ybm-volume-tab${entry.id === volume.id ? ' is-active' : ''}${isDisabled ? ' is-disabled' : ''}`}
+                aria-current={entry.id === volume.id ? 'page' : undefined}
+                disabled={isDisabled}
+                onClick={() => navigate(`/learning/english/toeic/ybm/${entry.id}`)}
               >
-                <span className="ybm-card-top">
-                  <strong>{test.label}</strong>
-                  <StatusBadge status={status} />
-                </span>
-                <span className="ybm-card-meta">
-                  {status.readiness.hasListening ? 'LC 100' : 'LC —'}
-                  {' · '}
-                  {status.readiness.hasReading ? 'RC 100' : 'RC —'}
-                </span>
-                <MissingNote readiness={status.readiness} />
+                {entry.label}
               </button>
-            </li>
-          );
-        })}
-      </ul>
+            );
+          })}
+        </nav>
+
+        <header className="ybm-header">
+          <div>
+            <h1>{volume.title}</h1>
+            <p>
+              10 full tests · 200 questions each · Listening and Reading in one
+              120-minute sitting.
+            </p>
+          </div>
+          <div className="ybm-header-stat">
+            <strong>{readyCount}</strong>
+            <span>of {volume.tests.length} ready</span>
+          </div>
+        </header>
+
+        <ul className="ybm-test-grid">
+          {tests.map(({ test, status }) => {
+            const disabled = status.kind === 'unavailable';
+
+            return (
+              <li key={test.id}>
+                <button
+                  type="button"
+                  className={`ybm-test-card${disabled ? ' is-disabled' : ''}`}
+                  disabled={disabled}
+                  onClick={() => navigate(
+                    `/learning/english/toeic/ybm/${volume.id}/test/${test.number}`,
+                  )}
+                >
+                  <span className="ybm-card-top">
+                    <strong>{test.label}</strong>
+                    <StatusBadge status={status} />
+                  </span>
+                  <span className="ybm-card-meta">
+                    {status.readiness.hasListening ? 'LC 100' : 'LC —'}
+                    {' · '}
+                    {status.readiness.hasReading ? 'RC 100' : 'RC —'}
+                  </span>
+                  <MissingNote readiness={status.readiness} />
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 };
