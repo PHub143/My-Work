@@ -63,6 +63,7 @@
   text-transform: uppercase;
   color: var(--ybm-muted);
   opacity: 0.6;
+  flex-shrink: 0;
 }
 
 .ybm-crumb-mark {
@@ -86,6 +87,14 @@
   border-radius: 999px;
   background: var(--ybm-badge-bg);
   border: 1px solid var(--ybm-card-border);
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.ybm-crumb-pills::-webkit-scrollbar {
+  display: none;
 }
 
 .ybm-crumb-pill {
@@ -102,6 +111,8 @@
   color: var(--ybm-text);
   opacity: 0.62;
   cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: background-color 0.18s ease, color 0.18s ease, opacity 0.18s ease;
 }
 
