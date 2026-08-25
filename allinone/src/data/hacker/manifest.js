@@ -68,8 +68,36 @@ const VOLUMES = [
     listeningPages: null,
     readingPages: null,
     title: '해커스 신토익 실전 1000제 2 (Hackers New TOEIC 1000 Vol. 2)',
-    listeningPageOverrides: { 1: 12 },
-    readingPageOverrides: { 1: 28 },
+    listeningPageOverrides: {
+      1: 12, 2: 12, 3: 12, 4: 12, 5: 12, 6: 12, 7: 12, 8: 12, 9: 12, 10: 12,
+    },
+    readingPageOverrides: {
+      1: 28, 2: 28, 3: 28, 4: 28, 5: 28, 6: 28, 7: 28, 8: 28, 9: 28, 10: 28,
+    },
+  },
+  {
+    id: 'vol-3',
+    label: 'Vol 3',
+    // Digitised from "해커스 신토익 실전 1000제 3" (source folder "Bộ đề 2
+    // (HACKER 3)"). Unlike vol 2, this book ships as one combined PDF per
+    // section (not per-test files), so page ranges were hunted per test
+    // against the scans — see scripts/hacker/render-pages.mjs's vol 3 entry
+    // for how each range was confirmed. Reading is uniformly 28 pages/test.
+    // Listening is 12 pages/test except test 4, which is only 8 — its
+    // Part 1 photos for questions 1-2 are genuinely missing from the source
+    // scan (confirmed: the page after the Test 4 cover jumps straight to
+    // question 3), not a rendering bug. Students attempting vol-3 test 4
+    // will have no picture for questions 1-2; everything else in every test
+    // is complete.
+    listeningPages: null,
+    readingPages: null,
+    title: '해커스 신토익 실전 1000제 3 (Hackers New TOEIC 1000 Vol. 3)',
+    listeningPageOverrides: {
+      1: 12, 2: 12, 3: 12, 4: 8, 5: 12, 6: 12, 7: 12, 8: 12, 9: 12, 10: 12,
+    },
+    readingPageOverrides: {
+      1: 28, 2: 28, 3: 28, 4: 28, 5: 28, 6: 28, 7: 28, 8: 28, 9: 28, 10: 28,
+    },
   },
 ];
 

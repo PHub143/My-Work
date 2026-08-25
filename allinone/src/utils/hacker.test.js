@@ -21,7 +21,7 @@ const KEY_DIR = fileURLToPath(new URL('../data/hacker/keys/', import.meta.url));
 // --- manifest ---
 
 test('every volume exposes ten tests with stable ids', () => {
-  assert.equal(HACKER_VOLUMES.length, 1);
+  assert.equal(HACKER_VOLUMES.length, 2);
 
   HACKER_VOLUMES.forEach((volume) => {
     assert.equal(volume.tests.length, 10);
@@ -43,11 +43,17 @@ test('getTest resolves by string route params', () => {
   assert.equal(getTest('vol-9', '1'), null);
 });
 
-test('undigitised tests stay unavailable rather than claiming a booklet', () => {
+test('page overrides report the digitised booklet size per test', () => {
   assert.equal(getTest('vol-2', 1).listeningPages, 12);
   assert.equal(getTest('vol-2', 1).readingPages, 28);
-  assert.equal(getTest('vol-2', 2).listeningPages, null);
-  assert.equal(getTest('vol-2', 2).readingPages, null);
+  assert.equal(getTest('vol-3', 1).listeningPages, 12);
+  assert.equal(getTest('vol-3', 1).readingPages, 28);
+  // vol-3 test 4's listening booklet is genuinely 8 pages, not the usual 12
+  // — questions 1-2's photos are missing from the source scan (see the
+  // manifest's vol-3 comment). A future volume with an undigitised test
+  // would report null here instead, same mechanism.
+  assert.equal(getTest('vol-3', 4).listeningPages, 8);
+  assert.equal(getTest('vol-3', 4).readingPages, 28);
 });
 
 // --- part layout ---

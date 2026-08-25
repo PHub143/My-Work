@@ -52,6 +52,39 @@ const VOLUME_SOURCES = {
         : `${SOURCE}/Bộ đề 1 (HACKER 2)/AUDIO HACKER/TEST ${n}.mp3`
     ),
   },
+  // Vol 3 boundaries were hunted page-by-page against the scans (cover pages
+  // found via per-page brightness — TEST NN covers render as solid dark
+  // pages, ~29pt content pages don't), confirmed at both ends of every range
+  // by the printed instructions/"end of test" text. Two gaps are real holes
+  // in the source scan, not extraction bugs: Test 4's Part 1 photos for
+  // questions 1-2 are simply absent from HAKER 3 LISTENING.pdf (content
+  // jumps straight from the Test 4 cover to question 3), and Test 5 has no
+  // cover page in the scan at all (its content follows Test 4's directly) —
+  // confirmed by the printed footer page numbers skipping accordingly in
+  // both cases. Test 5's questions 1-100 and every other test are otherwise
+  // complete.
+  3: {
+    perTest: false,
+    listeningSource: `${SOURCE}/Bộ đề 2 (HACKER 3)/LC/HAKER 3 LISTENING.pdf`,
+    readingSource: `${SOURCE}/Bộ đề 2 (HACKER 3)/RC/HACKER 3 READING_.pdf`,
+    pageRanges: {
+      1: { listening: [2, 13], reading: [2, 29] },
+      2: { listening: [15, 26], reading: [31, 58] },
+      3: { listening: [28, 39], reading: [60, 87] },
+      // Content-only: 8 pages, not the usual 12 — see note above.
+      4: { listening: [41, 48], reading: [89, 116] },
+      5: { listening: [49, 60], reading: [118, 145] },
+      6: { listening: [62, 73], reading: [147, 174] },
+      7: { listening: [75, 86], reading: [176, 203] },
+      8: { listening: [88, 99], reading: [205, 232] },
+      9: { listening: [101, 112], reading: [234, 261] },
+      10: { listening: [114, 125], reading: [263, 290] },
+    },
+    // Per-test recordings are already split, uniformly named `TEST <n>.mp3`
+    // — confirmed directly against the source folder listing, no casing
+    // quirks like vol 2's test 8.
+    audio: (n) => `${SOURCE}/Bộ đề 2 (HACKER 3)/LC/AUDIO/TEST ${n}.mp3`,
+  },
 };
 
 function parseArgs(argv) {
