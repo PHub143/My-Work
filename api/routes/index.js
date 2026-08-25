@@ -6,6 +6,7 @@ const authRoutes = require('./authRoutes');
 const userRoutes = require('./userRoutes');
 const learningRoutes = require('./learningRoutes');
 const ybmAssetRoutes = require('./ybmAssetRoutes');
+const hackerAssetRoutes = require('./hackerAssetRoutes');
 
 // Public health check for uptime monitoring (e.g. UptimeRobot); no DB or Drive access
 router.get('/health', (req, res) => {
@@ -21,5 +22,6 @@ router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/learning', learningRoutes);
 router.use('/', ybmAssetRoutes);
+router.use('/', hackerAssetRoutes);
 
 module.exports = router;

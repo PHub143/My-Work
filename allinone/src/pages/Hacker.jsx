@@ -4,8 +4,8 @@ import './English.css';
 import LearningTabs from '../components/LearningTabs';
 import ToeicCollectionSwitch from '../components/ToeicCollectionSwitch';
 import { useAuth } from '../AuthContext';
-import { YBM_VOLUMES, getVolume } from '../data/ybm/manifest.js';
-import { getTestReadiness, loadAttempt } from '../utils/ybm.js';
+import { HACKER_VOLUMES, getVolume } from '../data/hacker/manifest.js';
+import { getTestReadiness, loadAttempt } from '../utils/hacker.js';
 
 const DEFAULT_VOLUME = 'vol-2';
 const DISABLED_VOLUME_IDS = new Set([]);
@@ -51,7 +51,7 @@ function MissingNote({ readiness }) {
   return <p className="ybm-card-note">Missing: {missing.join(', ')}</p>;
 }
 
-const English = () => {
+const Hacker = () => {
   const navigate = useNavigate();
   const { volumeId } = useParams();
   const { user } = useAuth();
@@ -63,10 +63,10 @@ const English = () => {
   );
 
   if (!volumeId) {
-    return <Navigate to={`/learning/english/toeic/ybm/${DEFAULT_VOLUME}`} replace />;
+    return <Navigate to={`/learning/english/toeic/hacker/${DEFAULT_VOLUME}`} replace />;
   }
   if (!volume || DISABLED_VOLUME_IDS.has(volume.id)) {
-    return <Navigate to={`/learning/english/toeic/ybm/${DEFAULT_VOLUME}`} replace />;
+    return <Navigate to={`/learning/english/toeic/hacker/${DEFAULT_VOLUME}`} replace />;
   }
 
   const readyCount = tests.filter(({ status }) => status.kind !== 'unavailable').length;
@@ -75,10 +75,10 @@ const English = () => {
     <div className="ybm-page">
       <LearningTabs />
 
-      <ToeicCollectionSwitch active="ybm" />
+      <ToeicCollectionSwitch active="hacker" />
 
-      <nav className="ybm-volumes" aria-label="YBM volumes">
-        {YBM_VOLUMES.map((entry) => {
+      <nav className="ybm-volumes" aria-label="Hacker volumes">
+        {HACKER_VOLUMES.map((entry) => {
           const isDisabled = DISABLED_VOLUME_IDS.has(entry.id);
           return (
             <button
@@ -87,7 +87,7 @@ const English = () => {
               className={`ybm-volume-tab${entry.id === volume.id ? ' is-active' : ''}${isDisabled ? ' is-disabled' : ''}`}
               aria-current={entry.id === volume.id ? 'page' : undefined}
               disabled={isDisabled}
-              onClick={() => navigate(`/learning/english/toeic/ybm/${entry.id}`)}
+              onClick={() => navigate(`/learning/english/toeic/hacker/${entry.id}`)}
             >
               {entry.label}
             </button>
@@ -120,7 +120,7 @@ const English = () => {
                 className={`ybm-test-card${disabled ? ' is-disabled' : ''}`}
                 disabled={disabled}
                 onClick={() => navigate(
-                  `/learning/english/toeic/ybm/${volume.id}/test/${test.number}`,
+                  `/learning/english/toeic/hacker/${volume.id}/test/${test.number}`,
                 )}
               >
                 <span className="ybm-card-top">
@@ -142,4 +142,4 @@ const English = () => {
   );
 };
 
-export default English;
+export default Hacker;

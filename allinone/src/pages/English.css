@@ -65,6 +65,29 @@
   opacity: 0.45;
 }
 
+.ybm-crumb-link {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--ybm-muted);
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.ybm-crumb-link:hover {
+  opacity: 1;
+}
+
+.ybm-crumb-link.is-active {
+  color: var(--ybm-text);
+  opacity: 1;
+  cursor: default;
+}
+
 .ybm-volumes {
   display: flex;
   gap: 0.5rem;

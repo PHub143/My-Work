@@ -28,3 +28,7 @@ dist-ssr
 # small Drive-file-id manifest under src/data/ybm/assets/ (that one IS
 # committed) for allinone/src/utils/ybm.js to resolve at runtime.
 public/ybm/
+
+# Same as public/ybm/ above, for the Hacker TOEIC collection
+# (api/scripts/upload-hacker-assets.js / allinone/src/utils/hacker.js).
+public/hacker/

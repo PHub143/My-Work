@@ -19,6 +19,8 @@ const AI102 = lazy(() => import('./pages/AI102'));
 const AI102Practice = lazy(() => import('./pages/AI102Practice'));
 const English = lazy(() => import('./pages/English'));
 const YbmExam = lazy(() => import('./pages/YbmExam'));
+const Hacker = lazy(() => import('./pages/Hacker'));
+const HackerExam = lazy(() => import('./pages/HackerExam'));
 const Users = lazy(() => import('./pages/Users'));
 const Upload = lazy(() => import('./pages/Upload'));
 const Settings = lazy(() => import('./pages/Settings'));
@@ -85,6 +87,11 @@ const AppShell = () => {
               <Route
                 path='/learning/english/toeic/ybm/:volumeId/test/:testNumber'
                 element={<YbmExam />}
+              />
+              <Route path='/learning/english/toeic/hacker/:volumeId' element={<Hacker />} />
+              <Route
+                path='/learning/english/toeic/hacker/:volumeId/test/:testNumber'
+                element={<HackerExam />}
               />
             </Route>
             <Route path='/login' element={<Login />} />
