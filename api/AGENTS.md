@@ -57,7 +57,7 @@ Keep the route/controller/service layering intact.
 
 ## Fullstack Contract
 
-- CORS uses a dynamic origin check. It allows localhost origins and the configured `FRONTEND_URL`; do not replace it with a wildcard.
+- CORS uses a dynamic origin check. It allows localhost origins and the configured `FRONTEND_URL` (comma-separated list of allowed origins); do not replace it with a wildcard.
 - Frontend uses `HashRouter`; OAuth depends on the frontend `OAuthDetector` forwarding query-string `?code` into `#/oauth/callback`.
 
 ## Verification

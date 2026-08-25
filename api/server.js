@@ -20,17 +20,24 @@ const port = process.env.PORT || 3001;
 app.use(express.json());
 
 // Configure CORS for security
+// FRONTEND_URL supports multiple allowed origins, comma-separated
+// (e.g. the GitHub Pages deployment and the Render static site).
+const allowedOrigins = (process.env.FRONTEND_URL || '')
+  .split(',')
+  .map((url) => url.trim())
+  .filter(Boolean);
+
 const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl)
     if (!origin) return callback(null, true);
-    
-    const isLocalhost = origin.startsWith('http://localhost:') || 
+
+    const isLocalhost = origin.startsWith('http://localhost:') ||
                        origin.startsWith('http://127.0.0.1:') ||
                        origin === 'http://localhost' ||
                        origin === 'http://127.0.0.1';
-    
-    if (isLocalhost || origin === process.env.FRONTEND_URL) {
+
+    if (isLocalhost || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
