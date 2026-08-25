@@ -89,14 +89,20 @@ const streamAsset = async (fileId) => {
     // Re-insert to refresh LRU order (Map iterates in insertion order).
     contentCache.delete(fileId);
     contentCache.set(fileId, cached);
+    console.log(`[ybm-timing] ${fileId} cache HIT`);
     return Readable.from(cached);
   }
 
+  const __t0 = Date.now();
+  console.log(`[ybm-timing] ${fileId} cache MISS, fetching Drive client...`);
   const { drive } = await googleDriveService.getDriveClient();
+  console.log(`[ybm-timing] ${fileId} drive client ready in ${Date.now() - __t0}ms`);
+  const __t1 = Date.now();
   const response = await drive.files.get(
     { fileId, alt: 'media', supportsAllDrives: true },
     { responseType: 'stream' },
   );
+  console.log(`[ybm-timing] ${fileId} drive.files.get resolved in ${Date.now() - __t1}ms (total ${Date.now() - __t0}ms)`);
 
   // Tee the Drive stream: pipe it straight to the caller (no added latency
   // to first byte) while also buffering it to populate the cache once it
