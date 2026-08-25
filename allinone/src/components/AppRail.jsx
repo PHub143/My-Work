@@ -43,7 +43,7 @@ const AppRail = () => {
       )
     },
     showContent && {
-      to: '/',
+      to: '/documents',
       label: 'Documents',
       exact: true,
       icon: (

@@ -10,6 +10,7 @@ import { AuthProvider } from './AuthContext';
 import { ThemeProvider } from './ThemeContext';
 import { DriveProvider } from './DriveContext';
 
+const Home = lazy(() => import('./pages/Home'));
 const Documents = lazy(() => import('./pages/Documents'));
 const Gallery = lazy(() => import('./pages/Gallery'));
 const LearningHome = lazy(() => import('./pages/LearningHome'));
@@ -67,7 +68,7 @@ const AppShell = () => {
         <Suspense fallback={<Spinner />}>
           <Routes>
             <Route element={<ProtectedRoute />}>
-              <Route path='/' element={<Documents />} />
+              <Route path='/documents' element={<Documents />} />
               <Route path='/gallery' element={<Gallery />} />
               <Route path='/upload' element={<Upload />} />
             </Route>
@@ -76,6 +77,7 @@ const AppShell = () => {
               <Route path='/settings' element={<Settings />} />
             </Route>
             <Route element={<LearningRoute />}>
+              <Route path='/' element={<Home />} />
               <Route path='/account' element={<Profile />} />
               <Route path='/learning/home' element={<LearningHome />} />
               <Route path='/learning/ai-103' element={<AI103 />} />
