@@ -41,6 +41,13 @@ export function getAudioUrl(testId) {
   return `${ASSET_BASE}/${testId}/listening.mp3`;
 }
 
+// A `kind: "graphic"` passage in transcribed content (a cropped chart/map
+// image that isn't text-representable) points at a plain filename under the
+// test's asset folder, alongside the page images.
+export function getAssetUrl(testId, filename) {
+  return `${ASSET_BASE}/${testId}/${filename}`;
+}
+
 // Per-question audio clips are not split out for this collection yet, so
 // every test plays its one full listening.mp3 (see the equivalent note in
 // utils/ybm.js).
@@ -164,6 +171,22 @@ export function getSectionQuestions(section) {
 }
 
 export { getOptionKeys, getPartForQuestion };
+
+// --- Transcribed reading content --------------------------------------------
+
+// Structured Part 5/6/7 content (question text, choices, and passages
+// transcribed from the source PDF's text layer, cross-checked against the
+// booklet scans) — see data/hacker/content/AGENTS.md. Not every test has
+// this yet; callers must handle a null return and fall back to the scanned
+// booklet image.
+const contentModules = import.meta.glob('../data/hacker/content/*.json', {
+  eager: true,
+  import: 'default',
+});
+
+export function getReadingContent(testId) {
+  return contentModules[`../data/hacker/content/${testId}.json`] || null;
+}
 
 // --- Attempt persistence ---------------------------------------------------
 

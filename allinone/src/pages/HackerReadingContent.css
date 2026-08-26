@@ -1,0 +1,470 @@
+/* Structured Part 5/6/7 reading content — renders inside .ybm-booklet, so it
+   reuses the --exam-* theme variables already scoped on .ybm-exam (see
+   YbmExam.css and .cursor/rules/light-dark-mode-text-contrast.mdc) rather
+   than redeclaring them. */
+
+.hkr-reading {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.hkr-reading-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--exam-border);
+  background: var(--exam-panel);
+}
+
+.hkr-reading-controls button {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--exam-border);
+  background: transparent;
+  color: var(--exam-text);
+}
+
+.hkr-reading-controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.hkr-reading-instruction {
+  flex: 1;
+  font-size: 0.82rem;
+  color: var(--exam-text);
+  opacity: 0.8;
+}
+
+.hkr-reading-body {
+  max-height: 78vh;
+  min-height: 320px;
+  overflow-y: auto;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* --- passage --- */
+
+.hkr-passage {
+  border: 1px solid var(--exam-border);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.hkr-passage p {
+  margin: 0 0 0.65rem;
+}
+
+.hkr-passage p:last-child {
+  margin-bottom: 0;
+}
+
+.hkr-passage-heading {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.hkr-passage-byline {
+  font-size: 0.8rem;
+  opacity: 0.72;
+  margin-bottom: 0.5rem;
+}
+
+.hkr-graphic {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--exam-border);
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.hkr-passage-note {
+  font-size: 0.78rem;
+  opacity: 0.72;
+  margin-bottom: 0.5rem;
+  text-align: right;
+}
+
+.hkr-meta,
+.hkr-fields {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.15rem 0.6rem;
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+}
+
+.hkr-meta dt,
+.hkr-fields dt {
+  opacity: 0.65;
+}
+
+.hkr-meta dd,
+.hkr-fields dd {
+  margin: 0;
+}
+
+.hkr-address {
+  position: relative;
+}
+
+.hkr-letter-date {
+  float: right;
+  opacity: 0.72;
+}
+
+.hkr-salutation {
+  font-weight: 600;
+}
+
+.hkr-intro {
+  opacity: 0.85;
+}
+
+.hkr-signoff {
+  margin-top: 0.75rem;
+}
+
+.hkr-signoff-title {
+  opacity: 0.72;
+  font-size: 0.85rem;
+}
+
+.hkr-blank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.4rem;
+  height: 1.15rem;
+  padding: 0 0.25rem;
+  margin: 0 0.15rem;
+  border-radius: 4px;
+  background: var(--exam-accent);
+  color: var(--exam-accent-text);
+  font-size: 0.68rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  vertical-align: middle;
+}
+
+.hkr-bullets {
+  margin: 0 0 0.65rem;
+  padding-left: 1.2rem;
+}
+
+.hkr-bullets li {
+  margin-bottom: 0.3rem;
+}
+
+.hkr-footnote {
+  font-size: 0.78rem;
+  opacity: 0.72;
+}
+
+/* --- chat --- */
+
+.hkr-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hkr-chat-bubble {
+  border: 1px solid var(--exam-border);
+  border-radius: 10px;
+  padding: 0.5rem 0.7rem;
+  background: var(--exam-panel);
+}
+
+.hkr-chat-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  margin-bottom: 0.2rem;
+}
+
+.hkr-chat-head strong {
+  color: var(--exam-accent);
+}
+
+.hkr-chat-head span {
+  opacity: 0.6;
+}
+
+.hkr-chat-bubble p {
+  margin: 0;
+}
+
+/* --- webpage / comments --- */
+
+.hkr-webpage {
+  border: 1px solid var(--exam-border);
+  border-radius: 6px;
+  padding: 0.5rem 0.7rem;
+  margin-bottom: 0.5rem;
+  background: var(--exam-panel);
+}
+
+.hkr-webpage-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.hkr-webpage-nav {
+  margin-top: 0.3rem;
+  font-size: 0.75rem;
+  opacity: 0.65;
+}
+
+.hkr-section-title {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.hkr-comment {
+  border-left: 2px solid var(--exam-border);
+  padding-left: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.hkr-comment-meta {
+  opacity: 0.7;
+  font-size: 0.82rem;
+}
+
+/* --- table (schedule / invoice) --- */
+
+.hkr-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 0.65rem;
+}
+
+.hkr-table-title {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.hkr-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.hkr-table th,
+.hkr-table td {
+  border: 1px solid var(--exam-border);
+  padding: 0.35rem 0.55rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.hkr-table th {
+  background: var(--exam-panel);
+  font-weight: 600;
+}
+
+.hkr-table-total td {
+  font-weight: 700;
+}
+
+/* --- program (class schedule cards) --- */
+
+.hkr-program {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.hkr-program-day {
+  border: 1px solid var(--exam-border);
+  border-radius: 6px;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+.hkr-program-day-name {
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.hkr-program-time {
+  opacity: 0.72;
+  margin-bottom: 0.2rem;
+}
+
+.hkr-program-title {
+  margin-bottom: 0.2rem;
+}
+
+.hkr-program-instructor {
+  opacity: 0.72;
+}
+
+.hkr-program-cost {
+  font-weight: 600;
+  margin-top: 0.2rem;
+}
+
+/* --- form (registration form key/value grid) --- */
+
+.hkr-form-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.65rem;
+}
+
+.hkr-form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.4rem;
+  border: 1px solid var(--exam-border);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+}
+
+.hkr-form-label {
+  display: block;
+  font-size: 0.72rem;
+  opacity: 0.65;
+}
+
+.hkr-form-value {
+  display: block;
+  font-size: 0.88rem;
+}
+
+/* --- question items --- */
+
+.hkr-reading-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* Choice-less items (e.g. Part 2's "Mark your answer" filler) are just a
+   number and one short line, so two columns fit far more on screen — same
+   layout the printed page itself uses. Grid with grid-auto-flow: column (not
+   CSS multicol) so it fills top-to-bottom then left-to-right, matching the
+   book's own left-column/right-column split; `--rows` is set inline per
+   unit since the row count needed depends on how many items are in it. */
+.hkr-reading-items--columns {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(var(--rows, 1), auto);
+  gap: 0.5rem 0.8rem;
+}
+
+@media (max-width: 640px) {
+  .hkr-reading-items--columns {
+    grid-auto-flow: row;
+    grid-template-rows: none;
+  }
+}
+
+.hkr-q {
+  display: grid;
+  grid-template-columns: 2.3rem 1fr;
+  gap: 0.5rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--exam-border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.hkr-q.is-focused {
+  border-color: var(--exam-accent);
+  border-width: 2px;
+  padding: calc(0.6rem - 1px) calc(0.7rem - 1px);
+}
+
+.hkr-q-num {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.72;
+}
+
+.hkr-q-stem {
+  margin: 0 0 0.5rem;
+  font-size: 0.92rem;
+}
+
+.hkr-q-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.hkr-q-choices button {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  padding: 0.35rem 0.55rem;
+  border-radius: 6px;
+  border: 1px solid var(--exam-border);
+  background: transparent;
+  color: var(--exam-text);
+  font-size: 0.85rem;
+}
+
+.hkr-q-choices--sentence button {
+  white-space: normal;
+}
+
+.hkr-q-choices button b {
+  display: inline-block;
+  width: 1.1rem;
+  color: var(--exam-accent);
+}
+
+.hkr-q-choices button.is-picked {
+  background: var(--exam-accent);
+  color: var(--exam-accent-text);
+  border-color: transparent;
+}
+
+.hkr-q-choices button.is-picked b {
+  color: inherit;
+}
+
+.hkr-q-choices button.is-correct {
+  background: var(--exam-correct);
+  color: var(--exam-correct-text);
+  border-color: transparent;
+}
+
+.hkr-q-choices button.is-correct b {
+  color: inherit;
+}
+
+.hkr-q-choices button.is-incorrect {
+  background: var(--exam-warn);
+  color: var(--exam-warn-text);
+  border-color: transparent;
+}
+
+.hkr-q-choices button.is-incorrect b {
+  color: inherit;
+}
+
+.hkr-q-choices button:disabled {
+  cursor: not-allowed;
+}

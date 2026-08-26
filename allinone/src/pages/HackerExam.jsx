@@ -10,13 +10,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import './YbmExam.css';
 import { useAuth } from '../AuthContext';
 import { PARTS, getTest } from '../data/hacker/manifest.js';
+import HackerReadingContent from './HackerReadingContent.jsx';
 import {
   clearAttempt,
   getAnswerKey,
+  getAssetUrl,
   getAudioUrl,
   getOptionKeys,
   getPageUrl,
+  getPartForQuestion,
   getQuestionAudioUrl,
+  getReadingContent,
   getTestReadiness,
   loadAttempt,
   saveAttempt,
@@ -276,6 +280,74 @@ const ExamRunner = ({ test, volumeId }) => {
   const pageUrl = section ? getPageUrl(test.id, section, page) : null;
   const audioUrl = section === 'listening' ? (questionAudioUrl || getAudioUrl(test.id)) : null;
 
+  // When a test has transcribed content for the focused question's part, the
+  // booklet panel renders real text instead of the scanned page image — see
+  // data/hacker/content/AGENTS.md. Gated per-part (not per-section) because
+  // a test can have Part 3/4 listening content transcribed while Part 1/2
+  // stay image-only (nothing printed there beyond a photo). Falls back to
+  // the image for any part that isn't transcribed yet.
+  const readingContent = useMemo(() => getReadingContent(test.id), [test.id]);
+  const focusPart = getPartForQuestion(focus)?.part;
+  const useStructuredContent = Boolean(readingContent?.parts?.[String(focusPart)]);
+  const assetUrl = useCallback((filename) => getAssetUrl(test.id, filename), [test.id]);
+
+  // While viewing the scanned booklet (a part with no transcribed content,
+  // e.g. Listening Parts 1-2), the "Next" page button used to dead-end at
+  // the booklet's last physical page even when a later part in the same
+  // section *does* have transcribed content — leaving no way to reach it
+  // short of clicking directly into the answer sheet. This finds that next
+  // content-bearing part, if any, so Next can hand off into the structured
+  // view instead of just disabling at the last page.
+  const nextContentPart = useMemo(() => {
+    if (!readingContent || useStructuredContent) return null;
+    const sectionParts = PARTS.filter((entry) => entry.section === section);
+    const currentIndex = sectionParts.findIndex((entry) => entry.part === focusPart);
+    for (let i = currentIndex + 1; i < sectionParts.length; i += 1) {
+      if (readingContent.parts?.[String(sectionParts[i].part)]) return sectionParts[i];
+    }
+    return null;
+  }, [readingContent, useStructuredContent, section, focusPart]);
+
+  // The reverse handoff: from the *first* transcribed unit of a section
+  // (e.g. Listening question 32), Prev has nowhere to go within the
+  // transcribed units even though Part 1/2's scanned pages are still right
+  // before it. Finds the nearest earlier image-only part, if any, so Prev
+  // can hand back into the booklet image instead of just disabling.
+  const prevImagePart = useMemo(() => {
+    if (!readingContent || !useStructuredContent) return null;
+    const sectionParts = PARTS.filter((entry) => entry.section === section);
+    const currentIndex = sectionParts.findIndex((entry) => entry.part === focusPart);
+    for (let i = currentIndex - 1; i >= 0; i -= 1) {
+      if (!readingContent.parts?.[String(sectionParts[i].part)]) return sectionParts[i];
+    }
+    return null;
+  }, [readingContent, useStructuredContent, section, focusPart]);
+  const goToPreviousImagePart = useCallback(() => {
+    if (!prevImagePart) return;
+    setFocus(prevImagePart.to);
+    setPage(readingContent?.imageOnlyPages?.[section] ?? 1);
+  }, [prevImagePart, readingContent, section]);
+
+  // Once a later part of this section is fully transcribed (e.g. Listening
+  // Part 3/4), its raw scanned pages are never shown, so there's no reason
+  // to page through — or preload — the rest of the booklet's images while
+  // still on Part 1/2. `imageOnlyPages` records how many leading pages
+  // actually belong to a not-yet-transcribed part; there's no other
+  // page<->question mapping to derive that from. Falls back to the full
+  // booklet page count for a test with no transcribed content at all.
+  const imagePageCount = readingContent?.imageOnlyPages?.[section] ?? pageCount;
+
+  // Same idea, but for the section boundary itself: at the true end of a
+  // section's transcribed content (e.g. Listening question 100), offer a way
+  // into the next section rather than just disabling Next.
+  const nextSection = sections[sections.indexOf(section) + 1] || null;
+  const goToNextSection = useCallback(() => {
+    if (!nextSection) return;
+    setSection(nextSection);
+    setPage(1);
+    setFocus(sectionRange(nextSection)[0]);
+  }, [nextSection]);
+
   // Booklet pages and audio stream from Drive through the API (see hacker.js),
   // which is noticeably slower than a static file — show a spinner rather
   // than a blank/broken-looking gap while each new URL is in flight. Tracking
@@ -291,12 +363,12 @@ const ExamRunner = ({ test, volumeId }) => {
   // is being read, so Prev/Next feels instant instead of starting a fresh
   // fetch on click. Fire-and-forget: no need to track or cancel these.
   useEffect(() => {
-    if (!section || !pageCount) return;
+    if (!section || !imagePageCount || useStructuredContent) return;
     [page - 1, page + 1].forEach((neighbor) => {
-      if (neighbor < 1 || neighbor > pageCount) return;
+      if (neighbor < 1 || neighbor > imagePageCount) return;
       new Image().src = getPageUrl(test.id, section, neighbor);
     });
-  }, [page, section, pageCount, test.id]);
+  }, [page, section, imagePageCount, test.id, useStructuredContent]);
 
   const persist = useCallback((patch) => {
     if (!test) return;
@@ -477,40 +549,65 @@ const ExamRunner = ({ test, volumeId }) => {
 
       <div className="ybm-exam-body">
         <section className="ybm-booklet" aria-label="Test booklet">
-          <div className="ybm-booklet-controls">
-            <button type="button" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
-              ← Prev
-            </button>
-            <span>Page {page} / {pageCount}</span>
-            <button
-              type="button"
-              disabled={page >= pageCount}
-              onClick={() => setPage((p) => p + 1)}
-            >
-              Next →
-            </button>
-            <span className="ybm-zoom">
-              <button type="button" onClick={() => setZoom((z) => Math.max(0.5, z - 0.25))}>−</button>
-              <span>{Math.round(zoom * 100)}%</span>
-              <button type="button" onClick={() => setZoom((z) => Math.min(3, z + 0.25))}>+</button>
-            </span>
-          </div>
-
-          <div className="ybm-booklet-viewport">
-            {!pageLoaded && (
-              <div className="ybm-loading" role="status">
-                <span className="ybm-spinner" aria-hidden="true" />
-                <span>Loading page…</span>
-              </div>
-            )}
-            <img
-              src={pageUrl}
-              alt={`${test.label} ${section} booklet page ${page}`}
-              style={{ width: `${zoom * 100}%`, display: pageLoaded ? 'inline-block' : 'none' }}
-              onLoad={() => setLoadedPageUrl(pageUrl)}
-              onError={() => setLoadedPageUrl(pageUrl)}
+          {useStructuredContent ? (
+            <HackerReadingContent
+              content={readingContent}
+              section={section}
+              focus={focus}
+              onFocusChange={handleFocusChange}
+              selections={selections}
+              onSelect={handleSelect}
+              disabled={Boolean(result)}
+              correctAnswers={correctAnswers}
+              assetUrl={assetUrl}
+              nextSectionLabel={nextSection === 'listening' ? 'Listening' : 'Reading'}
+              onGoToNextSection={nextSection ? goToNextSection : null}
+              onGoToPreviousPart={prevImagePart ? goToPreviousImagePart : null}
             />
-          </div>
+          ) : (
+            <>
+              <div className="ybm-booklet-controls">
+                <button type="button" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
+                  ← Prev
+                </button>
+                <span>Page {page} / {imagePageCount}</span>
+                <button
+                  type="button"
+                  disabled={page >= imagePageCount && !nextContentPart}
+                  onClick={() => {
+                    if (page >= imagePageCount && nextContentPart) {
+                      handleFocusChange(nextContentPart.from);
+                      return;
+                    }
+                    setPage((p) => p + 1);
+                  }}
+                >
+                  {page >= imagePageCount && nextContentPart ? 'Continue →' : 'Next →'}
+                </button>
+                <span className="ybm-zoom">
+                  <button type="button" onClick={() => setZoom((z) => Math.max(0.5, z - 0.25))}>−</button>
+                  <span>{Math.round(zoom * 100)}%</span>
+                  <button type="button" onClick={() => setZoom((z) => Math.min(3, z + 0.25))}>+</button>
+                </span>
+              </div>
+
+              <div className="ybm-booklet-viewport">
+                {!pageLoaded && (
+                  <div className="ybm-loading" role="status">
+                    <span className="ybm-spinner" aria-hidden="true" />
+                    <span>Loading page…</span>
+                  </div>
+                )}
+                <img
+                  src={pageUrl}
+                  alt={`${test.label} ${section} booklet page ${page}`}
+                  style={{ width: `${zoom * 100}%`, display: pageLoaded ? 'inline-block' : 'none' }}
+                  onLoad={() => setLoadedPageUrl(pageUrl)}
+                  onError={() => setLoadedPageUrl(pageUrl)}
+                />
+              </div>
+            </>
+          )}
 
           {section === 'listening' && (
             <div className="ybm-audio">
