@@ -101,7 +101,10 @@ function AnswerSheet({ section, selections, onSelect, disabled, focus, onFocusCh
                           aria-label={`Question ${number} answer ${option}`}
                           aria-pressed={picked}
                           className={className}
-                          onClick={() => onSelect(number, option)}
+                          onClick={() => {
+                            onSelect(number, option);
+                            onFocusChange(number);
+                          }}
                         >
                           {option}
                         </button>
