@@ -132,7 +132,7 @@ content file with a bug never changes what counts as correct.
 
 ## Adding a test
 
-1. Confirm `keys/<test-id>.json` and the rendered booklet images already exist (this is transcription, not digitization — see the `ybm-toeic-digitizer` skill for producing those first).
+1. Confirm `keys/<test-id>.json` and the rendered booklet images already exist (this is transcription, not digitization — see the `toeic-maker` skill's Part 1 for producing those first).
 2. `pdftotext -f <first> -l <last> -layout <source pdf>` for the test's reading and/or listening page range (see `scripts/hacker/render-pages.mjs`'s `pageRanges` for the range).
 3. Transcribe part by part into the schema above, cross-checking prose paragraphs and any "Look at the graphic" pages against the rendered images as described.
 4. Validate: every relevant question number appears exactly once across the transcribed parts' `items` (directly, or nested in a `sets[].items`/`graphics[]` group), and every item that has `choices` has all of them (4, or 3 for Part 2's own question-response range). A quick Node script with `require()` on the JSON and a duplicate/missing-number check (as used while building `vol-2-test-01.json`) catches most mistakes before they reach the app.

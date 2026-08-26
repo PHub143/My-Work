@@ -1,0 +1,838 @@
+{
+  "testId": "vol-2-test-02",
+  "source": "Bộ đề 1 (HACKER 2)/HACKER 2 LISTENING.pdf pages 16-27 and HACKER 2 READING.pdf pages 32-59 (text layer) cross-checked against the rendered booklet images",
+  "note": "Parts 2-7 transcribed (questions 7-200). Part 1 (questions 1-6) is photos only, so it stays on the scanned booklet page — see data/hacker/content/AGENTS.md. Part 2's items have no `choices`: the book prints nothing per question but \"Mark your answer on your answer sheet.\" `graphics` on Parts 3/4 attach the printed table/notice/chart a group of 3 questions shares; `kind: \"graphic\"` passages point at cropped image assets (lc-graphic-069.jpg, lc-graphic-099.jpg) for the two visuals that aren't text-representable (a bar chart and a pie chart).",
+  "imageOnlyPages": {
+    "listening": 4
+  },
+  "parts": {
+    "2": {
+      "type": "text-only",
+      "batchSize": 25,
+      "items": [
+        { "number": 7, "stem": "Mark your answer on your answer sheet." },
+        { "number": 8, "stem": "Mark your answer on your answer sheet." },
+        { "number": 9, "stem": "Mark your answer on your answer sheet." },
+        { "number": 10, "stem": "Mark your answer on your answer sheet." },
+        { "number": 11, "stem": "Mark your answer on your answer sheet." },
+        { "number": 12, "stem": "Mark your answer on your answer sheet." },
+        { "number": 13, "stem": "Mark your answer on your answer sheet." },
+        { "number": 14, "stem": "Mark your answer on your answer sheet." },
+        { "number": 15, "stem": "Mark your answer on your answer sheet." },
+        { "number": 16, "stem": "Mark your answer on your answer sheet." },
+        { "number": 17, "stem": "Mark your answer on your answer sheet." },
+        { "number": 18, "stem": "Mark your answer on your answer sheet." },
+        { "number": 19, "stem": "Mark your answer on your answer sheet." },
+        { "number": 20, "stem": "Mark your answer on your answer sheet." },
+        { "number": 21, "stem": "Mark your answer on your answer sheet." },
+        { "number": 22, "stem": "Mark your answer on your answer sheet." },
+        { "number": 23, "stem": "Mark your answer on your answer sheet." },
+        { "number": 24, "stem": "Mark your answer on your answer sheet." },
+        { "number": 25, "stem": "Mark your answer on your answer sheet." },
+        { "number": 26, "stem": "Mark your answer on your answer sheet." },
+        { "number": 27, "stem": "Mark your answer on your answer sheet." },
+        { "number": 28, "stem": "Mark your answer on your answer sheet." },
+        { "number": 29, "stem": "Mark your answer on your answer sheet." },
+        { "number": 30, "stem": "Mark your answer on your answer sheet." },
+        { "number": 31, "stem": "Mark your answer on your answer sheet." }
+      ]
+    },
+    "3": {
+      "type": "text-only",
+      "items": [
+        { "number": 32, "stem": "What event is taking place?", "choices": { "A": "A business seminar", "B": "An appreciation dinner", "C": "A charity function", "D": "A shareholders' meeting" } },
+        { "number": 33, "stem": "What information does the man ask the woman for?", "choices": { "A": "Her company's name", "B": "Her work address", "C": "Her seat number", "D": "Her confirmation code" } },
+        { "number": 34, "stem": "What will the man most likely do next?", "choices": { "A": "Bring out a beverage", "B": "Explain an agenda", "C": "Check a coat", "D": "Escort a guest" } },
+        { "number": 35, "stem": "What are the speakers mainly discussing?", "choices": { "A": "A client contract", "B": "An accounting error", "C": "A flight booking", "D": "A company regulation" } },
+        { "number": 36, "stem": "What is implied about Samantha?", "choices": { "A": "She was denied reimbursement.", "B": "She doesn't work in the technology department.", "C": "She never travels on company business.", "D": "She has exceeded the expense limit." } },
+        { "number": 37, "stem": "What does the woman say about the company's partners?", "choices": { "A": "Some provide technical services.", "B": "They are satisfied with a change.", "C": "Some have offices around the world.", "D": "They plan to renovate their headquarters." } },
+        { "number": 38, "stem": "What is the topic of the conversation?", "choices": { "A": "Prototype design plans", "B": "Quality control methods", "C": "Computer equipment", "D": "Software installation" } },
+        { "number": 39, "stem": "How will the office manager most likely use the funds?", "choices": { "A": "To buy replacement displays", "B": "To improve a firm's Web site", "C": "To pay for office furniture", "D": "To hire more designers" } },
+        { "number": 40, "stem": "What does the man say he can do?", "choices": { "A": "Reprogram some laptops", "B": "Modify an online order", "C": "Install some of the devices", "D": "Ask employees for their opinions" } },
+        { "number": 41, "stem": "What problem does the woman identify?", "choices": { "A": "She forgot about some plans.", "B": "She cannot go to an event.", "C": "Her car needs to be fixed.", "D": "Her entrance pass is lost." } },
+        { "number": 42, "stem": "What solution does the man suggest?", "choices": { "A": "Printing out some coupons", "B": "Taking public transportation", "C": "Riding with someone else", "D": "Contacting a customer" } },
+        { "number": 43, "stem": "What does the woman inquire about?", "choices": { "A": "Whether she can be picked up", "B": "If she must change her schedule", "C": "How far away a location is", "D": "Where a friend wants to go" } },
+        { "number": 44, "stem": "Why will the speakers meet with a Fieldstone Incorporated representative?", "choices": { "A": "They will sign a finalized contract.", "B": "They will talk about a schedule.", "C": "They will review the changed plan.", "D": "They will confirm a project budget." } },
+        { "number": 45, "stem": "Why does the man say, \"I'm helping out during the early stages\"?", "choices": { "A": "To stress the importance of a project", "B": "To suggest that an ongoing task is almost finished", "C": "To correct the woman's assumption", "D": "To encourage the woman to participate" } },
+        { "number": 46, "stem": "Who is Jenna Adams?", "choices": { "A": "A company executive", "B": "A corporate trainer", "C": "A branch supervisor", "D": "A project manager" } },
+        { "number": 47, "stem": "Why did the woman visit the office?", "choices": { "A": "To interview job candidates", "B": "To serve some customers", "C": "To check on a program", "D": "To ask about her schedule" } },
+        { "number": 48, "stem": "Why is the man pleased?", "choices": { "A": "A job is now available.", "B": "A request was approved.", "C": "Some software works well.", "D": "Customers gave positive feedback." } },
+        { "number": 49, "stem": "What will the man most likely do next week?", "choices": { "A": "Train some personnel", "B": "Transfer departments", "C": "Upgrade a system", "D": "Start a new position" } },
+        { "number": 50, "stem": "Where most likely are the speakers?", "choices": { "A": "At a clothing boutique", "B": "At a retail outlet", "C": "At a department store", "D": "At a beauty salon" } },
+        { "number": 51, "stem": "What does the woman want to do?", "choices": { "A": "Get a hair cut", "B": "Make a purchase", "C": "Arrange an appointment", "D": "Speak to a manager" } },
+        { "number": 52, "stem": "What does the man say about Nature's Touch brand?", "choices": { "A": "It is used by some of the stylists.", "B": "It is made with organic ingredients.", "C": "It is completely sold out.", "D": "It is on sale." } },
+        { "number": 53, "stem": "What did the woman recently do?", "choices": { "A": "Delivered a presentation", "B": "Visited a new store", "C": "Joined a team", "D": "Reviewed a document" } },
+        { "number": 54, "stem": "What problem does the woman mention?", "choices": { "A": "A financial report was inaccurate.", "B": "A new service failed.", "C": "A company's sales have decreased.", "D": "A competitor offers larger discounts." } },
+        { "number": 55, "stem": "What does the man imply when he says, \"That's what I'm getting at\"?", "choices": { "A": "The man will receive a project report.", "B": "They need to hire an outside consultant.", "C": "They will increase the number of stores.", "D": "The woman has identified a problem." } },
+        { "number": 56, "stem": "What does the man plan to do on Saturday?", "choices": { "A": "Stop by a trade show", "B": "Go to a photography class", "C": "Attend an exhibit opening", "D": "Participate in a workshop" } },
+        { "number": 57, "stem": "What does the woman say about her friend?", "choices": { "A": "He gave away the tickets.", "B": "He has another commitment.", "C": "He took some photos.", "D": "He already had lunch." } },
+        { "number": 58, "stem": "What will the man probably do before going to Mendez Gallery?", "choices": { "A": "Explore a museum", "B": "Meet a relative", "C": "Contact a colleague", "D": "Visit a dining establishment" } },
+        { "number": 59, "stem": "What is the man inquiring about?", "choices": { "A": "The installation of some equipment", "B": "The deadline for a project", "C": "The status of a delivery", "D": "The progress of some research" } },
+        { "number": 60, "stem": "Where most likely does the man work?", "choices": { "A": "At a research laboratory", "B": "At a delivery company", "C": "At an electronic retailer", "D": "At a supply warehouse" } },
+        { "number": 61, "stem": "Why does the man want to get the item soon?", "choices": { "A": "He has to replace a broken machine.", "B": "He will conduct a product analysis.", "C": "He needs to test its accuracy.", "D": "He requires it for his upcoming work." } },
+        { "number": 62, "stem": "What kind of event are the speakers planning?", "choices": { "A": "A product launch event", "B": "A recruit welcoming party", "C": "An employee's birthday dinner", "D": "A company's anniversary celebration" } },
+        { "number": 63, "stem": "According to the woman, what did some employees indicate they need?", "choices": { "A": "Clear directions to an event venue", "B": "Appropriate food for a dietary restriction", "C": "Additional details about a new business", "D": "Local places to have lunch" } },
+        { "number": 64, "stem": "Look at the graphic. Which establishment does the man say he will contact?", "choices": { "A": "French Delights", "B": "Katy's Confections", "C": "Petra Sweets", "D": "Norman's Bakery" } },
+        { "number": 65, "stem": "What did the man do in advance?", "choices": { "A": "Obtained a discount coupon", "B": "Contacted a class instructor", "C": "Purchased a course textbook", "D": "Completed a registration form" } },
+        { "number": 66, "stem": "Look at the graphic. Which instructor will teach the man's class?", "choices": { "A": "Kevin Garcia", "B": "Shelley Marks", "C": "Dylan White", "D": "Melissa Durand" } },
+        { "number": 67, "stem": "What does the woman offer to do?", "choices": { "A": "Reduce a fee", "B": "Provide location information", "C": "Take down some notes", "D": "Print out some materials" } },
+        { "number": 68, "stem": "Why are the speakers in a rush?", "choices": { "A": "They have to participate in a work seminar.", "B": "They have to meet with an important investor.", "C": "They need to go to a sales presentation.", "D": "They need to attend a press conference." } },
+        { "number": 69, "stem": "Look at the graphic. When did a promotional event take place?", "choices": { "A": "In July", "B": "In August", "C": "In September", "D": "In October" } },
+        { "number": 70, "stem": "What must the speakers still complete?", "choices": { "A": "A memo for their department", "B": "A handout for a training session", "C": "An outline of a report", "D": "A template for a questionnaire" } }
+      ],
+      "graphics": [
+        {
+          "questions": [62, 63, 64],
+          "passage": {
+            "kind": "notice",
+            "heading": "Store Directory",
+            "table": {
+              "rows": [
+                ["French Delights", "", "Katy's Confections", "The Westwood Building"],
+                ["Petra Sweets", "Norman's Bakery", "Marshall Park", ""]
+              ]
+            }
+          }
+        },
+        {
+          "questions": [65, 66, 67],
+          "passage": {
+            "kind": "schedule",
+            "table": {
+              "columns": ["Day", "Time", "Instructor"],
+              "rows": [
+                ["Tuesday", "7 A.M.-8 A.M.", "Kevin Garcia"],
+                ["Tuesday", "8 P.M.-9 P.M.", "Shelley Marks"],
+                ["Thursday", "7 A.M.-8 A.M.", "Dylan White"],
+                ["Thursday", "8 P.M.-9 P.M.", "Melissa Durand"]
+              ]
+            }
+          }
+        },
+        {
+          "questions": [68, 69, 70],
+          "passage": {
+            "kind": "graphic",
+            "asset": "lc-graphic-069.jpg",
+            "alt": "Monthly Sales Results bar chart, July through October, with bars at roughly $30,000 in July, $35,000 in August, $44,000 in September, and $36,000 in October"
+          }
+        }
+      ]
+    },
+    "4": {
+      "type": "text-only",
+      "items": [
+        { "number": 71, "stem": "What is the purpose of the message?", "choices": { "A": "To request a refund", "B": "To report an issue", "C": "To confirm an appointment", "D": "To reschedule a meeting" } },
+        { "number": 72, "stem": "According to the speaker, what is a benefit of the Weyden Platinum?", "choices": { "A": "It has a powerful motor.", "B": "It has multiple settings.", "C": "It is simple to move around.", "D": "It is available online." } },
+        { "number": 73, "stem": "What does the speaker recommend?", "choices": { "A": "Seeing a device in person", "B": "Attending a product demonstration", "C": "Participating in a contest", "D": "Returning an item to a shop" } },
+        { "number": 74, "stem": "What kind of product is being advertised?", "choices": { "A": "A vitamin tablet", "B": "A diet supplement", "C": "A sports beverage", "D": "An athletic shoe" } },
+        { "number": 75, "stem": "What does the speaker mention about Power Source?", "choices": { "A": "It is sold in a variety of sizes.", "B": "It was developed for professional athletes.", "C": "It has received positive reviews.", "D": "It includes several kinds of vitamins." } },
+        { "number": 76, "stem": "What does the speaker mean when he says, \"This won't last for long\"?", "choices": { "A": "A product is only available in certain seasons.", "B": "A promotion is expected to be popular.", "C": "A new flavor is scheduled to be launched.", "D": "A warranty will expire at the end of the month." } },
+        { "number": 77, "stem": "Where does Mr. Powell most likely work?", "choices": { "A": "At a real estate office", "B": "At an architectural firm", "C": "At an advertising agency", "D": "At a Web design company" } },
+        { "number": 78, "stem": "What must the speaker do in the afternoon?", "choices": { "A": "Stop by his office", "B": "Supervise a home construction", "C": "Go to an emergency meeting", "D": "Revise some existing blueprints" } },
+        { "number": 79, "stem": "What does the speaker say Lori Fielding can do?", "choices": { "A": "Set up a viewing", "B": "Copy some documents", "C": "Explain house plans", "D": "Schedule an appointment" } },
+        { "number": 80, "stem": "What is the broadcast mainly about?", "choices": { "A": "A local celebration", "B": "A sports competition", "C": "A new park attraction", "D": "A city music institute" } },
+        { "number": 81, "stem": "Why does the speaker say, \"There's something for everyone\"?", "choices": { "A": "To emphasize the size of the rides", "B": "To encourage families to attend the event", "C": "To suggest other activities", "D": "To explain the fair's popularity" } },
+        { "number": 82, "stem": "According to the speaker, what will happen at 8 P.M.?", "choices": { "A": "A festival will come to an end.", "B": "An official will be interviewed.", "C": "A booth will be set up.", "D": "A musical event will take place." } },
+        { "number": 83, "stem": "What does the speaker say listeners will do?", "choices": { "A": "Observe a professional chef", "B": "Sample some appetizers", "C": "Put on some aprons", "D": "Cook multiple dishes" } },
+        { "number": 84, "stem": "What has the speaker placed on the counters for listeners?", "choices": { "A": "Registration forms", "B": "Recipe printouts", "C": "Baking ingredients", "D": "Kitchen utensils" } },
+        { "number": 85, "stem": "Why do listeners need a partner?", "choices": { "A": "They are doing team-building exercises.", "B": "They have to brainstorm ideas.", "C": "There are limited cooking implements.", "D": "There is a shortage of ingredients." } },
+        { "number": 86, "stem": "Who most likely is the listener?", "choices": { "A": "A museum curator", "B": "A real estate agent", "C": "An artist", "D": "A gallery manager" } },
+        { "number": 87, "stem": "What does the speaker imply when she says, \"It's hard to imagine a better choice\"?", "choices": { "A": "A selected venue is ideal.", "B": "A recent decision has been approved.", "C": "A particular painting is better than the others.", "D": "An agent's opinion is valid." } },
+        { "number": 88, "stem": "What does the speaker instruct the listener to do?", "choices": { "A": "Reschedule an appointment", "B": "Submit a portfolio of work", "C": "Visit a gallery Web page", "D": "Inform her of a decision" } },
+        { "number": 89, "stem": "Who does the speaker say is coming to visit?", "choices": { "A": "The head of a research facility", "B": "An insurance agent", "C": "The director of a major company", "D": "A government inspector" } },
+        { "number": 90, "stem": "Where will the managerial meeting take place?", "choices": { "A": "In the main lobby", "B": "In the factory staff room", "C": "In a conference room", "D": "In the speaker's office" } },
+        { "number": 91, "stem": "According to the speaker, what will be discussed during the meeting?", "choices": { "A": "Details of an upcoming visit", "B": "Upgrades to safety equipment", "C": "New duties for company personnel", "D": "Revised quotas for the factory" } },
+        { "number": 92, "stem": "What is the speaker mainly discussing?", "choices": { "A": "A news conference", "B": "A product launch", "C": "A potential contract", "D": "A corporate merger" } },
+        { "number": 93, "stem": "What does the speaker mention about Hanaway and Glarris Incorporated?", "choices": { "A": "It is developing a consumer product.", "B": "It offers consulting services.", "C": "It operates in Europe.", "D": "It is relocating its main office." } },
+        { "number": 94, "stem": "According to the speaker, what will happen over the next two months?", "choices": { "A": "Some employees will be transferred overseas.", "B": "A company will improve its internal communication.", "C": "Consumers will fill out research questionnaires.", "D": "Materials will be prepared for a trade fair." } },
+        { "number": 95, "stem": "What is the purpose of the message?", "choices": { "A": "To check the status of a project", "B": "To suggest a schedule change", "C": "To confirm an office location", "D": "To cancel an appointment" } },
+        { "number": 96, "stem": "What does the speaker ask the listener to do?", "choices": { "A": "Contact his assistant", "B": "Make a payment", "C": "Approve a plan", "D": "Order some wallpaper" } },
+        { "number": 97, "stem": "Look at the graphic. Which quantity on the invoice has to be updated?", "choices": { "A": "10", "B": "7", "C": "2", "D": "5" } },
+        { "number": 98, "stem": "Who most likely are the listeners?", "choices": { "A": "Financial advisors", "B": "Marketing professionals", "C": "Administrative staff", "D": "Company shareholders" } },
+        { "number": 99, "stem": "Look at the graphic. Which expense will most likely be reduced?", "choices": { "A": "Media", "B": "Printing", "C": "Salaries", "D": "Supplies" } },
+        { "number": 100, "stem": "What will happen next?", "choices": { "A": "A report will be distributed.", "B": "A presentation will be given.", "C": "A task will be explained.", "D": "A decision will be announced." } }
+      ],
+      "graphics": [
+        {
+          "questions": [95, 96, 97],
+          "passage": {
+            "kind": "invoice",
+            "heading": "Bellville Interiors",
+            "table": {
+              "title": "INVOICE",
+              "columns": ["Item", "Quantity", "Cost"],
+              "rows": [
+                ["Sheergloss Wallpaper (1 roll)", "10", "$380.00"],
+                ["Wallpaper glue (1 liter)", "7", "$175.00"],
+                ["Paper roller (1 roller)", "2", "$50.00"],
+                ["Labor (1 hour)", "5", "$200.00"],
+                ["Tax", "", "$80.50"]
+              ]
+            },
+            "totalRow": ["Total", "$885.50"]
+          }
+        },
+        {
+          "questions": [98, 99, 100],
+          "passage": {
+            "kind": "graphic",
+            "asset": "lc-graphic-099.jpg",
+            "alt": "Operating Expenses pie chart divided into Media 23%, Printing 29%, Salaries 37%, and Supplies 11%"
+          }
+        }
+      ]
+    },
+    "5": {
+      "type": "text-only",
+      "items": [
+        { "number": 101, "stem": "The prices in the catalog include both state and national taxes _______ not delivery charges.", "choices": { "A": "but", "B": "neither", "C": "each", "D": "that" } },
+        { "number": 102, "stem": "Cardston Corporation's fiscal records are kept in _______ boxes and are stored according to year.", "choices": { "A": "separate", "B": "separately", "C": "separates", "D": "separation" } },
+        { "number": 103, "stem": "Prior to permanently shutting down, Rebound Media thanked customers for the _______ they had shown over the years.", "choices": { "A": "regret", "B": "support", "C": "strategy", "D": "comfort" } },
+        { "number": 104, "stem": "Visitors to Holidayland need not worry about bringing enough cash, as credit cards are accepted _______ in the resort.", "choices": { "A": "away", "B": "above", "C": "forward", "D": "anywhere" } },
+        { "number": 105, "stem": "Having decided to enter the Asian market, Edgeware Electronics is now seeking regional _______ for its products.", "choices": { "A": "distribute", "B": "distributors", "C": "distributive", "D": "to distribute" } },
+        { "number": 106, "stem": "_______ who wants to reserve a conference room for a meeting can simply e-mail Ms. Bloomberg in administration.", "choices": { "A": "Anyone", "B": "Others", "C": "Them", "D": "Nobody" } },
+        { "number": 107, "stem": "After _______ to build a new home in Victoria, Mr. Redmond hired an interior designer to assist him with decorating the house.", "choices": { "A": "decide", "B": "decides", "C": "decided", "D": "deciding" } },
+        { "number": 108, "stem": "First Bonneville Bank _______ 35 branches of CPG Financial Trust for $90 million, strengthening its presence in the region.", "choices": { "A": "explained", "B": "canceled", "C": "acquired", "D": "committed" } },
+        { "number": 109, "stem": "Psychologists conducted an _______ study about the negative effects of video games on young children.", "choices": { "A": "extent", "B": "extensive", "C": "extensively", "D": "extend" } },
+        { "number": 110, "stem": "Reginald Rentals _______ opened a branch in Sacramento, and after a very short time the new location became profitable.", "choices": { "A": "hardly", "B": "recently", "C": "habitually", "D": "potentially" } },
+        { "number": 111, "stem": "The city council has taken steps _______ improving air quality by introducing measures that limit factory pollution.", "choices": { "A": "out of", "B": "toward", "C": "owing to", "D": "versus" } },
+        { "number": 112, "stem": "The factory is preparing to hire _______ workers for selected manufacturing plants to meet its quarterly production goals.", "choices": { "A": "temporary", "B": "inspected", "C": "sustained", "D": "instructive" } },
+        { "number": 113, "stem": "_______ reviews for Leonard Atwood's new book were very positive, orders for the novel were lower than the publisher had expected.", "choices": { "A": "Furthermore", "B": "Yet", "C": "Although", "D": "Hence" } },
+        { "number": 114, "stem": "Those planning to join the historic district tour are asked to be _______ the center's reception area at 8 A.M. tomorrow.", "choices": { "A": "on", "B": "from", "C": "in", "D": "of" } },
+        { "number": 115, "stem": "_______ ski resorts are frequently busier during peak season in the winter, they do attract hikers in the summer.", "choices": { "A": "Along", "B": "While", "C": "Once", "D": "Apart" } },
+        { "number": 116, "stem": "The organizer of the publicity convention said there is still _______ work to be done, but was not concerned about meeting the deadline.", "choices": { "A": "many", "B": "few", "C": "much", "D": "a lot" } },
+        { "number": 117, "stem": "The appliance maker _______ all repair charges for items that are accompanied by valid warranties.", "choices": { "A": "trades", "B": "waives", "C": "resists", "D": "confines" } },
+        { "number": 118, "stem": "The executive director has asked all production supervisors to monitor the work schedule _______ in the future.", "choices": { "A": "most attentive", "B": "attentive", "C": "more attentively", "D": "attention" } },
+        { "number": 119, "stem": "Ms. Tennyson has a _______ for spotting good investments and a reputation for being bold and visionary.", "choices": { "A": "talent", "B": "contest", "C": "promise", "D": "trend" } },
+        { "number": 120, "stem": "By the time its weeklong promotion was over, Polk Mobile _______ to sell almost its entire inventory of Kelstra smart phones.", "choices": { "A": "manages", "B": "to manage", "C": "had managed", "D": "will manage" } },
+        { "number": 121, "stem": "With the financial crisis over and banks eager to provide loans, it has never been _______ easy for the average person to own a home.", "choices": { "A": "which", "B": "this", "C": "some", "D": "who" } },
+        { "number": 122, "stem": "Dr. Boyle does not generally see any patients _______ appointments, except for cases of emergency.", "choices": { "A": "beside", "B": "without", "C": "inside", "D": "under" } },
+        { "number": 123, "stem": "Customers who sign up for a one-year _______ to Emerald Cable TV by the end of the week will receive a month of free service.", "choices": { "A": "subscribe", "B": "subscriber", "C": "subscription", "D": "subscribes" } },
+        { "number": 124, "stem": "Well attended by dozens of enthusiasts, the launch party for Fiesta Motors' newest sports car was deemed an _______ success.", "choices": { "A": "eligible", "B": "occasional", "C": "idle", "D": "absolute" } },
+        { "number": 125, "stem": "Hector Calma _______ project leader for all Axos activities based in South Africa and is busy preparing to move there for an extended period.", "choices": { "A": "appoint", "B": "appointed", "C": "will appoint", "D": "has been appointed" } },
+        { "number": 126, "stem": "The supervisor is skilled at managing the _______ balance between the needs of staff and those of upper management.", "choices": { "A": "sudden", "B": "delicate", "C": "lenient", "D": "vague" } },
+        { "number": 127, "stem": "Even though subscriptions to the The Marinberg Herald's print edition have steadily declined, its online _______ continues to grow.", "choices": { "A": "definition", "B": "policy", "C": "readership", "D": "broadcast" } },
+        { "number": 128, "stem": "_______ the malfunctions with the Clarity Dishwasher are due to defects or low-quality materials is still being investigated.", "choices": { "A": "So", "B": "Whether", "C": "While", "D": "Among" } },
+        { "number": 129, "stem": "_______ those in the delivery industry had predicted, Volo-Air's new routes helped boost its quarterly earnings significantly.", "choices": { "A": "Instead of", "B": "Up to", "C": "Regardless of", "D": "Just as" } },
+        { "number": 130, "stem": "The mayor was able to _______ her plans for improving job creation through the help of local businesses.", "choices": { "A": "operate", "B": "solidify", "C": "depart", "D": "prevent" } }
+      ]
+    },
+    "6": {
+      "type": "passage-set",
+      "sets": [
+        {
+          "id": "p6-set-131-134",
+          "questions": [131, 132, 133, 134],
+          "instruction": "Questions 131-134 refer to the following advertisement.",
+          "passage": {
+            "kind": "notice",
+            "paragraphs": [
+              "The next time you're in downtown Houston and would like a taste of Asia, visit Sensasia on the second floor of Cheviston Center. Sensasia offers authentic [[131]] from China, Japan, India, Thailand, Korea, and Vietnam.",
+              "[[132]] From Monday to Friday, enjoy handmade sushi prepared with fresh seafood, delicious Korean bibimbap, and tasty Vietnamese pho. On weekends, Hong Kong style dim sum, consisting of various bite-size portions of food, [[133]] along with our regular menu items. And once a month, our chefs introduce something new for diners to try. [[134]], only Sensasia can give you such a wide variety of meals in one location.",
+              "For group reservations, please call 555-4272. To view our menu, please visit our Web site at www.sensasia.com."
+            ]
+          },
+          "items": [
+            { "number": 131, "choices": { "A": "dishes", "B": "materials", "C": "components", "D": "directions" } },
+            { "number": 132, "type": "sentence", "choices": { "A": "Our chefs use exotic seasonings in all of our grilled food.", "B": "Some parts of our restaurant are now being refurbished.", "C": "We serve a wide range of popular Asian cuisine every day.", "D": "Our food is delicious but limited to seafood selections." } },
+            { "number": 133, "choices": { "A": "prepares", "B": "prepared", "C": "is prepared", "D": "preparing" } },
+            { "number": 134, "choices": { "A": "Conversely", "B": "In short", "C": "To that end", "D": "Not to mention" } }
+          ]
+        },
+        {
+          "id": "p6-set-135-138",
+          "questions": [135, 136, 137, 138],
+          "instruction": "Questions 135-138 refer to the following e-mail.",
+          "passage": {
+            "kind": "email",
+            "meta": { "To": "Scott Douglas <sdouglas@evergladeprints.com>", "From": "Edward Kovac <edward.k@collinsconsulting.com>", "Subject": "Brochure alterations", "Date": "8 May" },
+            "salutation": "Dear Mr. Douglas,",
+            "paragraphs": [
+              "Please find attached a copy of the brochure you designed with our comments. Our team has reviewed the draft, and we are [[135]] with the quality of the pamphlet thus far. Despite this, we do require a few changes.",
+              "In particular, there were minor layout and color errors and some important information was [[136]] as well. We left notes in the brochure regarding where the omitted details should go.",
+              "[[137]] Please send us a revised draft when it is ready. We will, of course, be happy to [[138]] the extra cost."
+            ],
+            "closing": "Best wishes,",
+            "signer": "Edward"
+          },
+          "items": [
+            { "number": 135, "choices": { "A": "concerned", "B": "satisfied", "C": "credited", "D": "troubled" } },
+            { "number": 136, "choices": { "A": "allowed", "B": "asserted", "C": "moving", "D": "missing" } },
+            { "number": 137, "type": "sentence", "choices": { "A": "We are not sure why these details were included.", "B": "We need each correction to be reflected precisely.", "C": "We would like you to change the entire layout.", "D": "We ask that you send the invoice for the design we chose." } },
+            { "number": 138, "choices": { "A": "cover", "B": "covered", "C": "covering", "D": "covers" } }
+          ]
+        },
+        {
+          "id": "p6-set-139-142",
+          "questions": [139, 140, 141, 142],
+          "instruction": "Questions 139-142 refer to the following letter.",
+          "passage": {
+            "kind": "letter",
+            "addressBlock": ["Magnum Insurance", "337 Deerborne Avenue", "Banff, Alberta, T2N 4S5", "Canada"],
+            "date": "June 21",
+            "salutation": "Dear Mr. Clayburn,",
+            "paragraphs": [
+              "This letter is to inform you that we have received your insurance claim for hail damage to your home, and we are [[139]] processing it. As you know, the powerful storm last week affected the entire city. As a result, an overwhelming number of homeowners [[140]] assistance. Nevertheless, we are working as speedily as we can to handle these applications.",
+              "An adjustor can inspect your property in a few days. [[141]] You can speed up the process by presenting documentary evidence ahead of time. Still, it may take some weeks to complete all the necessary forms and prepare a compensation [[142]]. We hope you understand. The funds you'll need to carry out the necessary repairs will be transmitted to you as quickly as possible.",
+              "Thank you for your cooperation."
+            ],
+            "signer": "Judith Underwood",
+            "signerTitle": "Claims coordinator"
+          },
+          "items": [
+            { "number": 139, "choices": { "A": "previously", "B": "currently", "C": "surprisingly", "D": "typically" } },
+            { "number": 140, "choices": { "A": "requests", "B": "were requested", "C": "have requested", "D": "had requested" } },
+            { "number": 141, "type": "sentence", "choices": { "A": "You will need to submit your insurance claim as soon as possible.", "B": "He has provided you with the assistance you require.", "C": "Making this investment will raise your home's market value.", "D": "If possible, start photographing the damaged areas of your home." } },
+            { "number": 142, "choices": { "A": "score", "B": "estimate", "C": "history", "D": "receipt" } }
+          ]
+        },
+        {
+          "id": "p6-set-143-146",
+          "questions": [143, 144, 145, 146],
+          "instruction": "Questions 143-146 refer to the following memo.",
+          "passage": {
+            "kind": "notice",
+            "meta": { "To": "All staff", "From": "Susan Ward", "Subject": "Employee handbook", "Date": "April 15" },
+            "paragraphs": [
+              "Thank you to everyone who participated in the discussions with company management. Your comments about some employees being unaware of the procedures for day-to-day operations have been heard. We are now working to [[143]] the situation.",
+              "For starters, we will be publishing the company's standard operating procedures as soon as possible. A printed guide will give management and staff an official reference on the performance of daily tasks. [[144]] Hopefully, it will help move us closer to our goal of having firmly [[145]] policies.",
+              "If any revisions are required, these will be incorporated into a later version of the manual. The final version will also be [[146]] through the company's internal network. If you have any questions, please direct them to your departmental supervisors."
+            ]
+          },
+          "items": [
+            { "number": 143, "choices": { "A": "maintain", "B": "inspect", "C": "address", "D": "ignore" } },
+            { "number": 144, "type": "sentence", "choices": { "A": "A provisional copy of this handbook will be distributed at the next meeting.", "B": "Your comments on the revised manual were very much appreciated.", "C": "A copy of the article may be found in last month's company newsletter.", "D": "We are glad that everyone is now up-to-date on our meeting schedule." } },
+            { "number": 145, "choices": { "A": "establish", "B": "established", "C": "establishing", "D": "establishment" } },
+            { "number": 146, "choices": { "A": "access", "B": "accessible", "C": "accesses", "D": "accessing" } }
+          ]
+        }
+      ]
+    },
+    "7": {
+      "type": "passage-set",
+      "sets": [
+        {
+          "id": "p7-set-147-148",
+          "questions": [147, 148],
+          "instruction": "Questions 147-148 refer to the following form.",
+          "passages": [
+            {
+              "kind": "form",
+              "heading": "Fit Body Monthly Subscription Cancellation",
+              "paragraphs": [
+                "We are sorry to hear that you would like to cancel your subscription.",
+                "To complete the process, please supply the required information below and mail this card back to us. Thank you."
+              ],
+              "fields": [
+                { "label": "Name", "value": "Frederick Davis" },
+                { "label": "Address", "value": "321 Oak Hill Avenue, Fremont, California 94536" },
+                { "label": "E-mail", "value": "f.davis@urmail.com" },
+                { "label": "Telephone", "value": "(650) 555-0646" },
+                { "label": "Reasons for canceling (optional)", "value": "Content" }
+              ],
+              "closingParagraphs": [
+                "Other comments: I received the subscription to your magazine as a gift one year ago. I already have a subscription to a similar publication, so I am not interested in a renewal.",
+                "Please note that should you choose to renew, you may be eligible to receive a 20 percent discount by calling 555-4276."
+              ]
+            }
+          ],
+          "items": [
+            { "number": 147, "stem": "What must Mr. Davis do to stop receiving the publication?", "choices": { "A": "Send an e-mail", "B": "Call the customer service department", "C": "Visit a regional office", "D": "Mail a document" } },
+            { "number": 148, "stem": "Why does Mr. Davis want to end his subscription to Fit Body Monthly?", "choices": { "A": "He finds the magazine too expensive.", "B": "He has a subscription with a similar magazine.", "C": "He is moving out of the country.", "D": "He can read the same articles online." } }
+          ]
+        },
+        {
+          "id": "p7-set-149-150",
+          "questions": [149, 150],
+          "instruction": "Questions 149-150 refer to the following memo.",
+          "passages": [
+            {
+              "kind": "notice",
+              "heading": "MEMORANDUM",
+              "fields": [{ "label": "TO", "value": "All staff" }],
+              "paragraphs": [
+                "We have come to the end of another successful year and would like to thank all our staff members for their hard work. As usual, we are organizing a special holiday evening for you all. This year, it will be held at the Cranfield Hotel on Lakeview Avenue on Dec. 22 at 7:00 P.M. Staff are free to bring their husbands, wives, or partners.",
+                "Reservations need to be made in advance, so please contact Lionel Grimm of the personnel department at ligrimm@austel.com and let him know if you are coming and if you plan to bring a guest."
+              ],
+              "closingParagraphs": ["Thank you!"]
+            }
+          ],
+          "items": [
+            { "number": 149, "stem": "What is the memo mainly about?", "choices": { "A": "Work schedules for the upcoming year", "B": "Taking time off for holidays", "C": "An annual company gathering", "D": "Completing a project by a deadline" } },
+            { "number": 150, "stem": "What are staff members asked to do?", "choices": { "A": "Come to a client meeting", "B": "Send an e-mail to a colleague", "C": "Inform the company of vacation plans", "D": "Confirm a room reservation" } }
+          ]
+        },
+        {
+          "id": "p7-set-151-152",
+          "questions": [151, 152],
+          "instruction": "Questions 151-152 refer to the following text-message chain.",
+          "passages": [
+            {
+              "kind": "chat",
+              "messages": [
+                { "speaker": "Drake Hartford", "time": "10:38", "text": "I'm at the reception area for Dandridge & Associates to check up on the painting crew's progress. I'm not sure about the paint color being used on the rear wall. It's that deep green tone Ms. Bryant wanted, but it doesn't match well with the flooring or front desk." },
+                { "speaker": "Dolly O'Hare", "time": "10:42", "text": "I was afraid that might be the case as it seemed too dark. Could you drop by her office and ask her to come have a look at it? Maybe you can suggest a few colors that are more suitable." },
+                { "speaker": "Drake Hartford", "time": "10:45", "text": "OK. I'll see if she is available and let you know what she wants to do. I'll recommend some colors as well. I think light brown, ivory, or even beige would look nice." },
+                { "speaker": "Drake Hartford", "time": "10:58", "text": "She came and had a look and completely agrees with us. So, I've told the crew members not to continue painting that wall today. She will go with the first option I proposed." },
+                { "speaker": "Dolly O'Hare", "time": "11:00", "text": "Perfect. OK, go ahead and have Triple A Hardware mix up the paint the crew will need. You can get it delivered to the site and have the store bill my account." },
+                { "speaker": "Drake Hartford", "time": "11:09", "text": "I just asked Triple A about the paint, but they are backlogged with other orders and deliveries. The soonest the new paint can be here is at 1 P.M. on Wednesday." },
+                { "speaker": "Dolly O'Hare", "time": "11:11", "text": "No worries. The crew is ahead of schedule anyway, so they can work on other tasks in the meantime." }
+              ]
+            }
+          ],
+          "items": [
+            { "number": 151, "stem": "At 10:42, what does Ms. O'Hare mean when she writes, \"that might be the case\"?", "choices": { "A": "She anticipated a client would be unsatisfied.", "B": "She knew that a colleague was visiting a worksite.", "C": "She thought the paint would not match.", "D": "She realized Ms. Bryant might not be in her office." } },
+            { "number": 152, "stem": "What color of paint will be delivered to Dandridge & Associates?", "choices": { "A": "Deep green", "B": "Light brown", "C": "Ivory", "D": "Beige" } }
+          ]
+        },
+        {
+          "id": "p7-set-153-155",
+          "questions": [153, 154, 155],
+          "instruction": "Questions 153-155 refer to the following announcement.",
+          "passages": [
+            {
+              "kind": "notice",
+              "salutation": "Dear participants,",
+              "paragraphs": [
+                "Welcome to the Fifth Spatial Computing Conference (SCC). Once you have finished registering and received your name badge and program, please head downstairs to the Granville Room for coffee, tea, and a light breakfast. Today's schedule is as follows:"
+              ],
+              "bulletList": [
+                "9:30 A.M. — Welcome reception, Granville Room. Meet other participants and discuss ideas about computing trends, industry innovations, and your hopes for the conference. We ask that you please sit at the table with the number indicated on your name badge. We will seat guests from different specializations together to offer visitors a chance to interact with people working in a variety of fields.",
+                "11 A.M. — Opening explanatory discussion, Gladstone Room. Join Patrizio Vincente, Michelle Bealieu, and Mark Blackwell to discuss developments in spatial computing since last year's conference.",
+                "12:30 P.M. — Lunch break, Granville Room",
+                "1:30 P.M. — Seminars on database technology, image processing, and mobile applications. These will be held in the Gladstone, Halifax, and Johnstone Rooms.",
+                "3:30 P.M. — Seminars on location data, forest mapping, and space analysis. These will be held in the Gladstone, Halifax, and Johnstone Rooms.",
+                "5:30 P.M. — SCC will conclude for the day. But for those who want to stay behind for the next hour to speak with each other and the facilitators about what they've learned, you may head to the Granville Room, where refreshments will continue to be served."
+              ]
+            }
+          ],
+          "items": [
+            { "number": 153, "stem": "What is the purpose of the announcement?", "choices": { "A": "To provide a list of meal times", "B": "To tell participants about events", "C": "To inform attendees of timetable changes", "D": "To propose a tentative conference schedule" } },
+            { "number": 154, "stem": "What is NOT indicated about the welcome reception?", "choices": { "A": "Seating will be assigned by organizers.", "B": "It will begin with an introductory speech.", "C": "It will involve people from different fields.", "D": "Food and beverages will be offered." } },
+            { "number": 155, "stem": "Which venue will be available to attendees after the seminars end?", "choices": { "A": "The Granville Room", "B": "The Halifax Room", "C": "The Johnstone Room", "D": "The Gladstone Room" } }
+          ]
+        },
+        {
+          "id": "p7-set-156-157",
+          "questions": [156, 157],
+          "instruction": "Questions 156-157 refer to the following notice.",
+          "passages": [
+            {
+              "kind": "notice",
+              "heading": "NOTICE",
+              "paragraphs": [
+                "Effective September 2, the National Postal Service (NPS) will introduce a new pricing structure that better reflects the cost of serving various customer segments. The NPS consistently strives to operate as efficiently as possible. However, recent changes mandated by the government have eliminated previous subsidies, and as a result, we are required to source all of our funding from the sale of products and services. The new pricing system is therefore necessary in allowing us to continue providing essential services to our customers. Any future price adjustments will be based on national inflation."
+              ],
+              "table": {
+                "columns": ["Product", "Old Price", "New Price", "% Increase"],
+                "rows": [
+                  ["Domestic letter mail", "$1.00", "$1.20", "20%"],
+                  ["Commercial mail*", "$0.70", "$0.85", "21%"],
+                  ["International mail", "$1.90", "$2.20", "16%"],
+                  ["Metered mail**", "$0.50", "$0.75", "50%"]
+                ]
+              },
+              "footnote": "* Up to 30 grams by weight. ** Available only by special agreement with the National Postal Service."
+            }
+          ],
+          "items": [
+            { "number": 156, "stem": "What is mentioned about the National Postal Service?", "choices": { "A": "Its charges for domestic mail increased the most.", "B": "It recently lost its financial aid.", "C": "It is closing some of its branches.", "D": "It plans to offer a metered mail service." } },
+            { "number": 157, "stem": "Why might rates be raised by the postal service in the future?", "choices": { "A": "To cover expenses related to an expansion", "B": "To adjust for changes in inflation", "C": "To pay for additional staff members", "D": "To allow for mail heavier than 30 grams" } }
+          ]
+        },
+        {
+          "id": "p7-set-158-160",
+          "questions": [158, 159, 160],
+          "instruction": "Questions 158-160 refer to the following notice.",
+          "passages": [
+            {
+              "kind": "notice",
+              "heading": "Ocean Breeze Resort",
+              "paragraphs": [
+                "Kostiak Islands, Seychelles",
+                "Welcome to Ocean Breeze Resort!",
+                "The Kostiak Islands are known for their rich marine life and unique tourist attractions. To enjoy the best of the islands, we recommend that you try these activities:",
+                "Island Hopping — Board one of our boats for a day tour, which will include stops at some of Kostiak's many famous beaches, lagoons, and exotic jungles. Snorkeling gear is provided for those who want to explore Kostiak's extensive coral reefs, which are home to thousands of underwater creatures.",
+                "Miligan Tour — Located south of Kostiak is Miligan, a wildlife preserve where you can interact with monkeys and exotic birds in their natural habitats. Miligan is a 30-minute boat ride from Ocean Breeze Resort.",
+                "Trekking — Join a guided tour of Mt. Amitan and enjoy splendid views of Engle Bay. Our tour guides will accompany you on this adventure.",
+                "To book any of the above activities, please coordinate with the receptionists at the front desk. Discounts will be given to groups of 10 or more."
+              ]
+            }
+          ],
+          "items": [
+            { "number": 158, "stem": "What is the purpose of the notice?", "choices": { "A": "To describe options for activities", "B": "To provide a travel schedule", "C": "To promote special discounts", "D": "To highlight a natural attraction" } },
+            { "number": 159, "stem": "What is indicated in the notice?", "choices": { "A": "All tours need at least two participants.", "B": "Boats will be used on some tours.", "C": "Tourists must pay in advance.", "D": "Reduced rates are not available." } },
+            { "number": 160, "stem": "According to the notice, what will NOT be seen during an Island Hopping trip?", "choices": { "A": "A tropical forest", "B": "Underwater wildlife", "C": "An animal park", "D": "Sandy shores" } }
+          ]
+        },
+        {
+          "id": "p7-set-161-164",
+          "questions": [161, 162, 163, 164],
+          "instruction": "Questions 161-164 refer to the following online chat discussion.",
+          "passages": [
+            {
+              "kind": "chat",
+              "messages": [
+                { "speaker": "Corrine Dealba", "time": "4:32 P.M.", "text": "Hi everyone. So, it sounds like Osment Industrial is interested in hearing a presentation from our firm about an indoor garden. We need to visit their offices and do an assessment next Tuesday afternoon at 3 o'clock. It shouldn't take more than two hours. I think it would be best if three of us visit, as this is potentially a large-scale project." },
+                { "speaker": "Jan Yates", "time": "4:34 P.M.", "text": "I've got to be at Yeltsin Enterprises to supervise a team installing a rooftop garden on Tuesday. But if it's necessary, I can ask Ellen Pearson to cover for me." },
+                { "speaker": "Avery Wong", "time": "4:35 P.M.", "text": "I'm free to go. Do you need us to do anything in regard to the presentation?" },
+                { "speaker": "Kip Villegas", "time": "4:35 P.M.", "text": "I can probably manage it, too." },
+                { "speaker": "Corrine Dealba", "time": "4:36 P.M.", "text": "Please ask Ellen to take your place, Jan. I really need your expertise. Avery, I'll take care of the presentation. I will need you and Kip to take measurements of the space and find out about particular needs, the budget, and other details." },
+                { "speaker": "Kip Villegas", "time": "4:36 P.M.", "text": "Shall we leave from the office together?" },
+                { "speaker": "Corrine Dealba", "time": "4:37 P.M.", "text": "Yes, let's meet in the parking garage at 2:30, and we can drive over together in my car. Is that OK for those who are coming?" },
+                { "speaker": "Avery Wong", "time": "4:38 P.M.", "text": "That works perfectly for me. I'll see you then." },
+                { "speaker": "Corrine Dealba", "time": "4:40 P.M.", "text": "Thanks everyone. See you on Tuesday." }
+              ]
+            }
+          ],
+          "items": [
+            { "number": 161, "stem": "What is inferred about Osment Industrial?", "choices": { "A": "It has a relatively small budget for the work.", "B": "It is constructing a new office space.", "C": "It has asked a firm for a project presentation.", "D": "It rejected several indoor gardening proposals." } },
+            { "number": 162, "stem": "What is Mr. Wong most likely going to do next week?", "choices": { "A": "Modify the terms of a contract", "B": "Measure a potential project space", "C": "Inspect a new rooftop garden", "D": "Oversee a work crew doing an installation" } },
+            { "number": 163, "stem": "At 4:38 P.M., what does Mr. Wong mean when he writes, \"That works perfectly for me\"?", "choices": { "A": "He has no problems with his vehicle.", "B": "He accepts the offer of a ride to an office.", "C": "He is confident he can meet a deadline.", "D": "He feels a presentation needs to be shortened." } },
+            { "number": 164, "stem": "What might Ms. Pearson do on Tuesday afternoon?", "choices": { "A": "Assist Ms. Dealba with a presentation", "B": "Take charge of a gardening firm's office", "C": "Do a job in her coworker's absence", "D": "Pick a colleague up from Bleeker Street" } }
+          ]
+        },
+        {
+          "id": "p7-set-165-167",
+          "questions": [165, 166, 167],
+          "instruction": "Questions 165-167 refer to the following letter.",
+          "passages": [
+            {
+              "kind": "letter",
+              "heading": "Sampat Labs",
+              "note": "Cosmetic Testing — 525 Hilltop Road, New Brunswick, NJ 08901",
+              "date": "April 14",
+              "addressBlock": ["Bethany Fulton", "Little Miss Makeup", "255 Greystone Avenue", "Charlotte, NC 28201"],
+              "salutation": "Dear Ms. Fulton,",
+              "paragraphs": [
+                "For over 30 years, Sampat Labs has helped both large and small manufacturers secure reliable test data on their cosmetic, beauty, and personal care products. Our fully equipped laboratories are staffed by experienced technicians and researchers who understand the issues that most concern consumers, researchers, and manufacturing companies like yours. — [1] —.",
+                "In addition to testing products for its effects on skin, we are able to guide you through the proper methods for mixing chemical ingredients as well as storing and transporting finished goods. — [2] —. We also test how long your products last under a variety of environmental conditions. Moreover, our access to an extensive database of test results from other providers allows us to completely avoid conducting tests on animals. — [3] —.",
+                "Please review the enclosed documentation for complete descriptions of each of our services as well as detailed information on how to submit a product sample for testing. — [4] —. To obtain estimates of specific costs and processing times, you may call me at 555-9476 or e-mail me at j.west@sampatlabs.com.",
+                "Thank you."
+              ],
+              "closing": "Sincerely,",
+              "signer": "Jacob West",
+              "signerTitle": "Client relations, Sampat Labs"
+            }
+          ],
+          "items": [
+            { "number": 165, "stem": "Who most likely is Ms. Fulton?", "choices": { "A": "A laboratory assistant", "B": "A store branch manager", "C": "A client relations representative", "D": "A makeup manufacturer employee" } },
+            { "number": 166, "stem": "What is NOT indicated about Sampat Labs?", "choices": { "A": "It has decades of experience in the industry.", "B": "It can determine how long a product will last.", "C": "It will not perform tests on animals.", "D": "It makes its research data available online." } },
+            { "number": 167, "stem": "In which of the positions marked [1], [2], [3], and [4] does the following sentence best belong? \"In this regard, you can be assured that they will be able to provide you with expert service.\"", "choices": { "A": "[1]", "B": "[2]", "C": "[3]", "D": "[4]" } }
+          ]
+        },
+        {
+          "id": "p7-set-168-171",
+          "questions": [168, 169, 170, 171],
+          "instruction": "Questions 168-171 refer to the following article.",
+          "passages": [
+            {
+              "kind": "article",
+              "heading": "Shopping for Free?",
+              "paragraphs": [
+                "Virtual Mall is the creation of programmer Pat Gustin, who launched the free mobile game just nine months ago. To date, more than 300 thousand people have downloaded the application, of which roughly 60 percent are active at any given time. Such numbers are very appealing for companies who advertise through mobile applications.",
+                "\"The idea of the game is simple,\" says Gustin. \"People rent spaces in a virtual shopping mall and select products to sell from a catalog we provide.\" — [1] —. He explained that if the virtual vendors are able to manage their stores correctly, they make a profit in virtual money. — [2] —.",
+                "The game offers a level of detail and customization that is appreciated by users. It has even proven to be popular among women, a difficult target to reach in the world of mobile gaming. — [3] —.",
+                "Gustin says he is also working on another game called Virtual Farm, to which he will apply the same concepts but in an agricultural setting. — [4] —. He hopes to launch the game by early next year.",
+                "Those interested in learning more about Virtual Mall are encouraged to download the application for free. For details about Gustin's other games, go to www.virtualgamesco.com."
+              ]
+            }
+          ],
+          "items": [
+            { "number": 168, "stem": "What is the main topic of the article?", "choices": { "A": "A new shopping center", "B": "A study about online advertising", "C": "A software manufacturing company", "D": "A simulation game for mobile devices" } },
+            { "number": 169, "stem": "What is NOT mentioned about Virtual Mall?", "choices": { "A": "It has a significant number of players.", "B": "It does not charge its members for downloading.", "C": "It helps to promote the products of real companies.", "D": "It allows user to create multiple characters." } },
+            { "number": 170, "stem": "What is indicated about Pat Gustin?", "choices": { "A": "He left his former job nine months ago.", "B": "He profits from the sale of merchandise.", "C": "He has a background in advertising.", "D": "He is developing a new game." } },
+            { "number": 171, "stem": "In which of the positions marked [1], [2], [3], and [4] does the following sentence best belong? \"They can then use these earnings to improve their stores or purchase items from other sellers.\"", "choices": { "A": "[1]", "B": "[2]", "C": "[3]", "D": "[4]" } }
+          ]
+        },
+        {
+          "id": "p7-set-172-175",
+          "questions": [172, 173, 174, 175],
+          "instruction": "Questions 172-175 refer to the following article.",
+          "passages": [
+            {
+              "kind": "article",
+              "heading": "Business Insider",
+              "byline": "By Tony Litzmark",
+              "paragraphs": [
+                "A 24-hour convenience store franchise has been named the Best Company of the Year by the Midwestern Retailers Federation (MRF). Stop Avenue won the prestigious prize for successfully introducing sandwich bars in its branches, the first of their kind in any regional convenience store. The company emphasized organic and healthy ingredients in a televised advertising campaign a year ago. Since then, the sandwich bar has become increasingly popular among consumers, resulting in a sales boost of 40 percent compared to the previous year.",
+                "Stop Avenue's general director Aaron Patel says the person behind the success of the venture is Felix Richardson, the youngest son of Stop Avenue founder Francis Richardson. Felix took the position of marketing director two years ago, during a time when company sales were declining by 20 percent every quarter. Felix realized he needed to change the way Stop Avenue marketed its products. He gave the stores a new look, offered selective discounts, and introduced the sandwich bars, which ultimately allowed the store to gain a larger consumer share. \"It was a risky venture for Stop Avenue, but Felix proved that the key to staying competitive is change,\" Patel said in an interview with Businessmate Magazine.",
+                "And now the company plans to start targeting female clients between the ages of 20 and 30. \"We will launch a selection of fruit shakes starting next month,\" Patel added, \"using natural ingredients, of course.\" The improvement of Stop Avenue has led to greater franchise numbers. This past month alone, 18 new stores have opened, more than in any other year since the franchise launched. At its present rate of growth, Stop Avenue is expected to include 500 stores within the next two years."
+              ]
+            }
+          ],
+          "items": [
+            { "number": 172, "stem": "Why was the article published?", "choices": { "A": "To introduce a new trend in healthy eating", "B": "To provide product dietary information", "C": "To describe how a business became successful", "D": "To encourage people to start a franchise" } },
+            { "number": 173, "stem": "What is indicated about Felix Richardson?", "choices": { "A": "He was a cofounder of the Stop Avenue stores.", "B": "He made significant changes to increase revenues.", "C": "He works under Mr. Patel's supervision.", "D": "He appeared in a televised promotion." } },
+            { "number": 174, "stem": "What was NOT a method used by Felix Richardson?", "choices": { "A": "Redecorating store interiors", "B": "Adjusting marketing strategies", "C": "Advertising on social network sites", "D": "Offering product discounts" } },
+            { "number": 175, "stem": "According to the article, what is expected to happen over the next two years?", "choices": { "A": "The franchise's management structure will be reorganized.", "B": "Store branches will be linked by a computer network.", "C": "Stop Avenue will hire additional executives.", "D": "A retail company will increase in size." } }
+          ]
+        },
+        {
+          "id": "p7-set-176-180",
+          "questions": [176, 177, 178, 179, 180],
+          "instruction": "Questions 176-180 refer to the following e-mail and schedule.",
+          "passages": [
+            {
+              "kind": "email",
+              "meta": { "To": "Samantha Larson <s.larson@gentrydrivers.com>", "From": "Edwin Matthews <ematthews1965@plainsrealty.com>", "Subject": "April work schedule", "Date": "April 11" },
+              "salutation": "Dear Ms. Larson,",
+              "paragraphs": [
+                "I was informed by your supervisor, Dale Blackburn, that you will be assigned to be Ms. Linda Atkins' new driver. I am Ms. Atkins' personal assistant, so I will be providing you with a regular schedule of appointments that you will be required to transport her to and from. Attached to this e-mail you will find her calendar of appointments for April. Keep in mind that you can expect changes, but I will do my best to notify you of any modifications at least 24 hours in advance.",
+                "Please read through the calendar to find details of each appointment, including the name of the person she is meeting, the time and date of the engagement, and the address or location of the meeting. Also, the individual scheduled to meet with Ms. Atkins on April 16 has yet to reply to the meeting invitation. I will notify you as soon as I know if the client is available for the appointment on that date.",
+                "Should you have any questions, please do not hesitate to reply to this e-mail."
+              ],
+              "closing": "Regards,",
+              "signer": "Edwin Matthews"
+            },
+            {
+              "kind": "schedule",
+              "heading": "Schedule For: Linda Atkins — Plains Realty",
+              "meta": { "From the desk of": "Edwin Matthews" },
+              "table": {
+                "title": "APRIL",
+                "columns": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                "rows": [
+                  ["", "1", "2 — 11 A.M. Ms. Amundsen: 32 Tucson Avenue", "3", "4 — 4 P.M. Ms. Harrow: 22-A North 33rd Street"],
+                  ["7", "8 — 12:30 P.M. Lunch meeting with Mr. and Mrs. Robinson, Prairie Café", "9 — 4 P.M. Mr. Abraham, 433 Murray Street (contract signing)", "10 — 3 P.M. Opening of Blue Star building, 285 Greenwich Street", "11"],
+                  ["14 — 2 P.M. Mr. Mendez: 441 Poplar Avenue", "15", "16 — 10 A.M. Mr. Choi: 907 Broadway", "17 — Leave of absence", "18 — Public holiday"],
+                  ["21 — 9:30 A.M. Sales seminar (full-day), 4102 Larch Drive", "22", "23 — 9 A.M. Property inspection, 312 Poplar Avenue", "24", "25 — 7 P.M. Retirement party for Gordon, Rebecca's Grill, 82 Third Street"],
+                  ["28 — 1 P.M. Turn keys over to Mr. Abraham, 433 Murray Street", "29 — 10 A.M. Annual Realtors Convention, Cole Conference Center, 12 Dodd Avenue", "30", "", ""]
+                ]
+              }
+            }
+          ],
+          "items": [
+            { "number": 176, "stem": "Why did Mr. Matthews write the e-mail?", "choices": { "A": "To inquire about hiring a driving service", "B": "To share ideas for a business venture", "C": "To recommend a mode of transportation", "D": "To inform a new employee of some job details" } },
+            { "number": 177, "stem": "What is indicated about Mr. Matthews?", "choices": { "A": "He is looking to purchase a new home.", "B": "He prefers traveling by car over flying.", "C": "He prepares Ms. Atkins' appointment schedule.", "D": "He wants to meet with Mr. Blackburn." } },
+            { "number": 178, "stem": "Who has not yet confirmed a meeting with Ms. Atkins?", "choices": { "A": "Ms. Harrow", "B": "Mrs. Robinson", "C": "Mr. Abraham", "D": "Mr. Choi" } },
+            { "number": 179, "stem": "On which date will Ms. Larson probably not be required to work?", "choices": { "A": "April 14", "B": "April 16", "C": "April 18", "D": "April 25" } },
+            { "number": 180, "stem": "What is NOT indicated about Ms. Atkins?", "choices": { "A": "She will speak at a convention.", "B": "She will meet with one client twice in April.", "C": "She plans to attend a retirement celebration.", "D": "She plans to take a day off." } }
+          ]
+        },
+        {
+          "id": "p7-set-181-185",
+          "questions": [181, 182, 183, 184, 185],
+          "instruction": "Questions 181-185 refer to the following notice and article.",
+          "passages": [
+            {
+              "kind": "notice",
+              "heading": "Celebrate the First Edge Festival in Toronto: July 8-14",
+              "paragraphs": [
+                "Join thousands of participants for a week of performances at over 100 different venues in Canada's most populous city! The world-famous Edge Festival is coming to Toronto. Following the event's long-time success in Edinburgh, Scotland, organizers have added a second city to the annual celebration of arts and culture.",
+                "To make the most of what's on offer, pick up a copy of our official brochure, which is available at major bookstores, online, or through a free mobile application. In addition to show listings, the application includes an interactive map of Toronto to help you find your way to every event.",
+                "For assistance with accommodations and transport options, go to our Web site at www.edgefest.com/toronto. Please note that tickets are required for all events and must be purchased from authorized Edge Festival representatives. This event is organized by the Edge Society, a nonprofit organization devoted to the promotion of culture and the arts. All proceeds from the festival go toward developing future events."
+              ]
+            },
+            {
+              "kind": "article",
+              "heading": "Good Times to Be Had at Toronto's Edge Festival",
+              "byline": "By Tim Cosgrove | Toronto Tribune, July 8",
+              "paragraphs": [
+                "If you have never been to an Edge Festival, I strongly encourage you to board the next bus, plane, or train for Toronto while there is still time left. With hundreds of shows to choose from, you're guaranteed to find something you will like.",
+                "What began as a small event in Scotland that provided amateur artists and performers with an outlet to showcase their talents, now attracts thousands of enthusiastic fans from around the world. The festival grew to become such a success that organizers decided to export their idea to other countries, starting this year with Canada.",
+                "Some of my favorite performances so far have been Toronto local Eric Robeson's play Kalinda, a ballet by Argentine dance troupe Danza Volar, and a violin-and-accordion duet by Wendy Kaufmann and Noah Rossi. Also noteworthy was a stand-up act by Irish comedian Elsa Ball, a returning performer I saw at a sold-out show during last year's festival. In addition to a host of artistic shows and performances, the festival offers other forms of fun, including a variety of exotic food stands and family-centered entertainment.",
+                "There have also been reports that festival organizers are planning to take the event to Dublin next year and then to Sydney the year after that. Artists or fans who would like to see this happen can make themselves heard by adding their comments on the Edge Festival's Web site."
+              ]
+            }
+          ],
+          "items": [
+            { "number": 181, "stem": "What is stated about the Edge Festival?", "choices": { "A": "It is held on the same month each year.", "B": "It allows performers to compete for a prize.", "C": "It consists of events at several different venues.", "D": "It is free for members of an art organization." } },
+            { "number": 182, "stem": "What can visitors do with the mobile application?", "choices": { "A": "Purchase tickets at a discount", "B": "Book room accommodations", "C": "Obtain directions to performances", "D": "Read reviews of each show" } },
+            { "number": 183, "stem": "What is indicated about Mr. Cosgrove?", "choices": { "A": "He used to be an amateur performer.", "B": "He was in Scotland the year before.", "C": "He did not have to pay for his tickets.", "D": "He was involved in organizing the Toronto event." } },
+            { "number": 184, "stem": "In the article, the word \"host\" in paragraph 3, line 4, is closest in meaning to", "choices": { "A": "sponsor", "B": "introduction", "C": "variety", "D": "announcement" } },
+            { "number": 185, "stem": "What are the festival's organizers planning to do in the future?", "choices": { "A": "Add a comments feature to their Web site", "B": "Make tickets more readily available", "C": "Hold a similar event in Sydney", "D": "Include more comedians in the schedule" } }
+          ]
+        },
+        {
+          "id": "p7-set-186-190",
+          "questions": [186, 187, 188, 189, 190],
+          "instruction": "Questions 186-190 refer to the following advertisement, Web page, and e-mail.",
+          "passages": [
+            {
+              "kind": "notice",
+              "heading": "Piedmont Limousine Company: Ride in Style!",
+              "paragraphs": [
+                "Serving Manhattan for more than 20 years, Piedmont Limousine Company continues to provide the very best in rental vehicles as well as the most experienced and professional drivers. Whether you need a stretch limousine that can seat up to 12 passengers, a luxury minivan that holds 8, or a regular-sized sedan with a capacity of 4, Piedmont Limousine can help! We provide clean and modern vehicles for any occasion, including business functions and weddings. We can even pick up important visitors from stations or airports and offer weekly or daily rental rates for those requiring the full-time services of a driver and vehicle. And for the month of April only, any booking for three days or more will entitle you to receive a voucher worth $50 to use for any future service from Piedmont Limousine Company!",
+                "For more information on our rates, location, hours of operation, and the types of vehicles we have available, visit us online at www.piedmontlimousine.com."
+              ]
+            },
+            {
+              "kind": "webpage",
+              "site": { "url": "http://www.piedmontlimousine.com/bookings", "nav": ["SERVICES", "RATES", "VEHICLES", "HOURS/LOCATION", "BOOKINGS"] },
+              "fields": [
+                { "label": "NAME", "value": "Benjamin Lopez" },
+                { "label": "PHONE", "value": "555-0495" },
+                { "label": "E-MAIL", "value": "blop@neurotech.com" },
+                { "label": "COMPANY", "value": "Neuro-Tech, Inc." },
+                { "label": "DATE/TIME OF SERVICE", "value": "10 A.M. April 18 - 10 A.M. April 21" },
+                { "label": "PICK-UP LOCATION", "value": "Central Station" },
+                { "label": "TYPE OF VEHICLE", "value": "Regular sedan" }
+              ],
+              "paragraphs": [
+                "PLEASE INCLUDE ANY ADDITIONAL DETAILS. IF PASSENGER BEING PICKED UP IS DIFFERENT FROM THE PERSON MAKING THE BOOKING, PLEASE INCLUDE THE NAME BELOW.",
+                "*I would like to book a car and driver to pick up a visiting investor. His name is William Bail. He will need your company's services daily during his stay."
+              ],
+              "closingParagraphs": ["Once you have checked and confirmed that the information you have provided is correct, click \"submit\" below."]
+            },
+            {
+              "kind": "email",
+              "meta": { "To": "Benjamin Lopez <blop@neurotech.com>", "From": "Fatima Khan <fkhan@piedmontlimousine.com>", "Date": "April 6", "Subject": "Re: Booking inquiry" },
+              "salutation": "Dear Mr. Lopez,",
+              "paragraphs": [
+                "Thank you for considering Piedmont Limousine Company! We do have drivers and the type of vehicle you want for the dates and times you requested. Below is the fee breakdown."
+              ],
+              "table": {
+                "rows": [
+                  ["Car Rental", "$180.00"],
+                  ["Driver Services*", "$340.00"],
+                  ["SUBTOTAL", "$520.00"],
+                  ["TAX", "$52.00"],
+                  ["DEPOSIT", "$50.00"]
+                ]
+              },
+              "totalRow": ["TOTAL", "$622.00"],
+              "footnote": "*Driver will be at your disposal from 8 A.M. until 8 P.M. for daily service.",
+              "closingParagraphs": [
+                "If you accept the fees, please reply to this e-mail to confirm your booking. Cancellations are allowed up to 24 hours prior to the service, but deposits will be forfeited under all circumstances. Customers canceling less than a full day in advance will not be refunded.",
+                "We also request that you provide us with the train information for your arriving guest. That way our driver, Solomon Nyongo, can be waiting for him with a sign at the platform.",
+                "Thank you, and I hope to hear from you soon."
+              ],
+              "signer": "Fatima Khan"
+            }
+          ],
+          "items": [
+            { "number": 186, "stem": "What is NOT mentioned about Piedmont Limousine Company?", "choices": { "A": "It offers vehicles for up to 12 people.", "B": "It provides services for different types of events.", "C": "It is still in business after two decades.", "D": "It has service desks at airports and stations." } },
+            { "number": 187, "stem": "What will Mr. Lopez be given?", "choices": { "A": "A vehicle upgrade", "B": "A complete refund", "C": "A cash voucher", "D": "A train ticket" } },
+            { "number": 188, "stem": "What is true about Benjamin Lopez?", "choices": { "A": "He is planning to borrow money from a bank.", "B": "He is using a discount coupon for a service.", "C": "He is making a booking for a guest.", "D": "He is meeting a visitor at Central Station." } },
+            { "number": 189, "stem": "What happens if a booking is canceled one day before a rental date?", "choices": { "A": "Customers can receive a coupon.", "B": "A deposit payment must be given up.", "C": "Credit cards are charged the total amount.", "D": "A cancellation fee must be paid." } },
+            { "number": 190, "stem": "What is true about Solomon Nyongo?", "choices": { "A": "He will wait for William Bail on a station platform.", "B": "He will drive a stretch limousine on April 18.", "C": "He will meet some investors at Neuro-Tech.", "D": "He will provide a passenger with a billing statement." } }
+          ]
+        },
+        {
+          "id": "p7-set-191-195",
+          "questions": [191, 192, 193, 194, 195],
+          "instruction": "Questions 191-195 refer to the following flyer, e-mail, and schedule.",
+          "passages": [
+            {
+              "kind": "notice",
+              "heading": "3-D Printer Workshops",
+              "paragraphs": [
+                "Warner City Library, Lafayette branch",
+                "September 27",
+                "Workshop 1: 1:00 P.M. - 3:00 P.M.",
+                "Workshop 2: 4:00 P.M. - 6:00 P.M.",
+                "Many businesses use 3-D printers to create small customized products to sell on the Internet. 3-D printing also has applications for dentistry, automotive design, architecture, and more. Imagine what you could do! The Warner City Library is now offering you the chance to learn about this amazing technology!",
+                "Our $30 workshop includes:"
+              ],
+              "bulletList": [
+                "A free demonstration of the 3-D printer",
+                "A short video on innovations in 3-D technology",
+                "A group discussion on the potential applications and uses of 3-D printing technology led by Warner City Library director Ryan Jefferson",
+                "Hands-on practice, guided by our technical expert",
+                "Each participant will get to choose among five keychain designs to print and take home."
+              ],
+              "closingParagraphs": [
+                "Due to space restrictions, each workshop will be limited to 12 people. To register, visit the library's front desk or go to www.warnerlibrary.com/3-DPrinter. For inquiries, call Sarah Andrews at 555-9796 or e-mail s.andrews@warnerlibrary.com."
+              ]
+            },
+            {
+              "kind": "email",
+              "meta": { "To": "Sarah Andrews <s.andrews@warnerlibrary.com>", "From": "Sam Jackson <samjackson@warnerartcommunity.com>", "Date": "September 5", "Subject": "3-D Printer Workshops" },
+              "salutation": "Dear Ms. Andrews,",
+              "paragraphs": [
+                "I am the president of the Warner Art Community and a sculptor by profession. I recently read your flyer about the 3-D printer workshops. Our group is interested in taking advantage of this opportunity. However, we'd like the focus to be on art rather than general 3-D printing. So, we hope that we can develop a custom workshop.",
+                "Our members have some specific interests surrounding how we can use 3-D printing in art. We would like to follow the curriculum you offer but would prefer to discuss more specific applications for our work on our own. I can lead those discussions. We may also want to explore making items of our own design in addition to the items you offer. Could we meet to discuss this further? Naturally, our group will pay any additional fees.",
+                "Please let me know when you might be available."
+              ],
+              "closing": "Sincerely,",
+              "signer": "Sam Jackson"
+            },
+            {
+              "kind": "schedule",
+              "heading": "Warner City Library — November Schedule of Events",
+              "table": {
+                "columns": ["Date/Time", "Event", "Event type", "Location"],
+                "rows": [
+                  ["11/03, 3 to 5 P.M.", "Creative Writing Workshop", "Free with registration", "Warner City Library, Main Library"],
+                  ["11/09, 1 to 3 P.M.", "Understanding Contemporary Literature", "$10 registration", "Warner City Library, Main Library"],
+                  ["11/16, 2 to 6 P.M.", "3-D Printing in Art", "By invitation only", "Warner City Library, Lafayette branch"],
+                  ["11/23, 3 to 5 P.M.", "Book launch: A Lasting Legacy, by Meredith Brownsville", "Free", "Warner City Library, Concord Street branch"]
+                ]
+              },
+              "closingParagraphs": ["For inquiries about any of the listed events or directions to specific locations of the library, please call 555-9796, or e-mail info@warnerlibrary.com."]
+            }
+          ],
+          "items": [
+            { "number": 191, "stem": "What is the flyer mainly about?", "choices": { "A": "A product launch", "B": "An online seminar", "C": "A learning opportunity", "D": "A community club meeting" } },
+            { "number": 192, "stem": "In the e-mail, the word \"surrounding\" in paragraph 2, line 1, is closest in meaning to", "choices": { "A": "closing", "B": "encircling", "C": "concerning", "D": "approaching" } },
+            { "number": 193, "stem": "Which activity does Mr. Jackson NOT request for his group?", "choices": { "A": "The complimentary demonstration", "B": "The video presentation on technology", "C": "The hands-on practice using a printing device", "D": "The discussion led by library staff" } },
+            { "number": 194, "stem": "What is indicated about the Warner City Library on the schedule?", "choices": { "A": "It is holding an invitation only event at its main location.", "B": "It closes at noon sometimes to host special events.", "C": "It has multiple locations in the same city.", "D": "It operates a tutoring center for students." } },
+            { "number": 195, "stem": "What is suggested about the event on November 16?", "choices": { "A": "It is free for members of an art group.", "B": "It is the second one of a series to be held.", "C": "It will coincide with an author's book launch.", "D": "It can accommodate a dozen participants." } }
+          ]
+        },
+        {
+          "id": "p7-set-196-200",
+          "questions": [196, 197, 198, 199, 200],
+          "instruction": "Questions 196-200 refer to the following e-mail, form, and coupon.",
+          "passages": [
+            {
+              "kind": "email",
+              "meta": { "To": "Marian Kentley <mkentley@kentleyfarm.co.ca>", "From": "Brayden Craig <cr_brayden@peaklanddairy.co.ca>", "Subject": "Order inquiry", "Date": "May 2" },
+              "salutation": "Dear Ms. Kentley,",
+              "paragraphs": [
+                "My name is Brayden Craig, and I work at Peakland Dairy in Surrey. Our shop will be launching a new selection of ice cream this summer, and we are currently searching for ingredients. We plan to include a strawberry variety, and we would like to place a bulk order with you. This would be for 250 kilograms. Could you let me know if your farm has the means to fulfill such a large order and, if so, what the cost would be? Naturally, if sales are good, we will place another order next season.",
+                "Also, in addition to vanilla, chocolate, and strawberry flavors, we may feature a new variety in the future. We are considering using raspberries and are wondering if your farm grows them. If so, we would like to place an order for 250 kilograms of them when they are available."
+              ],
+              "closing": "Regards,",
+              "signer": "Brayden Craig"
+            },
+            {
+              "kind": "invoice",
+              "heading": "Kentley Farm, 5948 Coast Road, Abbotsford, B.C.",
+              "note": "ORDER FORM:",
+              "fields": [
+                { "label": "NAME", "value": "Brayden Craig" },
+                { "label": "COMPANY", "value": "Peakland Dairy" },
+                { "label": "PHONE", "value": "(604)555-4229" },
+                { "label": "E-MAIL", "value": "cr_brayden@peaklanddairy.co.ca" },
+                { "label": "BILLING ADDRESS", "value": "443 Spruce Road, Surrey, B.C." },
+                { "label": "DELIVERY ADDRESS", "value": "Same as billing address" },
+                { "label": "Product", "value": "Seasonal strawberries" },
+                { "label": "Amount required", "value": "250 kilograms" },
+                { "label": "Cost per kilogram", "value": "$12.00" },
+                { "label": "Delivery date", "value": "May 10" },
+                { "label": "Instructions", "value": "Wash well." }
+              ],
+              "table": {
+                "rows": [
+                  ["SUBTOTAL", "$3,000.00"],
+                  ["TAX", "$210.60"],
+                  ["DELIVERY", "$120.00"]
+                ]
+              },
+              "totalRow": ["TOTAL AMOUNT DUE", "$3330.60 (PAID IN FULL)"],
+              "closingParagraphs": ["Thank you for placing an order with Kentley Farm. Should there be any problems with your delivery, contact Marian Kentley at mkentley@kentleyfarms.co.ca or (604)555-4059."]
+            },
+            {
+              "kind": "notice",
+              "heading": "Get $3 off Peakland Dairy's New Organic Ice Cream!",
+              "paragraphs": [
+                "Thank you for visiting Kentley Farm today! You can now enjoy our strawberries in Peakland Dairy's new organic ice cream line, made with completely natural ingredients! Choose from vanilla, chocolate, strawberry, and their featured flavor of coffee all made with hormone-free milk and cream. Simply bring in this coupon to wherever Peakland Dairy products are sold including Softies Supermarkets, Wilton Groceries, and Day-and-Night Convenience Stores, and receive $3 off your purchase of a 500ml carton of any organic ice cream variety!"
+              ],
+              "footnote": "*Offer valid for one item only and may not be combined with any other promotion. Offer expires September 1."
+            }
+          ],
+          "items": [
+            { "number": 196, "stem": "What is true about Peakland Dairy in the e-mail?", "choices": { "A": "It opened a facility in Abbotsford.", "B": "It will release a new product line.", "C": "It requires fruit to be frozen before delivery.", "D": "It only sells ice cream during the summer." } },
+            { "number": 197, "stem": "In the e-mail, the word \"means\" in paragraph 1, line 4, is closest in meaning to", "choices": { "A": "intention", "B": "capacity", "C": "revenue", "D": "process" } },
+            { "number": 198, "stem": "What has Mr. Craig most likely requested?", "choices": { "A": "A department's contact number", "B": "A revised billing statement", "C": "A discount on a bulk purchase", "D": "A delivery to Spruce Road" } },
+            { "number": 199, "stem": "What is suggested about Mr. Craig?", "choices": { "A": "He was unable to purchase raspberries from Ms. Kentley.", "B": "He had to increase the quantity for his strawberry order.", "C": "He is searching for a supplier of organic dairy products.", "D": "He was given a complimentary ice cream coupon." } },
+            { "number": 200, "stem": "What is indicated about Kentley Farm?", "choices": { "A": "It offers discounts to stores placing bulk orders.", "B": "It supplies fresh strawberries to Wilton Groceries.", "C": "It sells Peakland Dairy products to farm guests.", "D": "It gives coupons to visitors at its Abbotsford facility." } }
+          ]
+        }
+      ]
+    }
+  }
+}
