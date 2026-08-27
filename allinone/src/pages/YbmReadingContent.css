@@ -1,0 +1,470 @@
+/* Structured Part 5/6/7 reading content (YBM) — renders inside .ybm-booklet, so it
+   reuses the --exam-* theme variables already scoped on .ybm-exam (see
+   YbmExam.css and .cursor/rules/light-dark-mode-text-contrast.mdc) rather
+   than redeclaring them. */
+
+.ybr-reading {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ybr-reading-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--exam-border);
+  background: var(--exam-panel);
+}
+
+.ybr-reading-controls button {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--exam-border);
+  background: transparent;
+  color: var(--exam-text);
+}
+
+.ybr-reading-controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ybr-reading-instruction {
+  flex: 1;
+  font-size: 0.82rem;
+  color: var(--exam-text);
+  opacity: 0.8;
+}
+
+.ybr-reading-body {
+  max-height: 78vh;
+  min-height: 320px;
+  overflow-y: auto;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* --- passage --- */
+
+.ybr-passage {
+  border: 1px solid var(--exam-border);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.ybr-passage p {
+  margin: 0 0 0.65rem;
+}
+
+.ybr-passage p:last-child {
+  margin-bottom: 0;
+}
+
+.ybr-passage-heading {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ybr-passage-byline {
+  font-size: 0.8rem;
+  opacity: 0.72;
+  margin-bottom: 0.5rem;
+}
+
+.ybr-graphic {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--exam-border);
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.ybr-passage-note {
+  font-size: 0.78rem;
+  opacity: 0.72;
+  margin-bottom: 0.5rem;
+  text-align: right;
+}
+
+.ybr-meta,
+.ybr-fields {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.15rem 0.6rem;
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+}
+
+.ybr-meta dt,
+.ybr-fields dt {
+  opacity: 0.65;
+}
+
+.ybr-meta dd,
+.ybr-fields dd {
+  margin: 0;
+}
+
+.ybr-address {
+  position: relative;
+}
+
+.ybr-letter-date {
+  float: right;
+  opacity: 0.72;
+}
+
+.ybr-salutation {
+  font-weight: 600;
+}
+
+.ybr-intro {
+  opacity: 0.85;
+}
+
+.ybr-signoff {
+  margin-top: 0.75rem;
+}
+
+.ybr-signoff-title {
+  opacity: 0.72;
+  font-size: 0.85rem;
+}
+
+.ybr-blank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.4rem;
+  height: 1.15rem;
+  padding: 0 0.25rem;
+  margin: 0 0.15rem;
+  border-radius: 4px;
+  background: var(--exam-accent);
+  color: var(--exam-accent-text);
+  font-size: 0.68rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  vertical-align: middle;
+}
+
+.ybr-bullets {
+  margin: 0 0 0.65rem;
+  padding-left: 1.2rem;
+}
+
+.ybr-bullets li {
+  margin-bottom: 0.3rem;
+}
+
+.ybr-footnote {
+  font-size: 0.78rem;
+  opacity: 0.72;
+}
+
+/* --- chat --- */
+
+.ybr-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.ybr-chat-bubble {
+  border: 1px solid var(--exam-border);
+  border-radius: 10px;
+  padding: 0.5rem 0.7rem;
+  background: var(--exam-panel);
+}
+
+.ybr-chat-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  margin-bottom: 0.2rem;
+}
+
+.ybr-chat-head strong {
+  color: var(--exam-accent);
+}
+
+.ybr-chat-head span {
+  opacity: 0.6;
+}
+
+.ybr-chat-bubble p {
+  margin: 0;
+}
+
+/* --- webpage / comments --- */
+
+.ybr-webpage {
+  border: 1px solid var(--exam-border);
+  border-radius: 6px;
+  padding: 0.5rem 0.7rem;
+  margin-bottom: 0.5rem;
+  background: var(--exam-panel);
+}
+
+.ybr-webpage-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.ybr-webpage-nav {
+  margin-top: 0.3rem;
+  font-size: 0.75rem;
+  opacity: 0.65;
+}
+
+.ybr-section-title {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.ybr-comment {
+  border-left: 2px solid var(--exam-border);
+  padding-left: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.ybr-comment-meta {
+  opacity: 0.7;
+  font-size: 0.82rem;
+}
+
+/* --- table (schedule / invoice) --- */
+
+.ybr-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 0.65rem;
+}
+
+.ybr-table-title {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.ybr-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.ybr-table th,
+.ybr-table td {
+  border: 1px solid var(--exam-border);
+  padding: 0.35rem 0.55rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.ybr-table th {
+  background: var(--exam-panel);
+  font-weight: 600;
+}
+
+.ybr-table-total td {
+  font-weight: 700;
+}
+
+/* --- program (class schedule cards) --- */
+
+.ybr-program {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.ybr-program-day {
+  border: 1px solid var(--exam-border);
+  border-radius: 6px;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+.ybr-program-day-name {
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.ybr-program-time {
+  opacity: 0.72;
+  margin-bottom: 0.2rem;
+}
+
+.ybr-program-title {
+  margin-bottom: 0.2rem;
+}
+
+.ybr-program-instructor {
+  opacity: 0.72;
+}
+
+.ybr-program-cost {
+  font-weight: 600;
+  margin-top: 0.2rem;
+}
+
+/* --- form (registration form key/value grid) --- */
+
+.ybr-form-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.65rem;
+}
+
+.ybr-form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.4rem;
+  border: 1px solid var(--exam-border);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+}
+
+.ybr-form-label {
+  display: block;
+  font-size: 0.72rem;
+  opacity: 0.65;
+}
+
+.ybr-form-value {
+  display: block;
+  font-size: 0.88rem;
+}
+
+/* --- question items --- */
+
+.ybr-reading-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* Choice-less items (e.g. Part 2's "Mark your answer" filler) are just a
+   number and one short line, so two columns fit far more on screen — same
+   layout the printed page itself uses. Grid with grid-auto-flow: column (not
+   CSS multicol) so it fills top-to-bottom then left-to-right, matching the
+   book's own left-column/right-column split; `--rows` is set inline per
+   unit since the row count needed depends on how many items are in it. */
+.ybr-reading-items--columns {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(var(--rows, 1), auto);
+  gap: 0.5rem 0.8rem;
+}
+
+@media (max-width: 640px) {
+  .ybr-reading-items--columns {
+    grid-auto-flow: row;
+    grid-template-rows: none;
+  }
+}
+
+.ybr-q {
+  display: grid;
+  grid-template-columns: 2.3rem 1fr;
+  gap: 0.5rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--exam-border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.ybr-q.is-focused {
+  border-color: var(--exam-accent);
+  border-width: 2px;
+  padding: calc(0.6rem - 1px) calc(0.7rem - 1px);
+}
+
+.ybr-q-num {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.72;
+}
+
+.ybr-q-stem {
+  margin: 0 0 0.5rem;
+  font-size: 0.92rem;
+}
+
+.ybr-q-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.ybr-q-choices button {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  padding: 0.35rem 0.55rem;
+  border-radius: 6px;
+  border: 1px solid var(--exam-border);
+  background: transparent;
+  color: var(--exam-text);
+  font-size: 0.85rem;
+}
+
+.ybr-q-choices--sentence button {
+  white-space: normal;
+}
+
+.ybr-q-choices button b {
+  display: inline-block;
+  width: 1.1rem;
+  color: var(--exam-accent);
+}
+
+.ybr-q-choices button.is-picked {
+  background: var(--exam-accent);
+  color: var(--exam-accent-text);
+  border-color: transparent;
+}
+
+.ybr-q-choices button.is-picked b {
+  color: inherit;
+}
+
+.ybr-q-choices button.is-correct {
+  background: var(--exam-correct);
+  color: var(--exam-correct-text);
+  border-color: transparent;
+}
+
+.ybr-q-choices button.is-correct b {
+  color: inherit;
+}
+
+.ybr-q-choices button.is-incorrect {
+  background: var(--exam-warn);
+  color: var(--exam-warn-text);
+  border-color: transparent;
+}
+
+.ybr-q-choices button.is-incorrect b {
+  color: inherit;
+}
+
+.ybr-q-choices button:disabled {
+  cursor: not-allowed;
+}

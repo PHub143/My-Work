@@ -39,6 +39,13 @@ export function getAudioUrl(testId) {
   return `${ASSET_BASE}/${testId}/listening.mp3`;
 }
 
+// A `kind: "graphic"` passage in transcribed content (a cropped chart/map
+// image that isn't text-representable) points at a plain filename under the
+// test's asset folder, alongside the page images.
+export function getAssetUrl(testId, filename) {
+  return `${ASSET_BASE}/${testId}/${filename}`;
+}
+
 // Per-question audio clips, cut from the full listening track by silence
 // detection. Being split out is a per-test, per-question fact (some tests/
 // parts aren't split yet), so this is an explicit allowlist rather than a
@@ -166,6 +173,22 @@ export function getSectionQuestions(section) {
 }
 
 export { getOptionKeys, getPartForQuestion };
+
+// --- Transcribed reading content --------------------------------------------
+
+// Structured Part 5/6/7 content (question text, choices, and passages
+// transcribed by eye from the scanned booklet pages — this collection's
+// source PDFs have no text layer, unlike Hacker's) — see
+// data/ybm/content/AGENTS.md. Not every test has this yet; callers must
+// handle a null return and fall back to the scanned booklet image.
+const contentModules = import.meta.glob('../data/ybm/content/*.json', {
+  eager: true,
+  import: 'default',
+});
+
+export function getReadingContent(testId) {
+  return contentModules[`../data/ybm/content/${testId}.json`] || null;
+}
 
 // --- Attempt persistence ---------------------------------------------------
 
