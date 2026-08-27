@@ -686,7 +686,7 @@ const HackerExam = () => {
     return (
       <div className="ybm-exam ybm-exam--empty">
         <p>That test does not exist.</p>
-        <button type="button" onClick={() => navigate('/learning/english/toeic/hacker/vol-2')}>
+        <button type="button" onClick={() => navigate(`/learning/english/toeic/hacker/${volumeId}`)}>
           Back to Hacker
         </button>
       </div>
