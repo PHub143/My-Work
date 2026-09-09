@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AI103.css';
 import LearningTabs from '../components/LearningTabs';
+import AiTrackSwitch from '../components/AiTrackSwitch';
 import q1AnswerArea from '../assets/ai103/q1-answer-area.png';
 import q1AnswerAreaBlank from '../assets/ai103/q1-answer-area-blank.png';
 import q4AnswerArea from '../assets/ai103/q4-answer-area.png';
@@ -1191,6 +1192,7 @@ const AI103 = () => {
     <div className="ai103-container">
       <LearningTabs />
       <div className="ai103-content">
+        <AiTrackSwitch active="ai-103" />
         <header className="ai103-header">
           <div className="ai103-title-block">
             <div className="ai103-title-row">

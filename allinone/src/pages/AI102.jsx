@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AI103.css';
 import LearningTabs from '../components/LearningTabs';
+import AiTrackSwitch from '../components/AiTrackSwitch';
 import ai102Content from '../data/ai102Content.json';
 import {
   formatQuestionType,
@@ -167,6 +168,7 @@ const AI102 = () => {
     <div className="ai103-container">
       <LearningTabs />
       <div className="ai103-content">
+        <AiTrackSwitch active="ai-102" />
         <header className="ai103-header">
           <div className="ai103-title-block">
             <div className="ai103-title-row">

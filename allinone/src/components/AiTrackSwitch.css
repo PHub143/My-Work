@@ -1,0 +1,39 @@
+.ai-track-switch {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+}
+
+.ai-track-switch-pills {
+  display: inline-flex;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--surface-sunken);
+  border: 1px solid var(--line-soft);
+}
+
+.ai-track-pill {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background-color 0.16s ease, color 0.16s ease;
+}
+
+.ai-track-pill:hover:not(.is-active) {
+  color: var(--text);
+}
+
+.ai-track-pill.is-active {
+  background: var(--surface);
+  color: var(--text);
+  cursor: default;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}

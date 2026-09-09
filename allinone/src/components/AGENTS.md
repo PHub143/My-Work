@@ -23,7 +23,8 @@ Shared UI components, navigation, route guards, modals, and loading states.
 |---|---|
 | `AppRail.jsx` | Left icon rail: primary nav, theme toggle, sign in/out. Replaces the old `Navbar`/`Logo`. |
 | `TopBar.jsx` | 56px bar above signed-in pages: search, `DriveSwitcher`, one primary action. |
-| `LearningTabs.jsx` | Track switcher (AI-103 / AI-102 / English) for the learning area. |
+| `LearningTabs.jsx` | Top track switcher for the learning area: Home / AI / English. The AI tab covers both `/learning/ai-103` and `/learning/ai-102`. |
+| `AiTrackSwitch.jsx` | AI-103 ↔ AI-102 segmented sub-switch shown on those two pages (parallel to `ToeicCollectionSwitch` for English). |
 | `LoginBrandPanel.jsx` | Left-side branding panel on the chromeless `/login` screen. |
 | `Spinner.jsx` | Loading spinner fallback for `Suspense` |
 | `FileModal.jsx` | File preview/action modal |
