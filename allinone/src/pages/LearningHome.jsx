@@ -3,22 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import './LearningHome.css';
 import LearningTabs from '../components/LearningTabs';
 import { useAuth } from '../AuthContext';
-import ai103Content from '../data/ai103Content.json';
-import ai102Content from '../data/ai102Content.json';
+import { AI_103_TRACK, AI_102_TRACK } from '../data/learningTracks.js';
 import { YBM_VOLUMES, TESTS_PER_VOLUME } from '../data/ybm/manifest.js';
 
 const TRACKS = [
   {
     to: '/learning/ai-103',
-    title: ai103Content.title,
-    subtitle: ai103Content.subtitle,
-    detail: `${ai103Content.questionCount} questions`,
+    title: AI_103_TRACK.title,
+    subtitle: AI_103_TRACK.subtitle,
+    detail: `${AI_103_TRACK.questionCount} questions`,
   },
   {
     to: '/learning/ai-102',
-    title: ai102Content.title,
-    subtitle: ai102Content.subtitle,
-    detail: `${ai102Content.questionCount} questions`,
+    title: AI_102_TRACK.title,
+    subtitle: AI_102_TRACK.subtitle,
+    detail: `${AI_102_TRACK.questionCount} questions`,
   },
   {
     to: '/learning/english',

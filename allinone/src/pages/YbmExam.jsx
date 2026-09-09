@@ -20,8 +20,8 @@ import {
   getPageUrl,
   getPartForQuestion,
   getQuestionAudioUrl,
-  getReadingContent,
   getTestReadiness,
+  loadReadingContent,
   loadAttempt,
   saveAttempt,
   scoreAttempt,
@@ -287,7 +287,17 @@ const ExamRunner = ({ test, volumeId }) => {
   // image-only (no per-question image-cropping pipeline exists for Part 1's
   // photos, and Part 2's audio-only prompts print nothing per-question).
   // Falls back to the image for any part that isn't transcribed yet.
-  const readingContent = useMemo(() => getReadingContent(test.id), [test.id]);
+  // Loaded on demand (see loadReadingContent in utils/ybm.js): null until the
+  // fetch resolves, which just means the booklet image shows first — the same
+  // fallback a test with no transcribed content uses permanently.
+  const [readingContent, setReadingContent] = useState(null);
+  useEffect(() => {
+    let active = true;
+    loadReadingContent(test.id).then((content) => {
+      if (active) setReadingContent(content);
+    });
+    return () => { active = false; };
+  }, [test.id]);
   const focusPart = getPartForQuestion(focus)?.part;
   const useStructuredContent = Boolean(readingContent?.parts?.[String(focusPart)]);
   const assetUrl = useCallback((filename) => getAssetUrl(test.id, filename), [test.id]);

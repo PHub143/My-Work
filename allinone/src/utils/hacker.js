@@ -179,13 +179,18 @@ export { getOptionKeys, getPartForQuestion };
 // booklet scans) — see data/hacker/content/AGENTS.md. Not every test has
 // this yet; callers must handle a null return and fall back to the scanned
 // booklet image.
+//
+// NOT eager: each test's content JSON is ~100 KB and there are 20+ of them,
+// so eager-globbing pulled all ~1.9 MB into whatever chunk imports this
+// module — including Hacker.jsx's test list, which only needs the answer
+// keys. Loaded on demand instead; the exam fetches just its own test.
 const contentModules = import.meta.glob('../data/hacker/content/*.json', {
-  eager: true,
   import: 'default',
 });
 
-export function getReadingContent(testId) {
-  return contentModules[`../data/hacker/content/${testId}.json`] || null;
+export function loadReadingContent(testId) {
+  const load = contentModules[`../data/hacker/content/${testId}.json`];
+  return load ? load() : Promise.resolve(null);
 }
 
 // --- Attempt persistence ---------------------------------------------------

@@ -181,13 +181,18 @@ export { getOptionKeys, getPartForQuestion };
 // source PDFs have no text layer, unlike Hacker's) — see
 // data/ybm/content/AGENTS.md. Not every test has this yet; callers must
 // handle a null return and fall back to the scanned booklet image.
+//
+// NOT eager: each test's content JSON is ~100 KB and there are 30+ of them,
+// so eager-globbing pulled all ~2.6 MB into whatever chunk imports this
+// module — including English.jsx's test list, which only needs the answer
+// keys. Loaded on demand instead; the exam fetches just its own test.
 const contentModules = import.meta.glob('../data/ybm/content/*.json', {
-  eager: true,
   import: 'default',
 });
 
-export function getReadingContent(testId) {
-  return contentModules[`../data/ybm/content/${testId}.json`] || null;
+export function loadReadingContent(testId) {
+  const load = contentModules[`../data/ybm/content/${testId}.json`];
+  return load ? load() : Promise.resolve(null);
 }
 
 // --- Attempt persistence ---------------------------------------------------

@@ -20,8 +20,8 @@ import {
   getPageUrl,
   getPartForQuestion,
   getQuestionAudioUrl,
-  getReadingContent,
   getTestReadiness,
+  loadReadingContent,
   loadAttempt,
   saveAttempt,
   scoreAttempt,
@@ -286,7 +286,17 @@ const ExamRunner = ({ test, volumeId }) => {
   // a test can have Part 3/4 listening content transcribed while Part 1/2
   // stay image-only (nothing printed there beyond a photo). Falls back to
   // the image for any part that isn't transcribed yet.
-  const readingContent = useMemo(() => getReadingContent(test.id), [test.id]);
+  // Loaded on demand (see loadReadingContent in utils/hacker.js): null until
+  // the fetch resolves, which just means the booklet image shows first — the
+  // same fallback a test with no transcribed content uses permanently.
+  const [readingContent, setReadingContent] = useState(null);
+  useEffect(() => {
+    let active = true;
+    loadReadingContent(test.id).then((content) => {
+      if (active) setReadingContent(content);
+    });
+    return () => { active = false; };
+  }, [test.id]);
   const focusPart = getPartForQuestion(focus)?.part;
   const useStructuredContent = Boolean(readingContent?.parts?.[String(focusPart)]);
   const assetUrl = useCallback((filename) => getAssetUrl(test.id, filename), [test.id]);
