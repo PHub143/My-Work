@@ -14,6 +14,8 @@ Helper utilities, role logic, and learning module functions.
 | `ybm.js` | YBM TOEIC: booklet page and audio URLs, option keys, test readiness, attempt persistence (localStorage), scoring |
 | `ybm.test.js` | Tests for `ybm.js`, the manifest, and the answer keys |
 | `toeicScore.js` | Raw-to-scaled TOEIC conversion (5–495 per section, 990 cap) |
+| `feedback.js` | Feedback category/status vocab + label helpers, `filterFeedback()`, `countByStatus()`; ids mirror `api/controllers/feedbackController.js` |
+| `feedback.test.js` | Tests for `feedback.js` |
 
 ## Test Patterns
 

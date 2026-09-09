@@ -12,6 +12,7 @@ Request/response validation and flow control. Validates input in controllers bef
 | `userAuthController.js` | User registration, authentication |
 | `userController.js` | User management (admin) |
 | `learningResultController.js` | Learning-result create/list handlers |
+| `feedbackController.js` | Feedback submit/list/update/delete handlers, image-attachment upload, and an admin-only attachment streaming proxy |
 | `ybmAssetController.js` | Streams a YBM Drive asset to the response; see `services/ybmAssetService.js` |
 
 ## Conventions

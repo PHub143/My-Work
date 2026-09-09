@@ -25,6 +25,11 @@ const FEATURES = [
     subtitle: 'Manage student and admin accounts.',
   },
   {
+    to: '/feedback',
+    title: 'Feedback',
+    subtitle: 'Review what users submitted and triage it.',
+  },
+  {
     to: '/settings',
     title: 'Settings',
     subtitle: 'Configure the Google Drive connection.',

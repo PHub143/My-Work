@@ -16,6 +16,7 @@ Database schema and Prisma configuration.
 | `User` | Local credentials and role. Fields: `userId` (unique, required login handle), `email` (unique, optional), `name`, `password`, `role` (default `"USER"`), `roles` (JSON, default `["STUDENT"]`), `lastLoginAt` (nullable, stamped by `userService.recordLogin` on each successful login). Login accepts either `userId` or `email`; see `services/userService.js#findUserByLoginId`. |
 | `Tag` | Many-to-many labels for files. Fields: `name` (unique). |
 | `DriveConfig` | Encrypted Google OAuth configuration and target folder. Fields: `name`, `clientId`, `clientSecret` (encrypted), `redirectUri`, `refreshToken` (encrypted), `folderId`, `isDefault`, timestamps. |
+| `Feedback` | User-submitted feedback for admin review. Fields: `message`, `category` (`bug`/`idea`/`content`/`other`), `status` (`new`/`in_progress`/`resolved`/`wont_do`), `pageUrl`, `adminNote`, `attachments` (JSON array of `{ driveFileId, mimeType, name }`, images in the Drive `feedback/` subfolder). Optional `user` relation with `onDelete: SetNull` plus `submitterEmail`/`submitterName` snapshots so the author survives account deletion. |
 
 ## Guidelines
 

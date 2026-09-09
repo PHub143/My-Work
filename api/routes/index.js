@@ -5,6 +5,7 @@ const configRoutes = require('./configRoutes');
 const authRoutes = require('./authRoutes');
 const userRoutes = require('./userRoutes');
 const learningRoutes = require('./learningRoutes');
+const feedbackRoutes = require('./feedbackRoutes');
 const ybmAssetRoutes = require('./ybmAssetRoutes');
 const hackerAssetRoutes = require('./hackerAssetRoutes');
 
@@ -21,6 +22,7 @@ router.use('/config', configRoutes);
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/learning', learningRoutes);
+router.use('/feedback', feedbackRoutes);
 router.use('/', ybmAssetRoutes);
 router.use('/', hackerAssetRoutes);
 

@@ -164,6 +164,175 @@ const uploadFile = async (req, driveConfigId) => {
   });
 };
 
+// Resolved Drive folder IDs for named subfolders, cached per
+// `${driveConfigId}/${name}` for the life of the process. Subfolders are
+// created once and then reused; they rarely change.
+const subfolderCache = new Map();
+
+/**
+ * Resolves the Drive folder ID for a named subfolder of `parentId`, creating
+ * the folder if it does not exist yet.
+ * @param {Object} drive - Authenticated Drive client.
+ * @param {string} parentId - Parent folder ID.
+ * @param {string} name - Subfolder name.
+ * @param {string} cacheKey - Stable key for the process-lifetime cache.
+ * @returns {Promise<string>}
+ */
+async function getOrCreateSubfolder(drive, parentId, name, cacheKey) {
+  if (subfolderCache.has(cacheKey)) {
+    return subfolderCache.get(cacheKey);
+  }
+
+  const escapedName = name.replace(/'/g, "\\'");
+  const existing = await drive.files.list({
+    q: `'${parentId}' in parents and name = '${escapedName}' and mimeType = 'application/vnd.google-apps.folder' and trashed = false`,
+    fields: 'files(id)',
+    includeItemsFromAllDrives: true,
+    supportsAllDrives: true,
+    pageSize: 1,
+  });
+
+  let folderId = existing.data.files && existing.data.files[0] && existing.data.files[0].id;
+
+  if (!folderId) {
+    const created = await drive.files.create({
+      requestBody: {
+        name,
+        mimeType: 'application/vnd.google-apps.folder',
+        parents: [parentId],
+      },
+      fields: 'id',
+      supportsAllDrives: true,
+    });
+    folderId = created.data.id;
+  }
+
+  subfolderCache.set(cacheKey, folderId);
+  return folderId;
+}
+
+/**
+ * Streams a single small image from a multipart request to Google Drive.
+ * Purpose-built for feedback screenshots: enforces an `image/*` MIME type and
+ * a byte cap, and drops the file into a named subfolder of the configured
+ * Drive folder so it is never picked up by `listFiles`/`db:sync`.
+ * @param {Object} req - Express request object.
+ * @param {string} [driveConfigId] - Optional drive config ID.
+ * @param {Object} [options]
+ * @param {number} [options.maxBytes=5242880] - Maximum accepted file size.
+ * @param {string} [options.subfolder='feedback'] - Target subfolder name.
+ * @returns {Promise<{ driveFileId: string, mimeType: string, name: string }>}
+ */
+const uploadImage = async (req, driveConfigId, options = {}) => {
+  const maxBytes = options.maxBytes || 5 * 1024 * 1024;
+  const subfolderName = options.subfolder || 'feedback';
+
+  let drive, driveFolderId, resolvedDriveConfigId;
+  try {
+    ({ drive, driveFolderId, driveConfigId: resolvedDriveConfigId } = await getDriveClient(driveConfigId));
+  } catch (error) {
+    req.resume();
+    throw error;
+  }
+
+  let parentId;
+  try {
+    parentId = await getOrCreateSubfolder(
+      drive,
+      driveFolderId,
+      subfolderName,
+      `${resolvedDriveConfigId}/${subfolderName}`,
+    );
+  } catch (error) {
+    req.resume();
+    console.error('Error resolving Drive subfolder:', error);
+    throw createServiceError(500, 'Error preparing upload folder on Google Drive.');
+  }
+
+  return new Promise((resolve, reject) => {
+    const bb = busboy({
+      headers: req.headers,
+      defParamCharset: 'utf8',
+      limits: { fileSize: maxBytes, files: 1 },
+    });
+    let fileHandled = false;
+
+    bb.on('file', async (name, file, info) => {
+      if (fileHandled) {
+        file.resume();
+        return;
+      }
+      fileHandled = true;
+
+      const { filename, mimeType } = info;
+
+      if (!mimeType || !mimeType.startsWith('image/')) {
+        file.resume();
+        reject(createServiceError(400, 'Only image attachments are allowed.'));
+        return;
+      }
+
+      file.on('limit', () => {
+        file.resume();
+        reject(createServiceError(413, `Image exceeds the ${Math.round(maxBytes / (1024 * 1024))}MB limit.`));
+      });
+
+      try {
+        const response = await drive.files.create({
+          requestBody: { name: filename || 'attachment', parents: [parentId] },
+          media: { mimeType, body: file },
+          fields: 'id,name,mimeType',
+          supportsAllDrives: true,
+        });
+
+        const driveFile = response.data;
+
+        try {
+          await drive.permissions.create({
+            fileId: driveFile.id,
+            requestBody: { role: 'reader', type: 'anyone' },
+          });
+        } catch (permError) {
+          console.error(`Warning: Failed to set permissions for image ${driveFile.id}:`, permError.message);
+        }
+
+        resolve({ driveFileId: driveFile.id, mimeType: driveFile.mimeType, name: driveFile.name });
+      } catch (error) {
+        console.error('Error uploading image to Google Drive:', error);
+        reject(createServiceError(500, 'Error uploading image to Google Drive.'));
+      }
+    });
+
+    bb.on('error', (err) => {
+      console.error('Busboy error:', err);
+      reject(createServiceError(500, 'Error processing upload.'));
+    });
+
+    bb.on('finish', () => {
+      if (!fileHandled) {
+        reject(createServiceError(400, 'No image uploaded.'));
+      }
+    });
+
+    req.pipe(bb);
+  });
+};
+
+/**
+ * Streams a file's bytes from Drive by file ID.
+ * @param {string} fileId
+ * @param {string} [driveConfigId] - Optional drive config ID.
+ * @returns {Promise<NodeJS.ReadableStream>}
+ */
+const streamFile = async (fileId, driveConfigId) => {
+  const { drive } = await getDriveClient(driveConfigId);
+  const response = await drive.files.get(
+    { fileId, alt: 'media', supportsAllDrives: true },
+    { responseType: 'stream' },
+  );
+  return response.data;
+};
+
 /**
  * Makes a file public (anyone with link can view).
  * @param {string} fileId - The ID of the file to make public.
@@ -245,6 +414,8 @@ const deleteFile = async (fileId, driveConfigId) => {
 module.exports = {
   getDriveClient,
   uploadFile,
+  uploadImage,
+  streamFile,
   listFiles,
   deleteFile,
   makeFilePublic

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import './AppRail.css';
 import { useTheme } from '../ThemeContext';
 import { useAuth } from '../AuthContext';
 import { isAdmin, isStudent } from '../utils/roles';
+import FeedbackModal from './FeedbackModal';
 
 const Icon = ({ d, children }) => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -21,6 +22,7 @@ const AppRail = () => {
   const { theme, toggleTheme } = useTheme();
   const { user, logout, isAuthenticated } = useAuth();
   const { pathname } = useLocation();
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   const canAdmin = isAdmin(user);
   const canLearn = !isAuthenticated || isStudent(user);
@@ -83,10 +85,20 @@ const AppRail = () => {
           <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
         </Icon>
       )
+    },
+    canAdmin && {
+      to: '/feedback',
+      label: 'Feedback',
+      icon: (
+        <Icon>
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </Icon>
+      )
     }
   ].filter(Boolean);
 
   return (
+    <>
     <nav className="rail" aria-label="Main">
       <Link to={logoTarget} className="rail-mark" aria-label="Allinone home">A</Link>
 
@@ -109,6 +121,20 @@ const AppRail = () => {
       </div>
 
       <div className="rail-foot">
+        {isAuthenticated && (
+          <button
+            type="button"
+            className="rail-btn"
+            onClick={() => setFeedbackOpen(true)}
+            title="Send feedback"
+          >
+            <Icon>
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </Icon>
+            <span className="rail-tip">Send feedback</span>
+          </button>
+        )}
+
         {canAdmin && (
           <NavLink to="/settings" className="rail-btn" title="Settings">
             <Icon>
@@ -168,6 +194,8 @@ const AppRail = () => {
         )}
       </div>
     </nav>
+    <FeedbackModal open={feedbackOpen} onClose={() => setFeedbackOpen(false)} />
+    </>
   );
 };
 

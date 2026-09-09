@@ -14,7 +14,7 @@ Shared UI components, navigation, route guards, modals, and loading states.
 |---|---|---|
 | `ProtectedRoute.jsx` | Drive config check; admin redirects to `/settings`, non-admins see `AccessLocked` | Authenticated + Drive |
 | `AuthenticatedRoute.jsx` | Any logged-in user | Authenticated |
-| `AdminRoute.jsx` | Admin-only pages (`/users`, `/content`, `/settings`) | ADMIN role |
+| `AdminRoute.jsx` | Admin-only pages (`/users`, `/feedback`, `/content`, `/settings`) | ADMIN role |
 | `LearningRoute.jsx` | Student learning paths (`/learning/*`) | STUDENT role |
 
 ## Shared UI Components
@@ -27,6 +27,7 @@ Shared UI components, navigation, route guards, modals, and loading states.
 | `LoginBrandPanel.jsx` | Left-side branding panel on the chromeless `/login` screen. |
 | `Spinner.jsx` | Loading spinner fallback for `Suspense` |
 | `FileModal.jsx` | File preview/action modal |
+| `FeedbackModal.jsx` | Feedback submit dialog opened from `AppRail`; category + message + up to 3 image attachments |
 | `DriveSwitcher.jsx` | Google Drive configuration selector |
 | `AccessLocked.jsx` | Non-admin access denied screen |
 | `PassagePanel.jsx` | Reading passage renderer for English learning pages (blank markers, multi-passage sets) |

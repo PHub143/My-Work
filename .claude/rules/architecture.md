@@ -10,7 +10,7 @@ Cross-cutting picture not captured in any single AGENTS.md. Workspace rules and 
 
 ## Data
 
-- Google Drive holds file content; Postgres holds the catalog and auth/config metadata (`File`, `Tag`, `User`, `DriveConfig` — see `api/prisma/schema.prisma`).
+- Google Drive holds file content; Postgres holds the catalog and auth/config metadata (`File`, `Tag`, `User`, `DriveConfig`, `Feedback` — see `api/prisma/schema.prisma`).
 - `npm run db:sync` (in `api/`) mirrors Drive files into the DB.
 - Multi-drive support: each `DriveConfig` row carries one drive's OAuth credentials; `clientSecret` and `refreshToken` are stored AES-256-GCM encrypted via `api/utils/encryption.js` (hex `ENCRYPTION_KEY` env var).
 
@@ -42,6 +42,21 @@ work around that. `allinone/src/utils/ybm.js` picks `ASSET_BASE` the same way
 the API's `/ybm` route whenever the app is talking to the real API (prod
 build, or `VITE_USE_PROD_API=true` / `npm run dev:prod`) — so a test only
 needs step 1 to work locally, and both steps to work in production.
+
+## Feedback
+
+- Any signed-in user submits feedback from the nav-rail dialog
+  (`allinone/src/components/FeedbackModal.jsx`); admins review it at
+  `/feedback` (`pages/Feedback.jsx`). Backend: `Feedback` model +
+  `routes/feedbackRoutes.js` mounted at `/feedback`.
+- Image attachments stream to a `feedback/` **subfolder** of the configured
+  Drive folder via `googleDriveService.uploadImage`. Subfolder files aren't
+  matched by `listFiles`'s `'<folderId>' in parents` query, so they never
+  enter the `File` catalog or show up in Documents/Gallery.
+- The admin UI can't `<img src>` a Drive URL (CDN `Cross-Origin-Resource-Policy`,
+  same reason as the YBM/Hacker asset routes), so
+  `GET /feedback/:id/attachments/:driveFileId` proxies the bytes and the page
+  fetches them as a blob with the bearer token.
 
 ## Auth and roles
 

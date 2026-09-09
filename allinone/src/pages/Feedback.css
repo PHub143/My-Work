@@ -1,0 +1,363 @@
+/* Feedback (admin) — review + triage screen. Colours come from the central
+   theme variables in index.css; category-hue variables are set on the list
+   parent so the lightningcss minifier can't strip theme selectors. */
+
+.fbadmin-page {
+  min-height: 100%;
+  background: var(--color-system-background);
+}
+
+.fbadmin-content {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 40px 24px 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* ── header ── */
+
+.fbadmin-header {
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.fbadmin-kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.fbadmin-badge {
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fbadmin-meta {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.fbadmin-header h1 {
+  margin: 0 0 6px;
+  font-size: 30px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.fbadmin-header h1 em {
+  font-style: italic;
+  color: var(--accent-ink);
+}
+
+.fbadmin-header p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+/* ── filters ── */
+
+.fbadmin-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fbadmin-filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fbadmin-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.fbadmin-chip:hover {
+  background: var(--hover-bg);
+  color: var(--ink);
+}
+
+.fbadmin-chip.is-active {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--surface);
+}
+
+.fbadmin-chip-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+/* ── list ── */
+
+.fbadmin-list {
+  --cat-bug: #a3183c;
+  --cat-idea: #1f4edb;
+  --cat-content: #b45309;
+  --cat-other: var(--text-muted);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+[data-theme='dark'] .fbadmin-list {
+  --cat-bug: #ff8aa8;
+  --cat-idea: #7aa7ff;
+  --cat-content: #f0b357;
+  --cat-other: var(--text-muted);
+}
+
+.fbadmin-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.fbadmin-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.fbadmin-cat {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cat-other);
+}
+
+.fbadmin-cat-bug { color: var(--cat-bug); }
+.fbadmin-cat-idea { color: var(--cat-idea); }
+.fbadmin-cat-content { color: var(--cat-content); }
+
+.fbadmin-status-select {
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.fbadmin-status-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-wash);
+}
+
+.fbadmin-message {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.fbadmin-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.fbadmin-thumb {
+  display: block;
+  width: 96px;
+  height: 96px;
+  border: 1px solid var(--line-soft);
+  border-radius: 9px;
+  overflow: hidden;
+  background: var(--surface-sunken);
+}
+
+.fbadmin-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fbadmin-thumb.is-loading {
+  background: var(--surface-sunken);
+}
+
+.fbadmin-thumb.is-missing {
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  text-align: center;
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+
+.fbadmin-note {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fbadmin-note span {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.fbadmin-note textarea {
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-sunken);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.fbadmin-note textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.fbadmin-note textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-wash);
+}
+
+.fbadmin-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+}
+
+.fbadmin-submitter {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: baseline;
+}
+
+.fbadmin-submitter strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.fbadmin-page {
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.fbadmin-delete,
+.fbadmin-confirm-yes,
+.fbadmin-confirm-no {
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.fbadmin-delete:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.fbadmin-confirm {
+  display: flex;
+  gap: 8px;
+}
+
+.fbadmin-confirm-yes {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: #fff;
+  font-weight: 500;
+}
+
+.fbadmin-confirm-no:hover {
+  background: var(--hover-bg);
+  color: var(--ink);
+}
+
+/* ── states ── */
+
+.fbadmin-error {
+  padding: 10px 13px;
+  border: 1px solid rgba(163, 24, 60, 0.28);
+  border-radius: 9px;
+  background: rgba(163, 24, 60, 0.07);
+  color: var(--danger);
+  font-size: 13px;
+}
+
+.fbadmin-loading {
+  display: grid;
+  place-items: center;
+  padding: 60px 0;
+}
+
+.fbadmin-empty {
+  padding: 48px 20px;
+  text-align: center;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  color: var(--text-muted);
+  font-size: 13.5px;
+}
+
+.fbadmin-empty p {
+  margin: 0;
+}
+
+@media (max-width: 560px) {
+  .fbadmin-content {
+    padding: 28px 16px 56px;
+  }
+
+  .fbadmin-header h1 {
+    font-size: 24px;
+  }
+}

@@ -12,6 +12,7 @@ URL declarations and middleware chains. Keep the route/controller/service layeri
 | `fileRoutes.js` | File upload, listing, management |
 | `userRoutes.js` | User management (admin) |
 | `learningRoutes.js` | Learning-result persistence (`POST`/`GET /learning/results`), auth-gated |
+| `feedbackRoutes.js` | User feedback: `POST /feedback` + `POST /feedback/attachments` (any signed-in user); `GET /feedback`, `GET /feedback/:id/attachments/:driveFileId`, `PATCH /feedback/:id`, `DELETE /feedback/:id` (admin) |
 | `ybmAssetRoutes.js` | Public `GET /ybm/:testId/:filename` — streams a YBM booklet page/audio file from Drive; see `.claude/rules/architecture.md` "YBM asset pipeline" |
 
 ## API And Auth Conventions

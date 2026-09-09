@@ -13,6 +13,7 @@ Business logic, Prisma persistence, Google Drive behavior, config encryption.
 | `userService.js` | User persistence and queries |
 | `defaultAdminService.js` | Ensures a default admin user exists on startup |
 | `learningResultService.js` | Learning-result persistence and queries |
+| `feedbackService.js` | Feedback persistence and queries (author join + snapshot fallback) |
 | `ybmAssetService.js` | Resolves a YBM test/filename to a Drive file ID (via `api/data/ybm-assets/<testId>.json`) and returns a readable stream from Drive; see `.claude/rules/architecture.md` "YBM asset pipeline" |
 
 ## Google Drive Behavior
@@ -24,6 +25,7 @@ Business logic, Prisma persistence, Google Drive behavior, config encryption.
   2. `fileController.js` calls `googleDriveService.uploadFile`.
   3. Uploaded Drive metadata is cached through `fileService.createFile`.
   4. If database caching fails after Drive upload, the controller tries to delete the orphaned Drive file.
+- `googleDriveService.uploadImage` is a separate small-image path used by feedback attachments: it enforces `image/*` + a byte cap and uploads into a `feedback/` **subfolder** of the configured Drive folder, so those files are never listed by `listFiles`/`db:sync` and don't leak into the catalog. `streamFile(fileId)` returns a raw Drive read stream for proxy routes.
 
 ## Conventions
 
