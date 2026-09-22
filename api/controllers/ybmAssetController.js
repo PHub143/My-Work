@@ -21,13 +21,24 @@ const getAssetHandler = async (req, res, next) => {
     res.set('Content-Type', mimeType);
     res.set('ETag', `"${fileId}"`);
     res.set('Cache-Control', 'public, max-age=0, must-revalidate');
+    // Advertised unconditionally so the browser knows up front that it can
+    // seek this resource with Range requests, not just after a successful one.
+    res.set('Accept-Ranges', 'bytes');
 
     if (req.get('If-None-Match') === `"${fileId}"`) {
       res.status(304).end();
       return;
     }
 
-    const stream = await ybmAssetService.streamAsset(fileId);
+    const { status, stream, contentLength, contentRange } = await ybmAssetService.streamAsset(
+      fileId,
+      req.get('Range'),
+    );
+
+    if (contentLength !== undefined) res.set('Content-Length', String(contentLength));
+    if (contentRange) res.set('Content-Range', contentRange);
+    res.status(status);
+
     stream.on('error', (error) => next(error));
     stream.pipe(res);
   } catch (error) {
