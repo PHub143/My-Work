@@ -81,6 +81,19 @@ function rememberAsset(fileId, buffer) {
 // <audio>/<video> elements send to seek) against a known total size. Returns
 // null for a missing, multi-range, or unsatisfiable header — callers fall
 // back to serving the whole thing, same as before Range support existed.
+// gaxios/googleapis returns a Fetch `Headers` instance for a streamed
+// response, not a plain object — `response.headers['content-length']`
+// silently reads as undefined even though the header is there, which meant
+// every partial response went out as a 206 with no Content-Range (invalid,
+// and enough to make browsers refuse to play the audio at all). `.get()` is
+// the correct accessor; plain-object fallback kept in case a future
+// googleapis version reverts that shape.
+function getResponseHeader(headers, name) {
+  if (!headers) return undefined;
+  if (typeof headers.get === 'function') return headers.get(name) || undefined;
+  return headers[name];
+}
+
 function parseRange(rangeHeader, size) {
   if (!rangeHeader || !rangeHeader.startsWith('bytes=') || rangeHeader.includes(',')) return null;
 
@@ -142,12 +155,12 @@ const streamAsset = async (fileId, rangeHeader) => {
   // waiting on a full download. Not cached: caching a partial byte range
   // would corrupt the full-file cache used for later whole-file requests.
   if (response.status === 206) {
-    const contentLength = response.headers['content-length'];
+    const contentLength = getResponseHeader(response.headers, 'content-length');
     return {
       status: 206,
       stream: driveStream,
       contentLength: contentLength ? Number(contentLength) : undefined,
-      contentRange: response.headers['content-range'] || null,
+      contentRange: getResponseHeader(response.headers, 'content-range') || null,
     };
   }
 
@@ -162,7 +175,7 @@ const streamAsset = async (fileId, rangeHeader) => {
   driveStream.on('error', (error) => out.emit('error', error));
   driveStream.pipe(out);
 
-  const contentLength = response.headers['content-length'];
+  const contentLength = getResponseHeader(response.headers, 'content-length');
   return {
     status: 200,
     stream: out,
