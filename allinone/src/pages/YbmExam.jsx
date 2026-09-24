@@ -21,7 +21,10 @@ import {
   getPartForQuestion,
   getQuestionAudioUrl,
   getTestReadiness,
+  findTranscriptEntry,
   loadReadingContent,
+  loadTranscript,
+  parseTranscriptLine,
   loadAttempt,
   saveAttempt,
   scoreAttempt,
@@ -298,6 +301,17 @@ const ExamRunner = ({ test, volumeId }) => {
     });
     return () => { active = false; };
   }, [test.id]);
+  // Audio script, only fetched (and shown) once the test is submitted.
+  const [transcript, setTranscript] = useState(null);
+  useEffect(() => {
+    if (!result) return undefined;
+    let active = true;
+    loadTranscript(test.id).then((data) => {
+      if (active) setTranscript(data);
+    });
+    return () => { active = false; };
+  }, [test.id, result]);
+  const transcriptEntry = result && section === 'listening' ? findTranscriptEntry(transcript, focus) : null;
   const focusPart = getPartForQuestion(focus)?.part;
   const useStructuredContent = Boolean(readingContent?.parts?.[String(focusPart)]);
   const assetUrl = useCallback((filename) => getAssetUrl(test.id, filename), [test.id]);
@@ -643,6 +657,29 @@ const ExamRunner = ({ test, volumeId }) => {
                 )}
               </div>
             </div>
+          )}
+
+          {transcriptEntry && (
+            <section className="ybm-transcript" aria-label="Audio transcript">
+              <h3>
+                {transcript?.kind === 'summary' ? 'Summary' : 'Transcript'} · {transcriptEntry.from === transcriptEntry.to
+                  ? `Question ${transcriptEntry.from}`
+                  : `Questions ${transcriptEntry.from}–${transcriptEntry.to}`}
+              </h3>
+              {transcriptEntry.lines.map((raw, index) => {
+                const { speaker, text } = parseTranscriptLine(raw);
+                const isCorrect = /^\(([A-D])\)/.exec(text)?.[1] === correctAnswers?.[focus];
+                return (
+                  <p
+                    key={index}
+                    className={isCorrect ? 'ybm-transcript-correct' : undefined}
+                  >
+                    {speaker && <b>{speaker}</b>}
+                    {text}
+                  </p>
+                );
+              })}
+            </section>
           )}
         </section>
 

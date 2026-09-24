@@ -203,6 +203,42 @@
   color: var(--exam-text);
 }
 
+/* --- listening transcript (shown after submission) --- */
+
+.ybm-transcript {
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--exam-border);
+  border-radius: 8px;
+  color: var(--exam-text);
+}
+
+.ybm-transcript h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.72;
+}
+
+.ybm-transcript p {
+  margin: 0.25rem 0;
+  line-height: 1.5;
+}
+
+.ybm-transcript b {
+  display: inline-block;
+  min-width: 3.4rem;
+  margin-right: 0.5rem;
+  font-size: 0.75rem;
+  opacity: 0.72;
+}
+
+.ybm-transcript-correct {
+  font-weight: 600;
+  color: var(--exam-accent);
+}
+
 /* --- body: booklet + answer sheet --- */
 
 .ybm-exam-body {

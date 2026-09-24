@@ -195,6 +195,32 @@ export function loadReadingContent(testId) {
   return load ? load() : Promise.resolve(null);
 }
 
+// --- Listening transcripts --------------------------------------------------
+
+// The audio script for each Listening question, transcribed by eye from the
+// photographed script books (see data/ybm/transcripts/AGENTS.md). Shown only
+// after the test is submitted. Loaded on demand like the reading content;
+// null when a test has no transcript yet.
+const transcriptModules = import.meta.glob('../data/ybm/transcripts/*.json', {
+  import: 'default',
+});
+
+export function loadTranscript(testId) {
+  const load = transcriptModules[`../data/ybm/transcripts/${testId}.json`];
+  return load ? load() : Promise.resolve(null);
+}
+
+// Line format: "Speaker|text" for a spoken line, plain "(A) text" for an
+// answer choice or a photo description.
+export function parseTranscriptLine(line) {
+  const match = /^([A-Za-z]{1,3}(?:-[A-Za-z]{2,3})?)\|(.*)$/s.exec(line);
+  return match ? { speaker: match[1], text: match[2] } : { speaker: null, text: line };
+}
+
+export function findTranscriptEntry(transcript, number) {
+  return transcript?.entries?.find((entry) => number >= entry.from && number <= entry.to) || null;
+}
+
 // --- Attempt persistence ---------------------------------------------------
 
 const attemptKey = (userId, testId) => `ybm.attempt.${userId || 'anonymous'}.${testId}`;

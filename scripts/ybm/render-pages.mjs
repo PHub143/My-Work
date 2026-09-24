@@ -35,6 +35,11 @@ const VOLUME_SOURCES = {
     // folder, zero-padded two digits — not the rapid/per-question variants.
     audio: (n) =>
       `${SOURCE}/Vol 1 - 2025 edition/YBM TOEIC Vol.1 2025/YBM TOEIC LC 1000 Vol_1 Audio Chia Từng Test/Test ${String(n).padStart(2, '0')}.mp3`,
+    // Listening script + answer explanations (photographed pages). Only
+    // TEST 1.pdf opens with the book cover; the rest start on the answer-key
+    // / Part 1 page (confirmed by looking at each PDF's first page).
+    scriptFirstPage: { 1: 2 },
+    script: (n) => `${SOURCE}/Vol 1 - 2025 edition/YBM TOEIC Vol.1 2025/Script/TEST ${n}.pdf`,
     // TEST 10.pdf's split ran 4 pages past the real end of the booklet,
     // pulling in the book's back-of-book "ANSWERS" appendix (grids for
     // tests 5-8) — confirmed by reading pages 31-34 directly, not assumed.
@@ -89,6 +94,7 @@ function parseArgs(argv) {
   for (let i = 2; i < argv.length; i += 1) {
     const flag = argv[i];
     if (flag === '--all') args.all = true;
+    else if (flag === '--script-only') args.scriptOnly = true;
     else if (flag === '--vol') args.vol = Number(argv[++i]);
     else if (flag === '--test') args.test = Number(argv[++i]);
     else if (flag === '--dpi') args.dpi = Number(argv[++i]);
@@ -141,12 +147,33 @@ async function renderSection(pdfPath, outDir, prefix, dpi, range) {
   return count;
 }
 
+// Listening script pages (`sc-pNN.jpg`), the source for the transcripts in
+// data/ybm/transcripts. See `scriptFirstPage` for which tests open with a cover.
+async function renderScript(source, test, outDir, dpi) {
+  if (!source.script) return;
+  const pdf = source.script(test);
+  if (!existsSync(pdf)) {
+    console.warn(`  ! missing script: ${pdf}`);
+    return;
+  }
+  const { stdout } = await run('pdfinfo', [pdf]);
+  const last = Number(stdout.match(/^Pages:\s+(\d+)/m)?.[1]);
+  await mkdir(outDir, { recursive: true });
+  await renderSection(pdf, outDir, 'sc', dpi, [source.scriptFirstPage?.[test] ?? 1, last]);
+}
+
 async function renderTest(vol, test, args) {
   const source = VOLUME_SOURCES[vol];
   if (!source) throw new Error(`Unknown volume ${vol}`);
 
   const id = testId(vol, test);
   const outDir = join(args.out, id);
+
+  if (args.scriptOnly) {
+    console.log(`${id}:`);
+    await renderScript(source, test, outDir, args.dpi);
+    return;
+  }
 
   if (source.perTest) {
     await mkdir(outDir, { recursive: true });
@@ -165,6 +192,8 @@ async function renderTest(vol, test, args) {
     console.warn(`Vol ${vol} test ${test} has no page mapping yet — skipping.`);
     return;
   }
+
+  await renderScript(source, test, outDir, args.dpi);
 
   const audio = source.audio(test);
   console.log(existsSync(audio) ? `  audio ready: ${audio}` : `  ! missing audio: ${audio}`);
