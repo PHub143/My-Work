@@ -1,6 +1,6 @@
 ---
 name: toeic-maker
-description: Turns scanned TOEIC book source material (PDFs/MP3s) into a playable test in this repo's YBM or Hacker collections (allinone/ + api/), and/or upgrades an already-digitized test's Reading/Listening parts from scanned page images into real structured HTML. Use this whenever the user asks to "digitize", "add", "process", "map", or "wire up" a specific test — e.g. "do vol 2 test 3", "add the next test", "digitize Vol 1 Test 6" — or asks why a test shows "Not available". Also use it if a test's booklet pages or answer key look wrong (same steps fix an existing one), or when the user asks to "refactor", "convert to text", "make it real HTML instead of images", or otherwise extend an already-digitized test's content the way vol-2-test-01 (Hacker) was done.
+description: Builds, audits, and repairs TOEIC tests in this repo's YBM and Hacker collections (allinone/ + api/). Turns scanned source PDFs/MP3s into a playable test (page images, answer key, audio, Drive upload, manifest), upgrades a test's Parts 2-7 from scanned pages into structured HTML content, and adds Listening transcripts. Also audits which layer or part of a test is missing or inconsistent (vol-1-test-01 is the reference for a complete YBM test) and fills exactly that gap. Use this whenever the user asks to "digitize", "add", "process", "map", "wire up", "complete", "check", or "fix" a specific test — e.g. "do vol 2 test 3", "add the next test", "what's missing from vol 3 test 4", "add transcripts", "bring this test up to vol-1-test-01" — or asks why a test shows "Not available", or reports a wrong answer key, a missing page or audio file, or a part that still shows scanned pages. Also use it when the user asks to "refactor", "convert to text", or "make it real HTML instead of images", the way vol-1-test-01 (YBM) and vol-2-test-01 (Hacker) were done.
 ---
 
 # TOEIC test maker
@@ -15,8 +15,19 @@ Drive-backed asset route that already exist here. Read
 haven't — it's the map this skill is a detailed instance of (the Hacker
 collection mirrors it file-for-file under its own `hacker` names).
 
-## Two things this skill covers
+## What this skill covers
 
+Start with **Reference** (what a complete test is made of) and **Audit and
+repair** (find what a given test lacks, then fill exactly that gap). They
+tell you which of Parts 1–3 you actually need.
+
+- **Reference — anatomy of a complete YBM test**: the seven layers of
+  `vol-1-test-01` with real counts and data shapes — the target every build
+  or repair aims at.
+- **Audit and repair**: `scripts/audit-ybm.mjs` reports which layer or part
+  of any YBM test is missing or inconsistent, and a playbook maps each
+  finding to its fix. Use it to bring an existing test up to the reference,
+  or to decide what a new test still needs.
 - **Part 1 — Digitizing a new test**: turn scanned source PDFs/MP3s into
   booklet page images + an answer key + audio, uploaded to Drive and wired
   into the manifest so the test is playable at all (as a scanned booklet).
@@ -26,11 +37,17 @@ collection mirrors it file-for-file under its own `hacker` names).
   what turned Hacker's `vol-2-test-01` from "flip through booklet photos"
   into the current text UI, across several rounds of fixes in the same
   session. A test needs Part 1 done before Part 2 applies to it.
+- **Part 3 — Listening transcripts**: transcribe a test's Listening script
+  into `transcripts/<id>.json` so the exam can show it after Submit (YBM
+  Vol 1 via `Script/` PDFs; Vol 2 via the explanations section of
+  `lc 1000 - 2.pdf` — see Part 3).
 
-A request to "do the next test" almost always means Part 1. A request to
-"refactor", "convert", or reporting that a specific already-playable test's
-UI should work like another one that already got the Part 2 treatment,
-means Part 2.
+A request to "do the next test" almost always means Part 1, then Parts 2 and
+3 as far as the volume's sources allow. A request to "refactor", "convert",
+or reporting that a specific already-playable test's UI should work like
+another one that already got the Part 2 treatment, means Part 2. "What's
+missing from…", "complete…", or "bring vol N test M up to vol-1-test-01"
+means audit first.
 
 ## Collections in this repo
 
@@ -56,6 +73,281 @@ Don't assume a YBM Part 2 refactor costs the same as a Hacker one — check
 the source PDF first (see "Check whether this is even cheap to do" below)
 and flag the difference to the user before committing to it.
 
+Everything from "Reference" through "Audit and repair" is written for `ybm`.
+Hacker has the same layers 0–5 (content under
+`allinone/src/data/hacker/content/`, renderer `HackerReadingContent.jsx`) but
+no transcripts layer, and `audit-ybm.mjs` does not read it.
+
+---
+
+# Reference — anatomy of a complete YBM test (`vol-1-test-01`)
+
+`vol-1-test-01` is the worked example of a *fully built* YBM test: all seven
+layers below exist for it, and `vol-1-test-02`…`10` have the same shape. Vol 2
+and 3 tests are identical except they may lack a transcript layer (Vol 2's
+script sits in `lc 1000 - 2.pdf`'s explanations, so it *can* be built —
+`vol-2-test-01` has one; Vol 3's source is unchecked) and have shorter
+booklets. Whatever you build or
+repair, this is the target.
+
+## The seven layers
+
+Each layer is independent and the app degrades gracefully without it — which
+is what makes partial builds and targeted repairs possible. `<id>` is
+`vol-N-test-MM`, zero-padded.
+
+| # | Layer | Where | Git | If it is absent, the app… |
+|---|---|---|---|---|
+| 0 | Source PDFs + MP3 | `/Volumes/Samsung_T5/Download/YBM/<volume folder>/` | outside the repo | can't rebuild anything |
+| 1 | Booklet pages, audio, crops | `allinone/public/ybm/<id>/` | gitignored | dev shows broken images; prod is fine if Drive has them |
+| 2 | Drive copy + manifest | `api/data/ybm-assets/<id>.json` | committed | prod 404s every page and the audio (local dev still works from layer 1) |
+| 3 | Page counts | `allinone/src/data/ybm/manifest.js` | committed | that section isn't offered ("Not available") |
+| 4 | Answer keys | `allinone/src/data/ybm/keys/<id>.json` | committed | that section isn't offered; if neither is, a "not ready yet" screen |
+| 5 | Structured content (Parts 2–7) | `allinone/src/data/ybm/content/<id>.json` | committed | each missing part renders as scanned booklet pages |
+| 6 | Listening transcripts | `allinone/src/data/ybm/transcripts/<id>.json` | committed | no transcript panel after Submit |
+| 7 | Renderer + runtime | `pages/YbmExam.jsx`, `pages/YbmReadingContent.jsx`, `utils/ybm.js`, `api/services/ybmAssetService.js` | committed | — adding a test never touches these |
+
+Not a layer: per-question audio clips (`lc-qNN.mp3`). `QUESTION_AUDIO` in
+`utils/ybm.js` is an empty allowlist, so every test plays its one
+`listening.mp3` — a test without clips isn't missing anything.
+
+## `vol-1-test-01` by the numbers
+
+**0 · Source.** Vol 1 is a `perTest` volume — the 전면개정판 full revision
+(`manifest.js` dates it Dec 2024; the source folder is named `2025 edition`,
+which is what this skill calls it). Under
+`/Volumes/Samsung_T5/Download/YBM/Vol 1 - 2025 edition/YBM TOEIC Vol.1 2025/`:
+`LC/TEST 1.pdf` (14 pp) · `RC/TEST 1.pdf` (30 pp) · `Script/TEST 1.pdf` (30 pp
+— the Listening script + Korean translation + explanations, ending at Q100;
+test 1 alone opens with a cover, hence `scriptFirstPage: {1: 2}`) ·
+`RC Key.pdf` (4 pp shared by all tests) · `YBM TOEIC LC 1000 Vol_1 Audio Chia
+Từng Test/Test 01.mp3`. All are scans with no text layer. The sibling folder
+`Vol 1/` is an *older edition* — see "Same edition as the booklet" in Part 1.
+`RC/TEST 10.pdf` runs 34 pages (it swallows the back-of-book answers
+appendix), capped by `readingLastPage: {10: 30}` in `render-pages.mjs`.
+
+**1 · Local assets — 76 files.** `lc-p01…p14.jpg` (`p01` = the "LC TEST 1"
+cover, `p02` = directions + Part 1 example, `p03…p05` = Part 1's six photos,
+`p06` = Part 2) · `rc-p01…p30.jpg` (`p01` = cover, `p02` = directions + the
+start of Part 5, `p29` = "Stop! This is the end of the test.", `p30` = a
+non-exam closing page, the YBM RC1000 checklist — a `perTest` PDF is rendered
+whole, so its cover and closing pages are included) ·
+`listening.mp3` (re-encoded to 64 kbps mono, 45.4 min, ~22 MB) ·
+`lc-graphic-096.jpg` + `lc-graphic-100.jpg` (crops cut from `lc-p13.jpg`) ·
+`sc-p01…p29.jpg` (script pages: a *working set* for transcripts, never served).
+
+**2 · Drive manifest — 47 files:** everything above except the `sc-p*` pages.
+
+**3 · manifest.js.** Vol 1 sets `listeningPages: 14` and `readingPages: 30` at
+the volume level with **no per-test overrides** — a Vol 1 test needs one only
+if its counts differ. Vols 2 and 3 set the volume defaults to `null` and list
+a count per mapped test in `listeningPageOverrides`/`readingPageOverrides`
+(`null` is what keeps an un-mapped test "Not available").
+
+**4 · Keys.** 100 + 100 letters and where each grid was read — shape below.
+
+**5 · Content — Parts 2–7, 194 of 200 questions** (Part 1's photo questions
+stay on the scanned page):
+
+| Part | Questions | `type` | What `vol-1-test-01` holds |
+|---|---|---|---|
+| 1 | 1–6 | *(not transcribed)* | photos → scanned pages `lc-p03…p05` |
+| 2 | 7–31 | `text-only`, `batchSize: 25` | 25 items with **no `choices`** (the book prints only "Mark your answer on your answer sheet.") |
+| 3 | 32–70 | `text-only` | 39 items = 13 conversations × 3, plus `graphics` for [62–64] notice, [65–67] invoice, [68–70] schedule — all transcribed as text tables |
+| 4 | 71–100 | `text-only` | 30 items = 10 talks × 3, plus `graphics` for [95–97] and [98–100] — spatial diagrams, so `kind:"graphic"` crops |
+| 5 | 101–130 | `text-only` | 30 items, the blank written `_______` |
+| 6 | 131–146 | `passage-set` | 4 sets × 4 (article, letter, email, article) with `[[n]]` blank tokens; the sentence-insertion items (134, 137, 142, 145) carry `"type":"sentence"` |
+| 7 | 147–200 | `passage-set` | 15 sets, 54 items: 10 single-passage, 2 double, 3 triple; kinds notice, email, chat, form, article, webpage, schedule |
+
+`imageOnlyPages` is `{ "listening": 5 }`: `lc-p01…p05` (cover, directions,
+Part 1's photos) stay scanned images and Part 2 starts on `lc-p06`. Reading
+has no entry because every reading part is transcribed.
+
+**6 · Transcripts — 54 entries covering Q1–100:** Part 1 → 6 entries, Part 2
+→ 25, Part 3 → 13 (3 questions each), Part 4 → 10 (3 each).
+
+### The volumes side by side
+
+| | Vol 1 | Vol 2 | Vol 3 |
+|---|---|---|---|
+| Edition (per `manifest.js`) | 전면개정판 (folder: `2025 edition`) | 2018 고득점 대비 최신판 | 2021 최신판 |
+| Source shape | one PDF per test (`perTest: true`) | one combined LC + one combined RC PDF; `pageRanges` found by hand | same as Vol 2 |
+| Booklet pages (LC / RC) | 14 / 30, covers included | 12 / 28 or 30, per test | 12 / 28 (tests 9–10: 30) |
+| Page counts in `manifest.js` | volume-level | per-test overrides | per-test overrides |
+| Where to read the listening key | first page of `Script/TEST N.pdf` | `lc 1000 - 2.pdf` explanations grid | `KEY LC.pdf` |
+| Where to read the reading key | `RC Key.pdf` | `rc 1000 - 2.pdf` | `KEY RC.docx` (embedded image) |
+| Transcripts | yes (`Script/` PDFs) | script inside `lc 1000 - 2.pdf`'s explanations (test 1 = pp. 171–200; only test 1 built so far) | unchecked |
+| `imageOnlyPages.listening` | 5 | 4 | 4 |
+
+For a new test in an existing volume, start from a sibling's values, then
+verify each against the actual page images.
+
+## Data shapes
+
+```jsonc
+// keys/vol-1-test-01.json — a section may be null (then that section isn't offered)
+{ "testId": "vol-1-test-01",
+  "listening": "<100 letters A-D>", "listeningSource": "<file>, page <n> (TEST 1 answer grid)",
+  "reading":   "<100 letters A-D>", "readingSource":   "<file>, page <n> (TEST 1)" }
+
+// api/data/ybm-assets/vol-1-test-01.json — NOT a flat map; written by upload-ybm-assets.js
+{ "testId": "vol-1-test-01", "files": { "lc-p01.jpg": "<driveFileId>", "listening.mp3": "<driveFileId>" } }
+
+// content/vol-1-test-01.json — full field reference: content/AGENTS.md
+{ "testId": "vol-1-test-01", "source": "…", "note": "…",
+  "imageOnlyPages": { "listening": 5 },
+  "parts": {
+    "2": { "type": "text-only", "batchSize": 25,
+           "items": [{ "number": 7, "stem": "Mark your answer on your answer sheet." }] },
+    "3": { "type": "text-only",
+           "items": [{ "number": 32, "stem": "…", "choices": { "A": "…", "B": "…", "C": "…", "D": "…" } }],
+           "graphics": [{ "questions": [62, 63, 64], "passage": { "kind": "notice", "heading": "…" } }] },
+    "6": { "type": "passage-set",
+           "sets": [{ "id": "p6-set-131-134", "questions": [131, 132, 133, 134],
+                      "instruction": "Questions 131-134 refer to the following article.",
+                      "passage": { "kind": "article", "paragraphs": ["… [[131]] …"] },
+                      "items": [{ "number": 131, "choices": { "A": "…", "B": "…", "C": "…", "D": "…" } }] }] } } }
+
+// transcripts/vol-1-test-01.json — schema and conventions: Part 3
+{ "testId": "vol-1-test-01",
+  "entries": [
+    { "from": 1,  "to": 1,  "lines": ["(A) He's looking at a mobile phone.", "(B) …", "(C) …", "(D) …"] },
+    { "from": 7,  "to": 7,  "lines": ["W-Am|Where are the recycling bins located?", "M-Au|(A) In the hallway.", "(B) Every weekday.", "(C) Just paper and glass."] },
+    { "from": 32, "to": 34, "lines": ["W-Am|Sorry to bother you, Carl, …", "M-Cn|He's at a doctor's appointment, …"] } ] }
+```
+
+## What the exam does with missing or partial layers
+
+Read from `YbmExam.jsx`, `YbmReadingContent.jsx` and `utils/ybm.js`. This is
+why the partial-content rules below exist.
+
+- **A section is offered** only if its page count is mapped (layer 3) *and* its key is valid (layer 4). No section offered → a "not ready yet" screen naming what's missing.
+- **Per question**, the exam looks at `content.parts[<that question's part>]`: present → the structured view; absent → the scanned-page viewer.
+- **Structured view** = the transcribed parts of the section, in order, as one flat list of units (a Part 2 batch, a Part 3/4 graphics group, a Part 6/7 set…). At its first unit, Prev returns to the scanned viewer at page `imageOnlyPages[section]`; at its last, Next becomes "Continue → <other section>".
+- **Scanned viewer** pages through `1…imageOnlyPages[section]` (every page if the key is unset). At the last of those pages, if a later part is transcribed, Next becomes "Continue →" into it.
+- **Transcript panel**: only after Submit, only in Listening — the entry containing the focused question, with the `(A)…(D)` line equal to the *key's* answer highlighted. A wrong key therefore visibly highlights the wrong choice.
+- **Asset route** `GET /ybm/:testId/:filename` serves only names listed in `api/data/ybm-assets/<id>.json`, and only `.jpg`/`.jpeg`/`.mp3` (else 400). Manifests are cached per API process.
+
+Three rules follow for a test whose content is only partly transcribed:
+
+1. **Transcribe a contiguous run that ends at the section's last part**, growing backwards: Listening 4 → 3–4 → 2–4; Reading 7 → 6–7 → 5–7 (Part 1 is never transcribed). An untranscribed part *after* a transcribed one gets skipped by Next, and with `imageOnlyPages` set its pages are unreachable. — audit `CONTENT-NOT-SUFFIX`
+2. **`imageOnlyPages[section]` = the last booklet page still needed by the leading untranscribed part(s)** — Vol 1 Listening 5, Vols 2/3 Listening 4 while only Part 1 is untranscribed; if Part 2 were untranscribed too it would be the last Part 2 page (`lc-p06` for `vol-1-test-01`). Recompute it whenever the run changes, and delete the key once the section is fully transcribed. — audit `CONTENT-IMGONLY`
+3. **Pages beyond that number are never requested**, so they needn't be on Drive: `vol-2-test-07` deliberately holds just `lc-p01…p04` + `listening.mp3`. Uploading every page is harmless, only wasteful.
+
+---
+
+# Audit and repair
+
+## Audit a test
+
+Run this first — for a new test to see what exists, for an old one to see
+what it lacks:
+
+```bash
+node .claude/skills/toeic-maker/scripts/audit-ybm.mjs                 # all 30 tests: one-line matrix, then ERROR/TODO/WARN findings
+node .claude/skills/toeic-maker/scripts/audit-ybm.mjs vol-3           # one volume
+node .claude/skills/toeic-maker/scripts/audit-ybm.mjs vol-1-test-01   # one test: every finding incl. INFO, and the asset files the exam will request
+```
+
+Read-only, Node builtins only, exit code 1 only when an `ERROR` exists. It
+cross-checks the layers against each other: page counts ↔ Drive files,
+content coverage and order per part, Part 6 blank tokens, printed "Questions
+X-Y refer to…" lines, "Look at the graphic" questions ↔ `graphics` groups,
+graphic crops ↔ Drive,
+`imageOnlyPages` ↔ which parts are transcribed, transcript coverage /
+grouping / line format, key format and source citations. Findings are `ERROR`
+(present but wrong — breaks or misleads at runtime), `TODO` (a layer is
+absent), `WARN`, and `INFO`; each has a code, and the playbook below is
+indexed by it.
+
+What it cannot see — check these with "Verify against the pages" below, or by
+eye: whether a key is *right* (it validates the format and flags one known
+wrong-source pattern, `KEY-SRC-EDITION`), whether question texts sit under the
+*right numbers* (a whole set can be renumbered out of order and still pass
+every structural check — it happened to `vol-1-test-04`'s Part 3), whether
+transcribed text matches the page, and whether `imageOnlyPages` is the
+*correct* page (only that it is set and plausible). Trust a clean audit for
+structure, not for content.
+`node .claude/skills/toeic-maker/scripts/audit-ybm.selftest.mjs` proves every
+check still fires against a deliberately broken temp copy of `vol-1-test-01`
+(it never touches the repo) — run it after editing the audit. When a new kind
+of mistake turns up, add a check (or a row to `SUSPECT_KEY_SOURCES` for a bad
+source citation) and a selftest case, rather than relying on memory.
+
+## Verify against the pages
+
+The audit proves the layers agree with *each other*; `scripts/verify-vs-pages.py`
+proves they agree with the *book*, by OCR-ing the scans. It needs `tesseract`,
+Pillow and numpy plus the gitignored page images (regenerate with
+`render-pages.mjs` if they are missing).
+
+```bash
+python3 .claude/skills/toeic-maker/scripts/verify-vs-pages.py keys      vol-1            # or vol-1-test-04 — Vol 1 only
+python3 .claude/skills/toeic-maker/scripts/verify-vs-pages.py numbering vol-1            # any volume with local lc-/rc- pages
+```
+
+- **`keys`** reads the correct choice the book prints in red on each script
+  page, matches its text against the known choice texts (transcripts for
+  Parts 1–2, content for Parts 3–4) and compares the letter with the committed
+  listening key. `CONFLICT` means a wrong key **or** content/transcript
+  numbering that is off. "No evidence" is just OCR misses. Result on Vol 1
+  (Sept 2026): 901 of 1,000 answers confirmed, 0 conflicts.
+- **`numbering`** OCRs the booklet pages and checks that each content
+  question's text is printed next to the number the content file gives it. A
+  misnumbered set shows up as a run of three or more consecutive questions
+  shifted by the same offset, usually a multiple of 3 — reported `LIKELY`
+  (exit 1). `possible` runs are usually OCR noise (4 read as 1, 8 as 3,
+  near-duplicate stems): open the page before acting. The four `possible`
+  runs on Vol 1 today were each checked on the page and are fine.
+- Both were proven against the pre-fix `vol-1-test-04` content file: `keys`
+  reports 7 conflicts and `numbering` the Q62–67 shift. `--content FILE` checks
+  a draft content file instead of the committed one.
+
+Run `keys` after reading any Vol 1 answer grid, and `numbering` after
+finishing or editing Part 3/4 content.
+
+## Repair playbook
+
+Find the symptom or audit code, do the fix, re-run the audit.
+
+| Symptom → audit code | Fix |
+|---|---|
+| Test or section "Not available" / "not ready yet" — `MAN-UNMAPPED`, `KEY-MISSING`, `KEY-SECTION-NULL` | Layer 3: find the booklet's page count (Part 1 → "Extracting page images"; Vol 1's volume default 14/30 may already cover it) and add it to `listeningPageOverrides` / `readingPageOverrides` if needed. Layer 4: transcribe the key (Part 1 → "Transcribing the answer key"). |
+| Wrong scores; Part 2 answered D; transcript highlights the wrong choice — `KEY-BAD`, `KEY-P2-D`, `KEY-SRC-EDITION`, `KEY-NO-SOURCE` | Re-read the grid from the *same edition as the booklet*, confirm it with `verify-vs-pages.py keys` (Part 1 → "Vol 1 (2025 edition)"), fix the `*Source` citation, then `node --test src/utils/ybm.test.js`. |
+| Images/audio 404 in production but fine locally — `DRIVE-NO-MANIFEST`, `DRIVE-MISSING-FILE` | Regenerate any missing local file (`ASSET-LOCAL-MISSING`), move `sc-p*.jpg` out of the folder, run the upload (Part 1 → "Uploading to Drive"), commit the manifest JSON. Locally, restart `api/` — it caches manifests per process. |
+| A page image or crop is wrong or blurry (the audit can't see this) | Re-render / re-crop. The upload keeps an existing Drive file with the same name, so it will **not** replace it: `api/scripts/delete-ybm-assets.js <id>` wipes the test's whole Drive folder and manifest (destructive on shared storage — get the user's OK first), then upload again. |
+| `DRIVE-UNSERVED-EXT`, `DRIVE-BAD-SHAPE` | The route serves only `.jpg`/`.jpeg`/`.mp3`: convert (`magick a.png a.jpg`), fix the content reference, re-run the upload script rather than hand-editing the manifest (its shape is `{ testId, files }`). |
+| `DRIVE-DEAD-WEIGHT`, `UPLOAD-WOULD-INCLUDE-SC` | `sc-p*.jpg` are transcript working files and are never served. Move them out of `public/ybm/<id>/` before uploading. If already uploaded, tell the user — removing files from Drive needs their OK. |
+| A part still shows scanned pages — `CONTENT-MISSING`, or a part absent from `parts` | Layer 5: Part 2 of this skill, transcribing from the end of the section backwards; add each part under `parts`, then recompute `imageOnlyPages`. |
+| The viewer flips through pages already covered by text — `CONTENT-IMGONLY` | Set `imageOnlyPages.<section>` to the last booklet page the leading untranscribed part(s) still need; delete the key once the section is fully transcribed. |
+| A part is skipped, or its pages are unreachable — `CONTENT-NOT-SUFFIX` | Transcribed parts must form a run ending at the section's last part. Transcribe the parts after the gap. |
+| `CONTENT-COVERAGE`, `-STEM`, `-CHOICES`, `-SET`, `-P6-BLANK`, `-GRAPHICS` | Transcription slips: re-read that part's page image and fix the entry. |
+| `CONTENT-ORDER`, `CONTENT-INSTRUCTION`, `CONTENT-GRAPHIC-Q` | Items or sets out of order, a set's printed "Questions X-Y refer to…" line disagreeing with its question list, or a "Look at the graphic" question sitting in no `graphics` group (its table/diagram is never shown): fix the entries from the booklet page. |
+| Question texts attached to the wrong numbers (each set reads fine, but the answer sheet disagrees) — `verify-vs-pages.py numbering` `LIKELY`, or `keys` `CONFLICT` | Renumber from the *printed* numbers on the booklet page (`lc-pNN.jpg`): on a two-page spread the columns read left to right across both pages, and each set's range is printed on its first question. Renumber the items **and** `graphics[].questions`, reorder both arrays ascending (units render in array order), then re-run both verifiers. `vol-1-test-04` Part 3 (Q62–70) was fixed this way; the crop's filename did not need to change. |
+| A "Look at the graphic" group has no table or crop — `CONTENT-GRAPHICS`, `CONTENT-GRAPHIC-ASSET`, `DRIVE-MISSING-FILE` on an `lc-graphic-*` | Part 2 → "Look at the graphic": a text table first, a `kind:"graphic"` crop only if the visual is spatial; then upload again. |
+| `CONTENT-STALE-NOTE` | Edit the `note`. It is free text and goes stale — keep mutable status like "not yet uploaded" out of it. |
+| No transcript after Submit — `TR-MISSING` (a TODO only where a script source exists) | Part 3. |
+| `TR-COVERAGE`, `TR-GROUPING`, `TR-LINES` | Fix the entries — Part 3 → "Schema". |
+
+## Building a test end to end
+
+For a brand-new test, or an existing one that lacks nearly everything. Steps
+1–4 make it playable (as a scanned booklet); 5–6 make it structured. Each
+step is detailed in the Part named; skip any the audit says already exists.
+
+| Step | Do | Where |
+|---|---|---|
+| 0 | Audit: `audit-ybm.mjs vol-N-test-MM` | above |
+| 1 | Render booklet pages (Vol 1: `node scripts/ybm/render-pages.mjs --vol 1 --test M` also writes the `sc-` script pages) | Part 1 → "Extracting page images" |
+| 2 | Audio → `listening.mp3`, 64 kbps mono | Part 1 → "Audio" |
+| 3 | Keys → `keys/<id>.json`, then `node --test src/utils/ybm.test.js` | Part 1 → "Transcribing the answer key" |
+| 4 | Page counts → `manifest.js`, *only if* they differ from the volume default | Part 1 → "Uploading to Drive and wiring it up" |
+| 5 | Content: Parts 2–7 from the *end* of each section backwards → `content/<id>.json`; set `imageOnlyPages`; crop graphics | Part 2 |
+| 6 | Transcripts (Vol 1 only) → `transcripts/<id>.json` | Part 3 |
+| 7 | Move `sc-p*.jpg` out of `public/ybm/<id>/`, then `cd api && node scripts/upload-ybm-assets.js <id>` — after step 4 to make the test playable, and again after step 5 to pick up crops (re-runs skip files already on Drive) | Part 1 → "Uploading to Drive" |
+| 8 | Verify: audit shows 0 ERROR · `npm run lint` · `node --test src/utils/ybm.test.js` · `npm run build` · curl the asset route · SSR-render a few units | Part 1 → "Verification", Part 2 → "Verifying without logging in" |
+| 9 | Report what was built and the page boundaries used; commit only if asked | — |
+
 ---
 
 # Part 1 — Digitizing a new test
@@ -72,6 +364,9 @@ script can run. This part of the skill is that hunt, written down so it
 doesn't have to be re-derived from scratch each time.
 
 ## Before you start: check what already exists
+
+For YBM, run the audit first (see "Audit a test") — it answers most of this
+list in one command. Then:
 
 1. Read `allinone/src/data/<collection>/manifest.js` —
    `VOLUMES[].listeningPageOverrides` / `readingPageOverrides` tell you which
@@ -213,6 +508,22 @@ Spot-check at least the first and last rendered page of each section (Read
 tool can view JPEGs directly) to confirm they're really the instructions
 page and the end-of-test page, not off by one.
 
+**`perTest` volumes (Vol 1) skip the boundary hunt but have their own
+traps.** `render-pages.mjs` renders each per-test PDF whole — no
+`pageRanges` entry — so check the PDFs themselves before trusting the counts:
+`pdfinfo "<LC|RC|Script>/TEST N.pdf" | grep Pages`, then look at the first and
+last rendered page of each. Known cases: the whole PDF includes its cover
+(and RC a closing checklist page), so the booklet counts include them — `lc-p01` is the
+cover, which is why Vol 1's `imageOnlyPages.listening` is 5, not 4; a PDF can
+overshoot into the next book's appendix (`RC/TEST 10.pdf` is 34 pp → cap it
+with `readingLastPage`); and a script PDF may open with a cover
+(`scriptFirstPage`, test 1 only). The plain render also drops the `sc-pNN.jpg`
+script pages into the served folder — see "Uploading to Drive" for why that
+matters. `node scripts/ybm/render-pages.mjs --vol 1 --test M --script-only
+--out <dir>` renders only the script pages, into `<dir>/vol-1-test-MM/`.
+The script only *reports* the audio path; copying and re-encoding it is a
+manual step ("Audio", below).
+
 ## Transcribing the answer key
 
 This is the most expensive and highest-risk step in this whole pipeline — in
@@ -224,6 +535,30 @@ verification. **Check "Before you start" first** — some volumes (both
 collections) ship a standalone key file per test (a PDF, a `TEST N.png`, a
 transcript with an answer page) that sidesteps grid-hunting entirely; prefer
 that whenever it exists.
+
+**Vol 1 (2025 edition): both keys ship as files — don't grid-hunt.**
+
+- **Listening key** = the answer grid at the top of the *first page* of
+  `Script/TEST N.pdf` — after rendering, `sc-p01.jpg` (5 columns × 20 rows,
+  row-major `N (LETTER)`). Test 1's PDF opens with a cover, which
+  `scriptFirstPage` skips, so this holds for every test.
+- **Reading key** = `RC Key.pdf`, four pages shared by all tests (as cited in
+  the committed keys: page 2 = tests 1–4, page 3 = 5–8, page 4 = 9–10).
+- **Same edition as the booklet — the trap.** Read every key from files that
+  sit next to the booklet you rendered. The sibling folder `Vol 1/` (with a
+  291-page `TRANSCRIPT.pdf`) is an *older edition*: different Part 1
+  questions and different answers — on test 1 only 25 of 100 listening
+  answers agree with the 2025 grid, which is chance. A key read from there
+  passes every format check and silently mis-scores. (Audit:
+  `KEY-SRC-EDITION`.)
+- **A second, independent signal.** Every script page prints each question's
+  correct choice in red. `python3 .claude/skills/toeic-maker/scripts/verify-vs-pages.py keys vol-1-test-NN`
+  OCRs those red answers and compares them with the committed key (roughly 90%
+  of questions get evidence; any `CONFLICT` needs a look — see "Verify against
+  the pages"). Also confirm the key's source shows the same Part 1
+  photo/question as the booklet's `lc-p03.jpg`. Do the read itself twice —
+  by eye and with `tesseract` — and re-check, zoomed, every cell where two
+  reads differ or none agree: `B`/`D` and `A`/`C` are the usual confusions.
 
 **Try the reading-section tail appendix first, if this book has one** (some
 volumes' combined reading PDF prints a compact key appendix, 5 columns × 20
@@ -330,13 +665,37 @@ This needs a working `DriveConfig` in the database `api/.env`'s
 same credentials the rest of the app already uses — nothing new to
 configure). It creates a `<collection>/vol-<N>-test-<M>/` folder in Drive if
 needed, uploads every file, and writes
-`api/data/<collection>-assets/vol-<N>-test-<M>.json` (a small, git-friendly
-`{ filename: driveFileId }` map — this is what makes it unnecessary to ever
-commit the actual images/audio to the repo). **Don't** grant the uploaded
-files public/"anyone with link" access — the API streams them with its own
+`api/data/<collection>-assets/vol-<N>-test-<M>.json` — a small, git-friendly
+`{ "testId": …, "files": { filename: driveFileId } }` manifest (not a flat
+map), which is what makes it unnecessary to ever commit the actual
+images/audio to the repo. **Don't** grant the uploaded files
+public/"anyone with link" access — the API streams them with its own
 credentials via `GET /<collection>/:testId/:filename`, so making them public
 would just be unnecessary exposure. If you see upload script code doing
 that, something regressed; it shouldn't.
+
+What the script does and doesn't do — each of these has bitten a real test:
+
+- **It uploads every file in the local folder** (no filter). The `sc-pNN.jpg`
+  script pages are transcript working files, never served — move them out of
+  `public/ybm/<id>/` before uploading (`--script-only --out <dir>`
+  regenerates them elsewhere). No committed manifest contains them.
+- **It is idempotent by filename and never replaces.** A name already in the
+  Drive folder keeps its old file id. Re-running is the right way to add a
+  new file (a fresh crop) — but a *changed* image with the same name is not
+  re-uploaded. To replace bad assets, `api/scripts/delete-ybm-assets.js <id>`
+  wipes the test's whole Drive folder and manifest (destructive on shared
+  storage — needs the user's explicit OK), then upload again.
+- **Only `.jpg`, `.jpeg` and `.mp3` are ever served** (`ybmAssetService.js`
+  answers anything else with 400), so crops must be `.jpg`.
+- **Only pages the exam can request need uploading** (see "What the exam does
+  with missing or partial layers"): `vol-2-test-07` was deliberately trimmed
+  to `lc-p01…p04` + `listening.mp3`. Uploading everything is also fine.
+- **The API caches each manifest per process.** After regenerating one,
+  restart `api/` (`npm start`) before curl-verifying; production picks it up
+  on redeploy.
+- **Always pass the test id** — with no argument the script defaults to
+  `vol-2-test-05`.
 
 Then update `allinone/src/data/<collection>/manifest.js` — add the page
 counts you confirmed earlier to that volume's `listeningPageOverrides` /
@@ -355,11 +714,16 @@ readingPageOverrides: { 3: 27, /* ... */ },
 Run all of these — they're cheap and each catches a different failure mode:
 
 ```bash
+node .claude/skills/toeic-maker/scripts/audit-ybm.mjs vol-<N>-test-<M>   # YBM: every layer vs. every other — expect 0 ERROR
 cd allinone
 npm run lint
 node --test src/utils/<collection>.test.js   # key format + manifest consistency
 npm run build                                 # confirms no syntax/import errors
 ```
+
+`<collection>.test.js` covers keys and the manifest only — it never opens a
+content or transcript file — so content, transcript and asset consistency is
+the audit's job, not the test suite's.
 
 Then confirm the asset route actually serves the new files correctly. If a
 local API server is already running (`api/`, `npm start`, default port
@@ -434,6 +798,8 @@ same per-question cost as the original answer-key-grid reading, but spread
 across ~200 questions instead of 100 grid cells. Flag this cost difference
 to the user explicitly before starting a YBM content refactor — it is not
 the same size of task as a Hacker one, even for the "same" test structure.
+(The `Script/` PDFs used for Part 3's transcripts are photographed pages too:
+`pdftotext` on `Script/TEST 1.pdf` returns nothing.)
 
 ## Glyph substitution risk (text-layer sources)
 
@@ -473,17 +839,22 @@ dominated by photos or filler, exactly where text extraction is least
 reliable. This page number becomes the content file's `imageOnlyPages` value
 (see schema below), which is what lets the scanned-page viewer stop
 downloading and paging through pages that are now fully redundant with the
-structured view.
+structured view. For YBM it is the last booklet page a leading untranscribed
+part still needs (`vol-1-test-01`: 5; Vols 2/3: 4) — see "What the exam does
+with missing or partial layers" for the rules when only some parts are done.
 
 ## The content JSON schema
 
 The full schema — passage `kind`s, the `graphics` mechanism for "Look at the
 graphic" question groups, `batchSize`, `imageOnlyPages`, and exactly which
 optional field each passage `kind` reads — is documented in
-`allinone/src/data/hacker/content/AGENTS.md`. **That file is the schema's
-source of truth** — update it, not this skill, when the schema itself
-changes or grows a new passage `kind`; this skill covers the *process* of
-getting there, not the field-by-field reference.
+`allinone/src/data/<collection>/content/AGENTS.md` (`ybm` and `hacker` each
+have one; the YBM one adds why Part 2 has no `choices` and where the text
+comes from). **That file is the schema's source of truth** — update it, not
+this skill, when the schema itself changes or grows a new passage `kind`;
+this skill covers the *process* of getting there, not the field-by-field
+reference. (The transcript schema has no AGENTS.md yet — it lives in Part 3
+of this skill.)
 
 The shape in one line: one JSON file per test
 (`allinone/src/data/<collection>/content/<test-id>.json`), keyed by part
@@ -491,9 +862,26 @@ number under `parts`, either `{ type: "text-only", items: [...] }` for a
 part with no shared passage, or `{ type: "passage-set", sets: [...] }` for a
 part where a group of questions shares one passage/table/chart.
 
+`source` and `note` are free text. Use `note` to describe *what is
+transcribed and where the boundaries are* (which parts, which sets are
+graphics, the `imageOnlyPages` reasoning) — but keep mutable status out of
+it. "Not yet uploaded to Drive" was written into the notes of sixteen YBM
+tests and was false for every one of them by the Sept 2026 audit
+(`CONTENT-STALE-NOTE`).
+
+**Take question numbers from the page, not from reading order.** The
+riskiest slip in Part 3/4 is attaching a set's questions to the wrong
+numbers: a two-page spread prints several columns, and reading them in the
+wrong order renumbers whole sets (`vol-1-test-04`'s Part 3 had Q62–70 rotated
+by one set and still passed every structural check). Copy each set's printed
+number range, and run `verify-vs-pages.py numbering <id>` when the part is
+done.
+
 Validate the moment you finish transcribing a part, don't wait until the
 whole test is done — a duplicate or missing question number is much cheaper
-to spot immediately than after transcribing three more parts on top of it:
+to spot immediately than after transcribing three more parts on top of it.
+For YBM, `audit-ybm.mjs <id>` does this and more (per-part question ranges,
+choices, Part 6 blank tokens, graphics). The generic one-liner:
 
 ```bash
 node -e '
@@ -538,16 +926,29 @@ TOEIC Part 3/4 sometimes prints a table, list, or chart alongside a group of
   `public/<collection>/<test-id>/` folder as the page images, so it won't
   reach production on its own; re-run
   `api/scripts/upload-<collection>-assets.js <test-id>` after adding it.
+  Naming: `lc-graphic-<NNN>.jpg`, where `NNN` is a zero-padded question
+  number *in the group* — usually the "Look at the graphic" question
+  (`vol-1-test-01`: Q96 → `lc-graphic-096.jpg`, Q100 → `lc-graphic-100.jpg`)
+  but not always (`vol-1-test-04` names the store floor plan for Q62–64
+  `lc-graphic-064.jpg`; its graphic question is Q63). The name is only an
+  identifier: don't rename an existing crop, because the content `asset` and
+  the Drive manifest must agree and a rename means a fresh upload plus an old
+  Drive file only the user can delete. It must be a `.jpg` (the asset route
+  serves nothing else); cut it from the `lc-pNN.jpg` it appears on. The group
+  still needs its `graphics` entry
+  (`{ questions: [95, 96, 97], passage: { kind: "graphic", asset, alt } }`).
 
 ## Building the renderer
 
-The renderer is currently collection-specific
-(`allinone/src/pages/HackerReadingContent.jsx` for Hacker; nothing
-equivalent exists yet for YBM — building one is a bigger first-time lift
-than adding a test to an already-built renderer, since it means designing
-the `Passage` component's kind-switch from scratch). If you're the first to
-do this for a collection, don't start from zero: `HackerReadingContent.jsx`
-+ its CSS + `content/AGENTS.md` together are a complete, working reference
+The renderer is collection-specific: `allinone/src/pages/HackerReadingContent.jsx`
+for Hacker and `allinone/src/pages/YbmReadingContent.jsx` for YBM. **Both
+already exist and are wired into their exam pages, so adding or extending a
+test needs no renderer work** — the rest of this section only matters when
+you add a *new collection* (a bigger first-time lift than adding a test to an
+already-built renderer, since it means designing the `Passage` component's
+kind-switch from scratch) or change renderer behavior. Then don't start from
+zero: `YbmReadingContent.jsx` (or its Hacker twin) + its CSS +
+`content/AGENTS.md` together are a complete, working reference
 implementation — copy the pattern (unit-building logic, `Passage` kind
 switch, batching, the image/structured handoff) rather than reinventing it,
 adjusting only the collection-specific pieces (the asset-URL helper, the
@@ -630,6 +1031,35 @@ own `node_modules` — Node resolves modules from the *script's own location*,
 not the current working directory, so a script outside `allinone/` will
 fail to find them even if you `cd` there first.
 
+**YBM variant** — verified against `vol-1-test-01` (8 of 8 assertions passed).
+Differences from the Hacker snippet: the component is `YbmReadingContent`,
+content loads asynchronously via `loadReadingContent`, question ids are
+`ybr-q-<n>`, and the component also takes the section-handoff props:
+
+```js
+import { createServer } from 'vite';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+
+const server = await createServer({ root: process.cwd(), server: { middlewareMode: true }, appType: 'custom', logLevel: 'error' });
+const { default: YbmReadingContent } = await server.ssrLoadModule('/src/pages/YbmReadingContent.jsx');
+const { loadReadingContent, getAnswerKey, getAssetUrl } = await server.ssrLoadModule('/src/utils/ybm.js');
+
+const id = '<test-id>';
+const content = await loadReadingContent(id);
+const render = (section, focus, over = {}) => renderToStaticMarkup(createElement(YbmReadingContent, {
+  content, section, focus, onFocusChange() {}, selections: {}, onSelect() {}, disabled: false,
+  correctAnswers: getAnswerKey(id).answers, assetUrl: (f) => getAssetUrl(id, f),
+  nextSectionLabel: 'Reading', onGoToNextSection: () => {}, onGoToPreviousPart: () => {}, ...over,
+}));
+// render('listening', 7).includes('id="ybr-q-31"')               — Part 2's 25 items on one screen
+// render('listening', 96).includes('lc-graphic-096.jpg')          — a kind:"graphic" crop
+// render('listening', 100).includes('Continue → Reading')         — end-of-section handoff
+// (render('reading', 131).match(/ybr-blank/g) || []).length       — Part 6 blank badges
+// pass onGoToPreviousPart: null / onGoToNextSection: null to assert a disabled Prev / Next
+await server.close();
+```
+
 This catches real bugs, not just "does it throw" — it caught a genuine one
 this session (a 3-digit question number overflowing its fixed-width column,
 invisible until actually rendered). Two complementary checks are worth
@@ -680,3 +1110,80 @@ the user, but don't act on it unprompted:
   blocks the action outright, which it may for a bulk-delete-shaped
   operation), stop and report that back rather than working around it —
   don't keep retrying through other tools to force the same action through.
+
+---
+
+# Part 3 — Listening transcripts
+
+Applies to a test whose Listening booklet and key already work (Part 1). It
+adds `allinone/src/data/ybm/transcripts/<test-id>.json`, which the exam shows
+**after Submit**, in the Listening section, under the audio player: the entry
+whose `from`–`to` range contains the focused question, with the `(A)…(D)`
+line matching the answer key highlighted. Nothing else changes — no code, no
+manifest, no Drive upload — and a test without one simply shows no panel.
+
+**Sources.** `render-pages.mjs` lists a `script` PDF for Vol 1 only:
+`Script/TEST N.pdf`, the Listening script with Korean translation (번역),
+explanations (해설) and vocabulary (어휘), photographed (no text layer),
+28–30 pages, ending at Q100.
+
+**Vol 2 has one too, just not registered in `render-pages.mjs`:** the
+answers-and-explanations section of `lc 1000 - 2.pdf` (the same file the
+listening key comes from) prints each question's English script — Part 1
+statements, Part 2 question + responses, Part 3/4 in speaker-tagged boxes —
+with 번역/어휘/해설 beside it. Test 1 is pages 171–200 (its answer grid is
+p. 171; Test 2's grid is p. 201, so a test is ~30 pages). Render them with
+`pdftoppm -jpeg -r 140 -f <first> -l <last> "<pdf>" s` into the scratchpad and
+read in order, same as Vol 1. Because `render-pages.mjs` has no `script:` entry
+for Vol 2, the audit files a missing Vol 2 transcript as INFO, not TODO. Vol 3
+and Hacker: not checked / no transcripts layer.
+
+## Schema
+
+Shape: `{ "testId": "<id>", "entries": [{ "from": N, "to": M, "lines": [...] }] }`
+(examples under "Data shapes").
+
+- **Entries tile Q1–100 exactly once**, grouped the way the exam is: Parts 1
+  and 2 → one entry per question (6 + 25); Parts 3 and 4 → one entry per
+  3-question set (13 + 10). That is 54 entries per test.
+- **A line is `"Speaker|text"` for a spoken line, or plain `"(A) text"` for a
+  choice or photo description.** Speaker tags are the ones printed on the
+  page — `W-Am`, `M-Au`, `W-Br`, `M-Cn` (gender, then accent). The app parses
+  them with `parseTranscriptLine` in `utils/ybm.js` (1–3 letters, optionally
+  `-` plus 2–3 letters).
+- **Per part:**
+  - Part 1 — four untagged lines, `(A)…(D)`, the statements (the `W-Am` tag
+    printed beside the photo is dropped).
+  - Part 2 — four lines: the question `"W-Br|Why are you…?"`, the first
+    response `"M-Cn|(A) …"`, then untagged `"(B) …"` and `"(C) …"`.
+  - Part 3 — one tagged line per turn (3–8 lines, two or three speakers).
+  - Part 4 — the whole talk as one tagged line.
+- **The exam does the highlighting**, by matching a line that starts with
+  `(X)` against the key's answer for the focused question — so keep the `(A)`
+  prefix exactly, and don't mark the correct answer yourself. This only
+  applies to Parts 1–2; Part 3/4 lines carry no choices.
+- **English only.** Skip 번역, 해설 and 어휘. Transcribe as printed —
+  punctuation, contractions, capitalization.
+- Optional top-level `"kind": "summary"` relabels the panel "Summary" instead
+  of "Transcript"; nothing uses it yet.
+
+## Making one
+
+1. **Get the script pages.** The normal render already left `sc-p01…` in
+   `allinone/public/ybm/<id>/`; otherwise
+   `node scripts/ybm/render-pages.mjs --vol 1 --test M --script-only --out <scratchpad>/ybm`
+   writes them to `<scratchpad>/ybm/vol-1-test-MM/`. Move them out of the
+   served folder before any Drive upload.
+2. **Read them in book order.** `sc-p01` opens with the answer grid and
+   Part 1; Parts 2, 3 and 4 follow to Q100. Zoom into a dense page
+   (`magick sc-pNN.jpg -crop WxH+X+Y +repage -resize 200% crop.png`) rather
+   than guessing a word.
+3. **Write the entries part by part** into `transcripts/<id>.json`, and run
+   `audit-ybm.mjs <id>` after each part — `TR-COVERAGE` catches gaps,
+   `TR-GROUPING` wrong-sized entries, `TR-LINES` missing choices or speaker
+   tags.
+4. **Cross-check against the page.** Sample three or four entries per part
+   against their script page. For Parts 1–2, compare the red choice on the
+   page with the key: a mismatch means the *key* is wrong, not the transcript
+   (Part 1 → "Vol 1 (2025 edition)").
+5. Commit only the JSON, and only when asked.

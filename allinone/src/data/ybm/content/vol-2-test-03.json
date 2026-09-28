@@ -193,9 +193,9 @@
     "5": {
       "type": "text-only",
       "items": [
-        { "number": 101, "stem": "The head office holds workshops that can prepare _______ to lead a team.", "choices": { "A": "you", "B": "your", "C": "yourself", "D": "yourselves" } },
-        { "number": 102, "stem": "Ms. Kingston decided to reserve transportation to the meeting venue _______ the clients.", "choices": { "A": "but", "B": "off", "C": "for", "D": "down" } },
-        { "number": 103, "stem": "_______ attempted to answer questions about local and national history.", "choices": { "A": "Contests", "B": "Contestant", "C": "Contesting", "D": "Contestants" } },
+        { "number": 101, "stem": "Mr. Dola chose to take a _______ flight from Austin to Chicago in order to save time.", "choices": { "A": "direct", "B": "precise", "C": "durable", "D": "formal" } },
+        { "number": 102, "stem": "Guests at the international conference can request an interpreter if _______ do not understand spoken English.", "choices": { "A": "them", "B": "they", "C": "theirs", "D": "their" } },
+        { "number": 103, "stem": "_______ Ms. Lester nor her partner could find the updated contact details for the client.", "choices": { "A": "Both", "B": "Not", "C": "Neither", "D": "Only" } },
         { "number": 104, "stem": "Prime Realty printed its logo on some _______ products for distribution to current and prospective customers.", "choices": { "A": "promotes", "B": "promote", "C": "promotionally", "D": "promotional" } },
         { "number": 105, "stem": "The team leaders _______ by the head of the department based on seniority and experience.", "choices": { "A": "select", "B": "are selecting", "C": "are selected", "D": "selected" } },
         { "number": 106, "stem": "If the severe storm hits the area as expected, the store's owner will _______ delay the grand opening ceremony.", "choices": { "A": "rather", "B": "probably", "C": "seldom", "D": "ever" } },

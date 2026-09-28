@@ -1,7 +1,7 @@
 {
   "testId": "vol-1-test-03",
   "source": "YBM 실전토익 LC/RC 1000 Vol. 1 (전면개정판, 2024), Test 3 — 300dpi scans with no text layer, transcribed by eye from the rendered booklet page images (allinone/public/ybm/vol-1-test-03/lc-pNN.jpg, rc-pNN.jpg)",
-  "note": "Parts 2-7 transcribed (questions 7-200). Part 1 (questions 1-6) is photos only, so it stays on the scanned booklet page — see data/ybm/content/AGENTS.md. Part 2's items have no `choices`: the book prints nothing per question but \"Mark your answer on your answer sheet.\" Blank tokens in Part 6 passages are written as [[N]] where N is the question number that fills that blank. `graphics` on Parts 3/4 attach the printed table/notice a group of 3 questions shares (plain tables transcribed as text); the Part 4 museum floor-plan diagram (Q95-97) is genuinely spatial, so that's a `kind: \"graphic\"` crop (lc-graphic-095.jpg) cut from lc-p13.jpg with ImageMagick — not yet uploaded to Drive.",
+  "note": "Parts 2-7 transcribed (questions 7-200). Part 1 (questions 1-6) is photos only, so it stays on the scanned booklet page — see data/ybm/content/AGENTS.md. Part 2's items have no `choices`: the book prints nothing per question but \"Mark your answer on your answer sheet.\" Blank tokens in Part 6 passages are written as [[N]] where N is the question number that fills that blank. `graphics` on Parts 3/4 attach the printed table/notice a group of 3 questions shares (plain tables transcribed as text); the Part 4 museum floor-plan diagram (Q95-97) is genuinely spatial, so that's a `kind: \"graphic\"` crop (lc-graphic-095.jpg) cut from lc-p13.jpg with ImageMagick.",
   "imageOnlyPages": {
     "listening": 5
   },

@@ -638,7 +638,7 @@
               "site": { "url": "http://www.grangerfurnishings.com", "nav": ["Home", "CATEGORIES", "ABOUT US", "REVIEWS"] },
               "heading": "Granger Furnishings",
               "paragraphs": [
-                "Thank you for considering Granger Furnishings. For more than 25 years, we have been providing the entire region with high-quality yet affordable furniture that adds distinction to any office. Click on \"CATEGORIES\" above to begin browsing our attractive workspace solutions by type, or check the space below for our specials.",
+                "Thank you for considering Granger Furnishings. For more than 25 years, we have been providing the entire region with high-quality yet affordable furniture that adds distinction to any office. Click on \"CATEGORIES\" above to begin browsing our attractive workspace solutions by type, or check the space below for our monthly specials.",
                 "Sales for the month of March:"
               ],
               "bulletList": [
@@ -673,7 +673,7 @@
             },
             {
               "kind": "email",
-              "meta": { "From": "Jeff Quinn <jquinn@girac-supply.com>", "To": "Diane Klavansky <dklavansky@girac-supply.com>", "Date": "April 5", "Subject": "Helping out" },
+              "meta": { "From": "Jeff Quinn <jquinn@girac-supply.com>", "To": "Diane Klavansky <dklavansky@girac-supply.com>", "Date": "April 5", "Subject": "Helping out", "Attachment": "Invoice" },
               "salutation": "Hi Diane,",
               "paragraphs": [
                 "I won't be able to come to work today for personal reasons, so I need you to take over my duties. One of these, of course, is acting as a manager's assistant to Ms. Naquin, but since you've done that before, I won't go into detail about it.",

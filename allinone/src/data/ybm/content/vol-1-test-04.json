@@ -1,7 +1,7 @@
 {
   "testId": "vol-1-test-04",
   "source": "YBM 실전토익 LC/RC 1000 Vol. 1 (전면개정판, 2024), Test 4 — 300dpi scans with no text layer, transcribed by eye from the rendered booklet page images (allinone/public/ybm/vol-1-test-04/lc-pNN.jpg, rc-pNN.jpg)",
-  "note": "Parts 2-7 transcribed (questions 7-200). Part 1 (questions 1-6) is photos only, so it stays on the scanned booklet page — see data/ybm/content/AGENTS.md. Part 2's items have no `choices`: the book prints nothing per question but \"Mark your answer on your answer sheet.\" Blank tokens in Part 6 passages are written as [[N]] where N is the question number that fills that blank. `graphics` on Parts 3/4 attach the printed table/diagram a group of 3 questions shares (plain tables transcribed as text, including the Part 3 store-directory-adjacent Readings/Energy-bar tables and the Part 4 video-length table); the Part 3 store directory (Q62-64) and the Part 4 route map (Q95-97) are genuinely spatial diagrams, so those are `kind: \"graphic\"` crops (lc-graphic-064.jpg, lc-graphic-097.jpg) cut from lc-p09.jpg and lc-p13.jpg with ImageMagick — not yet uploaded to Drive. The NDMA conference schedule (Q186-190) uses merged cells in print; the transcribed table repeats each merged cell's text across every time slot it spans rather than using colspan, which this schema's Table component doesn't support.",
+  "note": "Parts 2-7 transcribed (questions 7-200). Part 1 (questions 1-6) is photos only, so it stays on the scanned booklet page — see data/ybm/content/AGENTS.md. Part 2's items have no `choices`: the book prints nothing per question but \"Mark your answer on your answer sheet.\" Blank tokens in Part 6 passages are written as [[N]] where N is the question number that fills that blank. `graphics` on Parts 3/4 attach the printed table/diagram a group of 3 questions shares (plain tables transcribed as text, including the Part 3 store-directory-adjacent Readings/Energy-bar tables and the Part 4 video-length table); the Part 3 store directory (Q62-64) and the Part 4 route map (Q95-97) are genuinely spatial diagrams, so those are `kind: \"graphic\"` crops (lc-graphic-064.jpg, lc-graphic-097.jpg) cut from lc-p09.jpg and lc-p13.jpg with ImageMagick. The NDMA conference schedule (Q186-190) uses merged cells in print; the transcribed table repeats each merged cell's text across every time slot it spans rather than using colspan, which this schema's Table component doesn't support.",
   "imageOnlyPages": {
     "listening": 5
   },
@@ -70,19 +70,27 @@
         { "number": 59, "stem": "Who most likely is the man?", "choices": { "A": "An advertising executive", "B": "A fashion photographer", "C": "A professional athlete", "D": "An event organizer" } },
         { "number": 60, "stem": "What does the woman say she will request?", "choices": { "A": "Sales projections", "B": "A venue recommendation", "C": "A long-term contract", "D": "Clothing samples" } },
         { "number": 61, "stem": "Why does the woman say, \"They're still in the design stage\"?", "choices": { "A": "To indicate that the man's input is not needed yet", "B": "To encourage the man to suggest some changes", "C": "To show frustration about a lack of progress", "D": "To explain why some accessories are not being used" } },
-        { "number": 62, "stem": "What are the speakers organizing?", "choices": { "A": "A birthday celebration for an author", "B": "An anniversary party for a library", "C": "A special event for a book festival", "D": "The grand opening of a bookstore" } },
-        { "number": 63, "stem": "Look at the graphic. Which book title will be replaced?", "choices": { "A": "Silver Flame", "B": "My Father's Hands", "C": "Nights on the Oder", "D": "Let Us Run" } },
-        { "number": 64, "stem": "What does the man remind the woman to do?", "choices": { "A": "Update a Web page", "B": "Buy refreshments", "C": "Change a window display", "D": "Contact a newspaper company" } },
-        { "number": 65, "stem": "Why is the woman calling?", "choices": { "A": "To check on the status of an article", "B": "To cancel an editorial meeting", "C": "To suggest some relevant products", "D": "To discuss the theme of an upcoming issue" } },
-        { "number": 66, "stem": "Look at the graphic. Which energy bar is the man currently writing about?", "choices": { "A": "YouFuel", "B": "Savorette", "C": "Power Crunch", "D": "The Go Bar" } },
-        { "number": 67, "stem": "What does the man ask about?", "choices": { "A": "A request from a reader", "B": "A reimbursement process", "C": "The word limit for a review", "D": "The previous work of a journalist" } },
-        { "number": 68, "stem": "What did the man do recently?", "choices": { "A": "He accepted a job offer.", "B": "He moved to a new city.", "C": "He started writing a book.", "D": "He attended a presentation." } },
-        { "number": 69, "stem": "Look at the graphic. Where will the speakers go next?", "choices": { "A": "To Section 1", "B": "To Section 2", "C": "To Section 3", "D": "To Section 4" } },
-        { "number": 70, "stem": "What does the woman mention about the products?", "choices": { "A": "They come with a warranty.", "B": "They are part of a sales promotion.", "C": "They are compatible with an app.", "D": "They were released recently." } }
+        { "number": 62, "stem": "What did the man do recently?", "choices": { "A": "He accepted a job offer.", "B": "He moved to a new city.", "C": "He started writing a book.", "D": "He attended a presentation." } },
+        { "number": 63, "stem": "Look at the graphic. Where will the speakers go next?", "choices": { "A": "To Section 1", "B": "To Section 2", "C": "To Section 3", "D": "To Section 4" } },
+        { "number": 64, "stem": "What does the woman mention about the products?", "choices": { "A": "They come with a warranty.", "B": "They are part of a sales promotion.", "C": "They are compatible with an app.", "D": "They were released recently." } },
+        { "number": 65, "stem": "What are the speakers organizing?", "choices": { "A": "A birthday celebration for an author", "B": "An anniversary party for a library", "C": "A special event for a book festival", "D": "The grand opening of a bookstore" } },
+        { "number": 66, "stem": "Look at the graphic. Which book title will be replaced?", "choices": { "A": "Silver Flame", "B": "My Father's Hands", "C": "Nights on the Oder", "D": "Let Us Run" } },
+        { "number": 67, "stem": "What does the man remind the woman to do?", "choices": { "A": "Update a Web page", "B": "Buy refreshments", "C": "Change a window display", "D": "Contact a newspaper company" } },
+        { "number": 68, "stem": "Why is the woman calling?", "choices": { "A": "To check on the status of an article", "B": "To cancel an editorial meeting", "C": "To suggest some relevant products", "D": "To discuss the theme of an upcoming issue" } },
+        { "number": 69, "stem": "Look at the graphic. Which energy bar is the man currently writing about?", "choices": { "A": "YouFuel", "B": "Savorette", "C": "Power Crunch", "D": "The Go Bar" } },
+        { "number": 70, "stem": "What does the man ask about?", "choices": { "A": "A request from a reader", "B": "A reimbursement process", "C": "The word limit for a review", "D": "The previous work of a journalist" } }
       ],
       "graphics": [
         {
           "questions": [62, 63, 64],
+          "passage": {
+            "kind": "graphic",
+            "asset": "lc-graphic-064.jpg",
+            "alt": "Store floor plan divided into four numbered sections around a central checkout area: Section 1 (Computing) in the bottom-left, Section 2 (Home Theater) in the top-left, Section 3 (Appliances) in the top-right, and Section 4 (Mobile Devices) in the center, with Checkout in the bottom-right and aisle connectors linking adjacent sections"
+          }
+        },
+        {
+          "questions": [65, 66, 67],
           "passage": {
             "kind": "notice",
             "heading": "Readings",
@@ -99,7 +107,7 @@
           }
         },
         {
-          "questions": [65, 66, 67],
+          "questions": [68, 69, 70],
           "passage": {
             "kind": "notice",
             "heading": "The Best Energy Bars",
@@ -113,14 +121,6 @@
                 ["Gluten-free", "The Go Bar"]
               ]
             }
-          }
-        },
-        {
-          "questions": [68, 69, 70],
-          "passage": {
-            "kind": "graphic",
-            "asset": "lc-graphic-064.jpg",
-            "alt": "Store floor plan divided into four numbered sections around a central checkout area: Section 1 (Computing) in the bottom-left, Section 2 (Home Theater) in the top-left, Section 3 (Appliances) in the top-right, and Section 4 (Mobile Devices) in the center, with Checkout in the bottom-right and aisle connectors linking adjacent sections"
           }
         }
       ]

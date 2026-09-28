@@ -342,6 +342,7 @@
           "passages": [
             {
               "kind": "chat",
+              "meta": { "To": "Loreen Burton" },
               "messages": [
                 { "speaker": "Alex Suu", "time": "May 31, 10:04 A.M.", "text": "Loreen, I need a small favor. I just met Ms. Tekle here at the Delpray Apartments, and she seems interested in leasing the vacant studio. I'm about to show her around the building. But I just realized that I don't have any of the sample rental contracts with me. Would you mind bringing one over? We'll be here a while." }
               ]
@@ -715,6 +716,7 @@
             },
             {
               "kind": "chat",
+              "meta": { "To": "Debra Clegg" },
               "messages": [
                 { "speaker": "Matt Paulk", "time": "December 7, 11:10 A.M.", "text": "I'd like to say again that I'm sorry that I can't go with you to Seo Auto Sales today to look at the vehicles. I really want to help you out, though, so here's a little advice on what to ask about the vans. Along with obvious things like cost, it's good to know how many people can fit in each one, with or without wheelchairs. I'd also find out what kind of repairs and servicing the vans have had in the past, and their total mileage. Then, tomorrow, we can talk over what you find out. Good luck!" }
               ]
