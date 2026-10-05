@@ -4,7 +4,8 @@
 // so the extracted text stays in one place instead of two.
 
 // Multiple-choice questions whose exhibit is a table or code snippet
-// (question 9's agent table, question 14's code snippet).
+// (question 9's agent table, question 14's code snippet, question 143's prompt
+// code, question 147's OCR method).
 export const multipleChoiceExhibitConfigs = {
   14: {
     exhibitTitle: 'Code Snippet',
@@ -24,6 +25,26 @@ export const multipleChoiceExhibitConfigs = {
         ['ActionAgent', 'Creates or updates tickets by calling an HTTP API'],
       ],
     },
+  },
+  143: {
+    exhibitTitle: 'Code Snippet',
+    exhibitPageLabel: 'PDF page 184',
+    exhibitInsertAfterParagraph: 2,
+    exhibitCode: 'function F(n)\n\nvar f = [0, 1];\nfor (var i = 2; i < n; i++) f[i] = f[i-1] + f[i-2];\nreturn f;',
+  },
+  147: {
+    exhibitTitle: 'Code Snippet',
+    exhibitPageLabel: 'PDF page 188',
+    exhibitInsertAfterParagraph: 1,
+    exhibitCode:
+      'def read_file_url(computervision_client, url_file):\n' +
+      '    read_response = computervision_client.read(url_file, raw=True)\n' +
+      '    read_operation_location = read_response.headers["Operation-Location"]\n' +
+      '    operation_id = read_operation_location.split("/")[-1]\n' +
+      '    read_result = computervision_client.get_read_result(operation_id)\n\n' +
+      '    for page in read_result.analyze_result.read_results:\n' +
+      '        for line in page.lines:\n' +
+      '            print(line.text)',
   },
 };
 
@@ -82,17 +103,17 @@ export const visualCodeHotspotConfigs = {
       {
         label: 'The code will detect the language of documents.',
         options: ['Yes', 'No'],
-        answer: 'Yes',
+        answer: 'No',
       },
       {
         label: 'The url attribute returned for each linked entity will be a Bing search link.',
         options: ['Yes', 'No'],
-        answer: 'Yes',
+        answer: 'No',
       },
       {
         label: 'The matches attribute returned for each linked entity will provide the location in a document where the entity is referenced.',
         options: ['Yes', 'No'],
-        answer: 'No',
+        answer: 'Yes',
       },
     ],
   },
@@ -166,7 +187,7 @@ export const visualCodeHotspotConfigs = {
       {
         label: 'The response will contain an explanation of large language models (LLMs) that has a high degree of certainty.',
         options: ['Yes', 'No'],
-        answer: 'Yes',
+        answer: 'No',
       },
       {
         label: 'Changing "What is an LLM?" to "What is an LLM in the context of AI models?" will produce the intended response.',
@@ -176,7 +197,7 @@ export const visualCodeHotspotConfigs = {
       {
         label: 'Changing "You are a helpful assistant." to "You must answer only within the context of AI language models." will give a higher likelihood of producing the intended response.',
         options: ['Yes', 'No'],
-        answer: 'No',
+        answer: 'Yes',
       },
     ],
   },
@@ -210,7 +231,7 @@ export const visualCodeHotspotConfigs = {
       {
         label: 'Going to http://localhost:5000/status will query the Azure endpoint to verify whether the API key used to start the container is valid.',
         options: ['Yes', 'No'],
-        answer: 'Yes',
+        answer: 'No',
       },
       {
         label: 'The container logging provider will write log data.',
@@ -230,7 +251,7 @@ export const visualCodeHotspotConfigs = {
       {
         label: 'HTTP method',
         options: ['GET', 'PATCH', 'POST'],
-        answer: 'GET',
+        answer: 'POST',
       },
       {
         label: 'visualFeatures value',
@@ -317,6 +338,160 @@ export const visualCodeHotspotConfigs = {
           'MemorySearchTool("support_mem_store")',
         ],
         answer: '[memory_tool]',
+      },
+    },
+  },
+  149: {
+    codeTemplate:
+      'blocklist_name = "ConfidentialTerms"\n' +
+      'client = ContentSafetyClient(endpoint, credential)\n' +
+      'request = {{request}}(\n' +
+      '    text=input_text,\n' +
+      '    blocklist_names=[blocklist_name],\n' +
+      '    halt_on_blocklist_hit=False\n' +
+      ')\n' +
+      'analysis_result = {{analysis}}(request)',
+    codeBlanks: {
+      request: {
+        options: ['AddOrUpdateTextBlocklistItemsOptions', 'AnalyzeImageOptions', 'AnalyzeTextOptions', 'TextBlocklist'],
+        answer: 'AnalyzeTextOptions',
+      },
+      analysis: {
+        options: [
+          'client.add_or_update_blocklist_items',
+          'client.analyze_image',
+          'client.analyze_text',
+          'client.list_text_blocklists',
+        ],
+        answer: 'client.analyze_text',
+      },
+    },
+  },
+  151: {
+    hotspotFields: [
+      {
+        label: 'Project type:',
+        options: ['Food', 'General', 'General (compact)', 'Image classification', 'Logo', 'Object detection'],
+        answer: 'Object detection',
+      },
+      {
+        label: 'Domain:',
+        options: ['Food', 'General', 'General (compact)', 'Image classification', 'Logo', 'Object detection'],
+        answer: 'General (compact)',
+      },
+    ],
+  },
+  152: {
+    hotspotFields: [1, 2, 3, 4, 5].map((step) => ({
+      label: `Step ${step}`,
+      options: [
+        'From the Custom Vision portal, open the project.',
+        'From the Azure Machine Learning studio, open the workspace.',
+        'From Vision Studio, open the project.',
+        'Upload sample images of the new products.',
+        'Label the sample images.',
+        'Retrain the model.',
+        'Publish the model.',
+      ],
+      answer: [
+        'From the Custom Vision portal, open the project.',
+        'Upload sample images of the new products.',
+        'Label the sample images.',
+        'Retrain the model.',
+        'Publish the model.',
+      ][step - 1],
+    })),
+  },
+  154: {
+    hotspotFields: [
+      {
+        label: 'Provide access to AI1 by using:',
+        options: ['An API key', 'A bearer token', 'A shared access signature (SAS) token'],
+        answer: 'An API key',
+      },
+      {
+        label: 'Connect to the deployment by using:',
+        options: ['An API key', 'A deployment endpoint', 'A deployment name', 'A deployment type'],
+        answer: 'A deployment name',
+      },
+    ],
+  },
+  156: {
+    hotspotFields: [
+      {
+        label: 'To prevent access from the internet:',
+        options: ['Configure an IP firewall.', 'Create a private endpoint.', 'Use Azure roles.'],
+        answer: 'Create a private endpoint.',
+      },
+      {
+        label: 'To limit access to query specific indexes:',
+        options: ['Create a private endpoint.', 'Use Azure roles.', 'Use key authentication.'],
+        answer: 'Use Azure roles.',
+      },
+    ],
+  },
+  158: {
+    hotspotFields: [
+      {
+        label: 'Extract the text:',
+        options: [
+          'Azure Document Intelligence in Foundry Tools',
+          'Azure Language in Foundry Tools',
+          'Azure AI Search',
+          'Azure Vision in Foundry Tools',
+        ],
+        answer: 'Azure Vision in Foundry Tools',
+      },
+      {
+        label: 'Identify well-known locations:',
+        options: [
+          'Azure Document Intelligence in Foundry Tools',
+          'Azure Language in Foundry Tools',
+          'Azure AI Search',
+          'Azure Vision in Foundry Tools',
+        ],
+        answer: 'Azure Language in Foundry Tools',
+      },
+    ],
+  },
+  159: {
+    hotspotFields: [1, 2, 3].map((step) => ({
+      label: `Step ${step}`,
+      options: [
+        'Request approval to run the container.',
+        'Export model1 to Host1.',
+        'Configure disk logging.',
+        'Run the container.',
+        'Retrain the model.',
+      ],
+      answer: ['Request approval to run the container.', 'Export model1 to Host1.', 'Run the container.'][step - 1],
+    })),
+  },
+  160: {
+    codeTemplate:
+      'docker run --rm -it -p 5000:5000 --memory 8g --cpus 1 \\\n' +
+      '{{image}} \\\n' +
+      'Eula=accept \\\n' +
+      'Billing={{billing}} \\\n' +
+      'ApiKey=xxxxxxxxxxxxxxxxxxxxxxxx',
+    codeBlanks: {
+      image: {
+        options: [
+          'http://contoso.blob.core.windows.net',
+          'http://contoso.cognitiveservices.azure.com',
+          'mcr.microsoft.com/azure-cognitive-services/textanalytics/keyphrase',
+          'mcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment',
+        ],
+        answer: 'mcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment',
+      },
+      billing: {
+        options: [
+          'http://contoso.blob.core.windows.net',
+          'http://contoso.cognitiveservices.azure.com',
+          'mcr.microsoft.com/azure-cognitive-services/textanalytics/keyphrase',
+          'mcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment',
+        ],
+        answer: 'http://contoso.cognitiveservices.azure.com',
       },
     },
   },

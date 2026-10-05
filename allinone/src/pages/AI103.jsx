@@ -298,7 +298,7 @@ const visualQuestionConfigs = {
     ],
   },
   118: {
-    imagePageLabel: 'PDF page 158',
+    imagePageLabel: 'PDF page 157',
     ...visualCodeHotspotConfigs[118],
     answerRows: [
       { label: 'Project Types', value: 'Classification' },
@@ -307,19 +307,19 @@ const visualQuestionConfigs = {
     ],
   },
   121: {
-    imagePageLabel: 'PDF page 159',
+    imagePageLabel: 'PDF page 160',
     ...visualCodeHotspotConfigs[121],
     answerRows: [
-      { label: 'The code will detect the language of documents', value: 'Yes' },
-      { label: 'The url attribute returned for each linked entity will be a Bing search link', value: 'Yes' },
+      { label: 'The code will detect the language of documents', value: 'No' },
+      { label: 'The url attribute returned for each linked entity will be a Bing search link', value: 'No' },
       {
         label: 'The matches attribute returned for each linked entity will provide the location in a document where the entity is referenced',
-        value: 'No',
+        value: 'Yes',
       },
     ],
   },
   133: {
-    imagePageLabel: 'PDF page 169',
+    imagePageLabel: 'PDF page 174',
     ...visualCodeHotspotConfigs[133],
     answerRows: [
       { label: 'Step 1', value: 'Provision an on-premises Kubernetes cluster that has internet connectivity.' },
@@ -328,7 +328,7 @@ const visualQuestionConfigs = {
     ],
   },
   122: {
-    imagePageLabel: 'PDF page 160',
+    imagePageLabel: 'PDF page 161',
     ...visualCodeHotspotConfigs[122],
     answerRows: [
       { label: 'Model evaluation', value: 'Use model catalog leaderboards and model cards.' },
@@ -336,12 +336,12 @@ const visualQuestionConfigs = {
     ],
   },
   124: {
-    imagePageLabel: 'PDF page 162',
+    imagePageLabel: 'PDF page 164',
     ...visualCodeHotspotConfigs[124],
     answerRows: [
       {
         label: 'The response will contain an explanation of large language models (LLMs) that has a high degree of certainty',
-        value: 'Yes',
+        value: 'No',
       },
       {
         label: 'Changing "What is an LLM?" to "What is an LLM in the context of AI models?" will produce the intended response',
@@ -349,12 +349,12 @@ const visualQuestionConfigs = {
       },
       {
         label: 'Changing "You are a helpful assistant." to "You must answer only within the context of AI language models." will give a higher likelihood of producing the intended response',
-        value: 'No',
+        value: 'Yes',
       },
     ],
   },
   128: {
-    imagePageLabel: 'PDF page 165',
+    imagePageLabel: 'PDF page 168',
     ...visualCodeHotspotConfigs[128],
     answerRows: [
       { label: 'Extract text', value: 'Azure Document Intelligence in Foundry Tools' },
@@ -362,12 +362,12 @@ const visualQuestionConfigs = {
     ],
   },
   130: {
-    imagePageLabel: 'PDF page 167',
+    imagePageLabel: 'PDF page 171',
     ...visualCodeHotspotConfigs[130],
     answerRows: [
       {
         label: 'Going to http://localhost:5000/status will query the Azure endpoint to verify whether the API key used to start the container is valid',
-        value: 'Yes',
+        value: 'No',
       },
       { label: 'The container logging provider will write log data', value: 'No' },
       {
@@ -377,11 +377,79 @@ const visualQuestionConfigs = {
     ],
   },
   134: {
-    imagePageLabel: 'PDF page 170',
+    imagePageLabel: 'PDF page 175',
     ...visualCodeHotspotConfigs[134],
     answerRows: [
-      { label: 'HTTP method', value: 'GET' },
+      { label: 'HTTP method', value: 'POST' },
       { label: 'visualFeatures value', value: 'imageType' },
+    ],
+  },
+  149: {
+    imagePageLabel: 'PDF pages 190, 191',
+    ...visualCodeHotspotConfigs[149],
+    answerRows: [
+      { label: 'request', value: 'AnalyzeTextOptions' },
+      { label: 'analysis_result', value: 'client.analyze_text' },
+    ],
+  },
+  151: {
+    imagePageLabel: 'PDF pages 192, 193',
+    ...visualCodeHotspotConfigs[151],
+    answerRows: [
+      { label: 'Project type', value: 'Object detection' },
+      { label: 'Domain', value: 'General (compact)' },
+    ],
+  },
+  152: {
+    imagePageLabel: 'PDF pages 194, 195',
+    ...visualCodeHotspotConfigs[152],
+    answerRows: [
+      { label: 'Step 1', value: 'From the Custom Vision portal, open the project.' },
+      { label: 'Step 2', value: 'Upload sample images of the new products.' },
+      { label: 'Step 3', value: 'Label the sample images.' },
+      { label: 'Step 4', value: 'Retrain the model.' },
+      { label: 'Step 5', value: 'Publish the model.' },
+    ],
+  },
+  154: {
+    imagePageLabel: 'PDF pages 196, 197',
+    ...visualCodeHotspotConfigs[154],
+    answerRows: [
+      { label: 'Provide access to AI1 by using', value: 'An API key' },
+      { label: 'Connect to the deployment by using', value: 'A deployment name' },
+    ],
+  },
+  156: {
+    imagePageLabel: 'PDF pages 198, 199',
+    ...visualCodeHotspotConfigs[156],
+    answerRows: [
+      { label: 'To prevent access from the internet', value: 'Create a private endpoint.' },
+      { label: 'To limit access to query specific indexes', value: 'Use Azure roles.' },
+    ],
+  },
+  158: {
+    imagePageLabel: 'PDF pages 200, 201',
+    ...visualCodeHotspotConfigs[158],
+    answerRows: [
+      { label: 'Extract the text', value: 'Azure Vision in Foundry Tools' },
+      { label: 'Identify well-known locations', value: 'Azure Language in Foundry Tools' },
+    ],
+  },
+  159: {
+    imagePageLabel: 'PDF pages 201, 202',
+    ...visualCodeHotspotConfigs[159],
+    answerRows: [
+      { label: 'Step 1', value: 'Request approval to run the container.' },
+      { label: 'Step 2', value: 'Export model1 to Host1.' },
+      { label: 'Step 3', value: 'Run the container.' },
+    ],
+  },
+  160: {
+    imagePageLabel: 'PDF pages 202, 203, 204',
+    ...visualCodeHotspotConfigs[160],
+    answerRows: [
+      { label: 'Container image', value: 'mcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment' },
+      { label: 'Billing', value: 'http://contoso.cognitiveservices.azure.com' },
     ],
   },
   49: {
@@ -1310,11 +1378,11 @@ const AI103 = () => {
                   <QuestionOneContent question={visibleQuestion} explanationParagraphs={explanationParagraphs} />
                 ) : visibleQuestion.number === 2 ? (
                   <QuestionTwoContent question={visibleQuestion} />
-                ) : [27, 28, 56, 61, 62].includes(visibleQuestion.number) ? (
+                ) : [27, 28, 56, 61, 62, 142].includes(visibleQuestion.number) ? (
                   <CaseStudyChoiceQuestionContent question={visibleQuestion} />
                 ) : visibleQuestion.number === 21 ? (
                   <QuestionTwentyOneContent question={visibleQuestion} />
-                ) : [4, 5, 6, 7, 8, 11, 15, 18, 20, 30, 32, 35, 37, 40, 49, 66, 68, 71, 77, 79, 86, 92, 93, 94, 95, 98, 99, 101, 103, 104, 107, 108, 112, 113, 114, 117, 118, 121, 122, 124, 128, 130, 133, 134].includes(visibleQuestion.number) ? (
+                ) : [4, 5, 6, 7, 8, 11, 15, 18, 20, 30, 32, 35, 37, 40, 49, 66, 68, 71, 77, 79, 86, 92, 93, 94, 95, 98, 99, 101, 103, 104, 107, 108, 112, 113, 114, 117, 118, 121, 122, 124, 128, 130, 133, 134, 149, 151, 152, 154, 156, 158, 159, 160].includes(visibleQuestion.number) ? (
                   <VisualQuestionContent question={visibleQuestion} />
                 ) : [3, 9, 10, 12, 13, 14, 16, 17, 19, 22, 23, 24, 25, 26, 29, 31, 33, 34, 36, 38, 39, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 55, 57, 58, 59, 60, 63, 64, 65].includes(visibleQuestion.number) || visibleQuestion.number >= 66 ? (
                   <MultipleChoiceQuestionContent question={visibleQuestion} />

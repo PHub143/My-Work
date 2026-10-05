@@ -1269,9 +1269,9 @@ const PRACTICE_CONTROL_CONFIGS = {
       },
     ],
     correct: {
-      detectsLanguage: 'Yes',
-      urlIsBingSearchLink: 'Yes',
-      matchesGivesLocation: 'No',
+      detectsLanguage: 'No',
+      urlIsBingSearchLink: 'No',
+      matchesGivesLocation: 'Yes',
     },
   },
   122: {
@@ -1326,9 +1326,9 @@ const PRACTICE_CONTROL_CONFIGS = {
       },
     ],
     correct: {
-      highCertaintyExplanation: 'Yes',
+      highCertaintyExplanation: 'No',
       rephrasedQuestionProducesIntended: 'Yes',
-      strictSystemPromptHigherLikelihood: 'No',
+      strictSystemPromptHigherLikelihood: 'Yes',
     },
   },
   128: {
@@ -1375,7 +1375,7 @@ const PRACTICE_CONTROL_CONFIGS = {
       },
     ],
     correct: {
-      statusChecksApiKey: 'Yes',
+      statusChecksApiKey: 'No',
       loggingProviderWritesLogs: 'No',
       swaggerProvidesDocs: 'Yes',
     },
@@ -1444,8 +1444,189 @@ const PRACTICE_CONTROL_CONFIGS = {
       },
     ],
     correct: {
-      httpMethod: 'GET',
+      httpMethod: 'POST',
       visualFeatures: 'imageType',
+    },
+  },
+  149: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'requestType',
+        label: 'request =',
+        options: ['AddOrUpdateTextBlocklistItemsOptions', 'AnalyzeImageOptions', 'AnalyzeTextOptions', 'TextBlocklist'],
+      },
+      {
+        id: 'analyzeMethod',
+        label: 'analysis_result =',
+        options: [
+          'client.add_or_update_blocklist_items',
+          'client.analyze_image',
+          'client.analyze_text',
+          'client.list_text_blocklists',
+        ],
+      },
+    ],
+    correct: {
+      requestType: 'AnalyzeTextOptions',
+      analyzeMethod: 'client.analyze_text',
+    },
+  },
+  151: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'projectType',
+        label: 'Project type',
+        options: ['Food', 'General', 'General (compact)', 'Image classification', 'Logo', 'Object detection'],
+      },
+      {
+        id: 'domain',
+        label: 'Domain',
+        options: ['Food', 'General', 'General (compact)', 'Image classification', 'Logo', 'Object detection'],
+      },
+    ],
+    correct: {
+      projectType: 'Object detection',
+      domain: 'General (compact)',
+    },
+  },
+  152: {
+    type: 'dropdowns',
+    controls: [1, 2, 3, 4, 5].map((step) => ({
+      id: `step${step}`,
+      label: `Step ${step}`,
+      options: [
+        'From the Custom Vision portal, open the project.',
+        'From the Azure Machine Learning studio, open the workspace.',
+        'From Vision Studio, open the project.',
+        'Upload sample images of the new products.',
+        'Label the sample images.',
+        'Retrain the model.',
+        'Publish the model.',
+      ],
+    })),
+    correct: {
+      step1: 'From the Custom Vision portal, open the project.',
+      step2: 'Upload sample images of the new products.',
+      step3: 'Label the sample images.',
+      step4: 'Retrain the model.',
+      step5: 'Publish the model.',
+    },
+  },
+  154: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'accessMethod',
+        label: 'Provide access to AI1 by using',
+        options: ['An API key', 'A bearer token', 'A shared access signature (SAS) token'],
+      },
+      {
+        id: 'connectMethod',
+        label: 'Connect to the deployment by using',
+        options: ['An API key', 'A deployment endpoint', 'A deployment name', 'A deployment type'],
+      },
+    ],
+    correct: {
+      accessMethod: 'An API key',
+      connectMethod: 'A deployment name',
+    },
+  },
+  156: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'preventInternetAccess',
+        label: 'To prevent access from the internet',
+        options: ['Configure an IP firewall.', 'Create a private endpoint.', 'Use Azure roles.'],
+      },
+      {
+        id: 'limitIndexAccess',
+        label: 'To limit access to query specific indexes',
+        options: ['Create a private endpoint.', 'Use Azure roles.', 'Use key authentication.'],
+      },
+    ],
+    correct: {
+      preventInternetAccess: 'Create a private endpoint.',
+      limitIndexAccess: 'Use Azure roles.',
+    },
+  },
+  158: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'extractText',
+        label: 'Extract the text',
+        options: [
+          'Azure Document Intelligence in Foundry Tools',
+          'Azure Language in Foundry Tools',
+          'Azure AI Search',
+          'Azure Vision in Foundry Tools',
+        ],
+      },
+      {
+        id: 'identifyLocations',
+        label: 'Identify well-known locations',
+        options: [
+          'Azure Document Intelligence in Foundry Tools',
+          'Azure Language in Foundry Tools',
+          'Azure AI Search',
+          'Azure Vision in Foundry Tools',
+        ],
+      },
+    ],
+    correct: {
+      extractText: 'Azure Vision in Foundry Tools',
+      identifyLocations: 'Azure Language in Foundry Tools',
+    },
+  },
+  159: {
+    type: 'dropdowns',
+    controls: [1, 2, 3].map((step) => ({
+      id: `step${step}`,
+      label: `Step ${step}`,
+      options: [
+        'Request approval to run the container.',
+        'Export model1 to Host1.',
+        'Configure disk logging.',
+        'Run the container.',
+        'Retrain the model.',
+      ],
+    })),
+    correct: {
+      step1: 'Request approval to run the container.',
+      step2: 'Export model1 to Host1.',
+      step3: 'Run the container.',
+    },
+  },
+  160: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'containerImage',
+        label: 'Container image',
+        options: [
+          'http://contoso.blob.core.windows.net',
+          'http://contoso.cognitiveservices.azure.com',
+          'mcr.microsoft.com/azure-cognitive-services/textanalytics/keyphrase',
+          'mcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment',
+        ],
+      },
+      {
+        id: 'billing',
+        label: 'Billing=',
+        options: [
+          'http://contoso.blob.core.windows.net',
+          'http://contoso.cognitiveservices.azure.com',
+          'mcr.microsoft.com/azure-cognitive-services/textanalytics/keyphrase',
+          'mcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment',
+        ],
+      },
+    ],
+    correct: {
+      containerImage: 'mcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment',
+      billing: 'http://contoso.cognitiveservices.azure.com',
     },
   },
 };
@@ -1917,7 +2098,7 @@ export function parsePracticeQuestionNumbers(search) {
     });
 }
 
-export const CASE_STUDY_QUESTION_NUMBERS = [1, 2, 27, 28, 56, 61, 62, 67];
+export const CASE_STUDY_QUESTION_NUMBERS = [1, 2, 27, 28, 56, 61, 62, 67, 142];
 
 export function isCaseStudyQuestion(questionNumber) {
   return CASE_STUDY_QUESTION_NUMBERS.includes(questionNumber);

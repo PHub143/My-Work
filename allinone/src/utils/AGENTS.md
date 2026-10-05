@@ -10,6 +10,7 @@ Helper utilities, role logic, and learning module functions.
 | `routeAccess.js` | Path-based access helpers: `isLearningPath()`, `getLoginModeForPath()`, `canRoleAccessPath()` |
 | `learning.js` | Learning module: stats, filtering, practice sessions, question rendering helpers |
 | `learning.test.js` | Tests for `learning.js` using Node's built-in `node:test` and `node:assert/strict` |
+| `ai103.test.js` | Data-integrity checks for `ai103Content.json`: contiguous numbering, track card count, answer keys point at real options, practice/study hotspot answers agree |
 | `ai102.js` | AI-102 content helpers |
 | `ybm.js` | YBM TOEIC: booklet page and audio URLs, option keys, test readiness, attempt persistence (localStorage), scoring |
 | `ybm.test.js` | Tests for `ybm.js`, the manifest, and the answer keys |
