@@ -1,4 +1,7 @@
 {
+  "testId": "vol-3-test-09",
+  "source": "Bộ đề 2 (HACKER 3)/HACKER 3 READING_.pdf pages 234-261 and HAKER 3 LISTENING.pdf pages 101-112 (text layer) cross-checked against the rendered booklet images",
+  "note": "Parts 2-7 transcribed (questions 7-200). Part 1 (questions 1-6) is photos only, so it stays on the scanned booklet page — see data/hacker/content/AGENTS.md. Part 2's items have no `choices`: the book prints nothing per question but \"Mark your answer on your answer sheet.\", so there's nothing to select from in the booklet panel itself (the answer sheet UI is still where the user actually answers, same as the real paper test). Blank tokens in Part 6 passages are written as [[N]] where N is the question number that fills that blank; the sentence-insertion items fall at 134, 135, 140, 146. `graphics` on Parts 3/4 attach the printed table/notice/plan a group of 3 questions shares (65-67, 68-70, 92-94, 95-97 and 98-100); all are transcribed as text, so no image crop was cut for this test. imageOnlyPages.listening is 4 (Part 1 ends on the fourth booklet page).",
   "imageOnlyPages": {
     "listening": 4
   },
@@ -550,11 +553,11 @@
             "fields": [
               {
                 "label": "Dates",
-                "value": "Saturday, Aug 20 - Sunday, Aug 21"
+                "value": "Saturday, Aug 20 – Sunday, Aug 21"
               },
               {
                 "label": "Hours",
-                "value": "11 A.M. - 8 P.M."
+                "value": "11 A.M. – 8 P.M."
               }
             ],
             "note": "One-Day Pass Valid for Aug 20",
@@ -916,7 +919,7 @@
           "passage": {
             "kind": "notice",
             "heading": "Ground Floor Plan",
-            "note": "The staircase and the ground floor bathroom sit along the west side of the floor, with the staircase in the north corner and the bathroom in the south corner. Booths A and B run alongside the staircase in the north row, with Booth A next to the staircase and Booth B next to the Information Desk. Booths C and D run alongside the bathroom in the south row, lined up beneath Booths A and B respectively, with Booth D next to the Information Desk. The Information Desk occupies the full east side of the floor, spanning both rows.",
+            "note": "The plan has two rows. The north row, from west to east, holds the Staircase, Booth A and Booth B. The south row, from west to east, holds the Ground Floor Bathroom, Booth C and Booth D. Booth A is next to the Staircase, and Booth D is directly below Booth B. Booth C is below and slightly east of Booth A. The Information Desk is at the east end, between the two rows and next to Booth D, diagonally below and to the right of Booth B.",
             "table": {
               "columns": [
                 "Booth",
@@ -929,15 +932,15 @@
                 ],
                 [
                   "Booth B",
-                  "North row, next to the Information Desk"
+                  "North row, east of Booth A and directly above Booth D"
                 ],
                 [
                   "Booth C",
-                  "South row, next to the ground floor bathroom"
+                  "South row, east of the ground floor bathroom, next to Booth D"
                 ],
                 [
                   "Booth D",
-                  "South row, next to the Information Desk"
+                  "South row, directly below Booth B, next to the Information Desk"
                 ]
               ]
             }
@@ -2108,7 +2111,7 @@
                 {
                   "speaker": "Andrew Walker",
                   "time": "4:45",
-                  "text": "Revenco is growing faster than we could ever have imagined, and although we receive resumes all the time, the majority of applicants do not seem appropriate for our needs."
+                  "text": "Revenco is growing faster than we could ever have imagined, and although we receive résumés all the time, the majority of applicants do not seem appropriate for our needs."
                 },
                 {
                   "speaker": "Jolene Gibson",
@@ -2673,7 +2676,7 @@
                 "Posted by": "Enrique Turner on February 10"
               },
               "paragraphs": [
-                "I recently got back from Borderland Tours' 30-day Sahara Tour. At first, all I could focus on was what we were going to eat. I had been excited to try African cuisine, but I generally found it to be disappointing. Because we didn't stop anywhere for very long, the tour company provided most of the meals, which became repetitive. Anyway, the journey started in Morocco. We drove through Marrakech, Meknes, and Fez before traveling by camel to where the desert meets the ocean. From there, we crossed the border into Western Sahara and continued along the coast to Mauritania. In Mauritania, travelers can choose to go south to Nouakchott, camp out in Banc d'Auguin, take a train to Atar, or join a camel caravan to Tagant. The majority of our group wanted to go by caravan, so that's what we ultimately did. It wasn't my first choice, but I was happy just the same. We passed some breathtaking scenery on the journey Read more..."
+                "I recently got back from Borderland Tours' 30-day Sahara Tour. At first, all I could focus on was what we were going to eat. I had been excited to try African cuisine, but I generally found it to be disappointing. Because we didn't stop anywhere for very long, the tour company provided most of the meals, which became repetitive. Anyway, the journey started in Morocco. We drove through Marrakech, Meknes, and Fez before traveling by camel to where the desert meets the ocean. From there, we crossed the border into Western Sahara and continued along the coast to Mauritania. In Mauritania, travelers can choose to go south to Nouakchott, camp out in Banc d' Auguin, take a train to Atar, or join a camel caravan to Tagant. The majority of our group wanted to go by caravan, so that's what we ultimately did. It wasn't my first choice, but I was happy just the same. We passed some breathtaking scenery on the journey Read more..."
               ]
             }
           ],
@@ -2723,7 +2726,7 @@
               "stem": "Which destination in Mauritania did Mr. Turner originally want to visit most?",
               "choices": {
                 "A": "Nouakchott",
-                "B": "Banc d'Auguin",
+                "B": "Banc d' Auguin",
                 "C": "Atar",
                 "D": "Tagant"
               }

@@ -14,3 +14,4 @@ Static content and data files.
 | `hacker/manifest.js` | Hackers 해커스 신토익 1000제 inventory — mirrors `ybm/manifest.js` for the second TOEIC book collection |
 | `hacker/keys/<test-id>.json` | Answer key for one Hacker test, keyed by question number |
 | `hacker/content/<test-id>.json` | Transcribed Part 2-7 text (question stems, choices, passages, graphics) for one Hacker test — see [`hacker/content/AGENTS.md`](hacker/content/AGENTS.md) |
+| `hacker/transcripts/<test-id>.json` | Listening script for one Hacker test, shown after Submit — see [`hacker/transcripts/AGENTS.md`](hacker/transcripts/AGENTS.md) |

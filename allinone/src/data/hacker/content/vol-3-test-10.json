@@ -1,4 +1,7 @@
 {
+  "testId": "vol-3-test-10",
+  "source": "Bộ đề 2 (HACKER 3)/HACKER 3 READING_.pdf pages 263-290 and HAKER 3 LISTENING.pdf pages 114-125 (text layer) cross-checked against the rendered booklet images",
+  "note": "Parts 2-7 transcribed (questions 7-200). Part 1 (questions 1-6) is photos only, so it stays on the scanned booklet page — see data/hacker/content/AGENTS.md. Part 2's items have no `choices`: the book prints nothing per question but \"Mark your answer on your answer sheet.\", so there's nothing to select from in the booklet panel itself (the answer sheet UI is still where the user actually answers, same as the real paper test). Blank tokens in Part 6 passages are written as [[N]] where N is the question number that fills that blank; the sentence-insertion items fall at 132, 136, 141, 144. `graphics` on Parts 3/4 attach the printed table/notice/plan a group of 3 questions shares (62-64, 65-67, 68-70, 95-97 and 98-100); all are transcribed as text, so no image crop was cut for this test. imageOnlyPages.listening is 4 (Part 1 ends on the fourth booklet page).",
   "imageOnlyPages": {
     "listening": 4
   },
@@ -1613,7 +1616,7 @@
             },
             {
               "number": 173,
-              "stem": "At 4:15 P.M., what does Mr. Bostwick mean when he writes, \"I can lend you a hand\"?",
+              "stem": "At 4:15, what does Mr. Bostwick mean when he writes, \"I can lend you a hand\"?",
               "choices": {
                 "A": "He can send extra staff to assist visitors.",
                 "B": "He has some time tomorrow to work at the booth.",
@@ -1935,7 +1938,7 @@
               "heading": "Order Form",
               "meta": {
                 "E-mail": "service@briltechware.com",
-                "Web site": "www.brilliantechware.com"
+                "Web site": "www.brillianttechware.com"
               },
               "addressBlock": ["BRILLIANT TECHWARE", "755 Orange Park", "Miami, FL 32003"],
               "fieldRows": [

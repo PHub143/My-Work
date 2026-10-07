@@ -191,15 +191,15 @@
           "passage": {
             "kind": "notice",
             "heading": "Downtown Block Map",
-            "note": "Gray Road runs along the east side of the block, past Patsy's Diner and Shea Pub; Cedar Street runs east-west, dividing the block into the north and south halves shown below.",
+            "note": "Map of the block, read from north (top) to south (bottom). Gray Road runs north-south between the middle and east columns, so Patsy's Diner and Shea Pub sit on its far (east) side; Cedar Street runs east-west across the middle, between the upper and lower rows. Patsy's Diner spans the two rows north of Cedar Street and Shea Pub the two rows south of it; Hayden Park spans the two southern rows on the west side.",
             "table": {
-              "columns": ["North of Cedar Street", "South of Cedar Street"],
+              "columns": ["West", "Middle", "East (across Gray Road)"],
               "rows": [
-                ["Leung Kitchen", "Hayden Park"],
-                ["Thayer Technologies", "Luis Pizzeria"],
-                ["Parking Lot", "Hayden Park (cont.)"],
-                ["Westside Supermarket", "Parking Lot"],
-                ["Patsy's Diner (Gray Road)", "Shea Pub (Gray Road)"]
+                ["Leung Kitchen", "Thayer Technologies", "Patsy's Diner"],
+                ["Parking Lot", "Westside Supermarket", "Patsy's Diner"],
+                ["Cedar Street", "Cedar Street", "Cedar Street"],
+                ["Hayden Park", "Luis Pizzeria", "Shea Pub"],
+                ["Hayden Park", "Parking Lot", "Shea Pub"]
               ]
             }
           }

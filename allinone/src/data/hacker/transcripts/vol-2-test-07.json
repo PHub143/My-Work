@@ -1,0 +1,527 @@
+{
+  "testId": "vol-2-test-07",
+  "entries": [
+    {
+      "from": 1,
+      "to": 1,
+      "lines": [
+        "(A) They are traveling along a road.",
+        "(B) They are removing their backpacks.",
+        "(C) They are biking down a path.",
+        "(D) They are walking near some trees."
+      ]
+    },
+    {
+      "from": 2,
+      "to": 2,
+      "lines": [
+        "(A) A man is typing on a keyboard.",
+        "(B) A man is leaning on an armrest.",
+        "(C) A woman is pushing a chair.",
+        "(D) A woman is pointing at a monitor."
+      ]
+    },
+    {
+      "from": 3,
+      "to": 3,
+      "lines": [
+        "(A) Some dirt is piled next to a shed.",
+        "(B) A worker is spraying a stream of water at the ground.",
+        "(C) A gardener has grasped a hose with both hands.",
+        "(D) A gardener is rinsing a tool near a flower bed."
+      ]
+    },
+    {
+      "from": 4,
+      "to": 4,
+      "lines": [
+        "(A) Some trucks are being loaded with goods.",
+        "(B) A garage door is being closed.",
+        "(C) Some lights are attached to the ceiling.",
+        "(D) A vehicle window is damaged."
+      ]
+    },
+    {
+      "from": 5,
+      "to": 5,
+      "lines": [
+        "(A) A river connects to a larger body of water.",
+        "(B) Both sides of a canal are bordered by structures.",
+        "(C) A boat is sailing under a footbridge.",
+        "(D) People are lined up to board a vessel."
+      ]
+    },
+    {
+      "from": 6,
+      "to": 6,
+      "lines": [
+        "(A) A fence blocks the entrance to a building.",
+        "(B) All pedestrians have cleared out of a public square.",
+        "(C) A group has gathered at the base of a lamppost.",
+        "(D) Some bicycles have been left unattended."
+      ]
+    },
+    {
+      "from": 7,
+      "to": 7,
+      "lines": [
+        "Au|Who can register for the business Spanish class?",
+        "Am|(A) Anyone interested may sign up.",
+        "(B) It's right by the cash register.",
+        "(C) Kendra is our newest instructor."
+      ]
+    },
+    {
+      "from": 8,
+      "to": 8,
+      "lines": [
+        "Cn|Which of our clients will have to pay increased fees?",
+        "Br|(A) They all will.",
+        "(B) I processed the payment.",
+        "(C) Because of rising costs."
+      ]
+    },
+    {
+      "from": 9,
+      "to": 9,
+      "lines": [
+        "Am|Have you considered switching to a different bank?",
+        "Br|(A) Just a $50 cash withdrawal, please.",
+        "(B) You'd better let the accountant know.",
+        "(C) I like my current one well enough."
+      ]
+    },
+    {
+      "from": 10,
+      "to": 10,
+      "lines": [
+        "Cn|Let's take a walk through the park.",
+        "Am|(A) I'll go grab my jacket.",
+        "(B) It's underneath that tree.",
+        "(C) About two miles."
+      ]
+    },
+    {
+      "from": 11,
+      "to": 11,
+      "lines": [
+        "Br|I don't know how to fill out the new time sheet.",
+        "Cn|(A) I think I saw it on your desk.",
+        "(B) Ask Sue to give you a hand.",
+        "(C) My friend showed me around."
+      ]
+    },
+    {
+      "from": 12,
+      "to": 12,
+      "lines": [
+        "Au|Where did you decide to hold the fundraising banquet?",
+        "Am|(A) A few options are being discussed.",
+        "(B) Most of the guests have arrived.",
+        "(C) It will take place next Saturday."
+      ]
+    },
+    {
+      "from": 13,
+      "to": 13,
+      "lines": [
+        "Br|How much will it cost to have this skirt altered?",
+        "Cn|(A) That color suits you.",
+        "(B) All items of clothing are on sale.",
+        "(C) There's no charge for that."
+      ]
+    },
+    {
+      "from": 14,
+      "to": 14,
+      "lines": [
+        "Au|Is North Road closed off for street repairs?",
+        "Br|(A) Yes, until next week.",
+        "(B) No, the shop is on Leland Drive.",
+        "(C) That is the quickest route."
+      ]
+    },
+    {
+      "from": 15,
+      "to": 15,
+      "lines": [
+        "Am|Wouldn't you rather have a first class seat for the flight?",
+        "Cn|(A) No, I wanted coffee instead.",
+        "(B) I've already arrived at the Gimpo airport.",
+        "(C) Yes, but it's too expensive."
+      ]
+    },
+    {
+      "from": 16,
+      "to": 16,
+      "lines": [
+        "Au|Why are you dissatisfied with these eyeglasses?",
+        "Am|(A) We manufacture commercial lenses.",
+        "(B) Don't you think the frames are too large?",
+        "(C) Customers seem to be happy with the results."
+      ]
+    },
+    {
+      "from": 17,
+      "to": 17,
+      "lines": [
+        "Br|Is the new line of sportswear going to be launched on schedule?",
+        "Au|(A) About two months ago.",
+        "(B) It is very popular with consumers.",
+        "(C) The launch has been pushed back."
+      ]
+    },
+    {
+      "from": 18,
+      "to": 18,
+      "lines": [
+        "Am|Apparently, Abby from the human resources department was promoted.",
+        "Cn|(A) I hadn't heard about the outing.",
+        "(B) Mr. Richard has named her regional director.",
+        "(C) They're promoting a new product."
+      ]
+    },
+    {
+      "from": 19,
+      "to": 19,
+      "lines": [
+        "Au|Where do you want to get together to plan our backpacking trip?",
+        "Br|(A) I don't have a preference.",
+        "(B) Our gear must be packed.",
+        "(C) Don't you think we should camp for a few nights?"
+      ]
+    },
+    {
+      "from": 20,
+      "to": 20,
+      "lines": [
+        "Cn|Why don't we carpool to the office from now on?",
+        "Am|(A) I usually drive to work.",
+        "(B) There are vehicles parked along the street.",
+        "(C) That would save us gas money."
+      ]
+    },
+    {
+      "from": 21,
+      "to": 21,
+      "lines": [
+        "Br|When will my raise go into effect?",
+        "Cn|(A) I'd like to go in, too.",
+        "(B) The show begins at 5 P.M.",
+        "(C) Within a week or so."
+      ]
+    },
+    {
+      "from": 22,
+      "to": 22,
+      "lines": [
+        "Am|Aren't suitcases supposed to be stored in overhead compartments?",
+        "Au|(A) Small ones can be kept under the seats.",
+        "(B) The airline has misplaced my luggage.",
+        "(C) The store is still open."
+      ]
+    },
+    {
+      "from": 23,
+      "to": 23,
+      "lines": [
+        "Au|Employees receive a commission on every appliance that they sell.",
+        "Br|(A) That model is one of our top sellers.",
+        "(B) That's a great incentive for workers.",
+        "(C) Actually, we visited a local dealership."
+      ]
+    },
+    {
+      "from": 24,
+      "to": 24,
+      "lines": [
+        "Am|How long can I use this transit pass?",
+        "Cn|(A) You can buy it at the ticket office.",
+        "(B) It's good for two more weeks.",
+        "(C) Transfer at Stanford Station."
+      ]
+    },
+    {
+      "from": 25,
+      "to": 25,
+      "lines": [
+        "Au|Has anyone confirmed tonight's dinner reservations at Denarii Bistro?",
+        "Cn|(A) Sure, I can make some food for us.",
+        "(B) The restaurant on Elm Street.",
+        "(C) Didn't your secretary contact the restaurant?"
+      ]
+    },
+    {
+      "from": 26,
+      "to": 26,
+      "lines": [
+        "Br|The CEO offered you a position as a sales manager, didn't she?",
+        "Au|(A) I really appreciate your offer.",
+        "(B) No, that's just a rumor.",
+        "(C) I plan to host the corporate executives."
+      ]
+    },
+    {
+      "from": 27,
+      "to": 27,
+      "lines": [
+        "Cn|What time will the volunteers show up for the event?",
+        "Am|(A) At the main entrance.",
+        "(B) I'll have to check with Ann.",
+        "(C) There are 30 expected guests."
+      ]
+    },
+    {
+      "from": 28,
+      "to": 28,
+      "lines": [
+        "Br|Please set up two additional workspaces.",
+        "Cn|(A) I'll take care of that now.",
+        "(B) OK, but subtract the sum from the bill.",
+        "(C) Everyone had his or her own station."
+      ]
+    },
+    {
+      "from": 29,
+      "to": 29,
+      "lines": [
+        "Au|Whose fountain pen is sitting on the front desk?",
+        "Am|(A) Sign your name on the register.",
+        "(B) I've never seen it before.",
+        "(C) You may sit anywhere you'd like."
+      ]
+    },
+    {
+      "from": 30,
+      "to": 30,
+      "lines": [
+        "Br|Are you going to paint the kitchen yourself or hire a contractor?",
+        "Cn|(A) The same color as the living room.",
+        "(B) Put it next to the refrigerator.",
+        "(C) I'm too busy these days."
+      ]
+    },
+    {
+      "from": 31,
+      "to": 31,
+      "lines": [
+        "Au|Did you buy the watch we saw at the department store yesterday?",
+        "Am|(A) I will deliver it soon.",
+        "(B) I couldn't resist.",
+        "(C) Yes, I thought it was."
+      ]
+    },
+    {
+      "from": 32,
+      "to": 34,
+      "lines": [
+        "W-Am|Good afternoon. I'm here to drop off the car I rented for the weekend. The vehicle is an SXA 390 sedan, and my name is Jenna Clarkson.",
+        "M-Au|OK. I'd just like to ask you a couple of questions regarding the vehicle. First, was the car scratched or otherwise damaged while you were using it? Also, did you refill the gas tank prior to dropping it off, as is stipulated in the rental agreement?",
+        "W-Am|The car is undamaged, but I unfortunately wasn't able to put gas in the tank before coming here.",
+        "M-Au|Oh, then I'll have to charge you an additional fee. Please wait a moment while I make the adjustment to your bill."
+      ]
+    },
+    {
+      "from": 35,
+      "to": 37,
+      "lines": [
+        "W-Br|It seems like the book fair went well overall.",
+        "M-Cn|For the most part. However, fewer people showed up than expected. That was a bit of a letdown.",
+        "W-Br|Yeah, I was a little disappointed by that as well. Personally, I think we should have advertised more for the event in order to attract more participants.",
+        "M-Cn|That's what I told our boss, Ms. Gabbert, a few weeks ago. I thought she would approve extra advertising. Do you have any clue as to why she didn't?",
+        "W-Br|I think she couldn't allocate any more money to promote the fair because our budget had already been used for other projects."
+      ]
+    },
+    {
+      "from": 38,
+      "to": 40,
+      "lines": [
+        "M-Au|Susan, I was very impressed with the article you composed last Thursday about popular Kentsville dining spots. Also, a lot of people have posted on social media about one of the places you mentioned, Lima Kitchen, the Peruvian restaurant that opened just recently.",
+        "W-Am|Thanks, Chris. It's nice to hear that the public is pleased with what I wrote.",
+        "M-Au|Given the positive feedback, maybe something similar is in order. You should write another piece about a different new dining establishment in the area.",
+        "W-Am|I've been asked to do just that, actually. I'm about to go to our head editor's office to discuss that assignment right now."
+      ]
+    },
+    {
+      "from": 41,
+      "to": 43,
+      "lines": [
+        "M-Au|Allen and Carla, there isn't enough space in our garage for the amount of repair work that we have been getting. What do you two think about moving to a larger facility?",
+        "M-Cn|Hmm ... I'm not sure. We'd probably have to move far away. I'm worried that local patrons will take their business to competitors if we relocate.",
+        "W-Br|Actually, the vacant lot next door was just put up for sale. If we acquire it, we could have a bigger facility constructed on the land. That way, we would be able to expand right here.",
+        "M-Au|That would be perfect! Let's start by determining how much the parcel of land is being sold for."
+      ]
+    },
+    {
+      "from": 44,
+      "to": 46,
+      "lines": [
+        "M-Cn|Good afternoon. I'm currently employed as an intern at a law firm, and I'm interested in registering for the writing course your institute offers for legal professionals.",
+        "W-Am|OK. We have two courses on that subject ... um, Writing 103 and 204.",
+        "M-Cn|Yeah, I saw that when I went through your online course catalog this morning. I'd like to take the advanced class because the lower-level one covers a lot of material that I'm already familiar with. Will that be a problem?",
+        "W-Am|Not at all. I'll give you a few forms to fill out now, and then you will have four days to make the payment for the course. Once you are registered, the instructor will e-mail you further information about the class."
+      ]
+    },
+    {
+      "from": 47,
+      "to": 49,
+      "lines": [
+        "W-Br|Stan, I just watched the promotional video you put together for our donut shop.",
+        "M-Au|What do you think of it?",
+        "W-Br|It looks good, but I'm worried because the sale we're having on cream-filled donuts isn't mentioned in it.",
+        "M-Au|Unfortunately, the advertisement only runs for 30 seconds, so I couldn't include everything.",
+        "W-Br|Maybe you could edit out the part showing the inside of our business to allow for the other content.",
+        "M-Au|You'd be fine with that? You specifically asked for it to be included before.",
+        "W-Br|Yeah, I think that's what we need to do at this point. The sale has to take priority in the video."
+      ]
+    },
+    {
+      "from": 50,
+      "to": 52,
+      "lines": [
+        "M-Cn|Hello. This is Danny Martinson calling from Westend Boutique. I'm sorry, but the evening gown you ordered online was returned to our shipping facility, as the address you entered was inaccurate.",
+        "W-Am|I apologize for that. Could you please resend it? I live at 3258 Pleasant Avenue, Denver, Colorado.",
+        "M-Cn|Certainly. It'll take about five days to reach you.",
+        "W-Am|OK, that's acceptable. While I have you on the phone, can you explain how to use discount coupons on your Web site? I've had trouble with them in the past.",
+        "M-Cn|Before you complete your order, click the green \"Promotions\" button on the bottom of the page. Then, type the coupon code into the box that appears to apply the discount and click \"Submit.\""
+      ]
+    },
+    {
+      "from": 53,
+      "to": 55,
+      "lines": [
+        "M-Au|OK, Ms. Kelly, what seems to be the problem with your wrist?",
+        "W-Br|Well, it's been bothering me a lot at my job lately. I bend my right wrist repetitively at work, so I think that might be the cause of the pain. I work in a shoe manufacturing facility, and I'm often pulling levers on massive equipment.",
+        "M-Au|I see. In that case, I'll prescribe you some pain-killing medication. However, I recommend you speak with your boss about ways to ensure that the constant motions aren't causing you any injury in the meantime."
+      ]
+    },
+    {
+      "from": 56,
+      "to": 58,
+      "lines": [
+        "M-Cn|Candace, we've been advertising the programmer position for three weeks, but very few people have applied. Plus, none of the candidates have enough relevant work experience.",
+        "W-Am|Hmm ... I'll tell representatives from the recruitment Web site to run the advertisement for another week. Also, I think we should consider placing the job posting on some social media sites to attract applicants.",
+        "M-Cn|I agree. Dylan Marks from the human resources department is familiar with those types of sites. After our 10 A.M. staff meeting, I'll ask which ones he feels are most effective.",
+        "W-Am|If he offers specific suggestions, can you let me know after lunch? That way I can upload the posting this afternoon."
+      ]
+    },
+    {
+      "from": 59,
+      "to": 61,
+      "lines": [
+        "W-Am|Welcome to First United Bank. How can I help you?",
+        "M-Au|I'm here to apply for a loan to support my small business. I read about your financial services in the Folsom Herald.",
+        "W-Br|Sorry, but I can assist you at this window regarding that matter, sir. My name is Jessica, and I work in the loan department.",
+        "M-Au|Oh, sure. I own a self-service laundry facility, which needs multiple new washing and drying machines. The total amount of money I'll need for them is $30,000.",
+        "W-Br|OK. However, the first step is completing a loan application. That will allow us to determine how much you qualify for. So, we should get started on that right away."
+      ]
+    },
+    {
+      "from": 62,
+      "to": 64,
+      "lines": [
+        "M-Cn|You're watching Priority Home Shopping. Today, I'll be talking to Madeline Hartman about her firm's best selling product.",
+        "W-Br|That's right. Braxton Industries' ES32 is the first suitcase with a magnetic luggage tag, a protective cover, and a removable travel pouch.",
+        "M-Cn|Amazing! This item certainly offers some great features.",
+        "W-Br|We've even added a built-in battery charger. With this suitcase, travelers can charge their phones on the go.",
+        "M-Cn|Wow! Is it available now?",
+        "W-Br|Yes. And we are offering it to Priority Home Shopping viewers at 50 percent off its regular price. Interested shoppers should order soon, however, as this discount will be applicable for a limited time.",
+        "M-Cn|When, exactly, will the sale end?",
+        "W-Br|On October 1."
+      ]
+    },
+    {
+      "from": 65,
+      "to": 67,
+      "lines": [
+        "M-Au|Hello, and welcome to Engel's Department Store. Is there anything I can help you with?",
+        "W-Am|There is. I recently purchased some clothing here, and I noticed this pair of shoes was incorrectly scanned in as the more expensive deluxe version of the Wriggly line.",
+        "M-Au|Let me confirm the error quickly ... Yes, you're right. I apologize for the mistake. I can give you a slip indicating store credit for the difference.",
+        "W-Am|That'll do. Oh ... by the way, I wanna return this shirt, which I purchased at the same time.",
+        "M-Au|Sorry, but sale items can't be refunded.",
+        "W-Am|Actually, this one wasn't discounted."
+      ]
+    },
+    {
+      "from": 68,
+      "to": 70,
+      "lines": [
+        "M-Cn|Welcome to the Dolby Music Hall. May I see your ticket, please?",
+        "W-Br|Here you go. I'm really looking forward to this performance. Karl Teller is one of my favorite musicians, and I'm a longtime supporter of The Helpline Foundation.",
+        "M-Cn|That's great. This is the second fundraiser that we've held for that group. OK, you're in seat 122, which is in section D. Just head through the main entrance and an usher will assist you. The show will start at half past seven.",
+        "W-Br|Thank you. Am I allowed to bring a beverage into the auditorium? I was planning to stop by the snack bar.",
+        "M-Cn|Sure. But please note that photography is not permitted, and you should keep your cell phone on silent mode so as not to disturb others."
+      ]
+    },
+    {
+      "from": 71,
+      "to": 73,
+      "lines": [
+        "Au|Hi, Ryan. It's Martin Dickey from the International Business Institute. I just received a copy of the speech you plan to give for our lecture series on infrastructure investment and overseas development. Overall, I'm very pleased with it. However, I do have a recommendation. You might want to use visual materials to illustrate the data in your report— photographs or charts, for example. One other thing ... I'm wondering if you would mind presenting on June 14 instead of June 15. Carol Wilkins was originally scheduled for the 14th, but she has to travel to New York to meet with a supplier. She asked me to push her lecture back a day, so it'd be great if you could move yours forward."
+      ]
+    },
+    {
+      "from": 74,
+      "to": 76,
+      "lines": [
+        "Cn|I'm very excited to be here at the National Restaurant Association's annual trade show at the Brighton Exhibition Hall, and I'd like to take this opportunity to tell you about Vend Corporation's newest commercial dishwasher, the Clear Flow XS. Made almost entirely of stainless steel, the Clear Flow XS is durable and easy to clean. In addition, because of its innovative design, this appliance uses significantly less power than other models, which saves money and benefits the environment. And, of course, it is covered by Vend Corporation's comprehensive, five-year warranty. Now, I'm sure many of you are wondering about cost, and I'll go over that in detail soon. But first, I'd like to give a brief demonstration of this amazing product in action."
+      ]
+    },
+    {
+      "from": 77,
+      "to": 79,
+      "lines": [
+        "Am|If you're planning on building your own home, then now is the time to buy property! Silver Property Management is selling a large number of undeveloped, one-acre lots along Lake Brandon at reasonable prices. These lots have spectacular views and ample space for a range of landscaping possibilities. Another advantage is that while these properties have never had homes erected on them, they are ready to be connected to Hartford County's water, electric, and sewer systems. There is a great deal of interest in these lots, and we expect them to sell out quickly. Don't miss out on this great opportunity! If you would like someone to show you around our site on Lake Brandon, call our office at 555- 9000 to make an appointment."
+      ]
+    },
+    {
+      "from": 80,
+      "to": 82,
+      "lines": [
+        "Au|May I have everyone's attention? As the volunteer coordinator, I'd like to welcome you to the Fairfield Senior Center. Our facility is on a tight budget, so your assistance is greatly appreciated. First, I would like to briefly explain your duties. You will be expected to organize activities, which means, you'll be required to assist with the setup and scheduling of events at our facility. These activities are aimed at helping residents improve their mental and physical health. OK, since I have copies of everyone's weekly schedule, I'll hand them out now. And then, we'll head to the lounge to watch a short video with footage of past activities we've arranged at our center."
+      ]
+    },
+    {
+      "from": 83,
+      "to": 85,
+      "lines": [
+        "Am|One last thing before we finish up today ... It looks like we are going to be understaffed next Friday because several of our employees will be participating in a customer service workshop. This will be a great opportunity for them to improve their skills and learn new techniques in assisting our service center clients. However, we still have to meet the deadline for our current project. So, I would like you to notify your team members that leave applications for that day will be denied unless there is an emergency situation. Don't misunderstand me, though. The policy only applies to new requests. Anyone who has already been approved to take that day off won't be affected."
+      ]
+    },
+    {
+      "from": 86,
+      "to": 88,
+      "lines": [
+        "Br|As you know, the Star Resort chain is planning to develop several sites throughout the country next year. And this will open up management positions at the new hotels. I received an e-mail from the CEO this morning stating that he would prefer to promote existing employees to fill these roles. He wants each hotel to implement a mentorship program for employees who demonstrate leadership skills. This will guarantee a large pool of suitable management candidates. To begin with, I would like each of you to provide a list of employees in your departments that have management potential. Um, e-mail it to me by Wednesday."
+      ]
+    },
+    {
+      "from": 89,
+      "to": 91,
+      "lines": [
+        "Au|You're listening to Melbourne Today on 103.9 FM. My guest this afternoon is Marsha Summers, a world-renowned explorer who has been featured on the Adventure Channel and the Outdoor Channel, as well as in countless magazines and newspapers. For the past year, she's been making her way across the world in a privately owned sailboat with a crew of only three people. She landed in Australia two days ago and departs for Thailand tomorrow. I plan to ask Ms. Summers about Marine Protectors, a nonprofit organization she founded that is dedicated to protecting the wildlife in the world's oceans. We urge all of our listeners to support this group's efforts. Information on how to make a contribution is available at www.marineprotectors.com."
+      ]
+    },
+    {
+      "from": 92,
+      "to": 94,
+      "lines": [
+        "Am|May I have your attention, please? All passengers for Transcontinental Flight 837 bound for Seattle are asked to proceed to Gate 224 at this time. Departure is scheduled for 10:45 A.M., and AirTeam Gold members and business-class passengers may begin boarding at 10:10 A.M. All others will start at 10:25 A.M. Please also note that West Air Flight 382, originally scheduled to depart at 10:30 A.M. for Houston, will be delayed due to an issue with one of its fuel lines. Technicians are inspecting the aircraft now and will update us shortly. More information regarding the status of this flight will be provided to passengers at 11 A.M. Thank you."
+      ]
+    },
+    {
+      "from": 95,
+      "to": 97,
+      "lines": [
+        "Br|In local news, limited power outages will occur in some Atlanta neighborhoods over the next week as Central Georgia Power is upgrading aspects of its distribution system around the city. The company wants to cause as little inconvenience to customers as possible. As a result, outages in residential neighborhoods will occur between 10 A.M. and 5 P.M., and those in commercial areas will occur between midnight and 5 A.M. Atlanta residents are invited to visit Central Georgia Power's Web site for a full list of scheduled outages. If you experience a power disruption inconsistent with the schedule, please notify the company's customer service department, which can be reached at 555-9175."
+      ]
+    },
+    {
+      "from": 98,
+      "to": 100,
+      "lines": [
+        "Cn|Hi, Sandra. I got your message about the team-building exercise you're arranging for our department. I like your idea of playing a soccer game at a park, but it'd be best to do it after work rather than on the weekend like you originally planned. Many employees commute from the suburbs and won't want to travel on their day off. If you agree, then Baker Park isn't suitable because it closes at six o'clock on weekdays. And while Pine Park is open until 10:00 P.M., it doesn't have a playing field. So, that leaves Taylor Park or ... um ... maybe Riverview Park. Let me know which one you prefer sometime today. Thanks."
+      ]
+    }
+  ]
+}

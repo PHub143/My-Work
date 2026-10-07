@@ -145,6 +145,67 @@ test('a transcribed key resolves to a real test in the manifest', () => {
   });
 });
 
+// --- listening transcripts ---
+
+const TRANSCRIPT_DIR = fileURLToPath(new URL('../data/hacker/transcripts/', import.meta.url));
+// Same line format as parseTranscriptLine() in hacker.js (which can't be imported
+// here: it uses Vite's import.meta.glob).
+const SPEAKER_LINE = /^[A-Za-z]{1,3}(?:-[A-Za-z]{2,3})?\|/;
+
+function loadTranscriptFiles() {
+  return readdirSync(TRANSCRIPT_DIR)
+    .filter((name) => name.endsWith('.json'))
+    .map((name) => ({ name, data: JSON.parse(readFileSync(join(TRANSCRIPT_DIR, name), 'utf8')) }));
+}
+
+test('every transcript tiles questions 1-100 once, grouped the way the exam is', () => {
+  const files = loadTranscriptFiles();
+  assert.ok(files.length > 0, 'expected at least one transcript');
+  const ids = new Set(HACKER_VOLUMES.flatMap((v) => v.tests.map((t) => t.id)));
+
+  files.forEach(({ name, data }) => {
+    assert.equal(`${data.testId}.json`, name);
+    assert.ok(ids.has(data.testId), `${name} is not in the manifest`);
+
+    let next = 1;
+    data.entries.forEach((entry) => {
+      assert.equal(entry.from, next, `${name} has a gap or overlap before question ${entry.from}`);
+      // Parts 1-2 are one entry per question, Parts 3-4 one per set of three.
+      assert.equal(entry.to - entry.from + 1, entry.from <= 31 ? 1 : 3, `${name} Q${entry.from} is the wrong size`);
+      next = entry.to + 1;
+    });
+    assert.equal(next, 101, `${name} must end at question 100`);
+    assert.equal(data.entries.length, 54, `${name} must have 54 entries`);
+  });
+});
+
+test('transcript lines are non-empty and Parts 1-2 print the key answer as a choice', () => {
+  loadTranscriptFiles().forEach(({ name, data }) => {
+    const key = JSON.parse(readFileSync(join(KEY_DIR, name), 'utf8')).listening;
+
+    data.entries.forEach((entry) => {
+      assert.ok(entry.lines.length > 0, `${name} Q${entry.from} has no lines`);
+      entry.lines.forEach((line) => {
+        const text = line.replace(SPEAKER_LINE, '');
+        assert.ok(text.trim().length > 0, `${name} Q${entry.from} has an empty line`);
+        assert.ok(!/[가-힣]/.test(text), `${name} Q${entry.from} still contains Korean`);
+      });
+
+      if (entry.from > 31) return; // Parts 3-4 carry no choices
+      const letters = entry.lines
+        .map((line) => /^\(([A-D])\)/.exec(line.replace(SPEAKER_LINE, ''))?.[1])
+        .filter(Boolean);
+      assert.deepEqual(
+        letters,
+        entry.from <= 6 ? ['A', 'B', 'C', 'D'] : ['A', 'B', 'C'],
+        `${name} Q${entry.from} has the wrong choices`,
+      );
+      // The exam highlights the line whose letter matches the key.
+      assert.ok(letters.includes(key[entry.from - 1]), `${name} Q${entry.from} has no choice for key ${key[entry.from - 1]}`);
+    });
+  });
+});
+
 // --- scoring (shared toeicScore.js — smoke test only, full coverage lives in ybm.test.js) ---
 
 test('scaled section scores stay inside the official 5-495 band', () => {

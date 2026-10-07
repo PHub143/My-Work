@@ -75,8 +75,12 @@ and flag the difference to the user before committing to it.
 
 Everything from "Reference" through "Audit and repair" is written for `ybm`.
 Hacker has the same layers 0–5 (content under
-`allinone/src/data/hacker/content/`, renderer `HackerReadingContent.jsx`) but
-no transcripts layer, and `audit-ybm.mjs` does not read it.
+`allinone/src/data/hacker/content/`, renderer `HackerReadingContent.jsx`), plus a
+transcripts layer for Vols 2 and 3 (`allinone/src/data/hacker/transcripts/`, panel
+in `HackerExam.jsx`) — see "Hacker transcripts" in Part 3. `audit-ybm.mjs` does not
+read Hacker; to run it on Hacker, copy it and swap its four path constants and
+the `YBM_VOLUMES` import for Hacker's `HACKER_VOLUMES` (it then reports 0
+findings for Vol 2; on Vol 3 only test 4's documented source-scan hole).
 
 ---
 
@@ -1135,8 +1139,25 @@ with 번역/어휘/해설 beside it. Test 1 is pages 171–200 (its answer grid 
 p. 171; Test 2's grid is p. 201, so a test is ~30 pages). Render them with
 `pdftoppm -jpeg -r 140 -f <first> -l <last> "<pdf>" s` into the scratchpad and
 read in order, same as Vol 1. Because `render-pages.mjs` has no `script:` entry
-for Vol 2, the audit files a missing Vol 2 transcript as INFO, not TODO. Vol 3
-and Hacker: not checked / no transcripts layer.
+for Vol 2, the audit files a missing Vol 2 transcript as INFO, not TODO. YBM
+Vol 3: not checked.
+
+**Hacker transcripts (Vols 2 and 3, built).** Hacker's `… LISTENING
+TRANSCRIPT.pdf` files have a text layer, so their transcripts are *generated*, not
+read by eye: `python3 scripts/hacker/build-transcripts.py` (add `--vol 3 --pdf
+<Vol 3 transcript PDF>` for Vol 3) writes
+`allinone/src/data/hacker/transcripts/<id>.json` in the same shape as YBM's. Read
+`allinone/src/data/hacker/transcripts/AGENTS.md` first — the one real difference
+is speaker tags: Hacker prints accents only (no gender outside Part 3's `M:`/`W:`
+labels), so Parts 2 and 4 use accent-only tags (`Br|…`), not YBM's `W-Br|`. The
+same PDF opens every test with its printed answer key, a free second signal for
+the listening key (all 2,000 listening letters in Hacker Vol 2-3 `keys/` match it;
+Vol 3's reading answers are also printed in `RC/KEY _ HACKER 3 READING_.pdf`,
+1,000/1,000 match). Vol 3's text layer is better than Vol 2's, so a content check
+works as: numbering by `NNN.` line, plus two independent text readings (the PDF
+layer and a tesseract pass) — anything in the JSON found in neither is a flag for
+a human to look at the page; map/layout descriptions the transcriber wrote are
+the main thing to verify by eye.
 
 ## Schema
 

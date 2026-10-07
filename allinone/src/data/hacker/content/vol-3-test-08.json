@@ -2477,7 +2477,7 @@
               },
               "salutation": "Dear Martha,",
               "paragraphs": [
-                "Thank you so much for the e-mail yesterday containing photographs and details of some items you have found that may be appropriate for my new house. I can see that you have a clear idea of the design and look I'm going for, and I appreciate your effort. I have selected some of the items you recommended, as I think they will match well with the contemporary look of the home, and the furnishings and decor items I already have:"
+                "Thank you so much for the e-mail yesterday containing photographs and details of some items you have found that may be appropriate for my new house. I can see that you have a clear idea of the design and look I'm going for, and I appreciate your effort. I have selected some of the items you recommended, as I think they will match well with the contemporary look of the home, and the furnishings and décor items I already have:"
               ],
               "bulletList": [
                 "For the living room: The Pendleton ottoman and an armchair",
@@ -2658,7 +2658,7 @@
             {
               "kind": "email",
               "meta": {
-                "To": "Pittman Training inquiries",
+                "To": "Pittman Training <inquiries@pittmantraining.com>",
                 "From": "Bernard Hinds <bernardhinds@smail.com>",
                 "Subject": "Follow up",
                 "Date": "March 26"
@@ -2666,7 +2666,7 @@
               "salutation": "To Whom It May Concern,",
               "paragraphs": [
                 "I would like to follow up on my registration for the Bank Employee Development training course. I submitted my payment one week ago and received an e-mail confirming my enrollment. However, I still haven't received the course syllabus. Please send it to me as soon as possible so that I can begin preparing for the class.",
-                "Also, a colleague of mine is interested in taking the same course. I realize that it may be too late to register since the deadline has passed, but I am wondering whether an exception can be made if the class isn't already full. Thanks,"
+                "Also, a colleague of mine is interested in taking the same course. I realize that it may be too late to register since the deadline has passed, but I am wondering whether an exception can be made if the class isn't already full. Thanks."
               ],
               "signer": "Bernard Hinds"
             }
