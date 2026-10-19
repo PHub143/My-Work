@@ -16,6 +16,13 @@ BigInt.prototype.toJSON = function() {
 const app = express();
 const port = process.env.PORT || 3001;
 
+// Mail compose bodies are validated at 90 KB of text by the mail controller, but
+// JSON escaping (newlines, quotes) can push the encoded payload past the default
+// 100 KB limit and produce a generic 413. This parser runs first for /mail only;
+// body-parser skips a request that is already parsed, so the global one below
+// still applies to every other route.
+app.use('/mail', express.json({ limit: '256kb' }));
+
 // Middleware for parsing JSON bodies
 app.use(express.json());
 

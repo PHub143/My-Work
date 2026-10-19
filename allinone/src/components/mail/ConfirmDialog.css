@@ -1,0 +1,55 @@
+.mailconfirm {
+  width: min(440px, calc(100vw - 32px));
+  padding: 22px;
+  border: 1px solid var(--line);
+  --confirm-danger-text: #ffffff;
+  border-radius: 13px;
+  background: var(--surface-raised);
+  color: var(--text);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+}
+
+.mailconfirm::backdrop {
+  background: rgba(16, 20, 24, 0.55);
+}
+
+.mailconfirm-title {
+  margin: 0 0 10px;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.mailconfirm-body {
+  font-size: var(--fs-ui);
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.mailconfirm-body p {
+  margin: 0 0 10px;
+}
+
+.mailconfirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.mailconfirm-ok {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--surface);
+}
+
+.mailconfirm-ok.is-danger {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: var(--confirm-danger-text);
+}
+
+/* theme-dependent value lives in a variable on the parent (see
+   .cursor/rules/light-dark-mode-text-contrast.mdc) */
+[data-theme='dark'] .mailconfirm {
+  --confirm-danger-text: #1a0610;
+}

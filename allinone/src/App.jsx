@@ -24,6 +24,7 @@ const Hacker = lazy(() => import('./pages/Hacker'));
 const HackerExam = lazy(() => import('./pages/HackerExam'));
 const Users = lazy(() => import('./pages/Users'));
 const Feedback = lazy(() => import('./pages/Feedback'));
+const Inbox = lazy(() => import('./pages/Inbox'));
 const Upload = lazy(() => import('./pages/Upload'));
 const Settings = lazy(() => import('./pages/Settings'));
 const Profile = lazy(() => import('./pages/Profile'));
@@ -76,6 +77,7 @@ const AppShell = () => {
             <Route element={<AdminRoute />}>
               <Route path='/users' element={<Users />} />
               <Route path='/feedback' element={<Feedback />} />
+              <Route path='/inbox' element={<Inbox />} />
               <Route path='/settings' element={<Settings />} />
             </Route>
             <Route element={<LearningRoute />}>

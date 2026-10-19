@@ -107,3 +107,27 @@ model DriveConfig {
   updatedAt    DateTime @updatedAt
   files        File[]
 }
+
+// Admin Inbox: one row per connected mailbox. OAuth credentials are separate
+// from DriveConfig. clientSecret/refreshToken are AES-256-GCM encrypted via
+// utils/encryption.js and are never returned by the API.
+model MailAccount {
+  id                   String    @id @default(cuid())
+  provider             String    @default("gmail")
+  name                 String    @default("Gmail")
+  emailAddress         String?
+  clientId             String?
+  clientSecret         String?   // Encrypted
+  redirectUri          String?
+  refreshToken         String?   // Encrypted
+  grantedScopes        String?   // space-separated scopes returned by the provider
+  allowPermanentDelete Boolean   @default(false)
+  status               String    @default("disconnected") // disconnected | connected | reauth_required
+  providerConfig       Json      @default("{}")
+  isDefault            Boolean   @default(false)
+  connectedAt          DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  @@unique([provider, emailAddress])
+}

@@ -5,8 +5,9 @@ import { API_URL } from '../config';
 import Spinner from '../components/Spinner';
 import { useAuth } from '../AuthContext';
 import { useDrive } from '../DriveContext';
+import MailAccountsSettings from '../components/MailAccountsSettings';
 
-const TABS = ['Drives', 'Account', 'Appearance', 'Tags', 'Notifications'];
+const TABS = ['Drives', 'Mail', 'Account', 'Appearance', 'Tags', 'Notifications'];
 
 const MailIcon = () => (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -56,7 +57,9 @@ const Settings = () => {
   const [editingDrive, setEditingDrive] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(null);
-  const [activeTab, setActiveTab] = useState('Drives');
+  const [activeTab, setActiveTab] = useState(() =>
+    TABS.includes(location.state?.tab) ? location.state.tab : 'Drives'
+  );
 
   const [formData, setFormData] = useState({
     name: '',
@@ -335,9 +338,11 @@ const Settings = () => {
             Make it <em>yours.</em>
           </h1>
         </div>
-        <button className="settings-add-btn" onClick={openCreateForm}>
-          <PlusIcon /> Add drive
-        </button>
+        {activeTab !== 'Mail' && (
+          <button className="settings-add-btn" onClick={openCreateForm}>
+            <PlusIcon /> Add drive
+          </button>
+        )}
       </div>
 
       {/* Tab strip */}
@@ -465,8 +470,11 @@ const Settings = () => {
         </>
       )}
 
+      {/* Mail tab: Gmail accounts for the admin Inbox (separate from Drive) */}
+      {activeTab === 'Mail' && <MailAccountsSettings />}
+
       {/* Other tabs placeholder */}
-      {activeTab !== 'Drives' && (
+      {activeTab !== 'Drives' && activeTab !== 'Mail' && (
         <div className="settings-placeholder">
           <p>{activeTab} settings coming soon.</p>
         </div>

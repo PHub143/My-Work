@@ -17,6 +17,10 @@ Helper utilities, role logic, and learning module functions.
 | `toeicScore.js` | Raw-to-scaled TOEIC conversion (5–495 per section, 990 cap) |
 | `feedback.js` | Feedback category/status vocab + label helpers, `filterFeedback()`, `countByStatus()`; ids mirror `api/controllers/feedbackController.js` |
 | `feedback.test.js` | Tests for `feedback.js` |
+| `mail.js` | Inbox pure helpers: OAuth `state` decode (`isMailOAuthState`), address parse/format, folder ordering, dates/snippets, reply/forward builder, compose validation (~90 KB cap), URL-param + shortcut helpers |
+| `mailApi.js` | `createMailApi(token)`: bearer fetch wrapper for `/mail/*`; throws `MailApiError {status, code, message}`; AbortSignal supported |
+| `mailHtml.js` | `sanitizeHtml()` (DOMPurify; the single seam), `buildSrcdoc()` (CSP + referrer `<meta>` first in `<head>`), `hasRemoteImages()`. Mail HTML must only ever reach the DOM through these |
+| `mail.test.js` | Tests for `mail.js` and the pure parts of `mailHtml.js` |
 
 ## Test Patterns
 

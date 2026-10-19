@@ -14,6 +14,9 @@ Business logic, Prisma persistence, Google Drive behavior, config encryption.
 | `defaultAdminService.js` | Ensures a default admin user exists on startup |
 | `learningResultService.js` | Learning-result persistence and queries |
 | `feedbackService.js` | Feedback persistence and queries (author join + snapshot fallback) |
+| `mailAccountService.js` | `MailAccount` persistence for the admin Inbox: encrypted secrets, safe-account mapping, default/disconnect, connection state. Never returns secrets; blank/masked `clientSecret` keeps stored ciphertext |
+| `mailService.js` | Mail facade: resolves account + provider, normalises errors to `MailError`, flags `reauth_required` on `invalid_grant` |
+| `mail/` | Mail internals: `providers/` (registry `index.js` + `gmailProvider.js`; add a provider by dropping a file and registering it), `mime.js` (RFC 2047/5322 helpers), `oauthState.js` (HMAC-signed state), `errors.js` (`MailError`, Google error normaliser). Never log raw Gaxios errors (they carry bearer tokens) |
 | `ybmAssetService.js` | Resolves a YBM test/filename to a Drive file ID (via `api/data/ybm-assets/<testId>.json`) and returns a readable stream from Drive; see `.claude/rules/architecture.md` "YBM asset pipeline" |
 
 ## Google Drive Behavior

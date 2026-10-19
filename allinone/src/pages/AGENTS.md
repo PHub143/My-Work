@@ -17,7 +17,8 @@ Route-level screens — each page has a matching `.jsx` file and (usually) a mat
 | `/upload` | `Upload.jsx` | Protected (Drive) | File upload |
 | `/users` | `Users.jsx` | Admin | User management |
 | `/feedback` | `Feedback.jsx` | Admin | Review and triage user-submitted feedback |
-| `/settings` | `Settings.jsx` | Admin | Drive config, app settings |
+| `/inbox` | `Inbox.jsx` | Admin | Gmail client: folders, thread list, reader, compose. State in `?account=&folder=&q=&thread=`; talks to `/mail/*` via `utils/mailApi.js` |
+| `/settings` | `Settings.jsx` | Admin | Drive config, app settings; `Mail` tab (`MailAccountsSettings`) opens via `location.state.tab` |
 | `/learning/ai-103` | `AI103.jsx` | Student | AI-103 study material |
 | `/learning/ai-103/practice` | `AI103Practice.jsx` | Student | AI-103 practice questions |
 | `/learning/ai-102` | `AI102.jsx` | Student | AI-102 study material |

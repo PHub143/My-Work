@@ -8,6 +8,7 @@ const learningRoutes = require('./learningRoutes');
 const feedbackRoutes = require('./feedbackRoutes');
 const ybmAssetRoutes = require('./ybmAssetRoutes');
 const hackerAssetRoutes = require('./hackerAssetRoutes');
+const mailRoutes = require('./mailRoutes');
 
 // Public health check for uptime monitoring (e.g. UptimeRobot); no DB or Drive access
 router.get('/health', (req, res) => {
@@ -23,6 +24,7 @@ router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/learning', learningRoutes);
 router.use('/feedback', feedbackRoutes);
+router.use('/mail', mailRoutes);
 router.use('/', ybmAssetRoutes);
 router.use('/', hackerAssetRoutes);
 

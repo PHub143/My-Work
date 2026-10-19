@@ -3,6 +3,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { API_URL } from '../config';
 import Spinner from '../components/Spinner';
 import { useAuth } from '../AuthContext';
+import { createMailApi } from '../utils/mailApi';
+import { isMailOAuthState } from '../utils/mail';
 import './OAuthCallback.css';
 
 const OAuthCallback = () => {
@@ -22,6 +24,24 @@ const OAuthCallback = () => {
 
     const exchangeCode = async () => {
       hasExchanged.current = true;
+
+      // Gmail (mail) flow: the state carries kind:'mail'. Everything else is
+      // the Drive flow below, which stays exactly as it was.
+      if (isMailOAuthState(stateParam)) {
+        try {
+          await createMailApi(token).completeOAuth({ code, state: stateParam });
+          setStatus('Gmail connected! Redirecting...');
+          navigate('/settings', {
+            state: { tab: 'Mail', message: 'Gmail account connected.' },
+            replace: true
+          });
+        } catch (err) {
+          console.error('Error during mail code exchange:', err);
+          setError(err?.message || 'Gmail authentication failed. The code may have expired or already been used.');
+        }
+        return;
+      }
+
       try {
         const response = await fetch(`${API_URL}/auth/google/callback`, {
           method: 'POST',
@@ -59,7 +79,7 @@ const OAuthCallback = () => {
             <div className="error-icon">⚠️</div>
             <h2>Authentication Error</h2>
             <p className="error-message">{error}</p>
-            <button className="primary-button" onClick={() => navigate('/settings')}>
+            <button className="primary-button" onClick={() => navigate('/settings', isMailOAuthState(stateParam) ? { state: { tab: 'Mail' } } : undefined)}>
               Return to Settings
             </button>
           </>

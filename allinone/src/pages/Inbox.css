@@ -1,0 +1,231 @@
+/* Inbox — admin mail client shell. Colours come from the theme variables in
+   index.css, so both themes work without [data-theme] selectors here.
+   Layout: >=1200 three panes, 768–1199 two panes (icon sidebar),
+   <768 stacked list → reader with Back. */
+
+.inbox-page {
+  --inbox-sidebar: 224px;
+  --inbox-list: minmax(340px, 420px);
+  display: grid;
+  grid-template-columns: var(--inbox-sidebar) var(--inbox-list) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.inbox-page.is-centered {
+  display: grid;
+  place-items: center;
+  background: var(--color-system-background);
+}
+
+.inbox-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.inbox-listpane,
+.inbox-readerpane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: var(--surface);
+}
+
+.inbox-listpane {
+  border-right: 1px solid var(--line);
+}
+
+.inbox-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* ── setup / error card ── */
+
+.inbox-setup {
+  width: 100%;
+  padding: 24px;
+  display: grid;
+  place-items: center;
+}
+
+.inbox-setup-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: min(480px, 100%);
+  padding: 32px 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  background: var(--surface);
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.inbox-setup-card h1 {
+  margin: 4px 0 0;
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.inbox-setup-card p {
+  margin: 0;
+  font-size: var(--fs-ui);
+  color: var(--text);
+}
+
+.inbox-setup-actions {
+  margin-top: 12px;
+}
+
+.inbox-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--ink);
+  border-radius: var(--r-input);
+  background: var(--ink);
+  color: var(--surface);
+  font: inherit;
+  font-size: var(--fs-ui);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.inbox-cta:hover {
+  color: var(--surface);
+  text-decoration: none;
+  filter: brightness(1.12);
+}
+
+/* ── toast / undo ── */
+
+.inbox-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: min(560px, calc(100vw - 24px));
+  padding: 10px 10px 10px 16px;
+  border: 1px solid var(--ink);
+  border-radius: 11px;
+  background: var(--ink);
+  color: var(--surface);
+  font-size: var(--fs-ui);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: translateX(-50%);
+}
+
+.inbox-toast.is-error {
+  border-color: var(--danger);
+}
+
+.inbox-toast-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid currentColor;
+  border-radius: var(--r-input);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.inbox-toast-btn:hover {
+  background: rgba(127, 127, 127, 0.25);
+  color: inherit;
+  text-decoration: none;
+}
+
+.inbox-toast-x {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+}
+
+.inbox-toast :focus-visible {
+  outline-color: var(--surface);
+}
+
+/* ── two-pane: icon sidebar ── */
+
+@media (max-width: 1199px) {
+  .inbox-page {
+    --inbox-sidebar: 68px;
+    --inbox-list: minmax(300px, 380px);
+  }
+}
+
+/* ── stacked: one pane at a time ── */
+
+@media (max-width: 767px) {
+  .inbox-page {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .inbox-page > .mailside {
+    grid-row: 1;
+  }
+
+  .inbox-listpane,
+  .inbox-readerpane {
+    grid-row: 2;
+    grid-column: 1;
+    border-right: none;
+  }
+
+  .inbox-page[data-pane='list'] .inbox-readerpane,
+  .inbox-page[data-pane='reader'] .inbox-listpane {
+    display: none;
+  }
+
+  /* reading takes the whole screen; the folder strip is only for the list */
+  .inbox-page[data-pane='reader'] > .mailside {
+    display: none;
+  }
+
+  .inbox-page[data-pane='reader'] {
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .inbox-page[data-pane='reader'] .inbox-readerpane {
+    grid-row: 1;
+  }
+
+  .inbox-toast {
+    bottom: 72px;
+  }
+}
+
+/* the app rail becomes a 56px bottom bar at <=760px */
+@media (max-width: 760px) {
+  .inbox-page {
+    height: calc(100dvh - 56px);
+  }
+}

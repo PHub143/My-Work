@@ -13,6 +13,7 @@ URL declarations and middleware chains. Keep the route/controller/service layeri
 | `userRoutes.js` | User management (admin) |
 | `learningRoutes.js` | Learning-result persistence (`POST`/`GET /learning/results`), auth-gated |
 | `feedbackRoutes.js` | User feedback: `POST /feedback` + `POST /feedback/attachments` (any signed-in user); `GET /feedback`, `GET /feedback/:id/attachments/:driveFileId`, `PATCH /feedback/:id`, `DELETE /feedback/:id` (admin) |
+| `mailRoutes.js` | Admin-only Inbox API mounted at `/mail`: accounts CRUD/default/disconnect, OAuth url + callback, folders, threads, messages, attachments, drafts, send, bulk actions. `authenticateToken, isAdmin` applied once via `router.use` at the top; errors are `{ message, code }` |
 | `ybmAssetRoutes.js` | Public `GET /ybm/:testId/:filename` — streams a YBM booklet page/audio file from Drive; see `.claude/rules/architecture.md` "YBM asset pipeline" |
 
 ## API And Auth Conventions

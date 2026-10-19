@@ -1,0 +1,263 @@
+/* Settings → Mail. Reuses Settings.css primitives (.settings-message,
+   .btn-primary, .btn-outline, .btn-danger, .settings-empty) which are loaded
+   whenever this tab is on screen. */
+
+.mailacct {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mailacct-loading {
+  display: grid;
+  place-items: center;
+  padding: 40px 0;
+}
+
+.mailacct-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.mailacct-intro {
+  flex: 1 1 280px;
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+.mailacct-add {
+  align-self: flex-start;
+}
+
+.mailacct-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mailacct-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 20px;
+  border: 1px solid var(--line-soft);
+  border-radius: 13px;
+  background: var(--surface);
+}
+
+.mailacct-name-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mailacct-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.mailacct-email {
+  margin-top: 3px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.mailacct-default,
+.mailacct-status {
+  padding: 2px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-sunken);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.mailacct-status.is-connected {
+  border-color: var(--positive);
+  color: var(--positive);
+}
+
+.mailacct-status.is-reauth_required {
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
+.mailacct-status.is-disconnected {
+  color: var(--text-muted);
+}
+
+.mailacct-warning {
+  margin: 0;
+  padding: 9px 12px;
+  border: 1px solid var(--warning);
+  border-radius: 9px;
+  background: var(--surface-sunken);
+  color: var(--text);
+  font-size: 13px;
+}
+
+.mailacct-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.mailacct-row-actions button {
+  min-height: 40px;
+}
+
+/* ── form ── */
+
+.mailacct-form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 22px;
+  border: 1px solid var(--line-soft);
+  border-radius: 13px;
+  background: var(--surface);
+}
+
+.mailacct-back,
+.mailacct-link {
+  align-self: flex-start;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--accent-ink);
+  font-size: 13px;
+}
+
+.mailacct-back:hover,
+.mailacct-link:hover {
+  text-decoration: underline;
+}
+
+.mailacct-form-title {
+  margin: 0;
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.mailacct-form-title:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.mailacct-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mailacct-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.mailacct-field label,
+.mailacct-check label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.mailacct-field input[type='text'],
+.mailacct-field input[type='password'],
+.mailacct-field select {
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+}
+
+.mailacct-field input:focus,
+.mailacct-field select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-wash);
+}
+
+.mailacct-hint {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.mailacct-check {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  column-gap: 10px;
+  row-gap: 4px;
+  align-items: center;
+}
+
+.mailacct-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+.mailacct-check .mailacct-hint {
+  grid-column: 2;
+}
+
+.mailacct-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+/* ── help ── */
+
+.mailacct-help {
+  padding: 12px 16px;
+  border: 1px solid var(--line-soft);
+  border-radius: 11px;
+  background: var(--surface);
+  font-size: 13px;
+  color: var(--text);
+}
+
+.mailacct-help summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.mailacct-help ol {
+  margin: 10px 0 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mailacct-help code,
+.mailacct-hint code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+}

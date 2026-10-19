@@ -1,0 +1,60 @@
+/* MailBody — the iframe stays white in both themes on purpose: HTML mail is
+   authored for a white canvas and can't be re-themed safely. */
+
+.mailbody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.mailbody-frame {
+  display: block;
+  width: 100%;
+  /* Without allow-same-origin the parent cannot measure the document, so the
+     frame scrolls internally at a fixed, comfortable height. */
+  height: clamp(280px, 62vh, 760px);
+  border: 1px solid var(--line-soft);
+  border-radius: 9px;
+  background: #ffffff;
+  color-scheme: light;
+}
+
+.mailbody-text {
+  margin: 0;
+  padding: 2px 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.mailbody-empty {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-ui);
+}
+
+.mailbody-images {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--surface-sunken);
+  color: var(--text);
+  font-size: var(--fs-meta);
+}
+
+.mailbody-images-btn {
+  padding: 6px 12px;
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--surface);
+  font-size: var(--fs-meta);
+}

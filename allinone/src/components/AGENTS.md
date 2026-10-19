@@ -32,6 +32,8 @@ Shared UI components, navigation, route guards, modals, and loading states.
 | `DriveSwitcher.jsx` | Google Drive configuration selector |
 | `AccessLocked.jsx` | Non-admin access denied screen |
 | `PassagePanel.jsx` | Reading passage renderer for English learning pages (blank markers, multi-passage sets) |
+| `MailAccountsSettings.jsx` | Settings → Mail tab: Gmail account CRUD, Connect/Reconnect/Disconnect, set default (separate from Drive configs) |
+| `mail/` | Inbox building blocks: `MailSidebar`, `MailToolbar`, `MailList`, `MailReader`, `MailBody` (HTML only inside a sandboxed iframe via `utils/mailHtml.js`; never `dangerouslySetInnerHTML`), `ComposeDialog` (native `<dialog>`, autosaves drafts), `ConfirmDialog`, `MailIcons` |
 | `ListeningPlayer.jsx` | Sequential audio-clip player for English listening; locked exam mode plays once, study mode allows replay |
 
 ## Theme

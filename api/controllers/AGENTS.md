@@ -13,6 +13,8 @@ Request/response validation and flow control. Validates input in controllers bef
 | `userController.js` | User management (admin) |
 | `learningResultController.js` | Learning-result create/list handlers |
 | `feedbackController.js` | Feedback submit/list/update/delete handlers, image-attachment upload, and an admin-only attachment streaming proxy |
+| `mailAccountController.js` | Mail account CRUD + OAuth connect handlers (no secrets in responses) |
+| `mailController.js` | Inbox data handlers (folders/threads/messages/attachments/drafts/send/actions); validates ids, page size, query length, compose size and header injection; responds `{ message, code }` itself because the global error handler drops `code` |
 | `ybmAssetController.js` | Streams a YBM Drive asset to the response; see `services/ybmAssetService.js` |
 
 ## Conventions
