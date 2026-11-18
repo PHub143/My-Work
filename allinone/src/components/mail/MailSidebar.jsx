@@ -1,7 +1,7 @@
 import React from 'react';
+import './MailSidebar.css';
 import { folderRole, sortFolders } from '../../utils/mail';
 import { FolderIcon, PencilIcon } from './MailIcons';
-import './MailSidebar.css';
 
 const countFor = (folder) => {
   const role = folderRole(folder);

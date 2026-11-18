@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
-import './HackerReadingContent.css';
+import './ReadingContent.css';
 import { PARTS } from '../data/hacker/manifest.js';
+import { ArrowLeft, ArrowRight, Check, Cross } from '../components/ExamIcons.jsx';
 
 // Splits one content-tree part into ordered navigation units. Each unit's
 // `questions` list is what Prev/Next and the answer sheet jump between.
@@ -97,7 +98,7 @@ function renderBlanks(text) {
     const match = chunk.match(/^\[\[(\d+)\]\]$/);
     if (!match) return <React.Fragment key={index}>{chunk}</React.Fragment>;
     return (
-      <span className="hkr-blank" key={index}>
+      <span className="rdc-blank" key={index}>
         {match[1]}
       </span>
     );
@@ -112,10 +113,10 @@ function Paragraphs({ paragraphs }) {
 function SignOff({ closing, signer, signerTitle }) {
   if (!closing && !signer && !signerTitle) return null;
   return (
-    <p className="hkr-signoff">
+    <p className="rdc-signoff">
       {closing && <>{closing}<br /></>}
       {signer && <>{signer}<br /></>}
-      {signerTitle && <span className="hkr-signoff-title">{signerTitle}</span>}
+      {signerTitle && <span className="rdc-signoff-title">{signerTitle}</span>}
     </p>
   );
 }
@@ -123,9 +124,9 @@ function SignOff({ closing, signer, signerTitle }) {
 function Table({ table, totalRow }) {
   if (!table) return null;
   return (
-    <div className="hkr-table-wrap">
-      {table.title && <div className="hkr-table-title">{table.title}</div>}
-      <table className="hkr-table">
+    <div className="rdc-table-wrap">
+      {table.title && <div className="rdc-table-title">{table.title}</div>}
+      <table className="rdc-table">
         {table.columns && (
           <thead>
             <tr>{table.columns.map((col) => <th key={col}>{col}</th>)}</tr>
@@ -136,7 +137,7 @@ function Table({ table, totalRow }) {
             <tr key={index}>{row.map((cell, i) => <td key={i}>{cell}</td>)}</tr>
           ))}
           {totalRow && (
-            <tr className="hkr-table-total">
+            <tr className="rdc-table-total">
               <td colSpan={(table.columns?.length || 2) - 1}>{totalRow[0]}</td>
               <td>{totalRow[1]}</td>
             </tr>
@@ -150,16 +151,16 @@ function Table({ table, totalRow }) {
 function Passage({ passage, assetUrl }) {
   const p = passage;
   return (
-    <div className={`hkr-passage hkr-passage--${p.kind}`}>
-      {p.heading && <div className="hkr-passage-heading">{p.heading}</div>}
+    <div className={`rdc-passage rdc-passage--${p.kind}`}>
+      {p.heading && <div className="rdc-passage-heading">{p.heading}</div>}
       {p.kind === 'graphic' && (
-        <img className="hkr-graphic" src={assetUrl(p.asset)} alt={p.alt} />
+        <img className="rdc-graphic" src={assetUrl(p.asset)} alt={p.alt} />
       )}
-      {p.byline && <div className="hkr-passage-byline">{p.byline}</div>}
-      {p.note && <div className="hkr-passage-note">{p.note}</div>}
+      {p.byline && <div className="rdc-passage-byline">{p.byline}</div>}
+      {p.note && <div className="rdc-passage-note">{p.note}</div>}
 
       {p.meta && (
-        <dl className="hkr-meta">
+        <dl className="rdc-meta">
           {Object.entries(p.meta).map(([label, value]) => (
             <React.Fragment key={label}>
               <dt>{label}</dt>
@@ -170,16 +171,16 @@ function Passage({ passage, assetUrl }) {
       )}
 
       {p.addressBlock && (
-        <p className="hkr-address">
-          {p.date && <span className="hkr-letter-date">{p.date}</span>}
+        <p className="rdc-address">
+          {p.date && <span className="rdc-letter-date">{p.date}</span>}
           {p.addressBlock.map((line, i) => <React.Fragment key={i}>{line}<br /></React.Fragment>)}
         </p>
       )}
 
-      {p.salutation && <p className="hkr-salutation">{p.salutation}</p>}
+      {p.salutation && <p className="rdc-salutation">{p.salutation}</p>}
 
       {p.fields && (
-        <dl className="hkr-fields">
+        <dl className="rdc-fields">
           {p.fields.map((f) => (
             <React.Fragment key={f.label}>
               <dt>{f.label}</dt>
@@ -190,13 +191,13 @@ function Passage({ passage, assetUrl }) {
       )}
 
       {p.fieldRows && (
-        <div className="hkr-form-rows">
+        <div className="rdc-form-rows">
           {p.fieldRows.map((row, i) => (
-            <div className="hkr-form-row" key={i}>
+            <div className="rdc-form-row" key={i}>
               {row.map((f) => (
-                <div className="hkr-form-cell" key={f.label}>
-                  <span className="hkr-form-label">{f.label}</span>
-                  <span className="hkr-form-value">{f.value}</span>
+                <div className="rdc-form-cell" key={f.label}>
+                  <span className="rdc-form-label">{f.label}</span>
+                  <span className="rdc-form-value">{f.value}</span>
                 </div>
               ))}
             </div>
@@ -204,21 +205,21 @@ function Passage({ passage, assetUrl }) {
         </div>
       )}
 
-      {p.intro && <p className="hkr-intro">{p.intro}</p>}
+      {p.intro && <p className="rdc-intro">{p.intro}</p>}
 
       <Paragraphs paragraphs={p.paragraphs} />
 
       {p.bulletList && (
-        <ul className="hkr-bullets">
+        <ul className="rdc-bullets">
           {p.bulletList.map((line, i) => <li key={i}>{line}</li>)}
         </ul>
       )}
 
       {p.messages && (
-        <div className="hkr-chat">
+        <div className="rdc-chat">
           {p.messages.map((m, i) => (
-            <div className="hkr-chat-bubble" key={i}>
-              <div className="hkr-chat-head">
+            <div className="rdc-chat-bubble" key={i}>
+              <div className="rdc-chat-head">
                 <strong>{m.speaker}</strong>
                 <span>{m.time}</span>
               </div>
@@ -229,31 +230,31 @@ function Passage({ passage, assetUrl }) {
       )}
 
       {p.site && (
-        <div className="hkr-webpage">
-          <div className="hkr-webpage-head">
+        <div className="rdc-webpage">
+          <div className="rdc-webpage-head">
             <strong>{p.site.name}</strong>
             <span>{p.site.url}</span>
           </div>
-          {p.site.nav && <nav className="hkr-webpage-nav">{p.site.nav.join(' | ')}</nav>}
+          {p.site.nav && <nav className="rdc-webpage-nav">{p.site.nav.join(' | ')}</nav>}
         </div>
       )}
-      {p.sectionTitle && <div className="hkr-section-title">{p.sectionTitle}</div>}
+      {p.sectionTitle && <div className="rdc-section-title">{p.sectionTitle}</div>}
       {p.comments?.map((c, i) => (
-        <div className="hkr-comment" key={i}>
-          <p className="hkr-comment-meta"><em>{c.author} {c.meta}:</em></p>
+        <div className="rdc-comment" key={i}>
+          <p className="rdc-comment-meta"><em>{c.author} {c.meta}:</em></p>
           <p>{c.text}</p>
         </div>
       ))}
 
       {p.days && (
-        <div className="hkr-program">
+        <div className="rdc-program">
           {p.days.map((d) => (
-            <div className="hkr-program-day" key={d.day}>
-              <div className="hkr-program-day-name">{d.day}</div>
-              <div className="hkr-program-time">{d.time}</div>
-              <div className="hkr-program-title">{d.title}</div>
-              <div className="hkr-program-instructor">{d.instructor}</div>
-              <div className="hkr-program-cost">{d.cost}</div>
+            <div className="rdc-program-day" key={d.day}>
+              <div className="rdc-program-day-name">{d.day}</div>
+              <div className="rdc-program-time">{d.time}</div>
+              <div className="rdc-program-title">{d.title}</div>
+              <div className="rdc-program-instructor">{d.instructor}</div>
+              <div className="rdc-program-cost">{d.cost}</div>
             </div>
           ))}
         </div>
@@ -263,7 +264,7 @@ function Passage({ passage, assetUrl }) {
 
       {p.closingParagraphs && <Paragraphs paragraphs={p.closingParagraphs} />}
 
-      {p.footnote && <p className="hkr-footnote">{p.footnote}</p>}
+      {p.footnote && <p className="rdc-footnote">{p.footnote}</p>}
 
       <SignOff closing={p.closing} signer={p.signer} signerTitle={p.signerTitle} />
     </div>
@@ -273,15 +274,15 @@ function Passage({ passage, assetUrl }) {
 function QuestionItem({ item, focused, selected, onSelect, onFocus, disabled, correctAnswer }) {
   return (
     <div
-      className={`hkr-q${focused ? ' is-focused' : ''}`}
-      id={`hkr-q-${item.number}`}
+      className={`rdc-q${focused ? ' is-focused' : ''}`}
+      id={`rdc-q-${item.number}`}
       onClick={onFocus}
     >
-      <div className="hkr-q-num">{item.number}.</div>
-      <div className="hkr-q-body">
-        {item.stem && <p className="hkr-q-stem">{item.stem}</p>}
+      <div className="rdc-q-num">{item.number}.</div>
+      <div className="rdc-q-body">
+        {item.stem && <p className="rdc-q-stem">{item.stem}</p>}
         {item.choices && (
-          <div className={`hkr-q-choices${item.type === 'sentence' ? ' hkr-q-choices--sentence' : ''}`}>
+          <div className={`rdc-q-choices${item.type === 'sentence' ? ' rdc-q-choices--sentence' : ''}`}>
             {Object.entries(item.choices).map(([key, text]) => {
               const picked = selected === key;
               const correct = disabled && correctAnswer === key;
@@ -298,7 +299,20 @@ function QuestionItem({ item, focused, selected, onSelect, onFocus, disabled, co
                     onSelect(key);
                   }}
                 >
-                  <b>{key}</b> {text}
+                  <b>{key}</b>
+                  <span className="rdc-q-choice-text">{text}</span>
+                  {correct && (
+                    <span className="rdc-q-status">
+                      <Check size={16} />
+                      Correct
+                    </span>
+                  )}
+                  {wrong && (
+                    <span className="rdc-q-status">
+                      <Cross size={16} />
+                      Incorrect
+                    </span>
+                  )}
                 </button>
               );
             })}
@@ -345,8 +359,8 @@ export default function HackerReadingContent({
   const canGoToPreviousPart = !prevUnit && Boolean(onGoToPreviousPart);
 
   return (
-    <div className="hkr-reading">
-      <div className="hkr-reading-controls">
+    <div className="rdc-reading">
+      <div className="rdc-reading-controls">
         <button
           type="button"
           disabled={!prevUnit && !canGoToPreviousPart}
@@ -355,9 +369,10 @@ export default function HackerReadingContent({
             onFocusChange(prevUnit.questions[0]);
           }}
         >
-          ← Prev
+          <ArrowLeft />
+          Prev
         </button>
-        <span className="hkr-reading-instruction">
+        <span className="rdc-reading-instruction">
           {unit.instruction || (
             unit.questions.length > 1
               ? `Questions ${unit.questions[0]}-${unit.questions[unit.questions.length - 1]}`
@@ -372,18 +387,19 @@ export default function HackerReadingContent({
             onFocusChange(nextUnit.questions[0]);
           }}
         >
-          {canGoToNextSection ? `Continue → ${nextSectionLabel}` : 'Next →'}
+          {canGoToNextSection ? `Continue to ${nextSectionLabel}` : 'Next'}
+          <ArrowRight />
         </button>
       </div>
 
-      <div className="hkr-reading-body">
+      <div className="rdc-reading-body">
         {unit.passages.map((passage, index) => (
           <Passage passage={passage} assetUrl={assetUrl} key={index} />
         ))}
 
         <div
-          className={`hkr-reading-items${
-            unit.items.every((item) => !item.choices) ? ' hkr-reading-items--columns' : ''
+          className={`rdc-reading-items${
+            unit.items.every((item) => !item.choices) ? ' rdc-reading-items--columns' : ''
           }`}
           style={{ '--rows': Math.ceil(unit.items.length / 2) }}
         >

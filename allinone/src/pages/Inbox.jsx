@@ -9,7 +9,7 @@ import MailList from '../components/mail/MailList';
 import MailReader from '../components/mail/MailReader';
 import ComposeDialog from '../components/mail/ComposeDialog';
 import ConfirmDialog from '../components/mail/ConfirmDialog';
-import { AlertIcon, CloseIcon, MailIcon } from '../components/mail/MailIcons';
+import { AlertIcon, CloseIcon, MailIcon, RefreshIcon } from '../components/mail/MailIcons';
 import { createMailApi, isAbortError } from '../utils/mailApi';
 import {
   MAIL_PAGE_SIZE,
@@ -53,7 +53,9 @@ const SetupCard = ({ kind, error, onRetry, accountName }) => {
   return (
     <div className="inbox-setup" role={kind === 'error' ? 'alert' : undefined}>
       <div className="inbox-setup-card">
-        {kind === 'error' || kind === 'reauth' ? <AlertIcon size={30} /> : <MailIcon size={30} />}
+        <span className={`inbox-setup-icon${kind === 'error' ? ' is-error' : ''}`}>
+          {kind === 'error' || kind === 'reauth' ? <AlertIcon size={30} /> : <MailIcon size={30} />}
+        </span>
         <h1>{heading}</h1>
         {kind === 'error' ? (
           <p>{info.message}</p>
@@ -76,6 +78,7 @@ const SetupCard = ({ kind, error, onRetry, accountName }) => {
           )}
           {kind === 'error' && info.retryable && (
             <button type="button" className="inbox-cta" onClick={onRetry}>
+              <RefreshIcon size={18} />
               Try again
             </button>
           )}
@@ -862,6 +865,11 @@ const Inbox = () => {
 
       {toast && (
         <div className={`inbox-toast${toast.kind === 'error' ? ' is-error' : ''}`} role="status" aria-live="polite">
+          {toast.kind === 'error' && (
+            <span className="inbox-toast-icon">
+              <AlertIcon size={18} />
+            </span>
+          )}
           <span>{toast.text}</span>
           {toast.undo && (
             <button type="button" className="inbox-toast-btn" onClick={handleUndo}>

@@ -32,6 +32,7 @@ const Login = () => {
   const isRegisterMode = isStudentMode && authMode === 'register';
   const loginContent = isStudentMode
     ? {
+        eyebrow: 'Student portal',
         title: isRegisterMode ? 'Create your account' : 'Sign in',
         subtitle: isRegisterMode
           ? 'Your practice history starts saving right away.'
@@ -41,6 +42,7 @@ const Login = () => {
         fallback: LEARNING_FALLBACK_ROUTE
       }
     : {
+        eyebrow: 'Admin portal',
         title: 'Admin sign in',
         subtitle: 'Manage banks, files and student accounts.',
         placeholder: 'admin@example.com',
@@ -51,7 +53,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isRegisterMode && password !== confirmPassword) {
-      setError('Passwords do not match.');
+      setError('Passwords do not match. Type the same password in both fields.');
       return;
     }
 
@@ -104,25 +106,52 @@ const Login = () => {
     <div className="login-page">
       <LoginBrandPanel mode={isStudentMode ? 'student' : 'admin'} />
 
-      <div className="login-form-col">
+      <main className="login-form-col">
         <div className="login-card">
-          <h2>{loginContent.title}</h2>
-          <p className="login-subtitle">{loginContent.subtitle}</p>
+          <div className="login-head">
+            <span className="as-label login-eyebrow">{loginContent.eyebrow}</span>
+            <h1>{loginContent.title}</h1>
+            <p className="login-subtitle">{loginContent.subtitle}</p>
+          </div>
 
-          {error && <div className="login-error-message" role="alert">{error}</div>}
+          {error && (
+            <div className="as-alert as-alert--error" role="alert">
+              <svg
+                className="as-alert__icon"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="10" cy="10" r="7.5" />
+                <path d="M7.5 7.5l5 5M12.5 7.5l-5 5" />
+              </svg>
+              <span>
+                <span className="as-visually-hidden">Error: </span>
+                {error}
+              </span>
+            </div>
+          )}
 
           {isStudentMode && (
-            <div className="login-mode-toggle" aria-label="Student account mode">
+            <div className="as-tabs" role="group" aria-label="Student account mode">
               <button
                 type="button"
-                className={authMode === 'login' ? 'active' : ''}
+                className="as-tab"
+                aria-pressed={authMode === 'login'}
                 onClick={() => switchAuthMode('login')}
               >
                 Sign in
               </button>
               <button
                 type="button"
-                className={authMode === 'register' ? 'active' : ''}
+                className="as-tab"
+                aria-pressed={authMode === 'register'}
                 onClick={() => switchAuthMode('register')}
               >
                 Register
@@ -131,10 +160,13 @@ const Login = () => {
           )}
 
           <form onSubmit={handleSubmit} className="login-form">
-            <div className="form-group">
-              <label htmlFor="userId">{isRegisterMode ? 'User ID' : 'User ID or email'}</label>
+            <div className="as-field">
+              <label className="as-field__label" htmlFor="userId">
+                {isRegisterMode ? 'User ID' : 'User ID or email'}
+              </label>
               <input
                 id="userId"
+                className="as-field__input"
                 type="text"
                 placeholder={isRegisterMode ? 'Choose a user ID' : 'User ID or email address'}
                 value={userId}
@@ -146,10 +178,11 @@ const Login = () => {
             </div>
 
             {isRegisterMode && (
-              <div className="form-group">
-                <label htmlFor="email">Email address (optional)</label>
+              <div className="as-field">
+                <label className="as-field__label" htmlFor="email">Email address (optional)</label>
                 <input
                   id="email"
+                  className="as-field__input"
                   type="email"
                   placeholder={loginContent.placeholder}
                   value={email}
@@ -159,12 +192,13 @@ const Login = () => {
               </div>
             )}
 
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
+            <div className="as-field">
+              <label className="as-field__label" htmlFor="password">Password</label>
               <input
                 id="password"
+                className="as-field__input"
                 type="password"
-                placeholder="••••••••"
+                placeholder="Your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -173,12 +207,13 @@ const Login = () => {
             </div>
 
             {isRegisterMode && (
-              <div className="form-group">
-                <label htmlFor="confirmPassword">Confirm password</label>
+              <div className="as-field">
+                <label className="as-field__label" htmlFor="confirmPassword">Confirm password</label>
                 <input
                   id="confirmPassword"
+                  className="as-field__input"
                   type="password"
-                  placeholder="••••••••"
+                  placeholder="Type it again"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
@@ -189,7 +224,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className="login-submit-btn"
+              className="as-btn as-btn--primary as-btn--block login-submit"
               disabled={isLoading}
             >
               {isLoading ? (isRegisterMode ? 'Creating account…' : 'Signing in…') : loginContent.button}
@@ -197,12 +232,12 @@ const Login = () => {
           </form>
 
           {isStudentMode && (
-            <p className="login-legal">
+            <p className="as-small login-legal">
               Trouble signing in? Ask your teacher to reset your account.
             </p>
           )}
         </div>
-      </div>
+      </main>
     </div>
   );
 };

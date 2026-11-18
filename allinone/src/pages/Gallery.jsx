@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import './Documents.css';
 import './Gallery.css';
 import { API_URL } from '../config';
 import Spinner from '../components/Spinner';
 import FileModal from '../components/FileModal';
 import TopBar from '../components/TopBar';
+import { CrossCircleIcon, ImageIcon, PlayIcon } from '../components/DriveIcons';
 import { useAuth } from '../AuthContext';
 import { useDrive } from '../DriveContext';
 
@@ -153,50 +155,60 @@ const Gallery = () => {
         action={{ label: 'Upload', to: '/upload' }}
       />
 
-      <div className="page-scan gallery-page">
-        <div className="page-head">
-          <div>
-            <h1>Gallery</h1>
+      <div className="drive-page gallery-page">
+        <div className="drive-head">
+          <div className="drive-head-copy">
+            <h1 className="as-headline">Gallery</h1>
             <p>
               {images.length} item{images.length === 1 ? '' : 's'} · {formatBytes(totalSize)}
               {activeDrive ? ` on ${activeDrive.name}` : ''}
             </p>
           </div>
 
-          <div className="page-head-actions">
-            <div className="seg">
-              <button type="button" className={size === 'medium' ? 'active' : ''} onClick={() => setSize('medium')}>
+          <div className="drive-head-actions">
+            <div className="drive-seg gal-size" role="group" aria-label="Thumbnail size">
+              <button type="button" aria-pressed={size === 'medium'} onClick={() => setSize('medium')}>
                 Medium
               </button>
-              <button type="button" className={size === 'large' ? 'active' : ''} onClick={() => setSize('large')}>
+              <button type="button" aria-pressed={size === 'large'} onClick={() => setSize('large')}>
                 Large
               </button>
             </div>
           </div>
         </div>
 
-        <div className="tag-row">
+        <div className="drive-chips" role="group" aria-label="Filter by tag">
           <button
             type="button"
-            className={`tag-chip${selectedTag === null ? ' active' : ''}`}
+            className="drive-chip"
+            aria-pressed={selectedTag === null}
             onClick={() => setSelectedTag(null)}
           >
-            All <b>{images.length}</b>
+            All <span className="drive-chip-count">{images.length}</span>
           </button>
           {tags.map((tag) => (
             <button
               key={tag.id || tag.name}
               type="button"
-              className={`tag-chip${selectedTag === tag.name ? ' active' : ''}`}
+              className="drive-chip"
+              aria-pressed={selectedTag === tag.name}
               onClick={() => setSelectedTag(tag.name)}
             >
               {tag.name}
-              {tag.count ? <b>{tag.count}</b> : null}
+              {tag.count ? <span className="drive-chip-count">{tag.count}</span> : null}
             </button>
           ))}
         </div>
 
-        {error && <div className="doc-error" role="alert">{error}</div>}
+        {error && (
+          <div className="as-alert as-alert--error" role="alert">
+            <span className="as-alert__icon"><CrossCircleIcon /></span>
+            <span>
+              <span className="as-visually-hidden">Error: </span>
+              {error}
+            </span>
+          </div>
+        )}
 
         {isLoading ? (
           <div className="doc-loading"><Spinner /></div>
@@ -204,7 +216,7 @@ const Gallery = () => {
           <div className="doc-empty">
             <p>{query ? `Nothing matches “${query}”.` : 'No images or videos in this drive yet.'}</p>
             {query && (
-              <button type="button" className="btn-quiet" onClick={() => setQuery('')}>
+              <button type="button" className="as-btn as-btn--secondary" onClick={() => setQuery('')}>
                 Clear search
               </button>
             )}
@@ -233,9 +245,17 @@ const Gallery = () => {
                       loading="lazy"
                     />
                   ) : (
-                    <span className="gal-placeholder">No preview</span>
+                    <span className="gal-placeholder">
+                      {isVideo(image) ? <PlayIcon size={32} stroke={1.25} /> : <ImageIcon size={32} stroke={1.25} />}
+                      No preview
+                    </span>
                   )}
-                  {isVideo(image) && <span className="gal-badge">Video</span>}
+                  {isVideo(image) && (
+                    <span className="gal-badge">
+                      <PlayIcon size={14} stroke={1.75} />
+                      Video
+                    </span>
+                  )}
                 </div>
 
                 <figcaption className="gal-caption">

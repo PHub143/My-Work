@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './AI103.css';
+import { Check, Cross } from '../components/ExamIcons.jsx';
 import ai102Content from '../data/ai102Content.json';
 import { answerKey, formatQuestionType, getAnswerText, getPdfPageUrl, getQuestionParts } from '../utils/ai102';
 
@@ -32,11 +33,22 @@ function PracticeOptions({ question, parts, value, disabled, onChange }) {
   const multi = parts.answerLetters.length > 1;
   const selected = Array.isArray(value) ? value : value ? [value] : [];
   return (
-    <div className="ai103-practice-options" role="group" aria-label={`Question ${question.number} options`}>
+    <div
+      className={`ai103-practice-options${disabled ? ' is-checked' : ''}`}
+      role="group"
+      aria-label={`Question ${question.number} options`}
+    >
       {parts.options.map((option) => {
         const checked = selected.includes(option.letter);
+        const correct = parts.answerLetters.includes(option.letter);
+        const optionClass = [
+          'ai103-practice-option',
+          checked ? 'selected' : '',
+          disabled && correct ? 'correct' : '',
+          disabled && checked && !correct ? 'incorrect' : '',
+        ].filter(Boolean).join(' ');
         return (
-          <label className={`ai103-practice-option${checked ? ' selected' : ''}`} key={option.letter}>
+          <label className={optionClass} key={option.letter}>
             <input
               type={multi ? 'checkbox' : 'radio'}
               name={`ai102-question-${question.number}`}
@@ -47,7 +59,12 @@ function PracticeOptions({ question, parts, value, disabled, onChange }) {
                 else onChange(option.letter);
               }}
             />
-            <strong>{option.letter}.</strong><span>{option.text}</span>
+            <span className="ai103-option-key">
+              {disabled && correct ? <Check size={16} /> : disabled && checked ? <Cross size={16} /> : option.letter}
+            </span>
+            <span>{option.text}</span>
+            {disabled && correct ? <span className="ai103-option-status">Correct answer</span> : null}
+            {disabled && checked && !correct ? <span className="ai103-option-status">Incorrect · your answer</span> : null}
           </label>
         );
       })}
@@ -96,19 +113,68 @@ const AI102Practice = () => {
       <div className="ai103-content">
         <header className="ai103-practice-header">
           <div>
-            <span className="ai103-badge">AI-102 Practice</span>
+            <span className="ai103-badge">AI-102 practice</span>
             <h1>Designing and Implementing an Azure AI Solution</h1>
             <p>{session.length} random questions from the {activeQuestions.length}-question AI-102 learning set (deprecated-service questions excluded).</p>
           </div>
-          <div className="ai103-practice-summary"><strong>{answeredCount}/{session.length}</strong><span>Answered</span><strong>{autoScored}</strong><span>Auto-scored</span></div>
+          <div className="ai103-practice-summary">
+            <div className="ai103-practice-stat"><strong>{answeredCount}/{session.length}</strong><span>Answered</span></div>
+            <div className="ai103-practice-stat"><strong>{autoScored}</strong><span>Auto-scored</span></div>
+          </div>
         </header>
 
         <section className="ai103-practice-shell">
           <aside className="ai103-practice-rail" aria-label="AI-102 practice question navigation">
+            <h2>Questions</h2>
             {session.map((question, index) => {
               const result = results?.items.find((item) => item.question.number === question.number);
-              return <button key={`${question.number}-${index}`} type="button" className={[index === currentIndex ? 'active' : '', hasSelection(selections[question.number]) ? 'answered' : '', result?.isCorrect ? 'correct' : '', results && result && !result.isCorrect ? 'incorrect' : ''].filter(Boolean).join(' ')} onClick={() => setCurrentIndex(index)}>{index + 1}</button>;
+              // Questions without an answer key cannot be auto-scored: they need manual review.
+              const isManual = Boolean(result && !result.expected);
+              const isRight = Boolean(result?.isCorrect);
+              const isWrong = Boolean(result && result.expected && !result.isCorrect);
+              const stateWord = isRight
+                ? 'correct'
+                : isWrong
+                  ? 'incorrect'
+                  : isManual
+                    ? 'needs manual review'
+                    : hasSelection(selections[question.number])
+                      ? 'answered'
+                      : 'not answered';
+              const buttonClass = [
+                index === currentIndex ? 'active' : '',
+                hasSelection(selections[question.number]) ? 'answered' : '',
+                isRight ? 'correct' : '',
+                isWrong ? 'incorrect' : '',
+                isManual ? 'manual' : '',
+              ].filter(Boolean).join(' ');
+              return (
+                <button
+                  key={`${question.number}-${index}`}
+                  type="button"
+                  className={buttonClass}
+                  aria-current={index === currentIndex ? 'page' : undefined}
+                  aria-label={`Question ${index + 1}, ${stateWord}`}
+                  onClick={() => setCurrentIndex(index)}
+                >
+                  {index + 1}
+                  {isRight ? <Check size={12} /> : null}
+                  {isWrong ? <Cross size={12} /> : null}
+                  {isManual ? (
+                    <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M7.5 7.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5M10 15v.5" />
+                    </svg>
+                  ) : null}
+                </button>
+              );
             })}
+            {results ? (
+              <div className="ai103-practice-rail-legend">
+                <span>Filled with a check: correct</span>
+                <span>Struck through with a cross: incorrect</span>
+                <span>Dashed with a question mark: needs manual review</span>
+              </div>
+            ) : null}
           </aside>
           <article className="ai103-practice-card">
             <div className="ai103-page-card-header"><span>Question {currentIndex + 1} of {session.length}</span><small>Source question {currentQuestion.number}</small></div>
@@ -134,18 +200,18 @@ const AI102Practice = () => {
 
             {submitted ? (
               <section className="ai103-practice-review">
-                <h2>Answer Review</h2>
+                <h2>Answer review</h2>
                 <p>Correct answer: <strong style={{ whiteSpace: 'pre-wrap' }}>{getAnswerText(currentQuestion)}</strong></p>
                 {currentParts.explanationParagraphs.map((paragraph, index) => <p key={index} style={{ whiteSpace: 'pre-wrap' }}>{paragraph}</p>)}
               </section>
             ) : null}
             {results ? <section className="ai103-practice-results"><strong>{results.correct} of {results.scored} auto-scored correct ({results.percent}%)</strong><span>{session.length - results.scored} questions need manual review.</span></section> : null}
             <div className="ai103-practice-actions">
-              <button type="button" onClick={() => navigate('/learning/ai-102')}>Back to Learning</button>
+              <button type="button" onClick={() => navigate('/learning/ai-102')}>Back to learning</button>
               <button type="button" onClick={() => setCurrentIndex((index) => Math.max(index - 1, 0))} disabled={currentIndex === 0}>Previous</button>
               <button type="button" onClick={() => setCurrentIndex((index) => Math.min(index + 1, session.length - 1))} disabled={currentIndex === session.length - 1}>Next</button>
-              <button type="button" className="primary" onClick={() => setSubmitted(true)} disabled={submitted}>Submit Test</button>
-              {submitted ? <button type="button" onClick={() => startNewSession()}>New Session</button> : null}
+              <button type="button" className="primary" onClick={() => setSubmitted(true)} disabled={submitted}>Submit test</button>
+              {submitted ? <button type="button" onClick={() => startNewSession()}>New session</button> : null}
             </div>
           </article>
         </section>

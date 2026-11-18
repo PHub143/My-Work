@@ -3,6 +3,16 @@ import './FileModal.css';
 import { API_URL } from '../config';
 import { useAuth } from '../AuthContext';
 import { isAdmin } from '../utils/roles';
+import {
+  CloseIcon,
+  CrossCircleIcon,
+  DocIcon,
+  DownloadIcon,
+  ImageIcon,
+  InfoIcon,
+  TrashIcon,
+  WarnIcon
+} from './DriveIcons';
 
 const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = false }) => {
   const [isEditingTags, setIsEditingTags] = useState(false);
@@ -15,10 +25,10 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
   const [showInfo, setShowInfo] = useState(true);
   const { token, user } = useAuth();
   const canAdmin = isAdmin(user);
-  
+
   const isVideo = file?.mimeType?.startsWith('video/');
-  const isDoc = file?.mimeType?.includes('pdf') || 
-                file?.mimeType?.includes('document') || 
+  const isDoc = file?.mimeType?.includes('pdf') ||
+                file?.mimeType?.includes('document') ||
                 file?.mimeType?.includes('text/plain');
 
   const hasPreview = isImage || isVideo || isDoc;
@@ -138,14 +148,6 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
     return url.replace(/=s\d+.*$/, `=${size}`);
   };
 
-  const getFileIcon = (mimeType) => {
-    if (mimeType.includes('pdf')) return '📕';
-    if (mimeType.includes('text/plain')) return '📄';
-    if (mimeType.startsWith('video/')) return '🎬';
-    if (mimeType.startsWith('image/')) return '🖼️';
-    return '📁';
-  };
-
   const formatBytes = (bytes, decimals = 2) => {
     if (!bytes) return '0 Bytes';
     const k = 1024;
@@ -171,203 +173,221 @@ const FileModal = ({ file, onClose, onUpdateSuccess, onDeleteSuccess, isImage = 
   if (!file) return null;
 
   const toggleInfo = () => setShowInfo(!showInfo);
+  const panelHidden = hasPreview && !showInfo;
 
   return (
-    <div className={`modal-overlay ${isImage ? 'image-overlay' : ''}`} onClick={handleClose}>
-        <div 
-          className={`modal-content ${hasPreview ? 'preview-mode' : 'info-only'}`} 
-          onClick={(e) => e.stopPropagation()}
-        >
-          
-          {hasPreview && (
-            <div className="modal-preview-container" onClick={handleClose}>
-              {isImage ? (
-                file.thumbnailLink ? (
-                  <img 
-                    src={getHighResThumbnail(file.thumbnailLink, 's0')} 
-                    alt={file.name} 
-                    className="modal-full-image" 
-                    onClick={(e) => e.stopPropagation()}
-                  />
-                ) : (
-                  <div className="modal-icon-placeholder" onClick={(e) => e.stopPropagation()}>🖼️</div>
-                )
+    <div className={`fm-overlay${isImage ? ' is-image' : ''}`} onClick={handleClose}>
+      <div
+        className={`fm-content ${hasPreview ? 'has-preview' : 'info-only'}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label={file.name}
+        onClick={(e) => e.stopPropagation()}
+      >
+
+        {hasPreview && (
+          <div className="fm-preview" onClick={handleClose}>
+            {isImage ? (
+              file.thumbnailLink ? (
+                <img
+                  src={getHighResThumbnail(file.thumbnailLink, 's0')}
+                  alt={file.name}
+                  className="fm-image"
+                  onClick={(e) => e.stopPropagation()}
+                />
               ) : (
-                <div className="modal-document-viewer" onClick={(e) => e.stopPropagation()}>
-                  <iframe 
-                    src={getPreviewUrl(file.webViewLink)} 
-                    title={file.name}
-                    className="viewer-iframe"
-                    frameBorder="0"
-                    allow="autoplay"
-                  />
+                <div
+                  className="fm-placeholder"
+                  role="img"
+                  aria-label="No preview"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <ImageIcon size={40} stroke={1.25} />
+                  <span>No preview</span>
                 </div>
-              )}
-            </div>
-          )}
+              )
+            ) : (
+              <div className="fm-doc-viewer" onClick={(e) => e.stopPropagation()}>
+                <iframe
+                  src={getPreviewUrl(file.webViewLink)}
+                  title={file.name}
+                  className="fm-iframe"
+                  frameBorder="0"
+                  allow="autoplay"
+                />
+              </div>
+            )}
+          </div>
+        )}
 
-        <div className="modal-controls">
-          {hasPreview && (
-            <button className={`control-btn toggle-info-btn ${showInfo ? 'active' : ''}`} onClick={toggleInfo} aria-label="Toggle info panel" title="Info">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-              </svg>
-            </button>
-          )}
-          <a
-            className="control-btn download-btn"
-            href={getDownloadUrl(file.driveFileId)}
-            download={file.name}
-            aria-label="Download file"
-            title="Download"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
-          </a>
-          {canAdmin && (
-            <button
-              className={`control-btn delete-btn ${isDeleting ? 'loading' : ''} ${showDeleteConfirm ? 'active' : ''}`}
-              onClick={() => setShowDeleteConfirm(!showDeleteConfirm)} 
-              disabled={isDeleting}
-              aria-label="Delete file" 
-              title="Delete File"
+        <div className={`fm-side${panelHidden ? ' is-collapsed' : ''}`}>
+          <div className="fm-controls">
+            {hasPreview && (
+              <button
+                type="button"
+                className="fm-btn"
+                aria-pressed={showInfo}
+                onClick={toggleInfo}
+                aria-label="Toggle info panel"
+                title="Info"
+              >
+                <InfoIcon />
+              </button>
+            )}
+            <a
+              className="fm-btn"
+              href={getDownloadUrl(file.driveFileId)}
+              download={file.name}
+              aria-label="Download file"
+              title="Download"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="3 6 5 6 21 6"></polyline>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                <line x1="10" y1="11" x2="10" y2="17"></line>
-                <line x1="14" y1="11" x2="14" y2="17"></line>
-              </svg>
+              <DownloadIcon />
+            </a>
+            {canAdmin && (
+              <button
+                type="button"
+                className="fm-btn fm-btn--delete"
+                aria-pressed={showDeleteConfirm}
+                onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
+                disabled={isDeleting}
+                aria-label="Delete file"
+                title="Delete file"
+              >
+                <TrashIcon />
+              </button>
+            )}
+            <button type="button" className="fm-btn" onClick={handleClose} aria-label="Close" title="Close">
+              <CloseIcon />
             </button>
-          )}
-          <button className="control-btn close-btn" onClick={handleClose} aria-label="Close modal" title="Close">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 6L6 18M6 6l12 12"/>
-            </svg>
-          </button>
-        </div>
+          </div>
 
-        <div className={`modal-info-panel ${hasPreview ? 'floating-panel' : ''} ${!showInfo && hasPreview ? 'hidden-panel' : ''}`}>
-          {!hasPreview && (
-            <div className="modal-icon-header">
-              <span className="large-icon" role="img" aria-label="file icon">{getFileIcon(file.mimeType)}</span>
+          <div className={`fm-info${hasPreview ? ' is-floating' : ''}${panelHidden ? ' is-hidden' : ''}`}>
+            {!hasPreview && (
+              <div className="fm-icon" aria-hidden="true">
+                <DocIcon size={28} stroke={1.25} />
+              </div>
+            )}
+
+            <div className="fm-title-block">
+              <h2>{file.name}</h2>
+              <p className="fm-meta">
+                {formatBytes(file.size)} • {new Date(file.createdAt).toLocaleDateString()}
+              </p>
             </div>
-          )}
-          
-          <div className="modal-header-section">
-            <h3>{file.name}</h3>
+
             {showDeleteConfirm && (
-              <div className="delete-confirm-overlay">
-                <p>Delete this file permanently?</p>
-                <div className="confirm-actions">
-                  <button className="confirm-btn delete" onClick={handleDeleteFile} disabled={isDeleting}>
-                    {isDeleting ? 'Deleting...' : 'Confirm Delete'}
+              <div className="fm-confirm" role="alertdialog" aria-label="Delete this file permanently?">
+                <p>
+                  <WarnIcon />
+                  Delete this file permanently?
+                </p>
+                <div className="fm-confirm-actions">
+                  <button type="button" className="fm-confirm-delete" onClick={handleDeleteFile} disabled={isDeleting}>
+                    {isDeleting ? 'Deleting…' : 'Confirm delete'}
                   </button>
-                  <button className="confirm-btn cancel" onClick={() => setShowDeleteConfirm(false)} disabled={isDeleting}>
+                  <button type="button" className="fm-confirm-cancel" onClick={() => setShowDeleteConfirm(false)} disabled={isDeleting}>
                     Cancel
                   </button>
                 </div>
               </div>
             )}
-            <p className="modal-meta">
-              {formatBytes(file.size)} • {new Date(file.createdAt).toLocaleDateString()}
-            </p>
-          </div>
 
-          <div className="modal-tags-section">
-            <div className="modal-tags-header">
-              <h4>Tags</h4>
-              {canAdmin && (
-                !isEditingTags ? (
-                  <button className="text-action-btn" onClick={() => setIsEditingTags(true)}>Edit</button>
-                ) : (
-                  <div className="edit-actions">
-                    <button 
-                      className="text-action-btn save" 
-                      onClick={handleUpdateTags}
-                      disabled={isSaving}
-                    >
-                      {isSaving ? 'Saving...' : 'Save'}
-                    </button>
-                    <button className="text-action-btn" onClick={() => setIsEditingTags(false)} disabled={isSaving}>Cancel</button>
-                  </div>
-                )
-              )}
-            </div>
-
-            {error && <p className="modal-error">{error}</p>}
-
-            {canAdmin && isEditingTags ? (
-              <div className="modal-tag-editor">
-                <div className="active-tags">
-                  {editingTags.map(tag => (
-                    <span key={tag} className="edit-tag-pill">
-                      {tag}
-                      <button 
-                        aria-label={`Remove tag ${tag}`} 
-                        onClick={() => removeTag(tag)}
+            <section className="fm-tags" aria-label="Tags">
+              <div className="fm-tags-head">
+                <h3>Tags</h3>
+                {canAdmin && (
+                  !isEditingTags ? (
+                    <button type="button" className="fm-text-btn" onClick={() => setIsEditingTags(true)}>Edit</button>
+                  ) : (
+                    <div className="fm-edit-actions">
+                      <button
+                        type="button"
+                        className="fm-text-btn is-save"
+                        onClick={handleUpdateTags}
+                        disabled={isSaving}
                       >
-                        &times;
+                        {isSaving ? 'Saving…' : 'Save'}
                       </button>
-                    </span>
-                  ))}
-                </div>
-                <div className="tag-input-group">
-                  <input 
-                    type="text" 
-                    placeholder="Add tag..." 
-                    value={tagInput}
-                    aria-label="New tag name"
-                    onChange={(e) => setTagInput(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        addTag(tagInput);
-                      }
-                    }}
-                  />
-                  <button onClick={() => addTag(tagInput)}>Add</button>
-                </div>
-              </div>
-            ) : (
-              <div className="modal-tags-display">
-                {file.tags?.length > 0 ? (
-                  file.tags.map(tag => (
-                    <span key={tag.id} className="modal-tag-pill">{tag.name}</span>
-                  ))
-                ) : (
-                  <p className="no-tags-label">No tags</p>
+                      <button type="button" className="fm-text-btn" onClick={() => setIsEditingTags(false)} disabled={isSaving}>Cancel</button>
+                    </div>
+                  )
                 )}
               </div>
-            )}
-          </div>
 
-          <div className="modal-footer-actions">
-            <a
-              href={file.webViewLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="primary-action-btn"
-            >
-              Open in Drive
-            </a>
-            <a
-              href={getDownloadUrl(file.driveFileId)}
-              download={file.name}
-              className="secondary-action-btn"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-              Download
-            </a>
+              {error && (
+                <div className="as-alert as-alert--error" role="alert">
+                  <span className="as-alert__icon"><CrossCircleIcon /></span>
+                  <span>
+                    <span className="as-visually-hidden">Error: </span>
+                    {error}
+                  </span>
+                </div>
+              )}
+
+              {canAdmin && isEditingTags ? (
+                <div className="fm-tag-editor">
+                  <div className="fm-tag-list">
+                    {editingTags.map(tag => (
+                      <span key={tag} className="fm-tag is-editable">
+                        {tag}
+                        <button
+                          type="button"
+                          aria-label={`Remove tag ${tag}`}
+                          onClick={() => removeTag(tag)}
+                        >
+                          <CloseIcon size={16} />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                  <div className="fm-tag-input">
+                    <input
+                      type="text"
+                      placeholder="Add tag…"
+                      value={tagInput}
+                      aria-label="New tag name"
+                      onChange={(e) => setTagInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          addTag(tagInput);
+                        }
+                      }}
+                    />
+                    <button type="button" onClick={() => addTag(tagInput)}>Add</button>
+                  </div>
+                </div>
+              ) : (
+                <div className="fm-tag-list">
+                  {file.tags?.length > 0 ? (
+                    file.tags.map(tag => (
+                      <span key={tag.id} className="fm-tag">{tag.name}</span>
+                    ))
+                  ) : (
+                    <p className="fm-no-tags">No tags</p>
+                  )}
+                </div>
+              )}
+            </section>
+
+            <div className="fm-actions">
+              <a
+                href={file.webViewLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="fm-action fm-action--primary"
+              >
+                Open in Drive
+              </a>
+              <a
+                href={getDownloadUrl(file.driveFileId)}
+                download={file.name}
+                className="fm-action"
+              >
+                <DownloadIcon />
+                Download
+              </a>
+            </div>
           </div>
         </div>
 

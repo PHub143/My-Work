@@ -10,7 +10,7 @@
 export const AI_103_TRACK = {
   title: 'AI-103',
   subtitle: 'Microsoft Azure AI solution study material',
-  questionCount: 160,
+  questionCount: 221,
 };
 
 export const AI_102_TRACK = {

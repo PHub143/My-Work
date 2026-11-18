@@ -1,0 +1,474 @@
+/* Structured exam content (YbmReadingContent.jsx and HackerReadingContent.jsx share this
+   stylesheet): one unit at a time, a printed passage or graphic plus its questions.
+   Passages sit on raised cards at reading width; choices follow the answer-choice
+   pattern (letter badge, filled / outlined / struck-through results, never colour alone). */
+
+.rdc-reading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.rdc-reading-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.rdc-reading-controls button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.rdc-reading-controls button:disabled {
+  opacity: var(--opacity-disabled);
+}
+
+.rdc-reading-instruction {
+  flex: 1;
+  min-width: 0;
+  color: var(--brass);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.rdc-reading-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: var(--size-measure);
+}
+
+/* ── passages ── */
+
+.rdc-passage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+}
+
+.rdc-passage p {
+  margin: 0;
+}
+
+.rdc-passage-heading,
+.rdc-section-title {
+  font-weight: 600;
+  text-align: center;
+}
+
+.rdc-passage-byline,
+.rdc-passage-note,
+.rdc-footnote {
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.rdc-graphic {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: var(--radius-sm);
+}
+
+/* numbered blank inside a passage */
+
+.rdc-blank {
+  display: inline-block;
+  min-width: 36px;
+  margin: 0 2px;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--navy-soft);
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 500;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.rdc-signoff-title {
+  color: var(--ink-muted);
+}
+
+.rdc-bullets {
+  margin: 0;
+  padding-left: var(--space-6);
+}
+
+/* definition lists: meta, fields */
+
+.rdc-meta,
+.rdc-fields {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--space-1) var(--space-4);
+  margin: 0;
+}
+
+.rdc-meta dt,
+.rdc-fields dt {
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+
+.rdc-meta dd,
+.rdc-fields dd {
+  margin: 0;
+}
+
+.rdc-letter-date {
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+/* form rows */
+
+.rdc-form-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.rdc-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+}
+
+.rdc-form-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.rdc-form-label {
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+/* text-message chat, web page, comments, program */
+
+.rdc-chat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.rdc-chat-bubble {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.rdc-chat-head {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.rdc-chat-head span {
+  color: var(--ink-muted);
+}
+
+.rdc-webpage {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.rdc-webpage-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+}
+
+.rdc-webpage-head span,
+.rdc-webpage-nav {
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.rdc-comment {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.rdc-comment-meta {
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.rdc-program {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.rdc-program-day {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0 var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.rdc-program-day-name {
+  grid-column: 1 / -1;
+  font-weight: 600;
+}
+
+.rdc-program-time,
+.rdc-program-instructor,
+.rdc-program-cost {
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* tables */
+
+.rdc-table-wrap {
+  overflow-x: auto;
+}
+
+.rdc-table-title {
+  margin-bottom: var(--space-2);
+  font-weight: 600;
+  text-align: center;
+}
+
+.rdc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.rdc-table th,
+.rdc-table td {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line);
+  text-align: left;
+}
+
+.rdc-table th {
+  background: var(--surface-sunken);
+  font-weight: 500;
+}
+
+.rdc-table-total td {
+  font-weight: 600;
+}
+
+/* ── questions ── */
+
+.rdc-reading-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* items with no printed choices (e.g. Part 2): numbers only, two columns */
+.rdc-reading-items--columns {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(var(--rows), auto);
+  gap: var(--space-2) var(--space-6);
+}
+
+.rdc-q {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+}
+
+.rdc-q.is-focused {
+  background: var(--navy-soft);
+}
+
+.rdc-q-num {
+  flex-shrink: 0;
+  min-width: 40px;
+  color: var(--brass);
+  font-size: 14px;
+  line-height: 28px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.rdc-q-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.rdc-q-stem {
+  margin: 0;
+  font-size: 19px;
+  line-height: 30px;
+}
+
+.rdc-q-choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.rdc-q-choices--sentence {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.rdc-q-choices button {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  min-height: var(--size-touch);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 28px;
+  text-align: left;
+}
+
+.rdc-q-choices button b {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.rdc-q-choice-text {
+  flex: 1;
+  min-width: 0;
+}
+
+/* the result word sits on its own line under the choice text */
+.rdc-q-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex: 0 0 100%;
+  padding-left: 40px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.rdc-q-choices .is-picked {
+  padding: calc(var(--space-2) - 1px) calc(var(--space-4) - 1px);
+  border: 2px solid var(--link);
+  background: var(--navy-soft);
+}
+
+.rdc-q-choices .is-picked b {
+  border-color: var(--navy);
+  background: var(--navy);
+  color: var(--on-navy);
+}
+
+.rdc-q-choices .is-correct {
+  border-color: var(--correct);
+  background: var(--correct-soft);
+}
+
+.rdc-q-choices .is-correct b {
+  border-color: var(--correct);
+  background: var(--correct);
+  color: var(--on-correct);
+}
+
+.rdc-q-choices .is-correct .rdc-q-status {
+  color: var(--correct);
+}
+
+.rdc-q-choices .is-incorrect {
+  border-color: var(--rust);
+  background: var(--rust-soft);
+}
+
+.rdc-q-choices .is-incorrect b {
+  border-color: var(--rust);
+  color: var(--rust);
+}
+
+.rdc-q-choices .is-incorrect .rdc-q-choice-text {
+  text-decoration: line-through;
+}
+
+.rdc-q-choices .is-incorrect .rdc-q-status {
+  color: var(--rust);
+}
+
+.rdc-q-choices button:disabled:not(.is-correct):not(.is-incorrect) {
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .rdc-reading-body {
+    max-width: none;
+  }
+
+  .rdc-passage {
+    padding: var(--space-6);
+  }
+
+  .rdc-q-choices {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rdc-reading-items--columns {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-auto-flow: row;
+  }
+}

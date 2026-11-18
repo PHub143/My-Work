@@ -1,56 +1,125 @@
+/* Admin home ("/" for admins). A greeting and one card per admin area.
+   Colours come from the theme variables in styles/tokens.css. */
+
 .admin-home {
-  max-width: var(--col-scan);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  max-width: 1200px;
   margin: 0 auto;
-  padding: var(--spacing-xl) var(--spacing-l) var(--spacing-xxl);
-  width: 100%;
+  padding: var(--space-16) var(--space-8);
 }
 
-.admin-home-header h1 {
-  font-size: var(--fs-display);
+.admin-home-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
-.admin-home-header p {
-  color: var(--text-muted);
+.admin-home-eyebrow {
+  color: var(--brass);
+}
+
+.admin-home-lead {
+  margin-top: var(--space-2);
+  color: var(--ink-muted);
 }
 
 .admin-home-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: var(--spacing-m);
-  margin-top: var(--spacing-l);
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-6);
 }
 
 .admin-home-card {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-l);
+  gap: var(--space-4);
+  min-width: 0;
+  padding: var(--space-8);
   border: 1px solid var(--line);
-  border-radius: var(--r-card);
-  background: var(--surface);
-  color: var(--text);
-  text-align: left;
-  cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  color: var(--ink);
 }
 
 .admin-home-card:hover {
-  border-color: var(--accent);
-  box-shadow: var(--shadow-1);
+  border-color: var(--line-strong);
+  text-decoration: none;
 }
 
-.admin-home-card h2 {
-  margin: 0;
-  font-size: var(--fs-h2);
+.admin-home-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--navy-soft);
+  color: var(--link);
 }
 
-.admin-home-card p {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: var(--fs-ui);
+.admin-home-card-copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
-@media (max-width: 640px) {
-  .admin-home { padding: var(--spacing-l) var(--spacing-m) var(--spacing-xl); }
+.admin-home-card-copy p {
+  color: var(--ink-muted);
+}
+
+.admin-home-card-cta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;
+  color: var(--link);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+/* ── phones: compact rows, icon beside the copy, no "Open" line ── */
+
+@media (max-width: 767px) {
+  .admin-home {
+    gap: var(--space-6);
+    padding: var(--space-6);
+  }
+
+  .admin-home .as-display {
+    font-size: 32px;
+    line-height: 38px;
+    letter-spacing: 0;
+  }
+
+  .admin-home-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
+  }
+
+  .admin-home-card {
+    flex-direction: row;
+    gap: var(--space-4);
+    min-height: var(--size-touch);
+    padding: var(--space-4) 20px;
+  }
+
+  .admin-home-card-copy {
+    flex: 1;
+    min-width: 0;
+    gap: var(--space-1);
+  }
+
+  .admin-home-card-copy p {
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .admin-home-card-cta {
+    display: none;
+  }
 }

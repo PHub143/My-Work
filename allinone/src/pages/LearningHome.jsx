@@ -1,7 +1,6 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './LearningHome.css';
-import LearningTabs from '../components/LearningTabs';
 import { useAuth } from '../AuthContext';
 import { AI_103_TRACK, AI_102_TRACK } from '../data/learningTracks.js';
 import { YBM_VOLUMES, TESTS_PER_VOLUME } from '../data/ybm/manifest.js';
@@ -27,32 +26,48 @@ const TRACKS = [
   },
 ];
 
+const ArrowRight = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M4 10h12M11 5l5 5-5 5" />
+  </svg>
+);
+
 const LearningHome = () => {
-  const navigate = useNavigate();
   const { user } = useAuth();
   const firstName = user?.name?.trim().split(/\s+/)[0];
 
   return (
     <div className="learning-home">
-      <LearningTabs />
       <div className="learning-home-content">
         <header className="learning-home-header">
-          <h1>{firstName ? `Welcome back, ${firstName}` : 'Welcome back'}</h1>
-          <p>Pick up where you left off, or start a new track.</p>
+          <span className="as-label learning-home-eyebrow">Study</span>
+          <h1 className="as-display">{firstName ? `Welcome back, ${firstName}` : 'Welcome back'}</h1>
+          <p className="learning-home-lead">Pick up where you left off, or start a new track.</p>
         </header>
 
         <div className="learning-home-grid">
           {TRACKS.map((track) => (
-            <button
-              key={track.to}
-              type="button"
-              className="learning-home-card"
-              onClick={() => navigate(track.to)}
-            >
-              <h2>{track.title}</h2>
-              <p>{track.subtitle}</p>
-              <span className="learning-home-card-detail">{track.detail}</span>
-            </button>
+            <Link key={track.to} to={track.to} className="learning-home-card">
+              <span className="as-tag learning-home-card-tag">{track.detail}</span>
+              <div className="learning-home-card-copy">
+                <h2 className="as-headline">{track.title}</h2>
+                <p>{track.subtitle}</p>
+              </div>
+              <span className="learning-home-card-cta">
+                <span className="learning-home-card-cta-text">Open track</span>
+                <ArrowRight />
+              </span>
+            </Link>
           ))}
         </div>
       </div>

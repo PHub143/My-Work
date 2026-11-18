@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import './Feedback.css';
 import { API_URL } from '../config';
 import { useAuth } from '../AuthContext';
 import Spinner from '../components/Spinner';
+import './Feedback.css';
 import {
   FEEDBACK_CATEGORIES,
   FEEDBACK_STATUSES,
@@ -166,16 +166,11 @@ const Feedback = () => {
     <div className="fbadmin-page">
       <div className="fbadmin-content">
         <header className="fbadmin-header">
-          <div className="fbadmin-kicker">
-            <span className="fbadmin-badge">
-              {counts.total} SUBMISSION{counts.total === 1 ? '' : 'S'}
-            </span>
-            <span className="fbadmin-meta">
-              · {counts.new} new · {counts.in_progress} in progress · {counts.resolved} resolved
-            </span>
-          </div>
-          <h1>What users are <em>telling us.</em></h1>
-          <p>Review incoming feedback, triage it, and keep notes on what you did.</p>
+          <span className="as-label fbadmin-eyebrow">
+            {counts.total} submission{counts.total === 1 ? '' : 's'} · {counts.new} new · {counts.in_progress} in progress · {counts.resolved} resolved
+          </span>
+          <h1 className="as-display">What users are telling us.</h1>
+          <p className="fbadmin-lead">Review incoming feedback, triage it, and keep notes on what you did.</p>
         </header>
 
         <div className="fbadmin-filters">
@@ -183,6 +178,7 @@ const Feedback = () => {
             <button
               type="button"
               className={`fbadmin-chip${statusFilter === '' ? ' is-active' : ''}`}
+              aria-pressed={statusFilter === ''}
               onClick={() => setStatusFilter('')}
             >
               All statuses
@@ -192,6 +188,7 @@ const Feedback = () => {
                 type="button"
                 key={status.id}
                 className={`fbadmin-chip${statusFilter === status.id ? ' is-active' : ''}`}
+                aria-pressed={statusFilter === status.id}
                 onClick={() => setStatusFilter(status.id)}
               >
                 {status.label}
@@ -203,6 +200,7 @@ const Feedback = () => {
             <button
               type="button"
               className={`fbadmin-chip${categoryFilter === '' ? ' is-active' : ''}`}
+              aria-pressed={categoryFilter === ''}
               onClick={() => setCategoryFilter('')}
             >
               All types
@@ -212,6 +210,7 @@ const Feedback = () => {
                 type="button"
                 key={category.id}
                 className={`fbadmin-chip${categoryFilter === category.id ? ' is-active' : ''}`}
+                aria-pressed={categoryFilter === category.id}
                 onClick={() => setCategoryFilter(category.id)}
               >
                 {category.label}
@@ -220,7 +219,18 @@ const Feedback = () => {
           </div>
         </div>
 
-        {error && <div className="fbadmin-error">{error}</div>}
+        {error && (
+          <div className="as-alert as-alert--error" role="alert">
+            <svg className="as-alert__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="10" cy="10" r="7.5" />
+              <path d="M7.5 7.5l5 5M12.5 7.5l-5 5" />
+            </svg>
+            <span>
+              <span className="as-visually-hidden">Error: </span>
+              {error}
+            </span>
+          </div>
+        )}
 
         {isLoading ? (
           <div className="fbadmin-loading">
@@ -238,19 +248,24 @@ const Feedback = () => {
                   <span className={`fbadmin-cat fbadmin-cat-${item.category}`}>
                     {categoryLabel(item.category)}
                   </span>
-                  <select
-                    className="fbadmin-status-select"
-                    value={item.status}
-                    disabled={savingId === item.id}
-                    onChange={(e) => handleStatusChange(item.id, e.target.value)}
-                    aria-label="Feedback status"
-                  >
-                    {FEEDBACK_STATUSES.map((status) => (
-                      <option key={status.id} value={status.id}>
-                        {status.label}
-                      </option>
-                    ))}
-                  </select>
+                  <span className="fbadmin-select">
+                    <select
+                      className="fbadmin-status-select"
+                      value={item.status}
+                      disabled={savingId === item.id}
+                      onChange={(e) => handleStatusChange(item.id, e.target.value)}
+                      aria-label="Feedback status"
+                    >
+                      {FEEDBACK_STATUSES.map((status) => (
+                        <option key={status.id} value={status.id}>
+                          {status.label}
+                        </option>
+                      ))}
+                    </select>
+                    <svg className="fbadmin-select-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M5 8l5 5 5-5" />
+                    </svg>
+                  </span>
                 </div>
 
                 <p className="fbadmin-message">{item.message}</p>
@@ -282,9 +297,9 @@ const Feedback = () => {
                   <div className="fbadmin-submitter">
                     <strong>{item.author?.name || item.author?.email || 'Unknown user'}</strong>
                     {item.author?.email && item.author?.name && (
-                      <span> · {item.author.email}</span>
+                      <span>{item.author.email}</span>
                     )}
-                    <span> · {formatWhen(item.createdAt)}</span>
+                    <span>{formatWhen(item.createdAt)}</span>
                     {item.pageUrl && <span className="fbadmin-page">on {item.pageUrl}</span>}
                   </div>
                   {deletingId === item.id ? (
@@ -300,8 +315,12 @@ const Feedback = () => {
                     <button
                       type="button"
                       className="fbadmin-delete"
+                      aria-label="Delete this feedback"
                       onClick={() => setDeletingId(item.id)}
                     >
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M4.5 6h11M8 6V4h4v2M6 6l.6 9.5h6.8L14 6M8.5 9v4M11.5 9v4" />
+                      </svg>
                       Delete
                     </button>
                   )}

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import './MailToolbar.css';
 import {
   ArchiveIcon,
   ChevronLeftIcon,
@@ -13,7 +14,6 @@ import {
   StarIcon,
   TrashIcon,
 } from './MailIcons';
-import './MailToolbar.css';
 
 const SearchBox = ({ initialValue, onSearch, inputRef, disabled }) => {
   const [value, setValue] = useState(initialValue);

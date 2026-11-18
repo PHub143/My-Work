@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AI103.css';
-import LearningTabs from '../components/LearningTabs';
 import AiTrackSwitch from '../components/AiTrackSwitch';
+import AiQuestionDetails from '../components/AiQuestionDetails';
+import { ArrowLeft, ArrowRight } from '../components/ExamIcons.jsx';
 import ai102Content from '../data/ai102Content.json';
 import {
   formatQuestionType,
@@ -56,7 +57,7 @@ function PromptSection({ question, parts }) {
   );
 }
 
-function QuestionCard({ question, index, total }) {
+function QuestionCard({ question }) {
   const parts = getQuestionParts(question);
   const imagePage = question.questionPage || question.sourcePages[0];
   const additionalPages = question.sourcePages.filter((page) => page !== imagePage);
@@ -109,20 +110,6 @@ function QuestionCard({ question, index, total }) {
         ))}
       </section>
 
-      <div className="ai103-footer-stats">
-        <div className="ai103-footer-stat">
-          <span className="ai103-footer-stat-label">Type</span>
-          <span className="ai103-footer-stat-value">{formatQuestionType(question.type)}</span>
-        </div>
-        <div className="ai103-footer-stat">
-          <span className="ai103-footer-stat-label">Source Pages</span>
-          <span className="ai103-footer-stat-value">{question.sourcePages.join(', ')}</span>
-        </div>
-        <div className="ai103-footer-stat">
-          <span className="ai103-footer-stat-label">Progress</span>
-          <span className="ai103-footer-stat-value">{index + 1} / {total}</span>
-        </div>
-      </div>
     </article>
   );
 }
@@ -166,20 +153,20 @@ const AI102 = () => {
 
   return (
     <div className="ai103-container">
-      <LearningTabs />
       <div className="ai103-content">
-        <AiTrackSwitch active="ai-102" />
+        <div className="ai103-topbar">
+          <span className="ai103-badge">Learning / AI</span>
+          <AiTrackSwitch active="ai-102" />
+        </div>
         <header className="ai103-header">
           <div className="ai103-title-block">
             <div className="ai103-title-row">
-              <span className="ai103-bubble" aria-hidden="true">✦</span>
               <h1>
                 {ai102Content.title}
                 <span className="ai103-title-suffix">{ai102Content.subtitle}</span>
               </h1>
             </div>
             <div className="ai103-kicker">
-              <span className="ai103-badge">Learning / AI</span>
               <span className="ai103-meta">{ai102Content.sourceFile}</span>
             </div>
             <p className="ai103-source">
@@ -198,14 +185,17 @@ const AI102 = () => {
           <div className="ai103-stat-grid" aria-label="AI-102 document stats">
             <div className="ai103-stat"><strong>{ai102Content.questionCount}</strong><span>Questions</span></div>
             <div className="ai103-stat"><strong>{deprecatedCount}</strong><span>Deprecated</span></div>
-            <div className="ai103-stat"><strong>{typeCount}</strong><span>Question Types</span></div>
+            <div className="ai103-stat"><strong>{typeCount}</strong><span>Question types</span></div>
             <div className="ai103-stat"><strong>{formatNumber(wordCount)}</strong><span>Words</span></div>
           </div>
         </header>
 
         <section className="ai103-toolbar" aria-label="AI-102 controls">
           <label className="ai103-search">
-            <span aria-hidden="true">⌕</span>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="9" cy="9" r="5.5" />
+              <path d="M13.5 13.5L17 17" />
+            </svg>
             <input
               type="search"
               value={searchQuery}
@@ -219,30 +209,47 @@ const AI102 = () => {
           </label>
           <div className="ai103-search-meta">
             <div className="ai103-pagination-controls" aria-label="Question pagination">
-              <button type="button" onClick={() => selectQuestion(filteredQuestions[Math.max(selectedIndex - 1, 0)]?.number)} disabled={!selectedIndex}>← Previous</button>
+              <button type="button" onClick={() => selectQuestion(filteredQuestions[Math.max(selectedIndex - 1, 0)]?.number)} disabled={!selectedIndex}><ArrowLeft />Previous</button>
               <span>{visibleQuestion ? `Question ${visibleQuestion.number} · ${filteredQuestions.length} matches` : 'No questions'}</span>
-              <button type="button" onClick={() => selectQuestion(filteredQuestions[Math.min(selectedIndex + 1, filteredQuestions.length - 1)]?.number)} disabled={selectedIndex >= filteredQuestions.length - 1}>Next →</button>
+              <button type="button" onClick={() => selectQuestion(filteredQuestions[Math.min(selectedIndex + 1, filteredQuestions.length - 1)]?.number)} disabled={selectedIndex >= filteredQuestions.length - 1}>Next<ArrowRight /></button>
             </div>
           </div>
         </section>
 
+        {visibleQuestions.length ? (
+          <nav className="ai103-page-index" aria-label="AI-102 question index">
+            <span className="ai103-badge">
+              Questions {visibleQuestions[0].number}–{visibleQuestions[visibleQuestions.length - 1].number}
+            </span>
+            <div className="ai103-page-index-buttons">
+              {visibleQuestions.map((question) => (
+                <button
+                  key={question.number}
+                  type="button"
+                  title={question.deprecated ? `Deprecated: references ${question.deprecatedServices.join(', ')}` : undefined}
+                  aria-label={`Question ${question.number}${question.deprecated ? ', deprecated' : ''}`}
+                  aria-current={question.number === visibleQuestion?.number ? 'true' : undefined}
+                  className={[question.number === visibleQuestion?.number ? 'active' : '', question.deprecated ? 'deprecated' : ''].filter(Boolean).join(' ')}
+                  onClick={() => selectQuestion(question.number)}
+                >
+                  {question.number}
+                  {question.deprecated ? (
+                    <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M10 3.5l7 12.5H3z" />
+                      <path d="M10 8.5v3M10 14v.01" />
+                    </svg>
+                  ) : null}
+                </button>
+              ))}
+            </div>
+            <span className="ai103-page-index-note">Dashed with a warning mark: references a retired Azure service</span>
+          </nav>
+        ) : null}
+
         <div className="ai103-layout">
-          <aside className="ai103-page-index" aria-label="AI-102 question index">
-            {visibleQuestions.map((question) => (
-              <button
-                key={question.number}
-                type="button"
-                title={question.deprecated ? `Deprecated: references ${question.deprecatedServices.join(', ')}` : undefined}
-                className={[question.number === visibleQuestion?.number ? 'active' : '', question.deprecated ? 'deprecated' : ''].filter(Boolean).join(' ')}
-                onClick={() => selectQuestion(question.number)}
-              >
-                {question.number}
-              </button>
-            ))}
-          </aside>
           <section className="ai103-page-list" aria-label="AI-102 question content">
             {visibleQuestion ? (
-              <QuestionCard question={visibleQuestion} index={selectedIndex} total={filteredQuestions.length} />
+              <QuestionCard question={visibleQuestion} />
             ) : (
               <div className="ai103-empty-state"><strong>No questions found</strong><span>Try a different search.</span></div>
             )}
@@ -252,6 +259,14 @@ const AI102 = () => {
               <button type="button" onClick={() => goToPage(activePage + 1)} disabled={activePage === pageCount - 1}>Next page</button>
             </div>
           </section>
+          {visibleQuestion ? (
+            <AiQuestionDetails
+              typeLabel={formatQuestionType(visibleQuestion.type)}
+              sourcePages={visibleQuestion.sourcePages.join(', ')}
+              position={selectedIndex + 1}
+              total={filteredQuestions.length}
+            />
+          ) : null}
         </div>
 
         <footer className="ai103-page-footer">

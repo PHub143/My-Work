@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import './MailReader.css';
 import {
   displaySubject,
   formatAddress,
@@ -27,7 +28,6 @@ import {
   StarIcon,
   TrashIcon,
 } from './MailIcons';
-import './MailReader.css';
 
 const Attachment = ({ attachment, onDownload }) => {
   const [state, setState] = useState('idle'); // idle | loading | error

@@ -1,9 +1,10 @@
 import React from 'react';
-import './TopBar.css';
 import DriveSwitcher from './DriveSwitcher';
+import { SearchIcon } from './DriveIcons';
+import './TopBar.css';
 
 /**
- * The 56px bar above every signed-in page: one search field, the drive
+ * The toolbar above every Drive page: one search field, the drive
  * switcher, and at most one primary action.
  *
  *   <TopBar value={q} onChange={setQ} placeholder="Search file names…"
@@ -20,11 +21,7 @@ const TopBar = ({
   <div className="topbar">
     {onChange && (
       <label className="topbar-search">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="7" />
-          <line x1="20" y1="20" x2="16.2" y2="16.2" />
-        </svg>
+        <SearchIcon />
         <input
           type="search"
           value={value}
@@ -32,7 +29,7 @@ const TopBar = ({
           onChange={(e) => onChange(e.target.value)}
           aria-label={placeholder}
         />
-        <kbd>⌘K</kbd>
+        <kbd aria-hidden="true">⌘K</kbd>
       </label>
     )}
 

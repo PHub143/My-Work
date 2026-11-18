@@ -1,567 +1,451 @@
-/* Settings — Focus. Drives as ruled cards, storage as one thin bar, forms quiet.
-   Class names match Settings.jsx; no JSX change needed beyond deleting any
-   `style={{ '--cosmic-…' }}` prop on the root element. */
-
-.settings-page {
-  min-height: 100%;
-  background: var(--color-system-background);
-}
+/* Settings (/settings): hero, section tabs, drive cards, storage bar and the drive
+   form. The Mail tab body is styled in components/MailAccountsSettings.css and the
+   notices in components/SettingsNotice.css. Colours come from the theme variables in
+   styles/tokens.css; no theme selectors here. */
 
 .settings-content {
-  max-width: var(--col-read, 780px);
-  margin: 0 auto;
-  padding: 40px 24px 72px;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: var(--space-6);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-8) var(--space-16);
 }
 
 /* ── hero ── */
 
 .settings-hero {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4) var(--space-8);
 }
 
-.settings-drive-status {
+.settings-hero-copy {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  order: -1;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
-.settings-drives-badge,
-[data-theme='light'] .settings-drives-badge {
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-  color: var(--text-muted);
-  font-family: var(--font-sans);
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.settings-eyebrow {
+  color: var(--brass);
 }
 
-.settings-connected-label,
-[data-theme='light'] .settings-connected-label {
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--text-muted);
-  background: none;
-  -webkit-text-fill-color: currentColor;
-}
-
-.settings-hero-title {
-  margin: 0;
-  font-size: 26px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-}
-
-.settings-hero-title em { font-style: normal; }
-
-.settings-add-btn {
-  align-self: flex-start;
-  padding: 10px 16px;
-  border: 1px solid var(--ink);
-  border-radius: 9px;
-  background: var(--ink);
-  color: var(--surface);
-  font: inherit;
-  font-size: 13.5px;
-  font-weight: 500;
-  box-shadow: none;
-  transform: none;
-}
-
-.settings-add-btn:hover { filter: brightness(1.12); transform: none; }
-
-/* ── tabs ── */
+/* ── section tabs ── */
 
 .settings-tabs {
   display: flex;
-  gap: 2px;
-  padding: 3px;
-  border: 1px solid var(--line-soft);
-  border-radius: 9px;
-  background: var(--surface);
-  align-self: flex-start;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
 }
 
-.settings-tab,
-[data-theme='light'] .settings-tab {
-  padding: 7px 13px;
-  border: none;
-  border-radius: 7px;
+.settings-tab {
+  flex-shrink: 0;
+  min-height: var(--size-touch);
+  margin-bottom: -1px;
+  padding: 0 20px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: var(--radius-none);
   background: transparent;
-  color: var(--text-muted);
-  font: inherit;
-  font-size: 13px;
-  box-shadow: none;
-  transform: none;
-}
-
-.settings-tab:hover { color: var(--ink); }
-
-.settings-tab--active {
-  background: var(--surface-sunken);
-  color: var(--ink);
+  color: var(--ink-muted);
+  font-size: 15px;
+  line-height: 20px;
   font-weight: 500;
 }
 
-/* ── messages ── */
-
-.settings-message {
-  padding: 10px 13px;
-  border: 1px solid var(--line-soft);
-  border-radius: 9px;
-  background: var(--surface-sunken);
-  font-size: 13px;
-  color: var(--text);
+.settings-tab:hover {
+  color: var(--ink);
 }
 
-.settings-message--success {
-  border-color: rgba(28, 124, 84, 0.28);
-  background: rgba(28, 124, 84, 0.07);
-  color: var(--positive);
+.settings-tab[aria-selected='true'] {
+  border-bottom-color: var(--link);
+  color: var(--ink);
 }
 
-.settings-message--error {
-  border-color: rgba(163, 24, 60, 0.28);
-  background: rgba(163, 24, 60, 0.07);
-  color: var(--danger);
-}
+/* ── drive cards ── */
 
-/* ── drive card ── */
+.settings-drive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr));
+  gap: var(--space-6);
+}
 
 .drive-card-new {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding: 20px;
-  border: 1px solid var(--line-soft);
-  border-radius: 13px;
-  background: var(--surface);
-  box-shadow: none;
-  transform: none;
+  gap: var(--space-4);
+  min-width: 0;
+  padding: var(--space-6);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
 }
 
 .drive-card-top {
   display: flex;
-  align-items: flex-start;
-  gap: 14px;
+  align-items: center;
+  gap: var(--space-4);
 }
 
 .drive-card-icon-wrap {
-  width: 36px;
-  height: 36px;
-  flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line-soft);
-  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--size-touch);
+  height: var(--size-touch);
+  border-radius: var(--radius-sm);
   background: var(--surface-sunken);
-  color: var(--text-muted);
-  box-shadow: none;
+  color: var(--ink-muted);
 }
 
-.drive-card-identity { min-width: 0; flex: 1; }
+.drive-card-identity {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
 
 .drive-card-name-row {
   display: flex;
-  align-items: center;
-  gap: 8px;
   flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
 }
 
 .drive-card-name {
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 28px;
+  font-weight: 500;
 }
 
 .drive-default-badge {
-  padding: 2px 8px;
-  border: 1px solid var(--line-soft);
-  border-radius: 999px;
-  background: var(--surface-sunken);
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  box-shadow: none;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--brass-soft);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
 }
 
 .drive-card-meta {
-  margin: 4px 0 0;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--text-muted);
-  word-break: break-all;
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 22px;
+  overflow-wrap: anywhere;
 }
 
-.drive-card-edit-actions { display: flex; gap: 4px; }
+.drive-card-edit-actions {
+  display: flex;
+  align-items: center;
+  margin-right: calc(var(--space-2) * -1);
+}
 
-.drive-edit-btn,
-.drive-delete-btn {
-  width: 30px;
-  height: 30px;
+.drive-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-touch);
+  height: var(--size-touch);
   padding: 0;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line-soft);
-  border-radius: 7px;
-  background: var(--surface);
-  color: var(--text-muted);
-  font-size: 12px;
-  box-shadow: none;
-  transform: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink-muted);
 }
 
-.drive-edit-btn:hover { background: var(--hover-bg); color: var(--ink); transform: none; }
-
-.drive-delete-btn:hover {
-  border-color: rgba(163, 24, 60, 0.35);
-  background: rgba(163, 24, 60, 0.08);
-  color: var(--danger);
-  transform: none;
+.drive-icon-btn:hover {
+  background: var(--surface-sunken);
+  color: var(--ink);
 }
 
-/* status: label above, mono value below — no colour chips */
+.drive-icon-btn--danger,
+.drive-icon-btn--danger:hover {
+  color: var(--rust);
+}
+
+/* status chips: icon + word, never colour alone */
 
 .drive-status-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
-  gap: 14px;
-  padding-top: 16px;
-  border-top: 1px solid var(--line-soft);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
-.drive-status-chip,
-.drive-status-chip--cyan,
-.drive-status-chip--pink,
-.drive-status-chip--purple {
+.drive-status-chip {
+  flex: 1 1 120px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  background: none;
-  color: var(--text);
-  box-shadow: none;
-  transform: none;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
 }
 
 .drive-status-label {
-  order: 1;
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .drive-status-value {
-  order: 2;
-  font-family: var(--font-mono);
-  font-size: 13.5px;
-  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.drive-status-value.is-ok svg {
+  color: var(--correct);
+}
+
+.drive-status-value.is-bad svg {
+  color: var(--rust);
 }
 
 .drive-action-row {
   display: flex;
-  gap: 8px;
   flex-wrap: wrap;
-  padding-top: 16px;
-  border-top: 1px solid var(--line-soft);
+  gap: var(--space-2);
+  margin-top: auto;
 }
-
-.drive-reauth-btn,
-.drive-sync-btn,
-.drive-default-btn {
-  padding: 9px 14px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-  color: var(--text);
-  font: inherit;
-  font-size: 13px;
-  font-weight: 500;
-  box-shadow: none;
-  transform: none;
-}
-
-.drive-reauth-btn:hover:not(:disabled),
-[data-theme='light'] .drive-reauth-btn:hover:not(:disabled),
-.drive-sync-btn:hover:not(:disabled),
-.drive-default-btn:hover:not(:disabled) {
-  background: var(--hover-bg);
-  color: var(--ink);
-  transform: none;
-}
-
-.drive-reauth-btn:disabled,
-.drive-sync-btn:disabled,
-.drive-default-btn:disabled { opacity: 0.45; }
 
 /* ── storage ── */
 
-.storage-section,
-[data-theme='light'] .storage-section {
+.storage-section {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 18px 20px;
-  border: 1px solid var(--line-soft);
-  border-radius: 13px;
-  background: var(--surface);
-  box-shadow: none;
+  gap: var(--space-2);
 }
 
 .storage-label {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 12.5px;
-  color: var(--text-muted);
+  color: var(--brass);
 }
 
-.storage-bar,
-[data-theme='light'] .storage-bar {
+.storage-bar {
   display: flex;
-  height: 5px;
-  border: none;
-  border-radius: 3px;
-  background: var(--surface-sunken);
+  gap: 2px;
   overflow: hidden;
-  box-shadow: none;
+  border-radius: var(--radius-sm);
 }
 
 .storage-bar-seg {
-  height: 100%;
-  background: var(--accent);
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: var(--size-touch);
+  padding: 0 var(--space-4);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
 }
 
-.storage-bar-seg:nth-child(2) { background: color-mix(in oklab, var(--accent) 55%, var(--surface-sunken)); }
-.storage-bar-seg:nth-child(3) { background: color-mix(in oklab, var(--accent) 30%, var(--surface-sunken)); }
-
-.storage-bar-free,
-[data-theme='light'] .storage-bar-free {
-  flex: 1;
-  background: transparent;
+.storage-bar-seg-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* ── empty / placeholder ── */
+.storage-bar-seg--0 {
+  background: var(--navy);
+  color: var(--on-navy);
+}
+
+.storage-bar-seg--1 {
+  background: var(--brass-fill);
+  color: var(--on-brass-fill);
+}
+
+.storage-bar-seg--2 {
+  background: var(--navy-soft);
+  color: var(--ink);
+}
+
+.storage-legend {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.storage-legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.storage-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── empty state and placeholder tabs ── */
 
 .settings-empty,
-.settings-placeholder,
-[data-theme='light'] .settings-empty,
-[data-theme='light'] .settings-placeholder {
+.settings-placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 56px 24px;
-  border: 1px solid var(--line-soft);
-  border-radius: 13px;
-  background: var(--surface);
+  gap: var(--space-4);
+  padding: var(--space-16) var(--space-8);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
   text-align: center;
-  box-shadow: none;
 }
-
-.settings-empty-icon { display: none; }
 
 .settings-empty p,
 .settings-placeholder p {
-  margin: 0;
-  font-size: 14px;
-  color: var(--text-muted);
+  color: var(--ink-muted);
 }
 
-/* ── form card ── */
+.settings-empty-icon {
+  color: var(--ink-muted);
+}
 
-.settings-form-card,
-[data-theme='light'] .settings-form-card {
-  padding: 22px;
-  border: 1px solid var(--line-soft);
-  border-radius: 13px;
-  background: var(--surface);
-  box-shadow: none;
+/* ── add / edit drive form ── */
+
+.settings-form-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  width: 100%;
+  max-width: var(--size-measure);
+  padding: var(--space-8);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
 }
 
 .settings-back-btn {
-  padding: 0;
-  border: none;
-  background: none;
-  color: var(--accent-ink);
-  font: inherit;
-  font-size: 13px;
-  box-shadow: none;
-  transform: none;
-}
-
-.settings-back-btn:hover { text-decoration: underline; transform: none; }
-
-.settings-form-title {
-  margin: 12px 0 18px;
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-}
-
-.settings-form { display: flex; flex-direction: column; gap: 16px; }
-
-.settings-form-card .form-group,
-.settings-form .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-}
-
-.form-group label,
-[data-theme='light'] .form-group label {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--text);
-}
-
-.settings-form-card .form-group input,
-.settings-form .form-group input,
-[data-theme='light'] .form-group input {
-  padding: 11px 12px;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  background: var(--surface);
-  color: var(--ink);
-  font: inherit;
-  font-size: 14px;
-  box-shadow: none;
-}
-
-.settings-form-card .form-group input:focus,
-.settings-form .form-group input:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-wash);
-}
-
-.form-btn-row {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  padding-top: 4px;
-}
-
-.btn-primary,
-.btn-outline,
-.btn-danger {
-  padding: 11px 17px;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  background: var(--surface);
-  color: var(--text);
-  font: inherit;
-  font-size: 13.5px;
-  font-weight: 500;
-  box-shadow: none;
-  transform: none;
-}
-
-.btn-primary {
-  border-color: var(--ink);
-  background: var(--ink);
-  color: var(--surface);
-}
-
-.btn-primary:hover { filter: brightness(1.12); transform: none; }
-.btn-outline:hover { background: var(--hover-bg); color: var(--ink); transform: none; }
-
-.btn-danger {
-  border-color: rgba(163, 24, 60, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  align-self: flex-start;
+  min-height: var(--size-touch);
+  margin: 0 0 calc(var(--space-4) * -1) calc(var(--space-2) * -1);
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: var(--radius-sm);
   background: transparent;
-  color: var(--danger);
+  color: var(--ink-muted);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
 }
 
-.btn-danger:hover { background: rgba(163, 24, 60, 0.08); transform: none; }
-
-.btn-primary:disabled,
-.btn-outline:disabled,
-.btn-danger:disabled { opacity: 0.45; filter: none; }
-
-/* ── confirm modal ── */
-
-.settings-page .modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  background: rgba(16, 20, 24, 0.55);
-  backdrop-filter: none;
-}
-
-.settings-page .modal-content {
-  width: 100%;
-  max-width: 420px;
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  background: var(--surface);
-  box-shadow: var(--shadow-2);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.settings-page .modal-content h3 {
-  margin: 0;
-  font-size: 17px;
-  font-weight: 600;
+.settings-back-btn:hover {
   color: var(--ink);
 }
 
-.settings-page .modal-content p {
-  margin: 0;
-  font-size: 13.5px;
-  line-height: 1.55;
-  color: var(--text-muted);
-}
-
-.modal-warning {
-  padding: 10px 12px;
-  border: 1px solid rgba(163, 24, 60, 0.28);
-  border-radius: 9px;
-  background: rgba(163, 24, 60, 0.07);
-  color: var(--danger);
-  font-size: 13px;
-}
-
-.settings-page .modal-actions {
+.settings-form {
   display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 6px;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
-@media (max-width: 640px) {
-  .settings-content { padding: 24px 16px 56px; }
-  .settings-hero-title { font-size: 22px; }
-  .drive-status-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .form-btn-row { flex-direction: column; }
-  .form-btn-row button { width: 100%; }
+.settings-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+/* warning line inside the delete dialog */
+
+.settings-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  color: var(--rust);
+}
+
+.settings-warning svg {
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+/* ── phones ── */
+
+@media (max-width: 767px) {
+  .settings-content {
+    gap: var(--space-4);
+    padding: var(--space-6);
+  }
+
+  .settings-content .as-display {
+    font-size: 32px;
+    line-height: 38px;
+    letter-spacing: 0;
+  }
+
+  .settings-add-btn {
+    width: 100%;
+  }
+
+  .settings-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin: 0 calc(var(--space-6) * -1);
+    padding: 0 var(--space-2);
+  }
+
+  .settings-tab {
+    padding: 0 var(--space-4);
+  }
+
+  .settings-drive-grid {
+    gap: var(--space-4);
+  }
+
+  .drive-card-new {
+    padding: var(--space-4);
+  }
+
+  .drive-action-row .as-btn {
+    flex: 1 1 140px;
+  }
+
+  .drive-action-row .drive-default-btn {
+    flex-basis: 100%;
+  }
+
+  .storage-section {
+    gap: var(--space-3);
+  }
+
+  .storage-bar {
+    height: 24px;
+  }
+
+  .storage-bar-seg {
+    min-height: 0;
+    padding: 0;
+  }
+
+  .storage-bar-seg-text {
+    display: none;
+  }
+
+  .storage-legend {
+    display: flex;
+  }
+
+  .settings-form-card {
+    padding: var(--space-6);
+  }
+
+  .settings-empty,
+  .settings-placeholder {
+    padding: var(--space-12) var(--space-6);
+  }
 }

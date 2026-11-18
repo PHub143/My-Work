@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import './FeedbackModal.css';
 import { API_URL } from '../config';
 import { useAuth } from '../AuthContext';
+import './FeedbackModal.css';
+import { Check, Cross, Plus } from './ExamIcons.jsx';
 import {
   FEEDBACK_CATEGORIES,
   MAX_FEEDBACK_ATTACHMENTS,
@@ -181,14 +182,14 @@ const FeedbackModal = ({ open, onClose }) => {
       >
         {phase === 'done' ? (
           <div className="fb-done">
-            <div className="fb-done-mark" aria-hidden="true">✓</div>
-            <h2 id={TITLE_ID}>Thanks for the feedback</h2>
+            <div className="fb-done-mark" aria-hidden="true"><Check size={24} /></div>
+            <h2 className="as-title" id={TITLE_ID}>Thanks for the feedback</h2>
             <p>We read every note and use it to improve the app.</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
             <div className="fb-header">
-              <h2 id={TITLE_ID}>Send feedback</h2>
+              <h2 className="as-title" id={TITLE_ID}>Send feedback</h2>
               <button
                 type="button"
                 className="fb-close"
@@ -196,7 +197,7 @@ const FeedbackModal = ({ open, onClose }) => {
                 aria-label="Close feedback dialog"
                 disabled={phase === 'submitting'}
               >
-                &times;
+                <Cross />
               </button>
             </div>
 
@@ -256,7 +257,7 @@ const FeedbackModal = ({ open, onClose }) => {
                           onClick={() => removeAttachment(index)}
                           aria-label={`Remove attachment ${index + 1}`}
                         >
-                          &times;
+                          <Cross />
                         </button>
                       </div>
                     ))}
@@ -269,7 +270,8 @@ const FeedbackModal = ({ open, onClose }) => {
                       className="fb-attach-btn"
                       onClick={() => fileInputRef.current?.click()}
                     >
-                      + Add image
+                      <Plus />
+                      Add image
                     </button>
                     <input
                       ref={fileInputRef}
@@ -283,19 +285,30 @@ const FeedbackModal = ({ open, onClose }) => {
                 )}
               </div>
 
-              {error && <p className="fb-error">{error}</p>}
+              {error && (
+                <div className="as-alert as-alert--error" role="alert">
+                  <svg className="as-alert__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <circle cx="10" cy="10" r="7.5" />
+                    <path d="M7.5 7.5l5 5M12.5 7.5l-5 5" />
+                  </svg>
+                  <span>
+                    <span className="as-visually-hidden">Error: </span>
+                    {error}
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="fb-footer">
               <button
                 type="button"
-                className="fb-btn fb-btn-ghost"
+                className="as-btn as-btn--secondary"
                 onClick={resetAndClose}
                 disabled={phase === 'submitting'}
               >
                 Cancel
               </button>
-              <button type="submit" className="fb-btn fb-btn-primary" disabled={!canSubmit}>
+              <button type="submit" className="as-btn as-btn--primary" disabled={!canSubmit}>
                 {phase === 'submitting' ? 'Sending…' : 'Send feedback'}
               </button>
             </div>

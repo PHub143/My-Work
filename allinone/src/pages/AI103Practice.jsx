@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './AI103.css';
+import { Check, Cross } from '../components/ExamIcons.jsx';
 import q1AnswerArea from '../assets/ai103/q1-answer-area.png';
 import q1AnswerAreaBlank from '../assets/ai103/q1-answer-area-blank.png';
 import q4AnswerArea from '../assets/ai103/q4-answer-area.png';
@@ -85,60 +86,60 @@ import {
 } from '../utils/learning';
 
 const practiceVisualConfigs = {
-  1: { blankImage: q1AnswerAreaBlank, solvedImage: q1AnswerArea, label: 'Answer Area' },
-  4: { blankImage: q4AnswerAreaBlank, solvedImage: q4AnswerArea, label: 'Answer Area' },
-  5: { blankImage: q5AnswerAreaBlank, solvedImage: q5AnswerArea, label: 'Answer Area' },
-  6: { blankImage: q6AnswerAreaBlank, solvedImage: q6AnswerArea, label: 'Answer Area' },
-  7: { blankImage: q7AnswerAreaBlank, solvedImage: q7AnswerArea, label: 'Answer Area' },
-  8: { blankImage: q8AnswerAreaBlank, solvedImage: q8AnswerArea, label: 'Answer Area' },
-  11: { blankImage: q11AnswerAreaBlank, solvedImage: q11AnswerArea, label: 'Answer Area' },
-  15: { blankImage: q15AnswerAreaBlank, solvedImage: q15AnswerArea, label: 'Answer Area' },
-  18: { blankImage: q18AnswerAreaBlank, solvedImage: q18AnswerArea, label: 'Answer Area' },
-  20: { blankImage: q20AnswerAreaBlank, solvedImage: q20AnswerArea, label: 'Answer Area' },
-  30: { blankImage: q30AnswerAreaBlank, solvedImage: q30AnswerArea, label: 'Answer Area' },
-  32: { blankImage: q32AnswerAreaBlank, solvedImage: q32AnswerArea, label: 'Answer Area' },
-  35: { label: 'Answer Area' },
-  37: { blankImage: q37AnswerAreaBlank, solvedImage: q37AnswerArea, label: 'Answer Area' },
-  40: { label: 'Answer Area' },
-  49: { blankImage: q49AnswerAreaBlank, solvedImage: null, label: 'Answer Area' },
-  66: { blankImage: q66AnswerAreaBlank, solvedImage: q66AnswerArea, label: 'Answer Area' },
-  68: { blankImage: q68AnswerAreaBlank, solvedImage: q68AnswerArea, label: 'Answer Area' },
-  71: { blankImage: q71AnswerAreaBlank, solvedImage: q71AnswerArea, label: 'Answer Area' },
-  79: { blankImage: q79AnswerAreaBlank, solvedImage: q79AnswerArea, label: 'Answer Area' },
-  86: { blankImage: q86AnswerAreaBlank, solvedImage: q86AnswerArea, label: 'Answer Area' },
-  92: { blankImage: q92AnswerAreaBlank, solvedImage: q92AnswerArea, label: 'Answer Area' },
-  93: { blankImage: q93AnswerAreaBlank, solvedImage: q93AnswerArea, label: 'Answer Area' },
-  94: { blankImage: q94AnswerAreaBlank, solvedImage: q94AnswerArea, label: 'Answer Area' },
-  95: { blankImage: q95AnswerAreaBlank, solvedImage: q95AnswerArea, label: 'Answer Area' },
-  98: { blankImage: q98AnswerAreaBlank, solvedImage: q98AnswerArea, label: 'Answer Area' },
-  99: { blankImage: q99AnswerAreaBlank, solvedImage: q99AnswerArea, label: 'Answer Area' },
+  1: { blankImage: q1AnswerAreaBlank, solvedImage: q1AnswerArea, label: 'Answer area' },
+  4: { blankImage: q4AnswerAreaBlank, solvedImage: q4AnswerArea, label: 'Answer area' },
+  5: { blankImage: q5AnswerAreaBlank, solvedImage: q5AnswerArea, label: 'Answer area' },
+  6: { blankImage: q6AnswerAreaBlank, solvedImage: q6AnswerArea, label: 'Answer area' },
+  7: { blankImage: q7AnswerAreaBlank, solvedImage: q7AnswerArea, label: 'Answer area' },
+  8: { blankImage: q8AnswerAreaBlank, solvedImage: q8AnswerArea, label: 'Answer area' },
+  11: { blankImage: q11AnswerAreaBlank, solvedImage: q11AnswerArea, label: 'Answer area' },
+  15: { blankImage: q15AnswerAreaBlank, solvedImage: q15AnswerArea, label: 'Answer area' },
+  18: { blankImage: q18AnswerAreaBlank, solvedImage: q18AnswerArea, label: 'Answer area' },
+  20: { blankImage: q20AnswerAreaBlank, solvedImage: q20AnswerArea, label: 'Answer area' },
+  30: { blankImage: q30AnswerAreaBlank, solvedImage: q30AnswerArea, label: 'Answer area' },
+  32: { blankImage: q32AnswerAreaBlank, solvedImage: q32AnswerArea, label: 'Answer area' },
+  35: { label: 'Answer area' },
+  37: { blankImage: q37AnswerAreaBlank, solvedImage: q37AnswerArea, label: 'Answer area' },
+  40: { label: 'Answer area' },
+  49: { blankImage: q49AnswerAreaBlank, solvedImage: null, label: 'Answer area' },
+  66: { blankImage: q66AnswerAreaBlank, solvedImage: q66AnswerArea, label: 'Answer area' },
+  68: { blankImage: q68AnswerAreaBlank, solvedImage: q68AnswerArea, label: 'Answer area' },
+  71: { blankImage: q71AnswerAreaBlank, solvedImage: q71AnswerArea, label: 'Answer area' },
+  79: { blankImage: q79AnswerAreaBlank, solvedImage: q79AnswerArea, label: 'Answer area' },
+  86: { blankImage: q86AnswerAreaBlank, solvedImage: q86AnswerArea, label: 'Answer area' },
+  92: { blankImage: q92AnswerAreaBlank, solvedImage: q92AnswerArea, label: 'Answer area' },
+  93: { blankImage: q93AnswerAreaBlank, solvedImage: q93AnswerArea, label: 'Answer area' },
+  94: { blankImage: q94AnswerAreaBlank, solvedImage: q94AnswerArea, label: 'Answer area' },
+  95: { blankImage: q95AnswerAreaBlank, solvedImage: q95AnswerArea, label: 'Answer area' },
+  98: { blankImage: q98AnswerAreaBlank, solvedImage: q98AnswerArea, label: 'Answer area' },
+  99: { blankImage: q99AnswerAreaBlank, solvedImage: q99AnswerArea, label: 'Answer area' },
   101: {
     blankImage: q101AnswerAreaBlank,
     solvedImage: q101AnswerArea,
-    label: 'Answer Area',
+    label: 'Answer area',
     exhibitImage: q101Exhibit,
     exhibitLabel: 'Exhibit',
   },
-  103: { blankImage: q103AnswerAreaBlank, solvedImage: q103AnswerArea, label: 'Answer Area' },
-  104: { blankImage: q104AnswerAreaBlank, solvedImage: q104AnswerArea, label: 'Answer Area' },
+  103: { blankImage: q103AnswerAreaBlank, solvedImage: q103AnswerArea, label: 'Answer area' },
+  104: { blankImage: q104AnswerAreaBlank, solvedImage: q104AnswerArea, label: 'Answer area' },
   107: {
     blankImage: q107AnswerAreaBlank,
     solvedImage: q107AnswerArea,
-    label: 'Answer Area',
+    label: 'Answer area',
     exhibitImage: q107Exhibit,
     exhibitLabel: 'Exhibit',
   },
-  108: { blankImage: q108AnswerAreaBlank, solvedImage: q108AnswerArea, label: 'Answer Area' },
-  112: { blankImage: q112AnswerAreaBlank, solvedImage: q112AnswerArea, label: 'Answer Area' },
-  113: { blankImage: q113AnswerAreaBlank, solvedImage: q113AnswerArea, label: 'Answer Area' },
+  108: { blankImage: q108AnswerAreaBlank, solvedImage: q108AnswerArea, label: 'Answer area' },
+  112: { blankImage: q112AnswerAreaBlank, solvedImage: q112AnswerArea, label: 'Answer area' },
+  113: { blankImage: q113AnswerAreaBlank, solvedImage: q113AnswerArea, label: 'Answer area' },
   114: {
     blankImage: q114AnswerAreaBlank,
     solvedImage: q114AnswerArea,
-    label: 'Answer Area',
+    label: 'Answer area',
     exhibitImage: q114Exhibit,
     exhibitLabel: 'Exhibit',
   },
-  117: { blankImage: q117AnswerAreaBlank, solvedImage: q117AnswerArea, label: 'Answer Area' },
+  117: { blankImage: q117AnswerAreaBlank, solvedImage: q117AnswerArea, label: 'Answer area' },
 };
 
 function formatDifficulty(difficulty) {
@@ -221,6 +222,18 @@ function PracticeStructuredControls({
                   <option value={option} key={option}>{option}</option>
                 ))}
               </select>
+              {isCorrect ? (
+                <span className="ai103-option-status">
+                  <Check size={16} />
+                  Correct
+                </span>
+              ) : null}
+              {isIncorrect ? (
+                <span className="ai103-option-status">
+                  <Cross size={16} />
+                  Incorrect · correct value: {correct}
+                </span>
+              ) : null}
             </label>
           );
         })}
@@ -264,6 +277,18 @@ function PracticeStructuredControls({
                       })}
                     />
                     <span>{option}</span>
+                    {isCorrect ? (
+                      <span className="ai103-option-status">
+                        <Check size={16} />
+                        Correct
+                      </span>
+                    ) : null}
+                    {isIncorrect ? (
+                      <span className="ai103-option-status">
+                        <Cross size={16} />
+                        Incorrect
+                      </span>
+                    ) : null}
                   </label>
                 );
               })}
@@ -310,7 +335,11 @@ function PracticeOptionList({
   }
 
   return (
-    <div className="ai103-practice-options" role="group" aria-label={`Question ${question.number} options`}>
+    <div
+      className={`ai103-practice-options${isSubmitted ? ' is-checked' : ''}`}
+      role="group"
+      aria-label={`Question ${question.number} options`}
+    >
       {parts.options.map((option) => {
         const selected = (selectedValue || []).includes(option.key);
         const correct = parts.answerSelections.includes(option.key);
@@ -331,8 +360,14 @@ function PracticeOptionList({
               disabled={isSubmitted}
               onChange={() => onSelectionChange(question.number, option.key)}
             />
-            <span className="ai103-option-key">{option.key}</span>
+            <span className="ai103-option-key">
+              {isSubmitted && correct ? <Check size={16} /> : isSubmitted && selected ? <Cross size={16} /> : option.key}
+            </span>
             <span>{option.text}</span>
+            {isSubmitted && correct ? <span className="ai103-option-status">Correct answer</span> : null}
+            {isSubmitted && selected && !correct ? (
+              <span className="ai103-option-status">Incorrect · your answer</span>
+            ) : null}
           </label>
         );
       })}
@@ -376,7 +411,7 @@ const AI103Practice = () => {
   const hasCaseStudyPart = session.questions.some((question) => isCaseStudyQuestion(question.number));
   const hasStandalonePart = firstStandaloneIndex !== -1;
   const currentPartLabel = currentQuestion && hasCaseStudyPart && hasStandalonePart
-    ? (isCaseStudyQuestion(currentQuestion.number) ? 'Part 1 · Case Study' : 'Part 2 · Standalone Questions')
+    ? (isCaseStudyQuestion(currentQuestion.number) ? 'Part 1 · Case study' : 'Part 2 · Standalone Questions')
     : null;
   const results = isSubmitted ? getPracticeSessionResults(session.questions, selections) : null;
   const resultSummary = results ? getPracticeResultSummary(results) : null;
@@ -486,9 +521,9 @@ const AI103Practice = () => {
               aria-describedby="ai103-practice-result-detail"
             >
               <div className="ai103-practice-modal-header">
-                <span>Test Result</span>
+                <span>Test result</span>
                 <button type="button" onClick={() => setShowResultsModal(false)} aria-label="Close result popup">
-                  X
+                  <Cross />
                 </button>
               </div>
               <h2 id="ai103-practice-result-title">{resultSummary.title}</h2>
@@ -511,10 +546,10 @@ const AI103Practice = () => {
               </p>
               <div className="ai103-practice-modal-actions">
                 <button type="button" onClick={() => setShowResultsModal(false)}>
-                  Review Answers
+                  Review answers
                 </button>
                 <button type="button" className="primary" onClick={retryPracticeTest}>
-                  Retry Test
+                  Retry test
                 </button>
               </div>
             </section>
@@ -524,13 +559,13 @@ const AI103Practice = () => {
         <header className="ai103-practice-header">
           <div>
             <div className="ai103-kicker">
-              <span className="ai103-badge">AI-103 Practice</span>
+              <span className="ai103-badge">AI-103 practice</span>
               <span className={`ai103-meta ai103-mode-meta ${difficultyClassName(session.difficulty)}`}>
                 {formatDifficulty(session.difficulty)} mode
               </span>
             </div>
             <h1>
-              Practice Test
+              Practice test
               <span>
                 {session.questions.length} random questions from the {questions.length}-question AI-103{' '}
                 {scope === 'original' ? 'original' : 'full'} learning set.{' '}
@@ -540,38 +575,55 @@ const AI103Practice = () => {
             </h1>
           </div>
           <div className="ai103-practice-summary">
-            <strong>{answeredCount}/{session.questions.length}</strong>
-            <span>Answered</span>
+            <div className="ai103-practice-stat">
+              <strong>{answeredCount}/{session.questions.length}</strong>
+              <span>Answered</span>
+            </div>
             {remainingSeconds !== null ? (
-              <>
+              <div className="ai103-practice-stat" role="timer" aria-label="Time left">
                 <strong>{formatRemainingTime(remainingSeconds)}</strong>
                 <span>Time left</span>
-              </>
+              </div>
             ) : null}
             {results ? (
-              <>
+              <div className="ai103-practice-stat">
                 <strong>{results.scorePercent}%</strong>
                 <span>Auto score</span>
-              </>
+              </div>
             ) : null}
           </div>
         </header>
 
         <section className="ai103-practice-shell">
           <aside className="ai103-practice-rail" aria-label="Practice question navigation">
+            <h2>Questions</h2>
             {session.questions.map((question, index) => {
               const resultItem = results?.items.find((item) => item.questionNumber === question.number);
+              // Visual questions have no auto-scored answer key: they need manual review.
+              const isManual = Boolean(isSubmitted && resultItem && resultItem.correct.length === 0);
+              const isRight = Boolean(isSubmitted && resultItem?.isCorrect);
+              const isWrong = Boolean(isSubmitted && resultItem && !resultItem.isCorrect && !isManual);
+              const stateWord = isRight
+                ? 'correct'
+                : isWrong
+                  ? 'incorrect'
+                  : isManual
+                    ? 'needs manual review'
+                    : hasSelection(selections[question.number])
+                      ? 'answered'
+                      : 'not answered';
               const buttonClass = [
                 index === currentIndex ? 'active' : '',
                 hasSelection(selections[question.number]) ? 'answered' : '',
-                isSubmitted && resultItem?.isCorrect ? 'correct' : '',
-                isSubmitted && resultItem && !resultItem.isCorrect ? 'incorrect' : '',
+                isRight ? 'correct' : '',
+                isWrong ? 'incorrect' : '',
+                isManual ? 'manual' : '',
               ].filter(Boolean).join(' ');
 
               return (
                 <React.Fragment key={`${question.number}-${index}`}>
                   {hasCaseStudyPart && hasStandalonePart && index === 0 ? (
-                    <span className="ai103-practice-rail-label">Part 1 · Case Study</span>
+                    <span className="ai103-practice-rail-label">Part 1 · Case study</span>
                   ) : null}
                   {hasCaseStudyPart && hasStandalonePart && index === firstStandaloneIndex ? (
                     <span className="ai103-practice-rail-label">Part 2 · Standalone</span>
@@ -581,12 +633,27 @@ const AI103Practice = () => {
                     className={buttonClass}
                     onClick={() => goToQuestion(index)}
                     aria-current={index === currentIndex ? 'page' : undefined}
+                    aria-label={`Question ${index + 1}, ${stateWord}`}
                   >
                     {index + 1}
+                    {isRight ? <Check size={12} /> : null}
+                    {isWrong ? <Cross size={12} /> : null}
+                    {isManual ? (
+                      <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M7.5 7.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5M10 15v.5" />
+                      </svg>
+                    ) : null}
                   </button>
                 </React.Fragment>
               );
             })}
+            {isSubmitted ? (
+              <div className="ai103-practice-rail-legend">
+                <span>Filled with a check: correct</span>
+                <span>Struck through with a cross: incorrect</span>
+                <span>Dashed with a question mark: needs manual review</span>
+              </div>
+            ) : null}
           </aside>
 
           <article className="ai103-practice-card">
@@ -618,6 +685,15 @@ const AI103Practice = () => {
                 ) : (
                   <ExhibitCode code={exhibitConfig.exhibitCode} />
                 )}
+              </section>
+            ) : null}
+
+            {codeHotspotConfig?.exhibitCode ? (
+              <section className="ai103-answer-visual ai103-exhibit-panel">
+                <div className="ai103-answer-visual-header">
+                  <h2>Exhibit</h2>
+                </div>
+                <ExhibitCode code={codeHotspotConfig.exhibitCode} />
               </section>
             ) : null}
 
@@ -658,7 +734,7 @@ const AI103Practice = () => {
 
             {isSubmitted ? (
               <section className="ai103-practice-review">
-                <h2>Answer Review</h2>
+                <h2>Answer review</h2>
                 {currentParts.answerSelections.length ? (
                   <p>
                     Correct answer: <strong>{currentParts.answerSelections.join(', ')}</strong>
@@ -673,7 +749,7 @@ const AI103Practice = () => {
                 {visualConfig?.solvedImage || codeHotspotConfig ? (
                   <div className="ai103-answer-visual ai103-answer-visual-solved">
                     <div className="ai103-answer-visual-header">
-                      <h2>Correct Answer Area</h2>
+                      <h2>Correct answer area</h2>
                     </div>
                     {codeHotspotConfig ? (
                       codeHotspotConfig.codeTemplate ? (
@@ -705,11 +781,11 @@ const AI103Practice = () => {
 
             <div className="ai103-practice-actions">
               <button type="button" onClick={() => navigate('/learning/ai-103')}>
-                Back to Learning
+                Back to learning
               </button>
               {isSubmitted ? (
                 <button type="button" onClick={retryPracticeTest}>
-                  Retry Test
+                  Retry test
                 </button>
               ) : null}
               <button type="button" onClick={() => goToQuestion(currentIndex - 1)} disabled={currentIndex === 0}>
@@ -724,7 +800,7 @@ const AI103Practice = () => {
                 onClick={submitPracticeTest}
                 disabled={isSubmitted}
               >
-                Submit Test
+                Submit test
               </button>
             </div>
           </article>

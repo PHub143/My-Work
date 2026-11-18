@@ -1,0 +1,130 @@
+/* Atelier Study design tokens (source: the Atelier Study design system, tokens.json).
+
+   Themes are set on <html data-theme="light | sepia | dark">:
+     light = Porcelain, sepia = Parchment, dark = Midnight.
+
+   Colour variables are assigned ONLY on the html-level selectors below, never on a
+   component class. lightningcss strips theme attribute selectors that share a class
+   with a base rule, so components must read these variables and carry no per-theme
+   overrides (see ../../../.cursor/rules/light-dark-mode-text-contrast.mdc). */
+
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+
+  --surface: #eff1f3;
+  --surface-raised: #f7f8f9;
+  --surface-sunken: #e5e8ec;
+  --line: #d5dae0;
+  --line-strong: #7c8694;
+  --ink: #1c2433;
+  --ink-muted: #556070;
+  --navy: #1f3a5f;
+  --on-navy: #f7f8f9;
+  --on-navy-muted: #c9d2de;
+  --navy-soft: #e1e8f1;
+  --link: #1f3a5f;
+  --brass-fill: #d9c7a0;
+  --on-brass-fill: #1c2433;
+  --brass: #7d6230;
+  --brass-soft: #efe7d6;
+  --highlight: #f1e2b0;
+  --correct: #2f6640;
+  --on-correct: #f7f8f9;
+  --correct-soft: #dfeee3;
+  --rust: #9a3a28;
+  --on-rust: #f7f8f9;
+  --rust-soft: #f6e3dd;
+  --scrim: #1c243366;
+  --shadow-lift: 0 18px 40px -18px #1c243333, 0 2px 6px #1c24330d;
+  --serif-weight: 500;
+}
+
+[data-theme='sepia'] {
+  color-scheme: light;
+
+  --surface: #efe6d4;
+  --surface-raised: #f5eedf;
+  --surface-sunken: #e6dbc5;
+  --line: #d6c8ab;
+  --line-strong: #857660;
+  --ink: #26303f;
+  --ink-muted: #5b6170;
+  --navy: #1f3a5f;
+  --on-navy: #f5eedf;
+  --on-navy-muted: #d0d6df;
+  --navy-soft: #dfe2e0;
+  --link: #1f3a5f;
+  --brass-fill: #d4bd8c;
+  --on-brass-fill: #26303f;
+  --brass: #765a24;
+  --brass-soft: #eadbb8;
+  --highlight: #e8cf8e;
+  --correct: #2f6338;
+  --on-correct: #f5eedf;
+  --correct-soft: #dde5cc;
+  --rust: #933726;
+  --on-rust: #f5eedf;
+  --rust-soft: #f0d9cc;
+  --scrim: #26303f66;
+  --shadow-lift: 0 18px 40px -18px #26303f33, 0 2px 6px #26303f0d;
+  --serif-weight: 500;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --surface: #121823;
+  --surface-raised: #1a2230;
+  --surface-sunken: #0e131c;
+  --line: #2a3444;
+  --line-strong: #74819a;
+  --ink: #e1e6ee;
+  --ink-muted: #a3adbd;
+  --navy: #3d6699;
+  --on-navy: #f7f8f9;
+  --on-navy-muted: #e6ebf2;
+  --navy-soft: #1c2a40;
+  --link: #9dbbe3;
+  --brass-fill: #b59e70;
+  --on-brass-fill: #121823;
+  --brass: #d2b47a;
+  --brass-soft: #2a2618;
+  --highlight: #4a3f22;
+  --correct: #93cfa3;
+  --on-correct: #121823;
+  --correct-soft: #182a20;
+  --rust: #eba28f;
+  --on-rust: #121823;
+  --rust-soft: #33201b;
+  --scrim: #000000a6;
+  --shadow-lift: 0 18px 40px -12px #00000099;
+  --serif-weight: 600;
+}
+
+/* Non-colour tokens: the same in every theme. */
+:root {
+  --focus: var(--brass);
+
+  --font-serif: 'Cormorant Garamond', 'Cormorant', Garamond, 'Times New Roman', serif;
+  --font-sans: Lexend, 'Jost', ui-sans-serif, system-ui, sans-serif;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+
+  --size-touch: 48px;
+  --size-measure: 720px;
+
+  --opacity-disabled: 0.4;
+  --opacity-dimmed: 0.6;
+}

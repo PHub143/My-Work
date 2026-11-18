@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDrive } from '../DriveContext';
+import { CheckIcon, ChevronIcon } from './DriveIcons';
 import './DriveSwitcher.css';
 
 const DriveSwitcher = () => {
@@ -41,24 +42,24 @@ const DriveSwitcher = () => {
   return (
     <div className="drive-switcher" ref={dropdownRef}>
       <button
+        type="button"
         className="drive-switcher-toggle"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
-        title="Switch Drive"
+        title="Switch drive"
       >
         <span className="drive-indicator" aria-hidden="true" />
-        <span className="drive-name">{activeDrive?.name || 'Select Drive'}</span>
-        <svg className={`drive-chevron ${isOpen ? 'open' : ''}`} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
+        <span className="drive-name">{activeDrive?.name || 'Select drive'}</span>
+        <ChevronIcon size={16} />
       </button>
 
       {isOpen && (
         <div className="drive-dropdown" role="listbox">
-          <div className="drive-dropdown-header">Storage Drives</div>
+          <div className="drive-dropdown-header">Storage drives</div>
           {drives.map((drive) => (
             <button
+              type="button"
               key={drive.id}
               className={`drive-option ${drive.id === activeDrive?.id ? 'active' : ''}`}
               onClick={() => handleSelect(drive.id)}
@@ -69,14 +70,10 @@ const DriveSwitcher = () => {
                 <span className="drive-option-name">{drive.name}</span>
                 <span className="drive-option-meta">
                   {drive.fileCount} file{drive.fileCount !== 1 ? 's' : ''}
-                  {drive.isDefault && <span className="default-badge">Default</span>}
+                  {drive.isDefault && <span className="drive-option-tag">Default</span>}
                 </span>
               </div>
-              {drive.id === activeDrive?.id && (
-                <svg className="drive-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              )}
+              {drive.id === activeDrive?.id && <CheckIcon size={16} />}
             </button>
           ))}
         </div>

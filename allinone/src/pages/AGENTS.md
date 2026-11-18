@@ -6,7 +6,7 @@ Route-level screens — each page has a matching `.jsx` file and (usually) a mat
 
 - Pages are loaded via `React.lazy()` in `App.jsx`. Keep the lazy import pattern.
 - Keep page-specific styles in the matching `.css` file. Use shared styles in component CSS or app/global CSS for reusable rules.
-- Follow the Cosmic Pop design language: bold editorial composition, high-contrast color blocks, chunky controls, expressive tabs/chips, and page-specific accent hues.
+- Follow the Atelier Study design system (tokens and primitives in `../styles/`, rules in `../styles/AGENTS.md`). Pages are being rebuilt one at a time from the canvas designs; a page whose stylesheet is not rebuilt yet renders on the plain base styles. `Login.jsx` is the first rebuilt page.
 
 ## Pages
 

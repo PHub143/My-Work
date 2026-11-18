@@ -3,6 +3,7 @@ import './Users.css';
 import { API_URL } from '../config';
 import { useAuth } from '../AuthContext';
 import Spinner from '../components/Spinner';
+import { Cross, Plus } from '../components/ExamIcons.jsx';
 import { ROLES, normalizeRoles, primaryRole } from '../utils/roles';
 
 const createDefaultFormData = () => ({ name: '', email: '', password: '', roles: [ROLES.STUDENT] });
@@ -17,6 +18,19 @@ const nameInputId = 'user-name';
 const emailInputId = 'user-email';
 const passwordInputId = 'user-password';
 
+// Stroke icons on the 20px grid (the shared exam icons cover plus and close).
+const Pencil = () => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12.5 4.5l3 3L7 16H4v-3z" />
+  </svg>
+);
+
+const Trash = () => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M4.5 6h11M8 6V4h4v2M6 6l.6 9.5h6.8L14 6M8.5 9v4M11.5 9v4" />
+  </svg>
+);
+
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,7 +40,7 @@ const Users = () => {
   const [formData, setFormData] = useState(createDefaultFormData);
   const [isSaving, setIsSaving] = useState(false);
   const [deletingUserId, setDeletingUserId] = useState(null);
-  
+
   const { token, user: currentUser } = useAuth();
 
   const formatLastActive = (u) => {
@@ -167,20 +181,31 @@ const Users = () => {
     <div className="users-page">
       <div className="users-content">
         <div className="users-header">
-          <div>
-            <div className="users-kicker">
-              <span className="users-badge">{users.length} ACCOUNT{users.length === 1 ? '' : 'S'}</span>
-              <span className="users-meta">· {users.filter(u => u.roles.includes(ROLES.ADMIN)).length} admin · {users.filter(u => u.roles.includes(ROLES.STUDENT)).length} students</span>
-            </div>
-            <h1>Your <em>crew.</em></h1>
-            <p>Create, edit, and manage system accounts</p>
+          <div className="users-header-copy">
+            <span className="as-label users-eyebrow">
+              {users.length} account{users.length === 1 ? '' : 's'} · {users.filter(u => u.roles.includes(ROLES.ADMIN)).length} admin · {users.filter(u => u.roles.includes(ROLES.STUDENT)).length} students
+            </span>
+            <h1 className="as-display">Your crew.</h1>
+            <p className="users-lead">Create, edit, and manage system accounts</p>
           </div>
-          <button className="add-user-btn" onClick={() => handleOpenModal()}>
-            <span>+</span> Invite a friend
+          <button type="button" className="as-btn as-btn--primary add-user-btn" onClick={() => handleOpenModal()}>
+            <Plus />
+            Invite a friend
           </button>
         </div>
 
-        {error && <div className="error-banner">{error}</div>}
+        {error && (
+          <div className="as-alert as-alert--error" role="alert">
+            <svg className="as-alert__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="10" cy="10" r="7.5" />
+              <path d="M7.5 7.5l5 5M12.5 7.5l-5 5" />
+            </svg>
+            <span>
+              <span className="as-visually-hidden">Error: </span>
+              {error}
+            </span>
+          </div>
+        )}
 
         {isLoading ? (
           <div className="loading-state">
@@ -188,57 +213,79 @@ const Users = () => {
           </div>
         ) : (
           <div className="users-card-grid">
-            {users.map((u, i) => (
-              <article key={u.id} className="user-polaroid" style={{ '--user-index': i }}>
-                <div className="user-tape" />
-                <div className="user-portrait">
-                  <span>{getInitials(u)}</span>
-                  {u.id === currentUser.id && <strong>YOU</strong>}
-                </div>
-                <div className="user-polaroid-name">{u.name || 'Unnamed User'}</div>
-                <div className="user-polaroid-email">{u.email || u.userId}</div>
-                <div className="user-polaroid-footer">
-                  <div className="role-badge-group" aria-label="User roles">
+            {users.map((u) => {
+              const isSelf = u.id === currentUser.id;
+              const displayName = u.name || 'Unnamed User';
+              return (
+                <article key={u.id} className="user-card">
+                  <div className="user-card-head">
+                    <span className="user-avatar" aria-hidden="true">{getInitials(u)}</span>
+                    <div className="user-card-id">
+                      <div className="user-card-name-row">
+                        <h2 className="user-card-name">{displayName}</h2>
+                        {isSelf && <span className="user-you-tag">You</span>}
+                      </div>
+                      <span className="user-card-email">{u.email || u.userId}</span>
+                    </div>
+                  </div>
+                  <div className="user-card-roles" role="group" aria-label="User roles">
                     {u.roles.map((role) => (
-                      <span key={role} className={`role-badge ${role === ROLES.ADMIN ? 'admin' : 'student'}`}>
+                      <span key={role} className={`user-role ${role === ROLES.ADMIN ? 'user-role--admin' : 'user-role--student'}`}>
                         {roleLabels[role] || role}
                       </span>
                     ))}
                   </div>
-                  <span title={`Joined ${new Date(u.createdAt).toLocaleDateString()}`}>
+                  <span className="user-card-active" title={`Joined ${new Date(u.createdAt).toLocaleDateString()}`}>
                     {formatLastActive(u)}
                   </span>
-                </div>
-                <div className="user-card-actions">
-                  {deletingUserId === u.id ? (
-                    <div className="inline-confirm">
-                      <button className="confirm-btn delete" onClick={() => handleDelete(u.id)}>Confirm</button>
-                      <button className="confirm-btn cancel" onClick={() => setDeletingUserId(null)}>Cancel</button>
-                    </div>
-                  ) : (
-                    <div className="actions-wrapper">
-                      <button className="action-icon-btn edit" onClick={() => handleOpenModal(u)} title="Edit">
-                        <span>✏️</span>
-                      </button>
-                      <button
-                        className="action-icon-btn delete"
-                        onClick={() => {
-                          if (u.id === currentUser.id) {
-                            alert("You cannot delete your own account.");
-                            return;
-                          }
-                          setDeletingUserId(u.id);
-                        }}
-                        title="Delete"
-                        disabled={u.id === currentUser.id}
-                      >
-                        <span>🗑️</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </article>
-            ))}
+                  <div className="user-card-actions">
+                    {deletingUserId === u.id ? (
+                      <>
+                        <button
+                          type="button"
+                          className="user-action user-action--danger"
+                          aria-label={`Confirm deleting ${displayName}`}
+                          onClick={() => handleDelete(u.id)}
+                        >
+                          Confirm
+                        </button>
+                        <button type="button" className="user-action" onClick={() => setDeletingUserId(null)}>
+                          Cancel
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          type="button"
+                          className="user-action"
+                          aria-label={`Edit ${displayName}`}
+                          onClick={() => handleOpenModal(u)}
+                        >
+                          <Pencil />
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          className="user-action user-action--danger-outline"
+                          aria-label={`Delete ${displayName}`}
+                          onClick={() => {
+                            if (isSelf) {
+                              alert("You cannot delete your own account.");
+                              return;
+                            }
+                            setDeletingUserId(u.id);
+                          }}
+                          disabled={isSelf}
+                        >
+                          <Trash />
+                          Delete
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
           </div>
         )}
       </div>
@@ -246,32 +293,36 @@ const Users = () => {
       {isModalOpen && (
         <div className="user-modal-overlay" onClick={handleCloseModal}>
           <div
-            className="user-modal-content glass"
+            className="user-modal-content"
             role="dialog"
             aria-modal="true"
             aria-labelledby={modalTitleId}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="modal-header">
-              <h2 id={modalTitleId}>{editingUser ? 'Edit User' : 'Create New User'}</h2>
-              <button className="close-modal" onClick={handleCloseModal} aria-label="Close user modal">&times;</button>
+              <h2 className="as-title" id={modalTitleId}>{editingUser ? 'Edit user' : 'Create new user'}</h2>
+              <button type="button" className="close-modal" onClick={handleCloseModal} aria-label="Close user dialog">
+                <Cross />
+              </button>
             </div>
-            
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor={nameInputId}>Full Name</label>
-                <input 
+
+            <form className="user-modal-form" onSubmit={handleSubmit}>
+              <div className="as-field">
+                <label className="as-field__label" htmlFor={nameInputId}>Full name</label>
+                <input
                   id={nameInputId}
-                  type="text" 
-                  value={formData.name} 
+                  className="as-field__input"
+                  type="text"
+                  value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                   placeholder="John Doe"
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor={emailInputId}>Email Address{editingUser ? ' (optional)' : ''}</label>
+              <div className="as-field">
+                <label className="as-field__label" htmlFor={emailInputId}>Email address{editingUser ? ' (optional)' : ''}</label>
                 <input
                   id={emailInputId}
+                  className="as-field__input"
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -279,44 +330,44 @@ const Users = () => {
                   placeholder="john@example.com"
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor={passwordInputId}>{editingUser ? 'New Password (leave blank to keep current)' : 'Password'}</label>
-                <input 
+              <div className="as-field">
+                <label className="as-field__label" htmlFor={passwordInputId}>{editingUser ? 'New password (leave blank to keep current)' : 'Password'}</label>
+                <input
                   id={passwordInputId}
-                  type="password" 
-                  value={formData.password} 
+                  className="as-field__input"
+                  type="password"
+                  value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
                   required={!editingUser}
                   placeholder={editingUser ? '••••••••' : 'Password'}
                 />
               </div>
-              <div className="form-group">
-                <label>Roles</label>
-                <div className="role-checklist">
-                  {[ROLES.ADMIN, ROLES.STUDENT].map((role) => {
-                    const selectedRoles = normalizeRoles(formData.roles);
-                    const isChecked = selectedRoles.includes(role);
-                    const isOnlySelectedRole = selectedRoles.length === 1 && isChecked;
+              <fieldset className="role-checklist">
+                <legend>Roles</legend>
+                {[ROLES.ADMIN, ROLES.STUDENT].map((role) => {
+                  const selectedRoles = normalizeRoles(formData.roles);
+                  const isChecked = selectedRoles.includes(role);
+                  const isOnlySelectedRole = selectedRoles.length === 1 && isChecked;
 
-                    return (
-                      <label key={role} className="role-check">
-                        <input
-                          type="checkbox"
-                          checked={isChecked}
-                          disabled={isOnlySelectedRole}
-                          onChange={() => toggleRole(role)}
-                        />
-                        <span>{roleLabels[role]}</span>
-                      </label>
-                    );
-                  })}
-                </div>
-              </div>
+                  return (
+                    <label key={role} className="role-check">
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        disabled={isOnlySelectedRole}
+                        onChange={() => toggleRole(role)}
+                      />
+                      <span>{roleLabels[role]}</span>
+                    </label>
+                  );
+                })}
+                <span className="role-hint">An account always keeps at least one role.</span>
+              </fieldset>
 
               <div className="modal-actions">
-                <button type="button" className="cancel-btn" onClick={handleCloseModal}>Cancel</button>
-                <button type="submit" className="submit-btn" disabled={isSaving}>
-                  {isSaving ? 'Saving...' : (editingUser ? 'Update User' : 'Create User')}
+                <button type="button" className="as-btn as-btn--secondary" onClick={handleCloseModal}>Cancel</button>
+                <button type="submit" className="as-btn as-btn--primary" disabled={isSaving}>
+                  {isSaving ? 'Saving...' : (editingUser ? 'Update user' : 'Create user')}
                 </button>
               </div>
             </form>

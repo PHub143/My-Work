@@ -4,6 +4,7 @@ import { API_URL } from '../config';
 import Spinner from '../components/Spinner';
 import FileModal from '../components/FileModal';
 import TopBar from '../components/TopBar';
+import { CrossCircleIcon, MoreIcon, SortIcon } from '../components/DriveIcons';
 import { useAuth } from '../AuthContext';
 import { useDrive } from '../DriveContext';
 
@@ -164,6 +165,12 @@ const Documents = () => {
 
   const openFile = (file) => setSelectedFile(file);
 
+  // Second line of a phone row: tag · size · date (the tag is left out when empty).
+  const getMeta = (file) =>
+    [file.tags?.[0]?.name, formatBytes(file.size), formatDate(file.modifiedTime || file.createdTime)]
+      .filter(Boolean)
+      .join(' · ');
+
   return (
     <>
       <TopBar
@@ -173,61 +180,64 @@ const Documents = () => {
         action={{ label: 'Upload', to: '/upload' }}
       />
 
-      <div className="page-scan documents-page">
-        <div className="page-head">
-          <div>
-            <h1>Documents</h1>
+      <div className="drive-page documents-page">
+        <div className="drive-head">
+          <div className="drive-head-copy">
+            <h1 className="as-headline">Documents</h1>
             <p>
               {files.length} file{files.length === 1 ? '' : 's'} · {formatBytes(totalSize)} used
               {activeDrive ? ` on ${activeDrive.name}` : ''}
             </p>
           </div>
 
-          <div className="page-head-actions">
-            <div className="seg">
-              <button
-                type="button"
-                className={view === 'list' ? 'active' : ''}
-                onClick={() => setView('list')}
-              >
+          <div className="drive-head-actions">
+            <div className="drive-seg" role="group" aria-label="View">
+              <button type="button" aria-pressed={view === 'list'} onClick={() => setView('list')}>
                 List
               </button>
-              <button
-                type="button"
-                className={view === 'grid' ? 'active' : ''}
-                onClick={() => setView('grid')}
-              >
+              <button type="button" aria-pressed={view === 'grid'} onClick={() => setView('grid')}>
                 Grid
               </button>
             </div>
-            <button type="button" className="btn-quiet" onClick={cycleSort}>
+            <button type="button" className="drive-sort" onClick={cycleSort}>
+              <SortIcon />
               Sort: {SORTS[sort].label}
             </button>
           </div>
         </div>
 
-        <div className="tag-row">
+        <div className="drive-chips" role="group" aria-label="Filter by tag">
           <button
             type="button"
-            className={`tag-chip${selectedTag === null ? ' active' : ''}`}
+            className="drive-chip"
+            aria-pressed={selectedTag === null}
             onClick={() => setSelectedTag(null)}
           >
-            All <b>{files.length}</b>
+            All <span className="drive-chip-count">{files.length}</span>
           </button>
           {tags.map((tag) => (
             <button
               key={tag.id || tag.name}
               type="button"
-              className={`tag-chip${selectedTag === tag.name ? ' active' : ''}`}
+              className="drive-chip"
+              aria-pressed={selectedTag === tag.name}
               onClick={() => setSelectedTag(tag.name)}
             >
               {tag.name}
-              {tag.count ? <b>{tag.count}</b> : null}
+              {tag.count ? <span className="drive-chip-count">{tag.count}</span> : null}
             </button>
           ))}
         </div>
 
-        {error && <div className="doc-error" role="alert">{error}</div>}
+        {error && (
+          <div className="as-alert as-alert--error" role="alert">
+            <span className="as-alert__icon"><CrossCircleIcon /></span>
+            <span>
+              <span className="as-visually-hidden">Error: </span>
+              {error}
+            </span>
+          </div>
+        )}
 
         {isLoading ? (
           <div className="doc-loading"><Spinner /></div>
@@ -235,7 +245,7 @@ const Documents = () => {
           <div className="doc-empty">
             <p>{query ? `Nothing matches “${query}”.` : 'No documents in this drive yet.'}</p>
             {query && (
-              <button type="button" className="btn-quiet" onClick={() => setQuery('')}>
+              <button type="button" className="as-btn as-btn--secondary" onClick={() => setQuery('')}>
                 Clear search
               </button>
             )}
@@ -245,9 +255,9 @@ const Documents = () => {
             <div className="doc-row doc-row-head">
               <span />
               <span>Name</span>
-              <span>Tag</span>
-              <span>Size</span>
-              <span>Modified</span>
+              <span className="doc-tag">Tag</span>
+              <span className="doc-size">Size</span>
+              <span className="doc-date">Modified</span>
               <span />
             </div>
             {visible.map((file) => (
@@ -264,18 +274,13 @@ const Documents = () => {
                   }
                 }}
               >
-                <span className="doc-ext" data-ext={getFileExt(file)}>{getFileExt(file)}</span>
+                <span className="doc-ext">{getFileExt(file)}</span>
                 <span className="doc-name">{file.name}</span>
+                <span className="doc-meta">{getMeta(file)}</span>
                 <span className="doc-tag">{file.tags?.[0]?.name || '—'}</span>
                 <span className="doc-size">{formatBytes(file.size)}</span>
                 <span className="doc-date">{formatDate(file.modifiedTime || file.createdTime)}</span>
-                <span className="doc-more" aria-hidden="true">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <circle cx="12" cy="5" r="1" />
-                    <circle cx="12" cy="12" r="1" />
-                    <circle cx="12" cy="19" r="1" />
-                  </svg>
-                </span>
+                <span className="doc-more" aria-hidden="true"><MoreIcon /></span>
               </div>
             ))}
           </div>
@@ -295,7 +300,7 @@ const Documents = () => {
                   }
                 }}
               >
-                <span className="doc-ext" data-ext={getFileExt(file)}>{getFileExt(file)}</span>
+                <span className="doc-ext">{getFileExt(file)}</span>
                 <span className="doc-tile-name">{file.name}</span>
                 <div className="doc-tile-foot">
                   <span>{formatBytes(file.size)}</span>

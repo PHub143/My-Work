@@ -1,69 +1,87 @@
+/* Google connection callback (/oauth/callback): chromeless, a single centred card.
+   Colours come from the theme variables in styles/tokens.css. */
+
 .oauth-callback-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-height: 100vh;
   min-height: 100dvh;
-  display: grid;
-  place-items: center;
-  padding: 32px;
-  background: var(--color-system-background);
-}
-
-.oauth-callback-card {
-  width: 100%;
-  max-width: 420px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  padding: 32px 28px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
+  padding: var(--space-8);
   background: var(--surface);
-  text-align: center;
-  box-shadow: none;
-}
-
-.oauth-callback-card h1,
-.oauth-callback-card h2 {
-  margin: 0;
-  font-size: 19px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
   color: var(--ink);
 }
 
-.oauth-callback-card p {
-  margin: 0;
-  font-size: 13.5px;
-  line-height: 1.55;
-  color: var(--text-muted);
+.oauth-callback-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  width: 100%;
+  max-width: 420px;
 }
 
-.oauth-callback-card .error-icon { display: none; }
+.oauth-callback-wordmark {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: var(--serif-weight);
+}
 
-.oauth-callback-card .error-message {
+.oauth-callback-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
   width: 100%;
-  padding: 11px 13px;
-  border: 1px solid rgba(163, 24, 60, 0.28);
-  border-radius: 9px;
-  background: rgba(163, 24, 60, 0.07);
-  color: var(--danger);
-  font-size: 13px;
+  padding: var(--space-8);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  text-align: center;
+}
+
+.oauth-callback-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.oauth-callback-title svg {
+  flex-shrink: 0;
+  color: var(--rust);
+}
+
+.oauth-callback-alert {
+  width: 100%;
   text-align: left;
 }
 
-.oauth-callback-card .primary-button,
-[data-theme='light'] .oauth-callback-card .primary-button {
-  margin-top: 4px;
-  padding: 11px 18px;
-  border: 1px solid var(--ink);
-  border-radius: 9px;
-  background: var(--ink);
-  color: var(--surface);
-  font: inherit;
-  font-size: 13.5px;
-  font-weight: 500;
-  box-shadow: none;
-  transform: none;
+.oauth-callback-card .as-btn {
+  margin-top: var(--space-2);
 }
 
-.oauth-callback-card .primary-button:hover { filter: brightness(1.12); transform: none; }
+.oauth-callback-note {
+  color: var(--ink-muted);
+}
+
+.oauth-callback-spinner {
+  animation: as-spin 1.2s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oauth-callback-spinner {
+    animation: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .oauth-callback-container {
+    padding: var(--space-6);
+  }
+
+  .oauth-callback-card {
+    padding: var(--space-6);
+  }
+}

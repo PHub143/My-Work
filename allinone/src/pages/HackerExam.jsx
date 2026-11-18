@@ -9,6 +9,7 @@ import React, {
 import { useNavigate, useParams } from 'react-router-dom';
 import './YbmExam.css';
 import { useAuth } from '../AuthContext';
+import { ArrowLeft, ArrowRight, Check, Clock, Cross, Minus, Plus, Retake } from '../components/ExamIcons.jsx';
 import { PARTS, getTest } from '../data/hacker/manifest.js';
 import HackerReadingContent from './HackerReadingContent.jsx';
 import {
@@ -118,6 +119,15 @@ function AnswerSheet({ section, selections, onSelect, disabled, focus, onFocusCh
                       );
                     })}
                   </span>
+                  {disabled && selections[number] && (
+                    <span
+                      className={`ybm-sheet-mark ${selections[number] === correctAnswers[number] ? 'is-right' : 'is-wrong'}`}
+                      role="img"
+                      aria-label={selections[number] === correctAnswers[number] ? 'Correct' : 'Incorrect'}
+                    >
+                      {selections[number] === correctAnswers[number] ? <Check /> : <Cross />}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -155,7 +165,13 @@ function FocusPad({
   return (
     <aside className="ybm-focus" aria-label="Answer pad">
       {reviewOpen && (
-        <div className="ybm-review">
+        <div
+          className="ybm-review"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) setReviewOpen(false);
+          }}
+        >
+          <div className="ybm-review-sheet" role="dialog" aria-label="Review answers">
           <div className="ybm-review-head">
             <strong>{answered} of {last - first + 1} answered</strong>
             <button type="button" onClick={() => setReviewOpen(false)}>Close</button>
@@ -186,6 +202,7 @@ function FocusPad({
                 </section>
               );
             })}
+          </div>
           </div>
         </div>
       )}
@@ -224,7 +241,8 @@ function FocusPad({
           disabled={focus <= first}
           onClick={() => onFocusChange(focus - 1)}
         >
-          ← Prev
+          <ArrowLeft />
+          Prev
         </button>
         <button type="button" onClick={() => setReviewOpen((open) => !open)}>
           Review · {answered}
@@ -234,7 +252,8 @@ function FocusPad({
           disabled={focus >= last}
           onClick={() => onFocusChange(focus + 1)}
         >
-          Next →
+          Next
+          <ArrowRight />
         </button>
       </div>
 
@@ -502,7 +521,8 @@ const ExamRunner = ({ test, volumeId }) => {
             className="ybm-exit"
             onClick={() => navigate(`/learning/english/toeic/hacker/${volumeId}`)}
           >
-            ← Exit
+            <ArrowLeft />
+            Exit
           </button>
           <strong>{volumeId.replace('vol-', 'Vol ')} · {test.label}</strong>
         </div>
@@ -524,10 +544,19 @@ const ExamRunner = ({ test, volumeId }) => {
 
         <div className="ybm-exam-clock">
           {result ? (
-            <span className="ybm-clock-done">Submitted</span>
+            <span className="ybm-clock-done">
+              <Check />
+              Submitted
+            </span>
           ) : remaining !== null ? (
-            <span className={remaining < 300 ? 'ybm-clock is-low' : 'ybm-clock'}>
+            <span
+              className={remaining < 300 ? 'ybm-clock is-low' : 'ybm-clock'}
+              role="timer"
+              aria-label="Time left"
+            >
+              <Clock />
               {formatClock(remaining)}
+              <span className="ybm-clock-unit">left</span>
             </span>
           ) : (
             <button type="button" className="ybm-start" onClick={startTimer}>
@@ -566,6 +595,7 @@ const ExamRunner = ({ test, volumeId }) => {
               setFocus(sectionRange(sections[0])[0]);
             }}
           >
+            <Retake />
             Retake
           </button>
         </section>
@@ -592,7 +622,8 @@ const ExamRunner = ({ test, volumeId }) => {
             <>
               <div className="ybm-booklet-controls">
                 <button type="button" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
-                  ← Prev
+                  <ArrowLeft />
+                  Prev
                 </button>
                 <span>Page {page} / {imagePageCount}</span>
                 <button
@@ -606,12 +637,17 @@ const ExamRunner = ({ test, volumeId }) => {
                     setPage((p) => p + 1);
                   }}
                 >
-                  {page >= imagePageCount && nextContentPart ? 'Continue →' : 'Next →'}
+                  {page >= imagePageCount && nextContentPart ? 'Continue' : 'Next'}
+                  <ArrowRight />
                 </button>
                 <span className="ybm-zoom">
-                  <button type="button" onClick={() => setZoom((z) => Math.max(0.5, z - 0.25))}>−</button>
+                  <button type="button" aria-label="Zoom out" onClick={() => setZoom((z) => Math.max(0.5, z - 0.25))}>
+                    <Minus />
+                  </button>
                   <span>{Math.round(zoom * 100)}%</span>
-                  <button type="button" onClick={() => setZoom((z) => Math.min(3, z + 0.25))}>+</button>
+                  <button type="button" aria-label="Zoom in" onClick={() => setZoom((z) => Math.min(3, z + 0.25))}>
+                    <Plus />
+                  </button>
                 </span>
               </div>
 
@@ -676,6 +712,12 @@ const ExamRunner = ({ test, volumeId }) => {
                   >
                     {speaker && <b>{speaker}</b>}
                     {text}
+                    {isCorrect && (
+                      <span className="ybm-transcript-badge">
+                        <Check size={16} />
+                        Correct answer
+                      </span>
+                    )}
                   </p>
                 );
               })}
@@ -698,7 +740,7 @@ const ExamRunner = ({ test, volumeId }) => {
         ) : (
           <aside className="ybm-answers" aria-label="Answer sheet">
             <div className="ybm-answers-head">
-              <strong>Answer sheet</strong>
+              <h2>Answer sheet</h2>
               <span>{answeredInSection} answered</span>
             </div>
             <AnswerSheet
@@ -710,11 +752,24 @@ const ExamRunner = ({ test, volumeId }) => {
               onFocusChange={handleFocusChange}
               correctAnswers={correctAnswers}
             />
-            {!result && (
-              <button type="button" className="ybm-submit" onClick={handleSubmit}>
-                Submit test
-              </button>
-            )}
+            <div className="ybm-answers-foot">
+              {!result ? (
+                <button type="button" className="ybm-submit" onClick={handleSubmit}>
+                  Submit test
+                </button>
+              ) : (
+                <ul className="ybm-legend">
+                  <li>
+                    <span className="ybm-legend-swatch is-correct" aria-hidden="true">B</span>
+                    Filled: the correct answer
+                  </li>
+                  <li>
+                    <span className="ybm-legend-swatch is-incorrect" aria-hidden="true">D</span>
+                    Outlined and struck through: your wrong answer
+                  </li>
+                </ul>
+              )}
+            </div>
           </aside>
         )}
       </div>
