@@ -1,0 +1,48 @@
+/* Settings notices (SettingsNotice.jsx): success, error and setup-needed messages.
+   Colours come from the theme variables in styles/tokens.css. */
+
+.settings-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.settings-notice__icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.settings-notice b {
+  font-weight: 600;
+}
+
+.settings-notice--success {
+  background: var(--correct-soft);
+  border-color: var(--correct);
+  color: var(--ink);
+}
+
+.settings-notice--success .settings-notice__icon {
+  color: var(--correct);
+}
+
+.settings-notice--error {
+  background: var(--rust-soft);
+  border-color: var(--rust);
+  color: var(--rust);
+}
+
+.settings-notice--setup {
+  background: var(--brass-soft);
+  border-color: var(--brass);
+  color: var(--ink);
+}
+
+.settings-notice--setup .settings-notice__icon {
+  color: var(--brass);
+}

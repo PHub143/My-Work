@@ -1,87 +1,110 @@
+/* Drive page toolbar (TopBar.jsx): search field, drive switcher, primary action.
+   Sits at the top of the page container, so it shares the 1200px column. */
+
 .topbar {
-  position: sticky;
-  top: 0;
-  z-index: 30;
-  height: 56px;
-  padding: 0 28px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--line-soft);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 16px;
+  gap: var(--space-4);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-8) 0;
 }
 
 .topbar-search {
-  flex: 1;
-  max-width: 460px;
+  flex: 1 1 320px;
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 7px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--line-soft);
-  background: var(--surface-sunken);
-  color: var(--text-muted);
+  gap: var(--space-3);
+  max-width: 520px;
+  min-height: var(--size-touch);
+  padding: 0 var(--space-4);
+  border-bottom: 1px solid var(--line-strong);
+  background: var(--surface-raised);
+  color: var(--ink-muted);
 }
 
 .topbar-search:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-wash);
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
 }
 
 .topbar-search input {
   flex: 1;
   min-width: 0;
-  border: none;
+  height: 44px;
+  border: 0;
   background: transparent;
   color: var(--ink);
-  font: inherit;
-  font-size: 13px;
+}
+
+.topbar-search input:focus-visible {
   outline: none;
 }
 
-.topbar-search input::placeholder { color: var(--text-muted); }
-.topbar-search input::-webkit-search-cancel-button { filter: grayscale(1) opacity(0.5); }
+.topbar-search input::placeholder {
+  color: var(--ink-muted);
+  opacity: 1;
+}
 
 .topbar-search kbd {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-muted);
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .topbar-right {
-  margin-left: auto;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
-  min-width: 0;
-  flex-shrink: 1;
+  gap: var(--space-3);
+  margin-left: auto;
 }
 
 .topbar-action {
   display: inline-flex;
   align-items: center;
-  height: 32px;
-  padding: 0 14px;
-  border: 1px solid var(--accent-ink);
-  border-radius: 8px;
-  background: var(--accent-ink);
-  color: #ffffff;
-  font: inherit;
-  font-size: 13px;
+  justify-content: center;
+  min-height: var(--size-touch);
+  padding: 0 var(--space-6);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--navy);
+  color: var(--on-navy);
+  font-size: 15px;
+  line-height: 20px;
   font-weight: 500;
-  text-decoration: none;
-  cursor: pointer;
-  flex-shrink: 0;
 }
 
 .topbar-action:hover {
-  color: #ffffff;
+  color: var(--on-navy);
   text-decoration: none;
-  filter: brightness(1.06);
 }
 
-@media (max-width: 760px) {
-  .topbar { padding: 0 16px; gap: 10px; }
-  .topbar-search kbd { display: none; }
+@media (max-width: 767px) {
+  .topbar {
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-4) 0;
+  }
+
+  .topbar-search {
+    flex-basis: 100%;
+    max-width: none;
+  }
+
+  .topbar-search kbd {
+    display: none;
+  }
+
+  .topbar-right {
+    flex: 1 1 100%;
+    flex-wrap: nowrap;
+    gap: var(--space-2);
+    margin-left: 0;
+  }
+
+  .topbar-right .drive-switcher {
+    flex: 1;
+    min-width: 0;
+  }
 }

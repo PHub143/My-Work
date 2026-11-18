@@ -2,6 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import './Upload.css';
 import { API_URL, MAX_FILE_SIZE } from '../config';
 import Spinner from '../components/Spinner';
+import { CheckCircleIcon, CloseIcon, CrossCircleIcon, UploadIcon } from '../components/DriveIcons';
 import { useAuth } from '../AuthContext';
 import { useDrive } from '../DriveContext';
 
@@ -99,7 +100,7 @@ const Upload = () => {
       setFile(selectedFile);
       setStatus({ type: '', message: '' });
       setUploadProgress(0);
-      
+
       const autoTag = getAutoTag(selectedFile.type);
       if (autoTag && !tags.includes(autoTag)) {
         setTags(prev => [...prev, autoTag]);
@@ -225,8 +226,8 @@ const Upload = () => {
     <div className="upload-container">
       <div className="upload-content">
         <div className="upload-header">
-          <span className="upload-badge">UP TO 10 GB</span>
-          <h1>Send it <em>up.</em></h1>
+          <span className="as-tag">Up to 10 GB</span>
+          <h1 className="as-display">Send it up.</h1>
           <p className="upload-subtitle">
             Auto-tagged · Auto-organized · Synced to <span>{activeDrive?.name || 'Google Drive'}</span>
           </p>
@@ -234,27 +235,28 @@ const Upload = () => {
 
         <div className="upload-card">
           <div className="upload-drop-grid">
-            <div>
+            <div className="upload-drop-copy-block">
               <h2>{file ? file.name : 'Drag your stuff here.'}</h2>
               <p className="upload-drop-copy">
                 {file
                   ? `${formatBytes(file.size)} · ready to upload`
                   : 'or click below · paste with ⌘V · accepts pretty much anything'}
               </p>
-              <div className="file-input-wrapper">
-                <label htmlFor="file-upload" className="custom-file-upload">
-                  {file ? 'Change file' : 'Choose file'}
-                </label>
+              <div className="upload-controls">
                 <input
                   id="file-upload"
+                  className="upload-file-input"
                   type="file"
                   onChange={handleFileChange}
                   disabled={isUploading}
                   ref={fileInputRef}
                 />
+                <label htmlFor="file-upload" className="upload-choose">
+                  {file ? 'Change file' : 'Choose file'}
+                </label>
                 <button
                   type="button"
-                  className="paste-button"
+                  className="upload-paste"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isUploading}
                 >
@@ -263,38 +265,42 @@ const Upload = () => {
               </div>
             </div>
             <div className="upload-orbit" aria-hidden="true">
-              <div>
-                <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="17 8 12 3 7 8"/>
-                  <line x1="12" y1="3" x2="12" y2="15"/>
-                </svg>
-              </div>
+              <UploadIcon size={36} stroke={1.25} />
             </div>
           </div>
         </div>
 
-        <p className="upload-subtitle">
+        <p className="upload-note">
           {activeDrive
             ? `Uploading to ${activeDrive.name} — up to 10 GB`
             : 'Supports videos, images, documents & more — up to 10 GB'}
         </p>
 
-        <div className="tags-section">
-          <div className="tag-label">Tag with →</div>
-          <div className="tags-container">
-            {tags.map(tag => (
-              <span key={tag} className="tag-pill">
-                {tag}
-                <button onClick={() => removeTag(tag)} className="tag-remove">&times;</button>
-              </span>
-            ))}
-          </div>
-          
-          <div className="tag-input-wrapper">
+        <section className="upload-tags-section" aria-label="Tags">
+          <h3 className="upload-tag-label">Tag with</h3>
+          {tags.length > 0 && (
+            <div className="upload-tags-container">
+              {tags.map(tag => (
+                <span key={tag} className="upload-tag-pill">
+                  {tag}
+                  <button
+                    type="button"
+                    onClick={() => removeTag(tag)}
+                    className="upload-tag-remove"
+                    aria-label={`Remove tag ${tag}`}
+                  >
+                    <CloseIcon size={16} />
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+
+          <div className="upload-tag-input-wrapper">
             <input
               type="text"
-              placeholder="Add tag..."
+              placeholder="Add tag…"
+              aria-label="Add tag"
               value={tagInput}
               onChange={(e) => {
                 setTagInput(e.target.value);
@@ -308,36 +314,52 @@ const Upload = () => {
                   addTag(tagInput);
                 }
               }}
-              className="tag-input"
+              className="upload-tag-input"
               disabled={isUploading}
             />
             {showSuggestions && tagInput && (
-              <div className="tag-suggestions">
+              <div className="upload-tag-suggestions" role="listbox" aria-label="Tag suggestions">
                 {filteredSuggestions.length > 0 ? (
                   filteredSuggestions.map(tag => (
-                    <div 
-                      key={tag} 
-                      className="tag-suggestion-item"
+                    <button
+                      type="button"
+                      key={tag}
+                      role="option"
+                      aria-selected="false"
+                      className="upload-tag-suggestion"
                       onClick={() => addTag(tag)}
                     >
                       {tag}
-                    </div>
+                    </button>
                   ))
                 ) : (
-                  <div className="tag-suggestion-item" onClick={() => addTag(tagInput)}>
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected="false"
+                    className="upload-tag-suggestion"
+                    onClick={() => addTag(tagInput)}
+                  >
                     Create new tag: "{tagInput}"
-                  </div>
+                  </button>
                 )}
               </div>
             )}
           </div>
-        </div>
+        </section>
 
         {isUploading && (
           <div className="upload-progress-section">
-            <div className="upload-progress-track">
-              <div 
-                className="upload-progress-fill" 
+            <div
+              className="upload-progress-track"
+              role="progressbar"
+              aria-label="Upload progress"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(uploadProgress)}
+            >
+              <div
+                className="upload-progress-fill"
                 style={{ width: `${uploadProgress}%` }}
               />
             </div>
@@ -351,29 +373,31 @@ const Upload = () => {
         )}
 
         <div className="upload-actions">
-          <button 
-            className="upload-button" 
-            onClick={handleUpload} 
+          <button
+            type="button"
+            className="upload-button"
+            onClick={handleUpload}
             disabled={!file || isUploading}
           >
             {isUploading ? (
               <>
-                <Spinner inline /> Uploading...
+                <Spinner inline /> Uploading…
               </>
             ) : (
-              'Upload Now'
+              'Upload now'
             )}
           </button>
           {isUploading && (
-            <button className="cancel-button" onClick={cancelUpload}>
+            <button type="button" className="upload-cancel" onClick={cancelUpload}>
               Cancel
             </button>
           )}
         </div>
 
         {status.message && (
-          <div className={`status-message ${status.type}`} role="status" aria-live="polite">
-            {status.message}
+          <div className={`upload-status ${status.type}`} role="status" aria-live="polite">
+            {status.type === 'success' ? <CheckCircleIcon /> : <CrossCircleIcon />}
+            <span>{status.message}</span>
           </div>
         )}
       </div>

@@ -1,176 +1,180 @@
+/* Conversation list: rows, and the loading / empty / error states.
+   Unread is never colour alone: a dot, bolder sender and subject, and hidden text. */
+
 .maillist {
-  list-style: none;
   margin: 0;
   padding: 0;
+  list-style: none;
 }
 
 .maillist-row {
-  position: relative;
   display: flex;
   align-items: stretch;
-  gap: 2px;
-  padding-left: 6px;
-  border-bottom: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line);
   background: var(--surface);
-  color: var(--text);
-}
-
-/* unread rows: bold + a quiet accent bar, so state isn't colour-only */
-.maillist-row.is-unread {
-  background: var(--surface-raised);
-  box-shadow: inset 3px 0 0 var(--accent);
-}
-
-.maillist-row.is-unread .maillist-from-text,
-.maillist-row.is-unread .maillist-subject {
-  font-weight: 700;
   color: var(--ink);
 }
 
+.maillist-row.is-unread {
+  background: var(--surface-raised);
+}
+
 .maillist-row:hover {
-  background: var(--hover-bg);
+  background: var(--surface-sunken);
 }
 
-.maillist-row.is-selected {
-  background: var(--accent-wash);
-}
-
+.maillist-row.is-selected,
 .maillist-row.is-open {
-  background: var(--accent-wash);
-  box-shadow: inset 3px 0 0 var(--ink);
+  background: var(--navy-soft);
 }
 
 .maillist-row.is-cursor {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus);
   outline-offset: -2px;
 }
 
+.maillist-checkcell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+}
+
 .maillist-check {
-  flex: 0 0 auto;
-  align-self: center;
   width: 18px;
   height: 18px;
-  margin: 0 8px 0 8px;
-  accent-color: var(--accent);
+  margin: 0;
+  accent-color: var(--navy);
 }
 
 .maillist-star {
-  flex: 0 0 auto;
-  align-self: center;
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
   padding: 0;
-  border: none;
+  border: 0;
+  border-radius: var(--radius-none);
   background: transparent;
-  color: var(--text-muted);
+  color: var(--ink-muted);
 }
 
 .maillist-star:hover {
   color: var(--ink);
-  background: transparent;
 }
 
 .maillist-star.is-on {
-  color: var(--warning);
+  color: var(--brass);
+}
+
+.maillist-star:focus-visible,
+.maillist-main:focus-visible {
+  outline-offset: -3px;
 }
 
 .maillist-main {
   flex: 1;
-  min-width: 0;
   display: grid;
-  grid-template-columns: minmax(96px, 168px) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'from meta'
+    'text text';
   align-items: center;
-  gap: 12px;
-  min-height: 52px;
-  padding: 8px 12px 8px 4px;
-  border: none;
-  border-radius: 0;
+  gap: 2px var(--space-2);
+  min-width: 0;
+  min-height: 64px;
+  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-1);
+  border: 0;
+  border-radius: var(--radius-none);
   background: transparent;
   color: inherit;
   text-align: left;
-  font-weight: 400;
 }
 
 .maillist-from {
+  grid-area: from;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-2);
   min-width: 0;
-  font-size: var(--fs-ui);
+}
+
+.maillist-row.is-unread .maillist-from::before {
+  content: '';
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--navy);
 }
 
 .maillist-from-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: var(--ink);
-}
-
-.maillist-count {
-  flex: 0 0 auto;
-  padding: 0 6px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.maillist-text {
+  flex: 1;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: var(--fs-ui);
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.maillist-row.is-unread .maillist-from-text,
+.maillist-row.is-unread .maillist-subject {
+  font-weight: 600;
+}
+
+.maillist-count {
+  flex-shrink: 0;
+  min-width: 20px;
+  padding: 0 6px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.maillist-meta {
+  grid-area: meta;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.maillist-clip {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.maillist-text {
+  grid-area: text;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 22px;
 }
 
 .maillist-subject {
   color: var(--ink);
 }
 
-.maillist-snippet {
-  color: var(--text-muted);
-}
-
-.maillist-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-
-.maillist-clip {
-  display: inline-grid;
-  color: var(--text-muted);
-}
-
 .maillist-sr {
   position: absolute;
   width: 1px;
   height: 1px;
+  margin: -1px;
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
-}
-
-/* narrow list pane (two/three pane layouts): stack sender over subject */
-@media (max-width: 1399px) {
-  .maillist-main {
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas:
-      'from meta'
-      'text text';
-    row-gap: 2px;
-  }
-
-  .maillist-from { grid-area: from; }
-  .maillist-meta { grid-area: meta; }
-  .maillist-text { grid-area: text; }
 }
 
 /* ── states ── */
@@ -179,85 +183,101 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 56px 24px;
+  gap: var(--space-2);
+  padding: var(--space-12) var(--space-6);
+  color: var(--ink-muted);
   text-align: center;
-  color: var(--text-muted);
 }
 
 .maillist-state h2 {
-  margin: 4px 0 0;
-  font-size: 16px;
+  margin: var(--space-1) 0 0;
   color: var(--ink);
+  font-size: 24px;
+  line-height: 30px;
 }
 
 .maillist-state p {
-  max-width: 38ch;
-  margin: 0;
-  font-size: var(--fs-ui);
-  color: var(--text-muted);
+  max-width: 360px;
+  font-size: 14px;
+  line-height: 22px;
 }
 
-.maillist-state.is-error {
-  color: var(--danger);
+.maillist-state.is-error svg {
+  color: var(--rust);
 }
 
 .maillist-state-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
-  margin-top: 10px;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
 }
 
 .maillist-cta,
 .maillist-retry {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
-  padding: 0 16px;
-  border: 1px solid var(--ink);
-  border-radius: var(--r-input);
-  background: var(--ink);
-  color: var(--surface);
-  font-size: var(--fs-ui);
+  min-height: var(--size-touch);
+  padding: 0 var(--space-6);
+  border: 1px solid var(--navy);
+  border-radius: var(--radius-sm);
+  background: var(--navy);
+  color: var(--on-navy);
+  font-size: 15px;
+  line-height: 20px;
   font-weight: 500;
 }
 
 .maillist-cta:hover {
-  color: var(--surface);
+  color: var(--on-navy);
   text-decoration: none;
-  filter: brightness(1.12);
 }
 
 .maillist-retry {
-  background: var(--surface);
+  border-color: var(--line-strong);
+  background: transparent;
   color: var(--ink);
 }
 
+/* loading skeleton */
+
 .maillist-skeleton {
-  list-style: none;
   margin: 0;
   padding: 0;
+  list-style: none;
 }
 
 .maillist-skeleton-row {
-  display: grid;
-  grid-template-columns: 18px 120px 1fr;
-  align-items: center;
-  gap: 14px;
-  height: 52px;
-  padding: 0 16px;
-  border-bottom: 1px solid var(--line-soft);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--line);
 }
 
 .maillist-skeleton-row span {
+  display: block;
   height: 12px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: var(--surface-sunken);
-  animation: maillist-pulse 1.2s ease-in-out infinite;
+  animation: maillist-pulse 1.4s ease-in-out infinite;
+}
+
+.maillist-skeleton-row span:nth-child(1) {
+  width: 32%;
+}
+
+.maillist-skeleton-row span:nth-child(2) {
+  width: 78%;
+}
+
+.maillist-skeleton-row span:nth-child(3) {
+  display: none;
 }
 
 @keyframes maillist-pulse {
-  50% { opacity: 0.45; }
+  50% {
+    opacity: 0.5;
+  }
 }

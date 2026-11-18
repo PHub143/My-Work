@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AI103.css';
-import LearningTabs from '../components/LearningTabs';
 import AiTrackSwitch from '../components/AiTrackSwitch';
+import AiQuestionDetails from '../components/AiQuestionDetails';
+import { ArrowLeft, ArrowRight, Check, Cross } from '../components/ExamIcons.jsx';
 import q1AnswerArea from '../assets/ai103/q1-answer-area.png';
 import q1AnswerAreaBlank from '../assets/ai103/q1-answer-area-blank.png';
 import q4AnswerArea from '../assets/ai103/q4-answer-area.png';
@@ -416,7 +417,7 @@ const visualQuestionConfigs = {
     ...visualCodeHotspotConfigs[154],
     answerRows: [
       { label: 'Provide access to AI1 by using', value: 'An API key' },
-      { label: 'Connect to the deployment by using', value: 'A deployment name' },
+      { label: 'Connect to the deployment by using', value: 'A deployment endpoint' },
     ],
   },
   156: {
@@ -439,8 +440,8 @@ const visualQuestionConfigs = {
     imagePageLabel: 'PDF pages 201, 202',
     ...visualCodeHotspotConfigs[159],
     answerRows: [
-      { label: 'Step 1', value: 'Request approval to run the container.' },
-      { label: 'Step 2', value: 'Export model1 to Host1.' },
+      { label: 'Step 1', value: 'Export model1 to Host1.' },
+      { label: 'Step 2', value: 'Request approval to run the container.' },
       { label: 'Step 3', value: 'Run the container.' },
     ],
   },
@@ -450,6 +451,76 @@ const visualQuestionConfigs = {
     answerRows: [
       { label: 'Container image', value: 'mcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment' },
       { label: 'Billing', value: 'http://contoso.cognitiveservices.azure.com' },
+    ],
+  },
+  // 197-214: CertyIQ-site questions (answer areas rebuilt from images on the site).
+  197: {
+    imagePageLabel: 'CertyIQ question 163',
+    ...visualCodeHotspotConfigs[197],
+    answerRows: [
+      { label: 'The schema requires that a receipt has a discount_code value', value: 'No' },
+      { label: 'The schema can be used as is for Azure OpenAI structured outputs', value: 'Yes' },
+      { label: 'The generated JSON object will preserve the schema property order', value: 'Yes' },
+    ],
+  },
+  198: {
+    imagePageLabel: 'CertyIQ question 164',
+    ...visualCodeHotspotConfigs[198],
+    answerRows: [
+      { label: 'Step 1', value: 'Change Domains to General (compact).' },
+      { label: 'Step 2', value: 'Retrain the model.' },
+      { label: 'Step 3', value: 'Export the model.' },
+    ],
+  },
+  203: {
+    imagePageLabel: 'CertyIQ question 169',
+    ...visualCodeHotspotConfigs[203],
+    answerRows: [
+      { label: 'The code will perform face recognition', value: 'No' },
+      { label: 'The code will list tags and their associated confidence', value: 'Yes' },
+      { label: 'The code will read an image file from the local file system', value: 'Yes' },
+    ],
+  },
+  204: {
+    imagePageLabel: 'CertyIQ question 170',
+    ...visualCodeHotspotConfigs[204],
+    answerRows: [
+      { label: 'Request body "kind"', value: '"kind": "PiiEntityRecognition"' },
+      { label: 'Categories to redact', value: '"piiCategories": ["Person"]' },
+    ],
+  },
+  206: {
+    imagePageLabel: 'CertyIQ question 172',
+    ...visualCodeHotspotConfigs[206],
+    answerRows: [
+      { label: 'request_a returns a vectorized response', value: 'Yes' },
+      { label: 'request_b returns a JSON-formatted response', value: 'Yes' },
+      { label: 'request_b always returns a case summary that includes risks', value: 'No' },
+    ],
+  },
+  207: {
+    imagePageLabel: 'CertyIQ question 173',
+    ...visualCodeHotspotConfigs[207],
+    answerRows: [
+      { label: 'You hear three sentences in different voices', value: 'Yes' },
+      { label: 'You hear three sentences in different accents', value: 'No' },
+      { label: 'You hear three sentences expressed in a neutral tone', value: 'No' },
+    ],
+  },
+  208: {
+    imagePageLabel: 'CertyIQ question 174',
+    ...visualCodeHotspotConfigs[208],
+    answerRows: [
+      { label: 'Endpoint path', value: 'assistants' },
+      { label: 'Request body property', value: 'tools=[{' },
+    ],
+  },
+  214: {
+    imagePageLabel: 'CertyIQ question 180',
+    ...visualCodeHotspotConfigs[214],
+    answerRows: [
+      { label: 'Path after management.azure.com/', value: 'subscriptions/8d3591aa-96b8-4737-ad09-00f9b1ed35ad' },
+      { label: 'Resource provider', value: 'Microsoft.CognitiveServices' },
     ],
   },
   49: {
@@ -777,6 +848,7 @@ function AnswerSummaryRows({ rows }) {
 
         return (
           <span className="ai103-answer-chip" key={rowKey} role="listitem">
+            <Check size={16} />
             {heading}: {row.value}
           </span>
         );
@@ -794,6 +866,7 @@ function AnswerSelectionChips({ selections }) {
     <div className="ai103-answer-chips">
       {selections.map((selection) => (
         <span className="ai103-answer-chip" key={selection}>
+          <Check size={16} />
           {selection}
         </span>
       ))}
@@ -830,8 +903,11 @@ function OptionsGrid({ options, selectedKeys = [], ariaLabel }) {
             key={option.key}
             role="listitem"
           >
-            <span className="ai103-option-key">{option.key}</span>
+            <span className="ai103-option-key">{isSelected ? <Check size={16} /> : option.key}</span>
             <p>{option.text}</p>
+            {isSelected ? (
+              <span className="ai103-option-status">Correct answer: {option.key}</span>
+            ) : null}
           </div>
         );
       })}
@@ -848,7 +924,7 @@ function AnswerBlock({ selections, summaryRows, paragraphText, illustration }) {
       {paragraphText ? <p className="ai103-answer-text">{paragraphText}</p> : null}
       {illustration ? (
         <figure className="ai103-illustration">
-          <figcaption>Reference Illustration</figcaption>
+          <figcaption>Reference illustration</figcaption>
           <img src={illustration} alt="Reference illustration for the question" />
         </figure>
       ) : null}
@@ -908,7 +984,7 @@ function QuestionOneContent({ question, explanationParagraphs }) {
         <PromptBlock paragraphs={questionParts.finalPrompt} />
       </SectionBlock>
 
-      <SectionBlock title="Answer Area (Blank) · PDF page 6" ariaLabelledBy="ai103-q1-answer-area">
+      <SectionBlock title="Answer area (blank) · PDF page 6" ariaLabelledBy="ai103-q1-answer-area">
         <img
           src={q1AnswerAreaBlank}
           alt="Question 1 answer area showing the Deployment type and Version update policy dropdown options before the correct answers are highlighted."
@@ -917,7 +993,7 @@ function QuestionOneContent({ question, explanationParagraphs }) {
         />
       </SectionBlock>
 
-      <SectionBlock title="Correct Answer Area · PDF page 6" ariaLabelledBy="ai103-q1-solved-answer-area">
+      <SectionBlock title="Correct answer area · PDF page 6" ariaLabelledBy="ai103-q1-solved-answer-area">
         <img
           src={q1AnswerArea}
           alt="Question 1 answer area showing Deployment type set to Standard and Version update policy set to Once the current version expires."
@@ -1149,13 +1225,13 @@ function VisualQuestionContent({ question }) {
         <ExhibitCode code={questionConfig.exhibitCode} caption={`Code · ${questionConfig.imagePageLabel}`} />
       ) : null}
 
-      <SectionBlock title={`Answer Area · ${questionConfig.imagePageLabel}`} ariaLabelledBy={`ai103-q${question.number}-answer-area`}>
+      <SectionBlock title={`Answer area · ${questionConfig.imagePageLabel}`} ariaLabelledBy={`ai103-q${question.number}-answer-area`}>
         <AnswerAreaContent questionConfig={questionConfig} revealAnswer={false} />
       </SectionBlock>
 
       {hasInteractiveAnswerArea || questionConfig.solvedImage ? (
         <SectionBlock
-          title={`Correct Answer Area · ${questionConfig.imagePageLabel}`}
+          title={`Correct answer area · ${questionConfig.imagePageLabel}`}
           ariaLabelledBy={`ai103-q${question.number}-solved-answer-area`}
           className="ai103-section-block--success"
         >
@@ -1175,7 +1251,7 @@ function QuestionTypeTag({ question }) {
     question.type === 'HOTSPOT' || question.type === 'DRAG DROP'
       ? question.type
       : question.type === 'CASE STUDY'
-        ? 'Case Study'
+        ? 'Case study'
         : 'Multiple Choice';
   return <span className="ai103-pill ai103-pill--neutral">{label}</span>;
 }
@@ -1184,7 +1260,7 @@ function questionType(question) {
   if (!question) return 'Question';
   if (question.type === 'HOTSPOT') return 'Hotspot';
   if (question.type === 'DRAG DROP') return 'Drag and Drop';
-  if (question.type === 'CASE STUDY') return 'Case Study';
+  if (question.type === 'CASE STUDY') return 'Case study';
   return 'Multiple Choice';
 }
 
@@ -1258,24 +1334,20 @@ const AI103 = () => {
 
   return (
     <div className="ai103-container">
-      <LearningTabs />
       <div className="ai103-content">
-        <AiTrackSwitch active="ai-103" />
+        <div className="ai103-topbar">
+          <span className="ai103-badge">Learning / AI</span>
+          <AiTrackSwitch active="ai-103" />
+        </div>
         <header className="ai103-header">
           <div className="ai103-title-block">
             <div className="ai103-title-row">
-              <span className="ai103-bubble" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                </svg>
-              </span>
               <h1>
                 {ai103Content.title}
                 <span className="ai103-title-suffix">{ai103Content.subtitle}</span>
               </h1>
             </div>
             <div className="ai103-kicker">
-              <span className="ai103-badge">Learning / AI</span>
               <span className="ai103-meta">{ai103Content.sourceFile}</span>
             </div>
             <p className="ai103-source">
@@ -1328,7 +1400,8 @@ const AI103 = () => {
                 onClick={() => goToQuestion(pagination.previousNumber)}
                 disabled={!pagination.previousNumber}
               >
-                ← Previous
+                <ArrowLeft />
+                Previous
               </button>
               <select
                 className="ai103-question-select"
@@ -1352,7 +1425,8 @@ const AI103 = () => {
                 onClick={() => goToQuestion(pagination.nextNumber)}
                 disabled={!pagination.nextNumber}
               >
-                Next →
+                Next
+                <ArrowRight />
               </button>
             </div>
           </div>
@@ -1378,11 +1452,11 @@ const AI103 = () => {
                   <QuestionOneContent question={visibleQuestion} explanationParagraphs={explanationParagraphs} />
                 ) : visibleQuestion.number === 2 ? (
                   <QuestionTwoContent question={visibleQuestion} />
-                ) : [27, 28, 56, 61, 62, 142].includes(visibleQuestion.number) ? (
+                ) : [27, 28, 56, 61, 62, 142, 195, 221].includes(visibleQuestion.number) ? (
                   <CaseStudyChoiceQuestionContent question={visibleQuestion} />
                 ) : visibleQuestion.number === 21 ? (
                   <QuestionTwentyOneContent question={visibleQuestion} />
-                ) : [4, 5, 6, 7, 8, 11, 15, 18, 20, 30, 32, 35, 37, 40, 49, 66, 68, 71, 77, 79, 86, 92, 93, 94, 95, 98, 99, 101, 103, 104, 107, 108, 112, 113, 114, 117, 118, 121, 122, 124, 128, 130, 133, 134, 149, 151, 152, 154, 156, 158, 159, 160].includes(visibleQuestion.number) ? (
+                ) : [4, 5, 6, 7, 8, 11, 15, 18, 20, 30, 32, 35, 37, 40, 49, 66, 68, 71, 77, 79, 86, 92, 93, 94, 95, 98, 99, 101, 103, 104, 107, 108, 112, 113, 114, 117, 118, 121, 122, 124, 128, 130, 133, 134, 149, 151, 152, 154, 156, 158, 159, 160, 197, 198, 203, 204, 206, 207, 208, 214].includes(visibleQuestion.number) ? (
                   <VisualQuestionContent question={visibleQuestion} />
                 ) : [3, 9, 10, 12, 13, 14, 16, 17, 19, 22, 23, 24, 25, 26, 29, 31, 33, 34, 36, 38, 39, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 55, 57, 58, 59, 60, 63, 64, 65].includes(visibleQuestion.number) || visibleQuestion.number >= 66 ? (
                   <MultipleChoiceQuestionContent question={visibleQuestion} />
@@ -1399,24 +1473,6 @@ const AI103 = () => {
                   </>
                 )}
 
-                <div className="ai103-footer-stats">
-                  <div className="ai103-footer-stat">
-                    <span className="ai103-footer-stat-label">Type</span>
-                    <span className="ai103-footer-stat-value">{questionType(visibleQuestion)}</span>
-                  </div>
-                  <div className="ai103-footer-stat">
-                    <span className="ai103-footer-stat-label">Source Pages</span>
-                    <span className="ai103-footer-stat-value">
-                      {visibleQuestion.sourcePages.length > 0 ? visibleQuestion.sourcePages.join(', ') : 'Custom'}
-                    </span>
-                  </div>
-                  <div className="ai103-footer-stat">
-                    <span className="ai103-footer-stat-label">Progress</span>
-                    <span className="ai103-footer-stat-value">
-                      {pagination.currentIndex + 1} / {pagination.total}
-                    </span>
-                  </div>
-                </div>
               </article>
             ) : (
               <div className="ai103-empty-state">
@@ -1425,6 +1481,14 @@ const AI103 = () => {
               </div>
             )}
           </section>
+          {visibleQuestion ? (
+            <AiQuestionDetails
+              typeLabel={questionType(visibleQuestion)}
+              sourcePages={visibleQuestion.sourcePages.length > 0 ? visibleQuestion.sourcePages.join(', ') : 'Custom'}
+              position={pagination.currentIndex + 1}
+              total={pagination.total}
+            />
+          ) : null}
         </div>
 
         <footer className="ai103-page-footer" aria-label="Page footer">
@@ -1455,16 +1519,16 @@ const AI103 = () => {
             aria-labelledby="ai103-practice-title"
           >
             <div className="ai103-practice-modal-header">
-              <span>Practice Test</span>
+              <span>Practice test</span>
               <button
                 type="button"
                 aria-label="Close practice chooser"
                 onClick={() => setIsPracticeChooserOpen(false)}
               >
-                ×
+                <Cross />
               </button>
             </div>
-            <h2 id="ai103-practice-title">Choose Question Set</h2>
+            <h2 id="ai103-practice-title">Choose question set</h2>
             <div className="ai103-difficulty-grid" role="radiogroup" aria-label="Practice question set">
               {scopes.map((scope) => (
                 <button
@@ -1479,12 +1543,14 @@ const AI103 = () => {
                   role="radio"
                   aria-checked={selectedScope === scope.id}
                 >
-                  <strong>{scope.label}</strong>
-                  <span>{scope.detail}</span>
+                  <span className="ai103-difficulty-copy">
+                    <strong>{scope.label}</strong>
+                    <span>{scope.detail}</span>
+                  </span>
                 </button>
               ))}
             </div>
-            <h2 id="ai103-practice-difficulty-title">Choose Difficulty</h2>
+            <h2 id="ai103-practice-difficulty-title">Choose difficulty</h2>
             <div className="ai103-difficulty-grid" role="radiogroup" aria-label="Practice difficulty">
               {difficulties.map((difficulty) => (
                 <button
@@ -1500,8 +1566,10 @@ const AI103 = () => {
                   aria-checked={selectedDifficulty === difficulty.id}
                   disabled={!difficulty.enabled}
                 >
-                  <strong>{difficulty.label}</strong>
-                  <span>{difficulty.detail}</span>
+                  <span className="ai103-difficulty-copy">
+                    <strong>{difficulty.label}</strong>
+                    <span>{difficulty.detail}</span>
+                  </span>
                 </button>
               ))}
             </div>
@@ -1515,7 +1583,7 @@ const AI103 = () => {
                 onClick={startPractice}
                 disabled={!difficulties.find((difficulty) => difficulty.id === selectedDifficulty)?.enabled}
               >
-                Confirm {difficulties.find((difficulty) => difficulty.id === selectedDifficulty)?.label || 'Mode'} Mode
+                Confirm {difficulties.find((difficulty) => difficulty.id === selectedDifficulty)?.label || 'Mode'} mode
               </button>
             </div>
           </section>

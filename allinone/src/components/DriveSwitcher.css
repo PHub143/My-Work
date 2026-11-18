@@ -1,92 +1,123 @@
-/* DriveSwitcher — Focus. Quiet select-looking control instead of a colour pill. */
+/* Drive switcher (DriveSwitcher.jsx): a bordered toggle plus a listbox popover. */
 
-.drive-switcher { position: relative; display: flex; min-width: 0; }
+.drive-switcher {
+  position: relative;
+}
 
-.drive-switcher-toggle,
-[data-theme='light'] .drive-switcher-toggle,
-[data-theme='dark'] .drive-switcher-toggle {
+.drive-switcher-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  height: 32px;
-  padding: 0 10px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-  color: var(--text);
-  font: inherit;
-  font-size: var(--fs-meta, 12.5px);
-  font-weight: 450;
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.drive-switcher-toggle:hover,
-[data-theme='light'] .drive-switcher-toggle:hover,
-[data-theme='dark'] .drive-switcher-toggle:hover {
-  background: var(--hover-bg);
-  color: var(--ink);
-}
-
-.drive-switcher-toggle .drive-status-dot,
-.drive-switcher-toggle svg { color: var(--text-muted); }
-
-.drive-dropdown,
-[data-theme='light'] .drive-dropdown,
-[data-theme='dark'] .drive-dropdown {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  min-width: 248px;
-  padding: 5px;
-  border: 1px solid var(--line);
-  border-radius: 11px;
-  background: var(--surface);
-  box-shadow: var(--shadow-2);
-  z-index: 50;
-}
-
-.drive-dropdown-header,
-[data-theme='light'] .drive-dropdown-header {
-  padding: 8px 10px 6px;
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  background: transparent;
-  border: none;
-}
-
-.drive-option,
-[data-theme='light'] .drive-option,
-[data-theme='dark'] .drive-option {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  gap: var(--space-3);
   width: 100%;
-  padding: 9px 10px;
-  border: none;
-  border-radius: 7px;
+  min-height: var(--size-touch);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
   background: transparent;
-  color: var(--text);
-  font: inherit;
-  font-size: var(--fs-ui, 13.5px);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
   text-align: left;
 }
 
-.drive-option:hover,
-[data-theme='light'] .drive-option:hover,
-[data-theme='dark'] .drive-option:hover {
-  background: var(--surface-sunken);
-  color: var(--ink);
+.drive-indicator {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--navy);
 }
 
-.drive-option.active,
-[data-theme='dark'] .drive-option.active {
-  background: var(--surface-sunken);
+.drive-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.drive-switcher-toggle svg {
+  flex-shrink: 0;
+}
+
+.drive-dropdown {
+  position: absolute;
+  top: calc(100% + var(--space-1));
+  right: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  min-width: 260px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-lift);
+}
+
+.drive-dropdown-header {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--line);
+  color: var(--brass);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.drive-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--size-touch);
+  padding: var(--space-2) var(--space-4);
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: var(--radius-none);
+  background: transparent;
   color: var(--ink);
+  text-align: left;
+}
+
+.drive-option:last-child {
+  border-bottom: 0;
+}
+
+.drive-option:hover {
+  background: var(--surface-sunken);
+}
+
+.drive-option.active {
+  background: var(--navy-soft);
+}
+
+.drive-option-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.drive-option-name {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.drive-option-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.drive-option-tag {
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--brass-soft);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 20px;
   font-weight: 500;
 }

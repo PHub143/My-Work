@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './MailList.css';
 import {
   cleanSnippet,
   displaySubject,
@@ -8,7 +9,6 @@ import {
   senderLabel,
 } from '../../utils/mail';
 import { AlertIcon, InboxIcon, PaperclipIcon, StarIcon } from './MailIcons';
-import './MailList.css';
 
 const Skeleton = () => (
   <ul className="maillist-skeleton" aria-hidden="true">
@@ -102,13 +102,15 @@ const MailList = ({
 
         return (
           <li key={thread.id} className={classes} data-thread-id={thread.id}>
-            <input
-              type="checkbox"
-              className="maillist-check"
-              checked={selected}
-              onChange={() => onToggleSelect(thread.id)}
-              aria-label={`Select conversation: ${subject}`}
-            />
+            <label className="maillist-checkcell">
+              <input
+                type="checkbox"
+                className="maillist-check"
+                checked={selected}
+                onChange={() => onToggleSelect(thread.id)}
+                aria-label={`Select conversation: ${subject}`}
+              />
+            </label>
             {!isDrafts && (
               <button
                 type="button"

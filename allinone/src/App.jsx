@@ -1,7 +1,6 @@
 import { HashRouter as Router, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import React, { Suspense, lazy, useEffect } from 'react';
-import './App.css';
-import AppRail from './components/AppRail';
+import AppNav from './components/AppNav';
 import Spinner from './components/Spinner';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
@@ -58,14 +57,17 @@ const OAuthDetector = () => {
 /* Routes that own the full viewport: no navbar, no content padding. */
 const CHROMELESS = ['/login', '/bossin', '/oauth/callback'];
 
+/* Exam runners are full-viewport screens with their own test bar: the app nav steps aside. */
+const FOCUS_ROUTE = /^\/learning\/english\/toeic\/[^/]+\/[^/]+\/test\//;
+
 const AppShell = () => {
   const { pathname } = useLocation();
-  const chromeless = CHROMELESS.some((p) => pathname.startsWith(p));
+  const chromeless = CHROMELESS.some((p) => pathname.startsWith(p)) || FOCUS_ROUTE.test(pathname);
 
   return (
     <div className={chromeless ? 'app-shell is-chromeless' : 'app-shell'}>
       <OAuthDetector />
-      {!chromeless && <AppRail />}
+      {!chromeless && <AppNav />}
       <main className={chromeless ? 'content-container is-chromeless' : 'content-container'}>
         <Suspense fallback={<Spinner />}>
           <Routes>

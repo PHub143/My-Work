@@ -1,125 +1,148 @@
+/* Folder navigation. Full sidebar (>=1200px), icon rail (768-1199px), and a Compose +
+   account row over an underlined folder strip on phones (<=767px). */
+
 .mailside {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  min-width: 0;
-  padding: 14px 10px;
+  gap: var(--space-4);
+  min-height: 0;
+  padding: var(--space-4) var(--space-3);
   overflow-y: auto;
+  background: var(--surface-raised);
   border-right: 1px solid var(--line);
-  background: var(--surface);
 }
 
 .mailside-compose {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 44px;
-  border-color: var(--ink);
-  background: var(--ink);
-  color: var(--surface);
-  font-weight: 600;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: var(--size-touch);
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--navy);
+  color: var(--on-navy);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
 }
 
-.mailside-compose:hover:not(:disabled) {
-  filter: brightness(1.12);
+.mailside-compose:disabled {
+  opacity: var(--opacity-disabled);
 }
 
 .mailside-account {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  font-size: var(--fs-meta);
-  color: var(--text-muted);
+  gap: var(--space-1);
+}
+
+.mailside-account-label {
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
 }
 
 .mailside-account select {
-  min-height: 40px;
-  padding: 6px 8px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-input);
+  width: 100%;
+  height: 44px;
+  padding: 0 var(--space-2);
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  border-radius: var(--radius-none);
   background: var(--surface);
   color: var(--ink);
-  font-size: var(--fs-ui);
-  max-width: 100%;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .mailside-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .mailside-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-3);
   width: 100%;
-  min-height: 40px;
-  padding: 8px 10px;
-  border: 1px solid transparent;
-  border-radius: var(--r-input);
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  border: 0;
+  border-radius: var(--radius-sm);
   background: transparent;
-  color: var(--text);
-  text-align: left;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 20px;
   font-weight: 500;
+  text-align: left;
 }
 
 .mailside-item:hover {
-  background: var(--hover-bg);
-  color: var(--ink);
+  background: var(--surface-sunken);
+}
+
+.mailside-item:focus-visible {
+  outline-offset: -3px;
 }
 
 .mailside-item.is-active {
-  background: var(--accent-wash);
-  border-color: var(--accent);
-  color: var(--ink);
+  background: var(--navy-soft);
   font-weight: 600;
+}
+
+.mailside-item svg {
+  flex-shrink: 0;
 }
 
 .mailside-label {
   flex: 1;
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .mailside-count {
-  margin-left: auto;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--ink);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
 }
 
 .mailside-sr {
   position: absolute;
   width: 1px;
   height: 1px;
+  margin: -1px;
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
 }
 
 .mailside-skeleton {
-  height: 40px;
-  border-radius: var(--r-input);
+  height: 44px;
+  border-radius: var(--radius-sm);
   background: var(--surface-sunken);
-  animation: mailside-pulse 1.2s ease-in-out infinite;
+  animation: mailside-pulse 1.4s ease-in-out infinite;
 }
 
 @keyframes mailside-pulse {
-  50% { opacity: 0.5; }
+  50% {
+    opacity: 0.5;
+  }
 }
 
-/* 768–1199px: icon-only sidebar */
+/* ── 768-1199px: icon rail (names stay available to assistive tech and as tooltips) ── */
+
 @media (min-width: 768px) and (max-width: 1199px) {
   .mailside {
     align-items: center;
-    padding: 12px 6px;
+    padding: var(--space-3) 6px;
   }
 
   .mailside .mailside-label,
@@ -138,7 +161,7 @@
 
   .mailside-account select {
     width: 44px;
-    padding: 6px 0;
+    padding: 0;
     text-overflow: clip;
   }
 
@@ -147,44 +170,43 @@
     justify-content: center;
     width: 44px;
     padding: 0;
-    min-height: 44px;
   }
 
   .mailside-count {
     position: absolute;
-    top: 2px;
+    top: 0;
     right: 0;
-    margin: 0;
-    padding: 0 4px;
-    border-radius: 999px;
-    background: var(--surface);
+    padding: 0 var(--space-1);
     border: 1px solid var(--line);
-    font-size: 10px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-raised);
+    font-size: 11px;
     line-height: 16px;
   }
 }
 
-/* <768px: horizontal folder strip above the list */
+/* ── <=767px: Compose + account row over an underlined folder strip ── */
+
 @media (max-width: 767px) {
   .mailside {
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
-    padding: 8px 10px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    border-right: none;
-    border-bottom: 1px solid var(--line);
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4) 0;
+    overflow: visible;
+    border-right: 0;
   }
 
   .mailside-compose {
     flex: 0 0 auto;
-    padding: 0 12px;
+    width: auto;
+    padding: 0 20px;
   }
 
   .mailside-account {
-    flex: 0 0 auto;
-    max-width: 160px;
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   .mailside-account-label {
@@ -195,17 +217,56 @@
     clip-path: inset(50%);
   }
 
+  .mailside-account select {
+    height: var(--size-touch);
+  }
+
   .mailside-nav {
-    flex: 1 0 auto;
+    flex: 0 0 calc(100% + var(--space-8));
+    margin: 0 calc(var(--space-4) * -1);
+    overflow-x: auto;
+    border-bottom: 1px solid var(--line);
   }
 
   .mailside-list {
     flex-direction: row;
-    gap: 4px;
+    gap: 0;
   }
 
   .mailside-item {
+    flex-shrink: 0;
+    gap: 6px;
     width: auto;
+    min-height: var(--size-touch);
+    margin-bottom: -1px;
+    padding: 0 var(--space-4);
+    border-bottom: 2px solid transparent;
+    border-radius: var(--radius-none);
+    color: var(--ink-muted);
     white-space: nowrap;
+  }
+
+  .mailside-item:hover {
+    background: transparent;
+  }
+
+  .mailside-item.is-active {
+    border-bottom-color: var(--link);
+    background: transparent;
+    color: var(--ink);
+  }
+
+  .mailside-item svg {
+    display: none;
+  }
+
+  .mailside-label {
+    flex: none;
+  }
+
+  .mailside-skeleton {
+    flex-shrink: 0;
+    width: 88px;
+    height: var(--size-touch);
   }
 }

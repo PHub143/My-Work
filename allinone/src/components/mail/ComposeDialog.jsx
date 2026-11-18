@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
+import './ComposeDialog.css';
 import {
   MAIL_AUTOSAVE_DELAY_MS,
   MAIL_BODY_LIMIT_BYTES,
@@ -10,8 +11,7 @@ import {
   toComposePayload,
   validateCompose,
 } from '../../utils/mail';
-import { CloseIcon, SendIcon } from './MailIcons';
-import './ComposeDialog.css';
+import { AlertIcon, CloseIcon, SendIcon } from './MailIcons';
 
 const buildPayload = (values, meta) =>
   toComposePayload({
@@ -354,7 +354,13 @@ const ComposeDialog = ({ accountId, api, initial, onClose }) => {
         {errors.length > 0 && (
           <ul className="mailcomp-errors" role="alert">
             {errors.map((message) => (
-              <li key={message}>{message}</li>
+              <li key={message}>
+                <AlertIcon size={18} />
+                <span>
+                  <span className="as-visually-hidden">Error: </span>
+                  {message}
+                </span>
+              </li>
             ))}
           </ul>
         )}

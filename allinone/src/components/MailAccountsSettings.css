@@ -1,221 +1,257 @@
-/* Settings → Mail. Reuses Settings.css primitives (.settings-message,
-   .btn-primary, .btn-outline, .btn-danger, .settings-empty) which are loaded
-   whenever this tab is on screen. */
+/* Settings → Mail tab (MailAccountsSettings.jsx): Gmail account list, add / edit form
+   and the Google Cloud checklist. Colours come from the theme variables in
+   styles/tokens.css; no theme selectors here. */
 
-.mailacct {
+.mailacct,
+.mailacct-form-card {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-6);
 }
 
 .mailacct-loading {
-  display: grid;
-  place-items: center;
-  padding: 40px 0;
+  display: flex;
+  justify-content: center;
 }
 
 .mailacct-head {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4) var(--space-8);
 }
 
 .mailacct-intro {
-  flex: 1 1 280px;
-  margin: 0;
-  font-size: 13.5px;
-  color: var(--text-muted);
+  max-width: 640px;
+  color: var(--ink-muted);
 }
 
-.mailacct-add {
-  align-self: flex-start;
+.mailacct-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-weight: 500;
+  text-decoration: underline;
 }
+
+/* ── account list ── */
 
 .mailacct-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .mailacct-card {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 18px 20px;
-  border: 1px solid var(--line-soft);
-  border-radius: 13px;
-  background: var(--surface);
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+}
+
+.mailacct-identity {
+  display: flex;
+  flex-direction: column;
 }
 
 .mailacct-name-row {
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
 }
 
 .mailacct-name {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.mailacct-email {
-  margin-top: 3px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-muted);
-  overflow-wrap: anywhere;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 28px;
+  font-weight: 500;
 }
 
 .mailacct-default,
 .mailacct-status {
-  padding: 2px 9px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface-sunken);
-  color: var(--text);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.mailacct-default {
+  background: var(--brass-soft);
+  color: var(--ink);
 }
 
 .mailacct-status.is-connected {
-  border-color: var(--positive);
-  color: var(--positive);
+  background: var(--navy-soft);
+  color: var(--ink);
 }
 
 .mailacct-status.is-reauth_required {
-  border-color: var(--warning);
-  color: var(--warning);
+  background: var(--rust-soft);
+  color: var(--rust);
 }
 
 .mailacct-status.is-disconnected {
-  color: var(--text-muted);
+  box-sizing: border-box;
+  padding: 0 7px;
+  border: 1px solid var(--line-strong);
+  color: var(--ink-muted);
+  line-height: 20px;
+}
+
+.mailacct-email {
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 22px;
+  overflow-wrap: anywhere;
 }
 
 .mailacct-warning {
-  margin: 0;
-  padding: 9px 12px;
-  border: 1px solid var(--warning);
-  border-radius: 9px;
-  background: var(--surface-sunken);
-  color: var(--text);
-  font-size: 13px;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--rust);
+  border-radius: var(--radius-md);
+  background: var(--rust-soft);
+  font-size: 14px;
+  line-height: 22px;
 }
 
 .mailacct-row-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line-soft);
+  gap: var(--space-2);
 }
 
-.mailacct-row-actions button {
-  min-height: 40px;
+/* delete: outlined in rust and worded, never colour alone */
+.mailacct-delete {
+  border-color: var(--rust);
+  color: var(--rust);
 }
 
-/* ── form ── */
-
-.mailacct-form-card {
+.mailacct-empty {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 22px;
-  border: 1px solid var(--line-soft);
-  border-radius: 13px;
-  background: var(--surface);
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-16) var(--space-8);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  text-align: center;
 }
 
-.mailacct-back,
-.mailacct-link {
+.mailacct-empty p {
+  color: var(--ink-muted);
+}
+
+/* ── add / edit form ── */
+
+.mailacct-form-card {
+  width: 100%;
+  max-width: var(--size-measure);
+  padding: var(--space-8);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+}
+
+.mailacct-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
   align-self: flex-start;
-  padding: 0;
-  border: none;
-  background: none;
-  color: var(--accent-ink);
-  font-size: 13px;
+  min-height: var(--size-touch);
+  margin: 0 0 calc(var(--space-4) * -1) calc(var(--space-2) * -1);
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink-muted);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
 }
 
-.mailacct-back:hover,
-.mailacct-link:hover {
-  text-decoration: underline;
-}
-
-.mailacct-form-title {
-  margin: 0;
-  font-size: 18px;
+.mailacct-back:hover {
   color: var(--ink);
-}
-
-.mailacct-form-title:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 4px;
 }
 
 .mailacct-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-4);
 }
 
 .mailacct-field {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: var(--space-2);
 }
 
 .mailacct-field label,
 .mailacct-check label {
-  font-size: 13px;
+  font-size: 14px;
+  line-height: 20px;
   font-weight: 500;
-  color: var(--text);
 }
 
-.mailacct-field input[type='text'],
-.mailacct-field input[type='password'],
+/* underline-only fields, the same look as the as-field primitive */
+.mailacct-field input,
 .mailacct-field select {
-  padding: 11px 12px;
-  border: 1px solid var(--line);
-  border-radius: 9px;
+  width: 100%;
+  height: var(--size-touch);
+  padding: 0 var(--space-3);
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  border-radius: var(--radius-none);
   background: var(--surface);
   color: var(--ink);
-  font: inherit;
-  font-size: 14px;
 }
 
-.mailacct-field input:focus,
-.mailacct-field select:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-wash);
+.mailacct-field input::placeholder {
+  color: var(--ink-muted);
+  opacity: 1;
 }
 
 .mailacct-hint {
-  margin: 0;
-  font-size: 12.5px;
-  color: var(--text-muted);
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.mailacct-hint code,
+.mailacct-help code {
+  padding: 0 6px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 14px;
+  overflow-wrap: anywhere;
 }
 
 .mailacct-check {
   display: grid;
-  grid-template-columns: 20px 1fr;
-  column-gap: 10px;
-  row-gap: 4px;
+  grid-template-columns: auto 1fr;
   align-items: center;
+  gap: 0 var(--space-3);
 }
 
 .mailacct-check input {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--accent);
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--navy);
 }
 
 .mailacct-check .mailacct-hint {
@@ -225,39 +261,70 @@
 .mailacct-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  padding-top: 4px;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
 }
 
-/* ── help ── */
+/* ── Google Cloud checklist ── */
 
 .mailacct-help {
-  padding: 12px 16px;
-  border: 1px solid var(--line-soft);
-  border-radius: 11px;
-  background: var(--surface);
-  font-size: 13px;
-  color: var(--text);
+  padding: 0 var(--space-6) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
 }
 
 .mailacct-help summary {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  font-weight: 500;
   cursor: pointer;
-  font-weight: 600;
-  color: var(--ink);
 }
 
 .mailacct-help ol {
-  margin: 10px 0 0;
-  padding-left: 20px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-3);
+  margin: 0;
+  padding-left: var(--space-6);
+  color: var(--ink-muted);
 }
 
-.mailacct-help code,
-.mailacct-hint code {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  overflow-wrap: anywhere;
+.mailacct-help strong {
   color: var(--ink);
+  font-weight: 500;
+}
+
+/* ── phones ── */
+
+@media (max-width: 767px) {
+  .mailacct,
+  .mailacct-form-card {
+    gap: var(--space-4);
+  }
+
+  .mailacct-add {
+    width: 100%;
+  }
+
+  .mailacct-card {
+    padding: var(--space-4);
+  }
+
+  .mailacct-row-actions .as-btn {
+    flex: 1 1 140px;
+  }
+
+  .mailacct-form-card {
+    padding: var(--space-6);
+  }
+
+  .mailacct-help {
+    padding: 0 var(--space-4) var(--space-4);
+  }
+
+  .mailacct-empty {
+    padding: var(--space-12) var(--space-6);
+  }
 }

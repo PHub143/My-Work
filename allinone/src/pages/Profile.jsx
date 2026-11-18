@@ -3,9 +3,19 @@ import './Profile.css';
 import { API_URL } from '../config';
 import Spinner from '../components/Spinner';
 import { useAuth } from '../AuthContext';
+import { useTheme } from '../ThemeContext';
+import { Check, Cross } from '../components/ExamIcons.jsx';
+
+// What each theme is for, shown under its name in the Appearance card.
+const THEME_NOTES = {
+  light: 'Light, cool grey. The default.',
+  sepia: 'Warm paper, for very long reading sessions.',
+  dark: 'Dark, for night study.',
+};
 
 const Profile = () => {
-  const { token } = useAuth();
+  const { token, logout } = useAuth();
+  const { theme, setTheme, themes } = useTheme();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
@@ -113,95 +123,147 @@ const Profile = () => {
     <div className="profile-page">
       <div className="profile-content">
         <div className="profile-hero">
-          <span className="profile-userid-badge">{profile.userId}</span>
-          <h1 className="profile-hero-title">Your <em>profile.</em></h1>
-          <p>Add your name and email, or reset your password.</p>
+          <span className="as-tag profile-userid-badge">{profile.userId}</span>
+          <h1 className="as-display profile-hero-title">Your profile.</h1>
+          <p className="profile-hero-lead">Add your name and email, or reset your password.</p>
         </div>
 
         {message.text && (
           <div className={`profile-message profile-message--${message.type}`} role="status">
-            {message.text}
+            {message.type === 'success' ? <Check /> : <Cross />}
+            <span>{message.text}</span>
           </div>
         )}
 
-        <form onSubmit={handleSaveProfile} className="profile-form-card">
-          <h2 className="profile-card-title">Account info</h2>
-          <div className="profile-form-group">
-            <label htmlFor="profile-name">Full name</label>
-            <input
-              id="profile-name"
-              name="name"
-              type="text"
-              value={profile.name}
-              onChange={handleProfileChange}
-              placeholder="Your name"
-            />
-          </div>
-          <div className="profile-form-group">
-            <label htmlFor="profile-email">Email address</label>
-            <input
-              id="profile-email"
-              name="email"
-              type="email"
-              value={profile.email}
-              onChange={handleProfileChange}
-              placeholder="you@example.com"
-            />
-          </div>
-          <div className="profile-form-btn-row">
-            <button type="submit" className="profile-btn-primary" disabled={isSaving}>
-              {isSaving ? <><Spinner inline /> Saving…</> : 'Save changes'}
-            </button>
-          </div>
-        </form>
+        <div className="profile-grid">
+          <form onSubmit={handleSaveProfile} className="profile-form-card">
+            <h2 className="as-title profile-card-title">Account info</h2>
+            <div className="profile-form-fields">
+              <div className="as-field">
+                <label className="as-field__label" htmlFor="profile-name">Full name</label>
+                <input
+                  id="profile-name"
+                  className="as-field__input"
+                  name="name"
+                  type="text"
+                  value={profile.name}
+                  onChange={handleProfileChange}
+                  placeholder="Your name"
+                />
+              </div>
+              <div className="as-field">
+                <label className="as-field__label" htmlFor="profile-email">Email address</label>
+                <input
+                  id="profile-email"
+                  className="as-field__input"
+                  name="email"
+                  type="email"
+                  value={profile.email}
+                  onChange={handleProfileChange}
+                  placeholder="you@example.com"
+                />
+              </div>
+            </div>
+            <div className="profile-form-btn-row">
+              <button type="submit" className="as-btn as-btn--primary profile-btn" disabled={isSaving}>
+                {isSaving ? <><Spinner inline /> Saving…</> : 'Save changes'}
+              </button>
+            </div>
+          </form>
 
-        <form onSubmit={handleSavePassword} className="profile-form-card">
-          <h2 className="profile-card-title">Change password</h2>
-          <div className="profile-form-group">
-            <label htmlFor="profile-current-password">Current password</label>
-            <input
-              id="profile-current-password"
-              name="currentPassword"
-              type="password"
-              value={passwordForm.currentPassword}
-              onChange={handlePasswordChange}
-              placeholder="••••••••"
-              autoComplete="current-password"
-              required
-            />
-          </div>
-          <div className="profile-form-group">
-            <label htmlFor="profile-new-password">New password</label>
-            <input
-              id="profile-new-password"
-              name="password"
-              type="password"
-              value={passwordForm.password}
-              onChange={handlePasswordChange}
-              placeholder="••••••••"
-              autoComplete="new-password"
-              required
-            />
-          </div>
-          <div className="profile-form-group">
-            <label htmlFor="profile-confirm-password">Confirm new password</label>
-            <input
-              id="profile-confirm-password"
-              name="confirmPassword"
-              type="password"
-              value={passwordForm.confirmPassword}
-              onChange={handlePasswordChange}
-              placeholder="••••••••"
-              autoComplete="new-password"
-              required
-            />
-          </div>
-          <div className="profile-form-btn-row">
-            <button type="submit" className="profile-btn-primary" disabled={isSaving}>
-              {isSaving ? <><Spinner inline /> Saving…</> : 'Update password'}
-            </button>
-          </div>
-        </form>
+          <form onSubmit={handleSavePassword} className="profile-form-card">
+            <h2 className="as-title profile-card-title">Change password</h2>
+            <div className="profile-form-fields">
+              <div className="as-field">
+                <label className="as-field__label" htmlFor="profile-current-password">Current password</label>
+                <input
+                  id="profile-current-password"
+                  className="as-field__input"
+                  name="currentPassword"
+                  type="password"
+                  value={passwordForm.currentPassword}
+                  onChange={handlePasswordChange}
+                  placeholder="••••••••"
+                  autoComplete="current-password"
+                  required
+                />
+              </div>
+              <div className="as-field">
+                <label className="as-field__label" htmlFor="profile-new-password">New password</label>
+                <input
+                  id="profile-new-password"
+                  className="as-field__input"
+                  name="password"
+                  type="password"
+                  value={passwordForm.password}
+                  onChange={handlePasswordChange}
+                  placeholder="••••••••"
+                  autoComplete="new-password"
+                  required
+                />
+              </div>
+              <div className="as-field">
+                <label className="as-field__label" htmlFor="profile-confirm-password">Confirm new password</label>
+                <input
+                  id="profile-confirm-password"
+                  className="as-field__input"
+                  name="confirmPassword"
+                  type="password"
+                  value={passwordForm.confirmPassword}
+                  onChange={handlePasswordChange}
+                  placeholder="••••••••"
+                  autoComplete="new-password"
+                  required
+                />
+              </div>
+            </div>
+            <div className="profile-form-btn-row">
+              <button type="submit" className="as-btn as-btn--primary profile-btn" disabled={isSaving}>
+                {isSaving ? <><Spinner inline /> Saving…</> : 'Update password'}
+              </button>
+            </div>
+          </form>
+
+          <section className="profile-form-card" aria-labelledby="profile-appearance-title">
+            <h2 className="as-title profile-card-title" id="profile-appearance-title">Appearance</h2>
+            <div className="profile-themes" role="radiogroup" aria-labelledby="profile-appearance-title">
+              {themes.map((entry) => {
+                const selected = entry.id === theme;
+                return (
+                  <button
+                    key={entry.id}
+                    type="button"
+                    role="radio"
+                    aria-checked={selected}
+                    className={`profile-theme${selected ? ' is-selected' : ''}`}
+                    onClick={() => setTheme(entry.id)}
+                  >
+                    <span className="profile-theme-copy">
+                      <span className="profile-theme-name">{entry.label}</span>
+                      <span className="profile-theme-note">{THEME_NOTES[entry.id]}</span>
+                    </span>
+                    {selected && (
+                      <span className="profile-theme-check">
+                        <Check />
+                        Selected
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+
+          <section className="profile-form-card" aria-labelledby="profile-session-title">
+            <h2 className="as-title profile-card-title" id="profile-session-title">Session</h2>
+            <p className="profile-session-note">Sign out of Allinone on this device.</p>
+            <div className="profile-form-btn-row">
+              <button type="button" className="as-btn as-btn--secondary profile-btn" onClick={logout}>
+                Sign out
+              </button>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
   );

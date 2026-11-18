@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
-import { buildSrcdoc, hasRemoteImages, sanitizeHtml } from '../../utils/mailHtml';
 import './MailBody.css';
+import { buildSrcdoc, hasRemoteImages, sanitizeHtml } from '../../utils/mailHtml';
 
 /**
  * Renders ONE message body.

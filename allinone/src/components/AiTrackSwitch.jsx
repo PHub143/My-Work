@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import './AiTrackSwitch.css';
 
 // Segmented switch between the AI certification tracks, shown at the top of
-// pages/AI103.jsx and pages/AI102.jsx. These two share a single "AI" tab in
-// LearningTabs, so this is where you move between them — mirrors
+// pages/AI103.jsx and pages/AI102.jsx. These two share a single "AI" link in
+// the app nav, so this is where you move between them — mirrors
 // components/ToeicCollectionSwitch.jsx for the English side.
 const TRACKS = [
   { id: 'ai-103', label: 'AI-103', path: '/learning/ai-103' },
@@ -26,8 +26,9 @@ const AiTrackSwitch = ({ active }) => {
               role="tab"
               aria-selected={isActive}
               className={`ai-track-pill${isActive ? ' is-active' : ''}`}
-              disabled={isActive}
-              onClick={() => navigate(track.path)}
+              onClick={() => {
+                if (!isActive) navigate(track.path);
+              }}
             >
               {track.label}
             </button>

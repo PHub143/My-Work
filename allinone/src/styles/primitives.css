@@ -1,0 +1,143 @@
+/* Shared Atelier Study primitives, prefixed as-. Add a primitive here when a second
+   page needs it; keep one-page layout in that page's own stylesheet. */
+
+/* Button: 48px touch height, 2px radius, sentence case. */
+
+.as-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--size-touch);
+  padding: 0 var(--space-6);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.as-btn:hover {
+  text-decoration: none;
+}
+
+.as-btn:disabled,
+.as-btn[aria-disabled='true'] {
+  opacity: var(--opacity-disabled);
+}
+
+.as-btn--primary {
+  background: var(--navy);
+  color: var(--on-navy);
+}
+
+.as-btn--secondary {
+  border-color: var(--line-strong);
+}
+
+.as-btn--block {
+  width: 100%;
+}
+
+/* Field: label above an underline-only input. */
+
+.as-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.as-field__label {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.as-field__input {
+  width: 100%;
+  height: var(--size-touch);
+  padding: 0 var(--space-3);
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  border-radius: var(--radius-none);
+  background: var(--surface-raised);
+  color: var(--ink);
+}
+
+.as-field__input::placeholder {
+  color: var(--ink-muted);
+  opacity: 1;
+}
+
+.as-field__input:disabled {
+  opacity: var(--opacity-disabled);
+}
+
+/* Alert: a result is always icon + words, never colour alone. */
+
+.as-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.as-alert__icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.as-alert--error {
+  background: var(--rust-soft);
+  border-color: var(--rust);
+  color: var(--rust);
+}
+
+/* Tabs: underlined, 48px tall. Used as a mode switch (aria-pressed buttons). */
+
+.as-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--line);
+}
+
+.as-tab {
+  min-height: var(--size-touch);
+  margin-bottom: -1px;
+  padding: 0 var(--space-4);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: var(--radius-none);
+  background: transparent;
+  color: var(--ink-muted);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.as-tab[aria-pressed='true'],
+.as-tab[aria-selected='true'],
+.as-tab[aria-current='page'] {
+  border-bottom-color: var(--link);
+  color: var(--ink);
+}
+
+/* Tag */
+
+.as-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--brass-soft);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}

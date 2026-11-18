@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import './MailAccountsSettings.css';
 import { API_URL } from '../config';
 import { useAuth } from '../AuthContext';
+import './MailAccountsSettings.css';
 import Spinner from './Spinner';
+import SettingsNotice from './SettingsNotice';
 import ConfirmDialog from './mail/ConfirmDialog';
+import { ArrowLeft, Check, Plus } from './ExamIcons.jsx';
 import { createMailApi } from '../utils/mailApi';
 import { isGoogleAuthUrl } from '../utils/mailInbox';
 
@@ -228,17 +230,13 @@ const MailAccountsSettings = () => {
     return (
       <div className="mailacct-form-card">
         <button type="button" className="mailacct-back" onClick={closeForm}>
-          ← Back
+          <ArrowLeft /> Back
         </button>
         <h2 className="mailacct-form-title" tabIndex={-1} ref={formHeadingRef}>
           {isEdit ? `Edit ${editing.name}` : 'Add Gmail account'}
         </h2>
 
-        {message.text && (
-          <div className={`settings-message settings-message--${message.type}`} role="alert">
-            {message.text}
-          </div>
-        )}
+        {message.text && <SettingsNotice type={message.type}>{message.text}</SettingsNotice>}
 
         <HelpText redirectUri={form.redirectUri} />
 
@@ -338,10 +336,10 @@ const MailAccountsSettings = () => {
           </div>
 
           <div className="mailacct-actions">
-            <button type="submit" className="btn-primary" disabled={isSaving}>
+            <button type="submit" className="as-btn as-btn--primary" disabled={isSaving}>
               {isSaving ? <><Spinner inline /> Saving…</> : isEdit ? 'Update account' : 'Create account'}
             </button>
-            <button type="button" className="btn-outline" onClick={closeForm}>
+            <button type="button" className="as-btn as-btn--secondary" onClick={closeForm}>
               Cancel
             </button>
           </div>
@@ -358,29 +356,25 @@ const MailAccountsSettings = () => {
           Gmail accounts for the admin Inbox. These credentials are separate from your Google
           Drive configuration.
         </p>
-        <button type="button" className="settings-add-btn mailacct-add" onClick={openCreate}>
-          + Add Gmail account
+        <button type="button" className="as-btn as-btn--primary mailacct-add" onClick={openCreate}>
+          <Plus /> Add Gmail account
         </button>
       </div>
 
-      {message.text && (
-        <div className={`settings-message settings-message--${message.type}`} role="status">
-          {message.text}
-        </div>
-      )}
+      {message.text && <SettingsNotice type={message.type}>{message.text}</SettingsNotice>}
       {loadError && (
-        <div className="settings-message settings-message--error" role="alert">
+        <SettingsNotice type="error">
           {loadError}{' '}
           <button type="button" className="mailacct-link" onClick={load}>
             Retry
           </button>
-        </div>
+        </SettingsNotice>
       )}
 
       {accounts.length === 0 && !loadError ? (
-        <div className="settings-empty">
+        <div className="mailacct-empty">
           <p>No Gmail accounts configured yet.</p>
-          <button type="button" className="btn-primary" onClick={openCreate}>
+          <button type="button" className="as-btn as-btn--primary" onClick={openCreate}>
             Add your first account
           </button>
         </div>
@@ -394,9 +388,12 @@ const MailAccountsSettings = () => {
                 <div className="mailacct-card-top">
                   <div className="mailacct-identity">
                     <div className="mailacct-name-row">
-                      <span className="mailacct-name">{account.name}</span>
+                      <h2 className="mailacct-name">{account.name}</h2>
                       {account.isDefault && <span className="mailacct-default">Default</span>}
-                      <span className={`mailacct-status is-${state}`}>{STATUS_LABEL[state]}</span>
+                      <span className={`mailacct-status is-${state}`}>
+                        <StatusGlyph state={state} />
+                        {STATUS_LABEL[state]}
+                      </span>
                     </div>
                     <div className="mailacct-email">
                       {account.emailAddress || 'No mailbox connected yet'}
@@ -414,7 +411,7 @@ const MailAccountsSettings = () => {
                 <div className="mailacct-row-actions">
                   <button
                     type="button"
-                    className="btn-primary"
+                    className="as-btn as-btn--primary"
                     onClick={() => handleConnect(account)}
                     disabled={busy || !account.hasClientSecret}
                     title={account.hasClientSecret ? undefined : 'Add a client secret first (Edit)'}
@@ -424,7 +421,7 @@ const MailAccountsSettings = () => {
                   {state !== 'disconnected' && (
                     <button
                       type="button"
-                      className="btn-outline"
+                      className="as-btn as-btn--secondary"
                       disabled={busy}
                       onClick={() =>
                         run(account, () => api.disconnectAccount(account.id), `"${account.name}" disconnected.`)
@@ -436,7 +433,7 @@ const MailAccountsSettings = () => {
                   {!account.isDefault && (
                     <button
                       type="button"
-                      className="btn-outline"
+                      className="as-btn as-btn--secondary"
                       disabled={busy}
                       onClick={() =>
                         run(
@@ -449,10 +446,10 @@ const MailAccountsSettings = () => {
                       Set default
                     </button>
                   )}
-                  <button type="button" className="btn-outline" disabled={busy} onClick={() => openEdit(account)}>
+                  <button type="button" className="as-btn as-btn--secondary" disabled={busy} onClick={() => openEdit(account)}>
                     Edit
                   </button>
-                  <button type="button" className="btn-danger" disabled={busy} onClick={() => setConfirmDelete(account)}>
+                  <button type="button" className="as-btn as-btn--secondary mailacct-delete" disabled={busy} onClick={() => setConfirmDelete(account)}>
                     Delete
                   </button>
                 </div>
@@ -480,6 +477,33 @@ const MailAccountsSettings = () => {
         </ConfirmDialog>
       )}
     </div>
+  );
+};
+
+// Status tags pair an icon with the word: never colour alone.
+const StatusGlyph = ({ state }) => {
+  if (state === 'connected') return <Check size={16} />;
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {state === 'reauth_required' ? (
+        <>
+          <path d="M10 3.5l7 12.5H3z" />
+          <path d="M10 8.5v3.25M10 14h.01" />
+        </>
+      ) : (
+        <path d="M5 10h10" />
+      )}
+    </svg>
   );
 };
 

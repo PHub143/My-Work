@@ -1530,7 +1530,7 @@ const PRACTICE_CONTROL_CONFIGS = {
     ],
     correct: {
       accessMethod: 'An API key',
-      connectMethod: 'A deployment name',
+      connectMethod: 'A deployment endpoint',
     },
   },
   156: {
@@ -1595,8 +1595,8 @@ const PRACTICE_CONTROL_CONFIGS = {
       ],
     })),
     correct: {
-      step1: 'Request approval to run the container.',
-      step2: 'Export model1 to Host1.',
+      step1: 'Export model1 to Host1.',
+      step2: 'Request approval to run the container.',
       step3: 'Run the container.',
     },
   },
@@ -1627,6 +1627,190 @@ const PRACTICE_CONTROL_CONFIGS = {
     correct: {
       containerImage: 'mcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment',
       billing: 'http://contoso.cognitiveservices.azure.com',
+    },
+  },
+  // 197-214: CertyIQ-site questions whose answer areas are images there (site #163, #164,
+  // #169, #170, #172, #173, #174, #180). Keep in sync with data/ai103ExhibitConfigs.js.
+  197: {
+    type: 'radioRows',
+    controls: [
+      {
+        id: 'requiresDiscountCode',
+        label: 'The schema requires that a receipt has a discount_code value.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'usableAsIs',
+        label: 'The schema can be used as is for Azure OpenAI structured outputs.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'preservesPropertyOrder',
+        label: 'The generated JSON object will preserve the schema property order of merchant, order_number, '
+          + 'discount_code, line_items, and total.',
+        options: ['Yes', 'No'],
+      },
+    ],
+    correct: {
+      requiresDiscountCode: 'No',
+      usableAsIs: 'Yes',
+      preservesPropertyOrder: 'Yes',
+    },
+  },
+  198: {
+    type: 'dropdowns',
+    controls: [1, 2, 3].map((step) => ({
+      id: `step${step}`,
+      label: `Step ${step}`,
+      options: [
+        'Export the model.',
+        'Change the classification type.',
+        'Create a new classification model.',
+        'Change Domains to General (compact).',
+        'Retrain the model.',
+      ],
+    })),
+    correct: {
+      step1: 'Change Domains to General (compact).',
+      step2: 'Retrain the model.',
+      step3: 'Export the model.',
+    },
+  },
+  203: {
+    type: 'radioRows',
+    controls: [
+      {
+        id: 'facialRecognition',
+        label: 'The code will perform face recognition.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'listsTags',
+        label: 'The code will list tags and their associated confidence.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'readsLocalFile',
+        label: 'The code will read an image file from the local file system.',
+        options: ['Yes', 'No'],
+      },
+    ],
+    correct: {
+      facialRecognition: 'No',
+      listsTags: 'Yes',
+      readsLocalFile: 'Yes',
+    },
+  },
+  204: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'kind',
+        label: 'Request body "kind"',
+        options: ['"kind": "EntityRecognition"', '"kind": "LanguageDetection"', '"kind": "PiiEntityRecognition"'],
+      },
+      {
+        id: 'piiCategories',
+        label: 'Categories to redact',
+        options: ['"piiCategories": ["Organization"]', '"piiCategories": ["Person"]', '"piiCategories": ["PhoneNumber"]'],
+      },
+    ],
+    correct: {
+      kind: '"kind": "PiiEntityRecognition"',
+      piiCategories: '"piiCategories": ["Person"]',
+    },
+  },
+  206: {
+    type: 'radioRows',
+    controls: [
+      {
+        id: 'requestAVectorized',
+        label: 'request_a returns a vectorized response.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'requestBJson',
+        label: 'request_b returns a JSON-formatted response.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'requestBAlwaysRisks',
+        label: 'request_b always returns a case summary that includes risks.',
+        options: ['Yes', 'No'],
+      },
+    ],
+    correct: {
+      requestAVectorized: 'Yes',
+      requestBJson: 'Yes',
+      requestBAlwaysRisks: 'No',
+    },
+  },
+  207: {
+    type: 'radioRows',
+    controls: [
+      {
+        id: 'differentVoices',
+        label: 'You hear three sentences in different voices.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'differentAccents',
+        label: 'You hear three sentences in different accents.',
+        options: ['Yes', 'No'],
+      },
+      {
+        id: 'neutralTone',
+        label: 'You hear three sentences expressed in a neutral tone.',
+        options: ['Yes', 'No'],
+      },
+    ],
+    correct: {
+      differentVoices: 'Yes',
+      differentAccents: 'No',
+      neutralTone: 'No',
+    },
+  },
+  208: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'endpoint',
+        label: 'Endpoint path after cu1.services.ai.azure.com/',
+        options: ['assistants', 'completions', 'embeddings', 'threads'],
+      },
+      {
+        id: 'toolsProperty',
+        label: 'Request body property that declares the function',
+        options: ['content=[{', 'functions=[{', 'tool_resources=[{', 'tools=[{'],
+      },
+    ],
+    correct: {
+      endpoint: 'assistants',
+      toolsProperty: 'tools=[{',
+    },
+  },
+  214: {
+    type: 'dropdowns',
+    controls: [
+      {
+        id: 'scope',
+        label: 'Path after management.azure.com/',
+        options: [
+          'subscriptions/3edfe572-cb54-3ced-ae12-c5c177f39a12',
+          'subscriptions/8d3591aa-96b8-4737-ad09-00f9b1ed35ad',
+          'tenant/3edfe572-cb54-3ced-ae12-c5c177f39a12',
+          'tenant/8d3591aa-96b8-4737-ad09-00f9b1ed35ad',
+        ],
+      },
+      {
+        id: 'provider',
+        label: 'Resource provider',
+        options: ['Microsoft.ApiManagement', 'Microsoft.CognitiveServices', 'Microsoft.ContainerService', 'Microsoft.KeyVault'],
+      },
+    ],
+    correct: {
+      scope: 'subscriptions/8d3591aa-96b8-4737-ad09-00f9b1ed35ad',
+      provider: 'Microsoft.CognitiveServices',
     },
   },
 };
@@ -2098,7 +2282,7 @@ export function parsePracticeQuestionNumbers(search) {
     });
 }
 
-export const CASE_STUDY_QUESTION_NUMBERS = [1, 2, 27, 28, 56, 61, 62, 67, 142];
+export const CASE_STUDY_QUESTION_NUMBERS = [1, 2, 27, 28, 56, 61, 62, 67, 142, 195, 221];
 
 export function isCaseStudyQuestion(questionNumber) {
   return CASE_STUDY_QUESTION_NUMBERS.includes(questionNumber);

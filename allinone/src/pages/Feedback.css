@@ -1,363 +1,341 @@
-/* Feedback (admin) — review + triage screen. Colours come from the central
-   theme variables in index.css; category-hue variables are set on the list
-   parent so the lightningcss minifier can't strip theme selectors. */
-
-.fbadmin-page {
-  min-height: 100%;
-  background: var(--color-system-background);
-}
+/* Feedback (/feedback, admin): triage of user-submitted feedback.
+   Colours come from the theme variables in styles/tokens.css. */
 
 .fbadmin-content {
-  max-width: 940px;
-  margin: 0 auto;
-  padding: 40px 24px 72px;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: var(--space-8);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-8) var(--space-16);
 }
-
-/* ── header ── */
 
 .fbadmin-header {
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--line);
-}
-
-.fbadmin-kicker {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
-.fbadmin-badge {
-  color: var(--text-muted);
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.fbadmin-eyebrow {
+  color: var(--brass);
 }
 
-.fbadmin-meta {
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--text-muted);
+.fbadmin-lead {
+  margin-top: var(--space-2);
+  color: var(--ink-muted);
 }
 
-.fbadmin-header h1 {
-  margin: 0 0 6px;
-  font-size: 30px;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-}
-
-.fbadmin-header h1 em {
-  font-style: italic;
-  color: var(--accent-ink);
-}
-
-.fbadmin-header p {
-  margin: 0;
-  font-size: 13.5px;
-  color: var(--text-muted);
-}
-
-/* ── filters ── */
+/* filters: two rows of toggle chips (pressed = navy fill) */
 
 .fbadmin-filters {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .fbadmin-filter-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .fbadmin-chip {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 7px 12px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--text);
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
-}
-
-.fbadmin-chip:hover {
-  background: var(--hover-bg);
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: transparent;
   color: var(--ink);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
 }
 
 .fbadmin-chip.is-active {
-  border-color: var(--ink);
-  background: var(--ink);
-  color: var(--surface);
+  border-color: var(--navy);
+  background: var(--navy);
+  color: var(--on-navy);
 }
 
 .fbadmin-chip-count {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  opacity: 0.7;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
 }
 
-/* ── list ── */
+.fbadmin-loading {
+  display: grid;
+  place-items: center;
+  padding: var(--space-16) 0;
+}
+
+.fbadmin-empty {
+  padding: var(--space-12) 0;
+  color: var(--ink-muted);
+  text-align: center;
+}
+
+/* ── submissions ── */
 
 .fbadmin-list {
-  --cat-bug: #a3183c;
-  --cat-idea: #1f4edb;
-  --cat-content: #b45309;
-  --cat-other: var(--text-muted);
-  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(480px, 100%), 1fr));
+  gap: var(--space-6);
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-[data-theme='dark'] .fbadmin-list {
-  --cat-bug: #ff8aa8;
-  --cat-idea: #7aa7ff;
-  --cat-content: #f0b357;
-  --cat-other: var(--text-muted);
+  list-style: none;
 }
 
 .fbadmin-card {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 18px;
+  gap: var(--space-4);
+  min-width: 0;
+  padding: var(--space-6);
   border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--surface);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
 }
 
 .fbadmin-card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .fbadmin-cat {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--cat-other);
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--brass-soft);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
 }
 
-.fbadmin-cat-bug { color: var(--cat-bug); }
-.fbadmin-cat-idea { color: var(--cat-idea); }
-.fbadmin-cat-content { color: var(--cat-content); }
+/* status select: a real <select>, drawn like the other controls */
+
+.fbadmin-select {
+  position: relative;
+  display: inline-flex;
+}
 
 .fbadmin-status-select {
-  padding: 7px 10px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  min-height: 44px;
+  padding: 0 var(--space-8) 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
   background: var(--surface);
   color: var(--ink);
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+  appearance: none;
 }
 
-.fbadmin-status-select:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-wash);
+.fbadmin-status-select:disabled {
+  opacity: var(--opacity-disabled);
+}
+
+.fbadmin-select-icon {
+  position: absolute;
+  top: 50%;
+  right: var(--space-3);
+  transform: translateY(-50%);
+  color: var(--ink-muted);
+  pointer-events: none;
 }
 
 .fbadmin-message {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--text);
   white-space: pre-wrap;
-  word-break: break-word;
+  overflow-wrap: anywhere;
 }
+
+/* attachment thumbnails */
 
 .fbadmin-thumbs {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .fbadmin-thumb {
-  display: block;
-  width: 96px;
-  height: 96px;
-  border: 1px solid var(--line-soft);
-  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 112px;
+  height: 80px;
+  padding: var(--space-2);
   overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
   background: var(--surface-sunken);
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
 }
 
 .fbadmin-thumb img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
-.fbadmin-thumb.is-loading {
-  background: var(--surface-sunken);
+.fbadmin-thumb:has(img) {
+  padding: 0;
 }
 
 .fbadmin-thumb.is-missing {
-  display: grid;
-  place-items: center;
-  padding: 6px;
-  text-align: center;
-  font-size: 10.5px;
-  color: var(--text-muted);
+  border: 1px dashed var(--line-strong);
+  background: transparent;
 }
+
+/* internal note */
 
 .fbadmin-note {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-2);
 }
 
 .fbadmin-note span {
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
 }
 
 .fbadmin-note textarea {
   width: 100%;
-  padding: 9px 11px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface-sunken);
+  min-height: 72px;
+  padding: var(--space-3);
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  border-radius: var(--radius-none);
+  background: var(--surface);
   color: var(--ink);
-  font: inherit;
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 15px;
+  line-height: 24px;
   resize: vertical;
 }
 
 .fbadmin-note textarea::placeholder {
-  color: var(--text-muted);
+  color: var(--ink-muted);
+  opacity: 1;
 }
 
-.fbadmin-note textarea:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-wash);
-}
+/* submitter + delete */
 
 .fbadmin-card-foot {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
   flex-wrap: wrap;
-  padding-top: 4px;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-4);
+  margin-top: auto;
 }
 
 .fbadmin-submitter {
-  font-size: 12px;
-  color: var(--text-muted);
+  flex: 1 1 240px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  align-items: baseline;
+  flex-direction: column;
+  min-width: 0;
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 22px;
+  overflow-wrap: anywhere;
 }
 
 .fbadmin-submitter strong {
-  color: var(--text);
-  font-weight: 600;
-}
-
-.fbadmin-page {
-  font-family: var(--font-mono);
-  font-size: 11px;
+  color: var(--ink);
+  font-weight: 500;
 }
 
 .fbadmin-delete,
 .fbadmin-confirm-yes,
 .fbadmin-confirm-no {
-  padding: 6px 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-  color: var(--text-muted);
-  font: inherit;
-  font-size: 12px;
-  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 20px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
 }
 
-.fbadmin-delete:hover {
-  border-color: var(--danger);
-  color: var(--danger);
+.fbadmin-delete {
+  border-color: var(--rust);
+  color: var(--rust);
 }
 
 .fbadmin-confirm {
   display: flex;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .fbadmin-confirm-yes {
-  border-color: var(--danger);
-  background: var(--danger);
-  color: #fff;
-  font-weight: 500;
+  border-color: var(--rust);
+  background: var(--rust);
+  color: var(--on-rust);
 }
 
-.fbadmin-confirm-no:hover {
-  background: var(--hover-bg);
-  color: var(--ink);
-}
+/* ── phones: single column, filter chips scroll sideways ── */
 
-/* ── states ── */
-
-.fbadmin-error {
-  padding: 10px 13px;
-  border: 1px solid rgba(163, 24, 60, 0.28);
-  border-radius: 9px;
-  background: rgba(163, 24, 60, 0.07);
-  color: var(--danger);
-  font-size: 13px;
-}
-
-.fbadmin-loading {
-  display: grid;
-  place-items: center;
-  padding: 60px 0;
-}
-
-.fbadmin-empty {
-  padding: 48px 20px;
-  text-align: center;
-  border: 1px dashed var(--line);
-  border-radius: 12px;
-  color: var(--text-muted);
-  font-size: 13.5px;
-}
-
-.fbadmin-empty p {
-  margin: 0;
-}
-
-@media (max-width: 560px) {
+@media (max-width: 767px) {
   .fbadmin-content {
-    padding: 28px 16px 56px;
+    gap: var(--space-6);
+    padding: var(--space-6);
   }
 
-  .fbadmin-header h1 {
-    font-size: 24px;
+  .fbadmin-header .as-display {
+    font-size: 32px;
+    line-height: 38px;
+    letter-spacing: 0;
+  }
+
+  .fbadmin-filters {
+    margin: 0 calc(var(--space-6) * -1);
+    padding: 0 var(--space-6);
+  }
+
+  .fbadmin-filter-group {
+    flex-wrap: nowrap;
+    padding-bottom: var(--space-1);
+    overflow-x: auto;
+  }
+
+  .fbadmin-chip {
+    flex-shrink: 0;
+    min-height: var(--size-touch);
+  }
+
+  .fbadmin-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .fbadmin-card {
+    padding: var(--space-4);
+  }
+
+  .fbadmin-card-foot > .fbadmin-delete,
+  .fbadmin-confirm {
+    width: 100%;
+  }
+
+  .fbadmin-delete,
+  .fbadmin-confirm > button {
+    flex: 1;
+    min-height: var(--size-touch);
   }
 }

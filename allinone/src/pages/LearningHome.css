@@ -1,69 +1,141 @@
-.learning-home {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-}
+/* Learning home (/learning/home). Atelier Study: a hero greeting and three track
+   cards. Colours come from the theme variables in styles/tokens.css. */
 
 .learning-home-content {
-  max-width: var(--col-scan);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  max-width: 1200px;
   margin: 0 auto;
-  padding: var(--spacing-xl) var(--spacing-l) var(--spacing-xxl);
-  width: 100%;
+  padding: var(--space-16) var(--space-8);
 }
 
-.learning-home-header h1 {
-  font-size: var(--fs-display);
+.learning-home-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
-.learning-home-header p {
-  color: var(--text-muted);
+.learning-home-eyebrow {
+  color: var(--brass);
+}
+
+.learning-home-lead {
+  margin-top: var(--space-2);
+  color: var(--ink-muted);
 }
 
 .learning-home-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: var(--spacing-m);
-  margin-top: var(--spacing-l);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
 }
 
+/* track card: the whole card is one link */
+
 .learning-home-card {
+  flex: 1 1 280px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-l);
+  gap: var(--space-4);
+  min-width: 0;
+  padding: var(--space-8);
   border: 1px solid var(--line);
-  border-radius: var(--r-card);
-  background: var(--surface);
-  color: var(--text);
-  text-align: left;
-  cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  color: var(--ink);
 }
 
 .learning-home-card:hover {
-  border-color: var(--accent);
-  box-shadow: var(--shadow-1);
+  border-color: var(--line-strong);
+  text-decoration: none;
 }
 
-.learning-home-card h2 {
-  margin: 0;
-  font-size: var(--fs-h2);
+.learning-home-card-copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
-.learning-home-card p {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: var(--fs-ui);
+.learning-home-card-copy p {
+  color: var(--ink-muted);
 }
 
-.learning-home-card-detail {
-  margin-top: var(--spacing-s);
-  color: var(--accent-ink);
-  font-size: var(--fs-meta);
+.learning-home-card-cta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;
+  color: var(--link);
+  font-size: 15px;
+  line-height: 20px;
   font-weight: 500;
 }
 
-@media (max-width: 640px) {
-  .learning-home-content { padding: var(--spacing-l) var(--spacing-m) var(--spacing-xl); }
+/* ── phones: stacked compact cards, count tag and arrow on the bottom row ── */
+
+@media (max-width: 767px) {
+  .learning-home-content {
+    gap: var(--space-6);
+    padding: var(--space-6);
+  }
+
+  .learning-home-content .as-display {
+    font-size: 32px;
+    line-height: 38px;
+    letter-spacing: 0;
+  }
+
+  .learning-home-grid {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .learning-home-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'copy copy'
+      'tag cta';
+    align-items: center;
+    flex: none;
+    gap: var(--space-3);
+    padding: 20px;
+  }
+
+  .learning-home-card-copy {
+    grid-area: copy;
+    gap: var(--space-1);
+  }
+
+  .learning-home-card-copy h2 {
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  .learning-home-card-copy p {
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .learning-home-card-tag {
+    grid-area: tag;
+    justify-self: start;
+  }
+
+  .learning-home-card-cta {
+    grid-area: cta;
+    margin-top: 0;
+  }
+
+  .learning-home-card-cta-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
 }

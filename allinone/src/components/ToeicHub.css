@@ -1,0 +1,255 @@
+/* TOEIC collection hub (English / Hacker): collection switch, volume tabs, header
+   and one card per test. Colours come from the theme variables in styles/tokens.css. */
+
+.toeic-hub {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-8) var(--space-16);
+}
+
+/* ── collection switch ── */
+
+.toeic-switchbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.toeic-eyebrow {
+  color: var(--brass);
+}
+
+.toeic-switch {
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+}
+
+.toeic-switch-tab {
+  min-width: 96px;
+  min-height: 44px;
+  padding: 0 var(--space-6);
+  border: 0;
+  border-radius: var(--radius-none);
+  background: transparent;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.toeic-switch-tab[aria-selected='true'] {
+  background: var(--navy);
+  color: var(--on-navy);
+}
+
+/* ── volume tabs ── */
+
+.toeic-volumes {
+  display: flex;
+  border-bottom: 1px solid var(--line);
+}
+
+.toeic-volume {
+  display: flex;
+  align-items: center;
+  min-height: var(--size-touch);
+  margin-bottom: -1px;
+  padding: 0 var(--space-6);
+  border-bottom: 2px solid transparent;
+  color: var(--ink-muted);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.toeic-volume:hover {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.toeic-volume[aria-current='page'] {
+  border-bottom-color: var(--link);
+  color: var(--ink);
+}
+
+.toeic-volume.is-disabled {
+  opacity: var(--opacity-disabled);
+}
+
+/* ── header ── */
+
+.toeic-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4) var(--space-8);
+}
+
+.toeic-head-copy {
+  flex: 1 1 480px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.toeic-head-copy p {
+  color: var(--ink-muted);
+}
+
+.toeic-ready {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.toeic-ready-count {
+  color: var(--brass);
+}
+
+.toeic-ready .as-small {
+  color: var(--ink-muted);
+}
+
+/* ── test cards ── */
+
+.toeic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toeic-grid > li {
+  display: flex;
+  min-width: 0;
+}
+
+.toeic-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  color: var(--ink);
+}
+
+a.toeic-card:hover {
+  border-color: var(--line-strong);
+  text-decoration: none;
+}
+
+.toeic-card.is-unavailable {
+  background: var(--surface-sunken);
+  color: var(--ink-muted);
+}
+
+.toeic-card-title {
+  font-size: 17px;
+  line-height: 28px;
+  font-weight: 500;
+}
+
+.toeic-card-score {
+  color: var(--brass);
+}
+
+.toeic-card-meta,
+.toeic-card-note {
+  color: var(--ink-muted);
+}
+
+/* status tags: a word every time, never colour alone */
+
+.toeic-tag {
+  gap: var(--space-1);
+}
+
+.toeic-tag--done {
+  background: var(--navy-soft);
+}
+
+.toeic-tag--outline,
+.toeic-tag--dashed {
+  padding: 1px 11px;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--ink-muted);
+}
+
+.toeic-tag--dashed {
+  border-style: dashed;
+}
+
+/* ── phones ── */
+
+@media (max-width: 767px) {
+  .toeic-hub {
+    gap: 20px;
+    padding: var(--space-6);
+  }
+
+  .toeic-switch {
+    display: flex;
+    width: 100%;
+  }
+
+  .toeic-switch-tab {
+    flex: 1;
+    min-height: var(--size-touch);
+  }
+
+  .toeic-volume {
+    flex: 1;
+    justify-content: center;
+    padding: 0 var(--space-4);
+  }
+
+  .toeic-head {
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .toeic-head-copy {
+    flex-basis: 100%;
+  }
+
+  .toeic-head-copy h1 {
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  .toeic-head-copy p {
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .toeic-ready-count {
+    font-size: 32px;
+    line-height: 38px;
+  }
+
+  .toeic-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .toeic-card {
+    padding: var(--space-4);
+  }
+}

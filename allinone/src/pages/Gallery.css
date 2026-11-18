@@ -1,104 +1,121 @@
-/* Gallery — Focus. Uniform frames, captions BELOW the image, no overlays.
-   Shares .page-scan / .page-head / .seg / .tag-chip / .doc-error / .doc-empty
-   with Documents (App.css + Documents.css). */
-
-.gallery-page { padding-top: 28px; }
+/* Gallery tiles. The page chrome (heading, size switch, tag chips, states) comes from
+   Documents.css. Colours come from the theme variables in styles/tokens.css. */
 
 .gal-grid {
   display: grid;
-  gap: 22px 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-6);
 }
 
-.gal-grid.is-medium { grid-template-columns: repeat(auto-fill, minmax(214px, 1fr)); }
-.gal-grid.is-large { grid-template-columns: repeat(auto-fill, minmax(316px, 1fr)); }
+.gal-grid.is-large {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
 
 .gal-item {
-  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-3);
+  min-width: 0;
+  margin: 0;
   cursor: pointer;
 }
 
 .gal-frame {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   aspect-ratio: 4 / 3;
-  border: 1px solid var(--line-soft);
-  border-radius: 10px;
-  background: var(--surface-sunken);
   overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  color: var(--ink-muted);
+}
+
+.gal-item:hover .gal-frame {
+  border-color: var(--line-strong);
 }
 
 .gal-frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-}
-
-.gal-item:hover .gal-frame { border-color: var(--line); }
-
-.gal-item:focus-visible { outline: none; }
-
-.gal-item:focus-visible .gal-frame {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
 }
 
 .gal-placeholder {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 14px;
+  line-height: 22px;
 }
+
+/* video marker: a word and an icon, never colour alone */
 
 .gal-badge {
   position: absolute;
-  left: 8px;
-  bottom: 8px;
-  padding: 3px 8px;
-  border-radius: 6px;
-  background: rgba(16, 20, 24, 0.78);
-  color: #ffffff;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  top: var(--space-3);
+  left: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--navy);
+  color: var(--on-navy);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
 }
-
-/* caption sits below the frame, two quiet lines */
 
 .gal-caption {
   display: flex;
   flex-direction: column;
-  gap: 3px;
   min-width: 0;
 }
 
 .gal-name {
-  font-size: 13.5px;
-  color: var(--ink);
-  white-space: nowrap;
   overflow: hidden;
+  font-weight: 500;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .gal-meta {
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 22px;
 }
 
-@media (max-width: 640px) {
-  .gallery-page { padding-top: 20px; }
-  .gal-grid.is-medium,
-  .gal-grid.is-large { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 18px 12px; }
+@media (max-width: 767px) {
+  .gal-grid,
+  .gal-grid.is-large {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4) var(--space-3);
+  }
+
+  .gal-item {
+    gap: var(--space-2);
+  }
+
+  .gal-name {
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  .gal-badge {
+    top: var(--space-2);
+    left: var(--space-2);
+  }
+
+  .gal-size {
+    display: flex;
+    width: 100%;
+  }
+
+  .gal-size button {
+    flex: 1;
+  }
 }

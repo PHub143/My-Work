@@ -34,6 +34,7 @@ changes — see `src/utils/AGENTS.md`.
 | [`src/`](src/AGENTS.md) | Core app: entry, routes, state contexts, config |
 | [`src/components/`](src/components/AGENTS.md) | Shared UI, navigation, route guards, modals |
 | [`src/pages/`](src/pages/AGENTS.md) | Route-level screens, lazy loaded |
+| [`src/styles/`](src/styles/AGENTS.md) | Atelier Study tokens, base styles and shared `as-` primitives |
 | [`src/utils/`](src/utils/AGENTS.md) | Helpers, role logic, learning module |
 | [`src/data/`](src/data/AGENTS.md) | Static content JSON |
 | [`src/assets/`](src/assets/AGENTS.md) | Images and media |

@@ -46,6 +46,16 @@ export const multipleChoiceExhibitConfigs = {
       '        for line in page.lines:\n' +
       '            print(line.text)',
   },
+  // Question 211 (CertyIQ site #177): the HTTP request is an image on the site.
+  211: {
+    exhibitTitle: 'HTTP Request',
+    exhibitPageLabel: 'CertyIQ question 177',
+    exhibitInsertAfterParagraph: 1,
+    exhibitCode:
+      'POST https://management.azure.com/subscriptions/<subscription-id>/resourceGroups/RG1/providers/\n' +
+      'Microsoft.CognitiveServices/accounts/contoso1/regenerateKey?api-version=2021-04-30\n' +
+      'Body: {"keyName": "Key2"}',
+  },
 };
 
 // HOTSPOT questions whose answer area is a code block with dropdown blanks
@@ -412,7 +422,7 @@ export const visualCodeHotspotConfigs = {
       {
         label: 'Connect to the deployment by using:',
         options: ['An API key', 'A deployment endpoint', 'A deployment name', 'A deployment type'],
-        answer: 'A deployment name',
+        answer: 'A deployment endpoint',
       },
     ],
   },
@@ -464,7 +474,7 @@ export const visualCodeHotspotConfigs = {
         'Run the container.',
         'Retrain the model.',
       ],
-      answer: ['Request approval to run the container.', 'Export model1 to Host1.', 'Run the container.'][step - 1],
+      answer: ['Export model1 to Host1.', 'Request approval to run the container.', 'Run the container.'][step - 1],
     })),
   },
   160: {
@@ -492,6 +502,267 @@ export const visualCodeHotspotConfigs = {
           'mcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment',
         ],
         answer: 'http://contoso.cognitiveservices.azure.com',
+      },
+    },
+  },
+  // Questions 197-214 are the CertyIQ-site questions whose answer areas are images there
+  // (site #163, #164, #169, #170, #172, #173, #174, #180), rebuilt as structured data.
+  197: {
+    exhibitCode:
+      'receipt_response_format = {\n' +
+      '    "type": "json_schema",\n' +
+      '    "json_schema": {\n' +
+      '        "name": "ReceiptExtraction",\n' +
+      '        "strict": True,\n' +
+      '        "schema": {\n' +
+      '            "type": "object",\n' +
+      '            "properties": {\n' +
+      '                "merchant": {"type": "string"},\n' +
+      '                "order_number": {"type": "integer"},\n' +
+      '                "discount_code": {\n' +
+      '                    "anyOf": [\n' +
+      '                        {"type": "string"},\n' +
+      '                        {"type": "null"}\n' +
+      '                    ]\n' +
+      '                },\n' +
+      '                "line_items": {\n' +
+      '                    "type": "array",\n' +
+      '                    "items": {\n' +
+      '                        "type": "object",\n' +
+      '                        "properties": {\n' +
+      '                            "product": {"type": "string"},\n' +
+      '                            "quantity": {"type": "integer"},\n' +
+      '                            "unit_price": {"type": "number"}\n' +
+      '                        },\n' +
+      '                        "required": ["product", "quantity", "unit_price"],\n' +
+      '                        "additionalProperties": False\n' +
+      '                    }\n' +
+      '                },\n' +
+      '                "total": {"type": "number"}\n' +
+      '            },\n' +
+      '            "required": ["merchant", "order_number", "discount_code", "line_items", "total"],\n' +
+      '            "additionalProperties": False\n' +
+      '        }\n' +
+      '    }\n' +
+      '}',
+    hotspotFields: [
+      {
+        label: 'The schema requires that a receipt has a discount_code value.',
+        options: ['Yes', 'No'],
+        answer: 'No',
+      },
+      {
+        label: 'The schema can be used as is for Azure OpenAI structured outputs.',
+        options: ['Yes', 'No'],
+        answer: 'Yes',
+      },
+      {
+        label: 'The generated JSON object will preserve the schema property order of merchant, order_number, '
+          + 'discount_code, line_items, and total.',
+        options: ['Yes', 'No'],
+        answer: 'Yes',
+      },
+    ],
+  },
+  198: {
+    hotspotFields: [1, 2, 3].map((step) => ({
+      label: `Step ${step}`,
+      options: [
+        'Export the model.',
+        'Change the classification type.',
+        'Create a new classification model.',
+        'Change Domains to General (compact).',
+        'Retrain the model.',
+      ],
+      answer: ['Change Domains to General (compact).', 'Retrain the model.', 'Export the model.'][step - 1],
+    })),
+  },
+  203: {
+    exhibitCode:
+      'def analyze_image(local_image):\n' +
+      '    with open(local_image, "rb") as image_stream:\n' +
+      '        image_analysis = client.analyze_image_in_stream(\n' +
+      '            image=image_stream,\n' +
+      '            visual_features=[\n' +
+      '                VisualFeatureTypes.tags,\n' +
+      '                VisualFeatureTypes.description\n' +
+      '            ]\n' +
+      '        )\n' +
+      '    for caption in image_analysis.description.captions:\n' +
+      '        print(f"\\n{caption.text} with confidence {caption.confidence}")\n' +
+      '    for tag in image_analysis.tags:\n' +
+      '        print(f"\\n{tag.name} with confidence {tag.confidence}")',
+    hotspotFields: [
+      { label: 'The code will perform face recognition.', options: ['Yes', 'No'], answer: 'No' },
+      { label: 'The code will list tags and their associated confidence.', options: ['Yes', 'No'], answer: 'Yes' },
+      {
+        label: 'The code will read an image file from the local file system.',
+        options: ['Yes', 'No'],
+        answer: 'Yes',
+      },
+    ],
+  },
+  204: {
+    codeTemplate:
+      '{\n' +
+      '  {{kind}},\n' +
+      '  "parameters": {\n' +
+      '    "modelVersion": "latest",\n' +
+      '    {{piiCategories}}\n' +
+      '  },\n' +
+      '  "analysisInput": {\n' +
+      '    "documents": [\n' +
+      '      {\n' +
+      '        "id": "1",\n' +
+      '        "language": "en",\n' +
+      '        "text": "John Doe called from 112-555-0176 and used order@contoso.com."\n' +
+      '      }\n' +
+      '    ]\n' +
+      '  }\n' +
+      '}',
+    codeBlanks: {
+      kind: {
+        options: ['"kind": "EntityRecognition"', '"kind": "LanguageDetection"', '"kind": "PiiEntityRecognition"'],
+        answer: '"kind": "PiiEntityRecognition"',
+      },
+      piiCategories: {
+        options: ['"piiCategories": ["Organization"]', '"piiCategories": ["Person"]', '"piiCategories": ["PhoneNumber"]'],
+        answer: '"piiCategories": ["Person"]',
+      },
+    },
+  },
+  206: {
+    exhibitCode:
+      'source_text = "Case 4817: Customer reports intermittent checkout failures."\n\n' +
+      'request_a = {\n' +
+      '    "method": "POST",\n' +
+      '    "url": "https://contoso-openai.openai.azure.com/openai/v1/embeddings?api-version=preview",\n' +
+      '    "headers": {\n' +
+      '        "api-key": "<key>",\n' +
+      '        "Content-Type": "application/json"\n' +
+      '    },\n' +
+      '    "body": {\n' +
+      '        "model": "text-embedding-ada-002",\n' +
+      '        "input": [source_text]\n' +
+      '    }\n' +
+      '}\n\n' +
+      'request_b = {\n' +
+      '    "method": "POST",\n' +
+      '    "url": "https://contoso-openai.openai.azure.com/openai/v1/chat/completions?api-version=preview",\n' +
+      '    "headers": {\n' +
+      '        "api-key": "<key>",\n' +
+      '        "Content-Type": "application/json"\n' +
+      '    },\n' +
+      '    "body": {\n' +
+      '        "messages": [\n' +
+      '            {"role": "system", "content": "Summarize support cases as structured output."},\n' +
+      '            {"role": "user", "content": source_text}\n' +
+      '        ],\n' +
+      '        "response_format": {\n' +
+      '            "type": "json_schema",\n' +
+      '            "json_schema": {\n' +
+      '                "name": "case_summary",\n' +
+      '                "strict": true,\n' +
+      '                "schema": {\n' +
+      '                    "type": "object",\n' +
+      '                    "properties": {\n' +
+      '                        "summary": {"type": "string"},\n' +
+      '                        "keyRisks": {"type": "array", "items": {"type": "string"}},\n' +
+      '                        "nextActions": {"type": "array", "items": {"type": "string"}}\n' +
+      '                    },\n' +
+      '                    "required": ["summary", "keyRisks", "nextActions"]\n' +
+      '                }\n' +
+      '            }\n' +
+      '        }\n' +
+      '    }\n' +
+      '}',
+    hotspotFields: [
+      { label: 'request_a returns a vectorized response.', options: ['Yes', 'No'], answer: 'Yes' },
+      { label: 'request_b returns a JSON-formatted response.', options: ['Yes', 'No'], answer: 'Yes' },
+      {
+        label: 'request_b always returns a case summary that includes risks.',
+        options: ['Yes', 'No'],
+        answer: 'No',
+      },
+    ],
+  },
+  207: {
+    exhibitCode:
+      'curl --location --request POST "https://eastus.tts.speech.microsoft.com/cognitiveservices/v1" ^\n' +
+      '--header "Ocp-Apim-Subscription-Key: <subscription-key>" ^\n' +
+      '--header "Content-Type: application/ssml+xml" ^\n' +
+      '--header "X-Microsoft-OutputFormat: audio-16khz-128kbitrate-mono-mp3" ^\n' +
+      '--header "User-Agent: curl" ^\n' +
+      '--data-raw "<speak version=\'1.0\' xml:lang=\'en-US\'>\n' +
+      '  <voice xml:gender=\'Female\' name=\'en-US-JennyNeural\'>\n' +
+      '    Welcome to the Azure Text-to-Speech demonstration.\n' +
+      '  </voice>\n' +
+      '  <voice xml:gender=\'Male\' name=\'en-GB-RyanNeural\'>\n' +
+      '    This service allows you to convert text into natural-sounding speech.\n' +
+      '  </voice>\n' +
+      '  <voice xml:gender=\'Male\' name=\'en-US-ChristopherNeural\'>\n' +
+      '    <mstts:express-as style="advertisement_upbeat" styledegree="2">\n' +
+      '    It\'s easy to integrate, customizable, and supports multiple languages and voices.\n' +
+      '    </mstts:express-as>\n' +
+      '  </voice>\n' +
+      '</speak>" --output output.mp3',
+    hotspotFields: [
+      { label: 'You hear three sentences in different voices.', options: ['Yes', 'No'], answer: 'Yes' },
+      { label: 'You hear three sentences in different accents.', options: ['Yes', 'No'], answer: 'No' },
+      { label: 'You hear three sentences expressed in a neutral tone.', options: ['Yes', 'No'], answer: 'No' },
+    ],
+  },
+  208: {
+    codeTemplate:
+      'curl https://cu1.services.ai.azure.com/{{endpoint}}?api-version=2024-12-01-preview \\\n' +
+      '  -H "Authorization: Bearer $AZURE_AI_TOKEN" \\\n' +
+      '  -H "Content-Type: application/json" \\\n' +
+      '  -d \'{\n' +
+      '    "instructions": "You are a weather bot. Use the provided functions to answer questions.",\n' +
+      '    "model": "gpt-4o-mini",\n' +
+      '    {{toolsProperty}}\n' +
+      '      "type": "function",\n' +
+      '      "function": {\n' +
+      '        "name": "get_current_time",\n' +
+      '        "description": "Get the current time in location",\n' +
+      '        "parameters": {\n' +
+      '          "type": "object",\n' +
+      '          "properties": {\n' +
+      '            "location": {"type": "string", "description": "The city name, for example Seattle"}\n' +
+      '          },\n' +
+      '          "required": ["location"]\n' +
+      '        }\n' +
+      '      }\n' +
+      '    ...\n' +
+      '}\'',
+    codeBlanks: {
+      endpoint: {
+        options: ['assistants', 'completions', 'embeddings', 'threads'],
+        answer: 'assistants',
+      },
+      toolsProperty: {
+        options: ['content=[{', 'functions=[{', 'tool_resources=[{', 'tools=[{'],
+        answer: 'tools=[{',
+      },
+    },
+  },
+  214: {
+    codeTemplate:
+      'https://management.azure.com/{{scope}}/resourceGroups/OCRProject/providers/\n' +
+      '{{provider}}/accounts/CS1?api-version=2021-10-01',
+    codeBlanks: {
+      scope: {
+        options: [
+          'subscriptions/3edfe572-cb54-3ced-ae12-c5c177f39a12',
+          'subscriptions/8d3591aa-96b8-4737-ad09-00f9b1ed35ad',
+          'tenant/3edfe572-cb54-3ced-ae12-c5c177f39a12',
+          'tenant/8d3591aa-96b8-4737-ad09-00f9b1ed35ad',
+        ],
+        answer: 'subscriptions/8d3591aa-96b8-4737-ad09-00f9b1ed35ad',
+      },
+      provider: {
+        options: ['Microsoft.ApiManagement', 'Microsoft.CognitiveServices', 'Microsoft.ContainerService', 'Microsoft.KeyVault'],
+        answer: 'Microsoft.CognitiveServices',
       },
     },
   },

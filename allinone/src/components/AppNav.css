@@ -1,0 +1,279 @@
+/* App shell navigation (AppNav.jsx): desktop top bar, phone app bar + bottom tabs,
+   the admin study sub-nav and the admin "More" sheet. Colours come from the theme
+   variables in styles/tokens.css; no theme selectors here. */
+
+/* ── desktop top bar ── */
+
+.shell-bar {
+  background: var(--surface-raised);
+  border-bottom: 1px solid var(--line);
+}
+
+.shell-bar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0 var(--space-8);
+  max-width: 1200px;
+  min-height: 64px;
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+}
+
+.shell-wordmark {
+  display: flex;
+  align-items: center;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: var(--serif-weight);
+}
+
+.shell-wordmark:hover {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.shell-nav {
+  display: flex;
+  align-items: stretch;
+}
+
+.shell-link {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-4);
+  border-bottom: 2px solid transparent;
+  color: var(--ink-muted);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.shell-link:hover {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.shell-link[aria-current='page'] {
+  border-bottom-color: var(--link);
+  color: var(--ink);
+}
+
+.shell-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: auto;
+}
+
+.shell-icon-btn,
+.shell-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-touch);
+  height: var(--size-touch);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+}
+
+.shell-icon-btn {
+  background: transparent;
+  color: var(--ink-muted);
+}
+
+.shell-icon-btn:hover {
+  background: var(--surface-sunken);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.shell-icon-btn[aria-current='page'] {
+  color: var(--ink);
+}
+
+.shell-badge {
+  margin-left: var(--space-2);
+  background: var(--navy);
+  color: var(--on-navy);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.shell-badge:hover {
+  color: var(--on-navy);
+  text-decoration: none;
+}
+
+.shell-glyph {
+  flex-shrink: 0;
+}
+
+/* ── admin study sub-nav (Home / AI / English inside /learning) ── */
+
+.shell-subnav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.shell-subnav-inner {
+  display: flex;
+  align-items: stretch;
+  max-width: 1200px;
+  min-height: var(--size-touch);
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+}
+
+/* ── phone shell (hidden on wide screens) ── */
+
+.shell-appbar,
+.shell-tabs,
+.shell-sheet {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .shell-bar {
+    display: none;
+  }
+
+  .shell-appbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+    padding: env(safe-area-inset-top) var(--space-2) 0 var(--space-6);
+    background: var(--surface-raised);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .shell-subnav-inner {
+    padding: 0 var(--space-2);
+    overflow-x: auto;
+  }
+
+  .shell-tabs {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 20;
+    display: flex;
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--surface-raised);
+    border-top: 1px solid var(--line);
+  }
+
+  .shell-tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    min-width: 0;
+    min-height: 64px;
+    margin-top: -1px;
+    padding: 0;
+    border: 0;
+    border-top: 2px solid transparent;
+    border-radius: var(--radius-none);
+    background: transparent;
+    color: var(--ink-muted);
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+  }
+
+  .shell-tab:hover {
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .shell-tab[aria-current='page'] {
+    border-top-color: var(--link);
+    color: var(--link);
+  }
+
+  /* keep page content clear of the fixed tab bar */
+  .app-shell:not(.is-chromeless) {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+
+  .shell-sheet {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    margin: auto 0 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    background: var(--surface-raised);
+    color: var(--ink);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .shell-sheet[open] {
+    display: block;
+  }
+
+  .shell-sheet::backdrop {
+    background: var(--scrim);
+  }
+}
+
+.shell-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-6);
+  border-bottom: 1px solid var(--line);
+}
+
+.shell-sheet-close {
+  min-height: var(--size-touch);
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--link);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.shell-sheet-list {
+  margin: 0;
+  padding: var(--space-2) var(--space-2) calc(var(--space-2) + env(safe-area-inset-bottom));
+  list-style: none;
+}
+
+.shell-sheet-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--size-touch);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 28px;
+}
+
+.shell-sheet-link:hover {
+  background: var(--surface-sunken);
+  text-decoration: none;
+}
+
+.shell-sheet-link[aria-current='page'] {
+  background: var(--navy-soft);
+  color: var(--link);
+}
