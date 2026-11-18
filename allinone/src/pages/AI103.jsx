@@ -87,6 +87,7 @@ import {
   getQuestionTwoDisplayParts,
   getQuestionPagination,
   getVisualQuestionDisplayParts,
+  isCaseStudyQuestion,
 } from '../utils/learning';
 
 function formatNumber(value) {
@@ -1246,11 +1247,20 @@ function VisualQuestionContent({ question }) {
   );
 }
 
+// The AI-103 JSON has no `type` field, so derive it from the prompt: HOTSPOT / DRAG DROP
+// questions say so on their first line; case-study questions are listed in learning.js.
+function questionKind(question) {
+  const match = (question.prompt || '').match(/^\s*(HOTSPOT|DRAG[ -]?DROP)\b/i);
+  if (match) return /hotspot/i.test(match[1]) ? 'HOTSPOT' : 'DRAG DROP';
+  return isCaseStudyQuestion(question.number) ? 'CASE STUDY' : 'MULTIPLE CHOICE';
+}
+
 function QuestionTypeTag({ question }) {
+  const kind = questionKind(question);
   const label =
-    question.type === 'HOTSPOT' || question.type === 'DRAG DROP'
-      ? question.type
-      : question.type === 'CASE STUDY'
+    kind === 'HOTSPOT' || kind === 'DRAG DROP'
+      ? kind
+      : kind === 'CASE STUDY'
         ? 'Case study'
         : 'Multiple Choice';
   return <span className="ai103-pill ai103-pill--neutral">{label}</span>;
@@ -1258,9 +1268,10 @@ function QuestionTypeTag({ question }) {
 
 function questionType(question) {
   if (!question) return 'Question';
-  if (question.type === 'HOTSPOT') return 'Hotspot';
-  if (question.type === 'DRAG DROP') return 'Drag and Drop';
-  if (question.type === 'CASE STUDY') return 'Case study';
+  const kind = questionKind(question);
+  if (kind === 'HOTSPOT') return 'Hotspot';
+  if (kind === 'DRAG DROP') return 'Drag and Drop';
+  if (kind === 'CASE STUDY') return 'Case study';
   return 'Multiple Choice';
 }
 

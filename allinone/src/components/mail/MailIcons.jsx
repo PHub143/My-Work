@@ -1,6 +1,6 @@
 import React from 'react';
 
-/* Small stroke icon set for the Inbox (same 24px / 1.8 stroke style as AppRail). */
+/* Small stroke icon set for the Inbox (same 24px / 1.8 stroke style as the app shell icons). */
 
 const Svg = ({ size = 18, fill = 'none', children }) => (
   <svg

@@ -14,10 +14,9 @@ Instructions for `src/` — the core frontend application code. Also follow `../
 
 ## Route Guard Layering
 
-1. `ProtectedRoute` — requires a configured Drive. Non-admin users without a configured Drive see `AccessLocked`. Admins without config are redirected to `/settings`.
-2. `AuthenticatedRoute` — requires any logged-in user. Used for `/upload`.
-3. `AdminRoute` — requires role `ADMIN`. Used for `/users` and `/settings`.
-4. `LearningRoute` — requires role `STUDENT`. Used for `/learning/*`.
+1. `ProtectedRoute` — requires a configured Drive. Non-admin users without a configured Drive see `AccessLocked`. Admins without config are redirected to `/settings`. Used for `/documents`, `/gallery` and `/upload`.
+2. `AdminRoute` — requires role `ADMIN`. Used for `/users`, `/feedback`, `/inbox` and `/settings`.
+3. `LearningRoute` — requires role `STUDENT`. Used for `/learning/*`.
 
 Public routes: `/login`, `/oauth/callback`.
 
