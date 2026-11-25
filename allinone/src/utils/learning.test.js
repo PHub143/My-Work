@@ -207,9 +207,11 @@ test('createPracticeSession returns all questions with a 20 minute limit and no 
 });
 
 test('createPracticeSession can use a provided random source for regenerating practice tests', () => {
+  // Numbers start at 101 so none collide with CASE_STUDY_QUESTION_NUMBERS,
+  // which are pinned to the front of a session and never shuffled.
   const questions = Array.from({ length: 8 }, (_, index) => ({
-    number: index + 1,
-    prompt: `Question ${index + 1}`,
+    number: index + 101,
+    prompt: `Question ${index + 101}`,
     answer: 'A',
   }));
 
@@ -222,8 +224,25 @@ test('createPracticeSession can use a provided random source for regenerating pr
     random: () => 0.999,
   });
 
-  assert.deepEqual(frontLoaded.questions.map((question) => question.number), [2, 3, 4, 5]);
-  assert.deepEqual(originalOrder.questions.map((question) => question.number), [1, 2, 3, 4]);
+  assert.deepEqual(frontLoaded.questions.map((question) => question.number), [102, 103, 104, 105]);
+  assert.deepEqual(originalOrder.questions.map((question) => question.number), [101, 102, 103, 104]);
+});
+
+test('createPracticeSession keeps case study questions first and shuffles only the rest', () => {
+  const questions = Array.from({ length: 8 }, (_, index) => ({
+    number: index + 1,
+    prompt: `Question ${index + 1}`,
+    answer: 'A',
+  }));
+
+  const session = createPracticeSession(questions, {
+    questionCount: 4,
+    random: () => 0,
+  });
+
+  // Questions 1 and 2 are case studies, so they lead the session; the random
+  // source then orders the remaining standalone questions (3-8).
+  assert.deepEqual(session.questions.map((question) => question.number), [1, 2, 4, 5]);
 });
 
 test('parsePracticeQuestionNumbers reads unique valid source question numbers from a query string', () => {
