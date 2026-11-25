@@ -24,9 +24,6 @@ npm run preview      # preview the built app
 npm test             # node --test src/utils/*.test.js — real suite, unlike api/'s
 ```
 
-`npm test` currently has one known pre-existing failure unrelated to most
-changes — see `src/utils/AGENTS.md`.
-
 ## Structure
 
 | Directory | Purpose |
